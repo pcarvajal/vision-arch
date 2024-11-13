@@ -69,7 +69,7 @@ export const CompaniesDropdown = () => {
         }}
         aria-label="Avatar Actions"
       >
-        <DropdownSection title="Companies">
+        <DropdownSection title="Compañias">
           <DropdownItem
             key="1"
             startContent={<AcmeIcon />}
