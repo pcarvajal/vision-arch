@@ -1,4 +1,5 @@
-import React, { PureComponent } from 'react';
+'use client';
+
 import {
   BarChart,
   Bar,

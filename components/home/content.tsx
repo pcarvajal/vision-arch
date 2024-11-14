@@ -1,17 +1,24 @@
 'use client';
+
 import React from 'react';
 import dynamic from 'next/dynamic';
-import { TableWrapper } from '../table/table';
 import { CardBalance1 } from './card-balance1';
 import { CardBalance2 } from './card-balance2';
 import { CardBalance3 } from './card-balance3';
-import { Link } from '@nextui-org/react';
-import NextLink from 'next/link';
-import PieChart from '../charts/PieChart';
-import HorizontalBarChart from '../charts/HorizontalBarChart';
 
 const Chart = dynamic(
   () => import('../charts/steam').then((mod) => mod.Steam),
+  {
+    ssr: false,
+  }
+);
+
+const PieChart = dynamic(() => import('../charts/PieChart'), {
+  ssr: false,
+});
+
+const HorizontalBarChart = dynamic(
+  () => import('../charts/HorizontalBarChart'),
   {
     ssr: false,
   }

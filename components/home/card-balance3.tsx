@@ -20,16 +20,15 @@ export const CardBalance3 = () => {
 
         <div className="flex items-center gap-6">
           <div>
-            <div>
-              <span className="font-semibold text-danger text-xl">{'↓'}</span>
-              <span className="text-xl text-white">Gastado: 40%</span>
+            <div className="space-x-2">
+              <span className="font-semibold text-normal text-xl">{'↑'}</span>
+              <span className="text-xl text-white">Restante: 60.00%</span>
             </div>
           </div>
-
           <div>
-            <div>
-              <span className="font-semibold text-danger text-xl">{'↑'}</span>
-              <span className="text-xl text-white">Restante: 60%</span>
+            <div className="space-x-2">
+              <span className="font-semibold text-danger text-xl">{'↓'}</span>
+              <span className="text-xl text-white">Gastado: 40.00%</span>
             </div>
           </div>
         </div>

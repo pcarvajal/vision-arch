@@ -61,30 +61,30 @@ export const SidebarWrapper = () => {
                 icon={<ReportsIcon />}
               />
             </SidebarMenu>
-            <SidebarMenu title="Arquitecturas">
+            <SidebarMenu title="Artefactos">
               <SidebarItem
-                isActive={pathname === '/arq/vision'}
-                title="Visión"
+                isActive={pathname === '/artifacts/comercial-objetives'}
+                title="Objetivos Comerciales"
                 icon={<ViewIcon />}
-                href="accounts"
+                href="/artifacts/comercial-objetives"
               />
               <SidebarItem
-                isActive={pathname === '/arq/business'}
+                isActive={pathname === '/artifacts/business'}
                 title="Negocio"
                 icon={<ProductsIcon />}
               />
               <SidebarItem
-                isActive={pathname === '/arq/data'}
+                isActive={pathname === '/artifacts/data'}
                 title="Datos"
                 icon={<PaymentsIcon />}
               />
               <SidebarItem
-                isActive={pathname === '/arq/applications'}
+                isActive={pathname === '/artifacts/applications'}
                 title="Aplicaciones"
                 icon={<FilterIcon />}
               />
               <SidebarItem
-                isActive={pathname === '/arq/technologies'}
+                isActive={pathname === '/artifacts/technologies'}
                 title="Tecnologías"
                 icon={<DevIcon />}
               />
