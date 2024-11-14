@@ -9,8 +9,7 @@ import { TrashIcon } from '@/components/icons/accounts/trash-icon';
 import { HouseIcon } from '@/components/icons/breadcrumb/house-icon';
 import { UsersIcon } from '@/components/icons/breadcrumb/users-icon';
 import { SettingsIcon } from '@/components/icons/sidebar/settings-icon';
-import { AddUser } from './add-user';
-import Canvas from '@/components/commercial-objetives/Canvas';
+import CommercialObjetivesFlow from '../flow/commercialObjetivesFlow';
 
 export const CommercialObjetives = () => {
   return (
@@ -50,7 +49,6 @@ export const CommercialObjetives = () => {
           <DotsIcon />
         </div>
         <div className="flex flex-row gap-3.5 flex-wrap">
-          <AddUser />
           <Button color="primary" startContent={<ExportIcon />}>
             Exportar Documento
           </Button>
@@ -59,7 +57,7 @@ export const CommercialObjetives = () => {
       <div className="max-w-[95rem] mx-auto w-full">
         <Card>
           <CardBody>
-            <Canvas />
+            <CommercialObjetivesFlow />
           </CardBody>
         </Card>
       </div>
