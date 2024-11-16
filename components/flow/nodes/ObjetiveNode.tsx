@@ -1,38 +1,65 @@
 'use client';
 
-import { Button, Card, CardBody } from '@nextui-org/react';
+import { Card, CardBody, Input, Textarea } from '@nextui-org/react';
 import { NodeProps, Node, Handle, Position, useReactFlow } from '@xyflow/react';
 import { CircleX } from 'lucide-react';
+import { useState } from 'react';
 
-export type ObjetiveNode = Node<
-  {
-    title: string;
-    description: string;
-  },
-  'objectiveNode'
->;
-
-const ObjectiveNode = ({
-  data: { title, description },
-  id,
-}: NodeProps<ObjetiveNode>) => {
+const ObjectiveNode = (props: NodeProps<Node<{}, 'objetiveNode'>>) => {
   const { setNodes } = useReactFlow();
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
+  const [isDescriptionFocused, setIsDescriptionFocused] = useState(false);
+
   return (
     <>
       <Card isHoverable={true} className="border-2 border-green-600">
         <CardBody className="flex items-center">
-          <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-            {title}
-          </h4>
-          <p className="text-sm text-muted-foreground text-zinc-500">
-            {description}
-          </p>
-
+          {!isTitleFocused && title && (
+            <h4
+              className="cursor-text scroll-m-20 text-xl font-semibold tracking-tight"
+              onClick={() => {
+                setIsTitleFocused(true);
+                setIsDescriptionFocused(false);
+              }}
+            >
+              {title}
+            </h4>
+          )}
+          {(isTitleFocused || !title) && (
+            <Input
+              value={title}
+              placeholder="Nuevo objetivo"
+              onValueChange={setTitle}
+              className={`scroll-m-20 text-xl font-semibold tracking-tight`}
+              onFocus={() => setIsTitleFocused(true)}
+              onBlur={() => setIsTitleFocused(false)}
+            />
+          )}
+          {!isDescriptionFocused && description && (
+            <p
+              className="text-muted-foreground cursor-text text-sm text-zinc-500"
+              onClick={() => {
+                setIsDescriptionFocused(true);
+                setIsTitleFocused(false);
+              }}
+            >
+              {description}
+            </p>
+          )}
+          {(isDescriptionFocused || !description) && (
+            <Textarea
+              value={description}
+              placeholder="Descripción ..."
+              onValueChange={setDescription}
+              onFocus={() => setIsDescriptionFocused(true)}
+              onBlur={() => setIsDescriptionFocused(false)}
+            />
+          )}
           <CircleX
-            className="text-red-600 mt-2 cursor-pointer"
-            onClick={() =>
-              setNodes((nodes) => nodes.filter((node) => node.id !== id))
-            }
+            className="mt-2 cursor-pointer text-red-600"
+            onClick={() => setNodes((nodes) => nodes.filter((node) => node.id !== props.id))}
           />
         </CardBody>
       </Card>

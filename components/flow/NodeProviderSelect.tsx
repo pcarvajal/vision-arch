@@ -13,11 +13,7 @@ const NodeProviderSelect = () => {
         id: `${nodes.length + 1}`,
         type: nodeType,
         position: { x: location, y: location },
-        data: {
-          title: nodeType === 'objetiveNode' ? 'Titulo de Objetivo' : 'Titulo del problema',
-          description:
-            nodeType === 'objetiveNode' ? 'Descripción del objetivo' : 'Descripción del problema',
-        },
+        data: {},
       },
     ]);
   };
@@ -44,6 +40,26 @@ const NodeProviderSelect = () => {
           <div className="flex flex-row items-center space-x-2">
             <OctagonAlert className="text-red-600" />
             <span className="text-sm">Nodo Problema</span>
+          </div>
+        </DropdownItem>
+        <DropdownItem
+          onClick={() => handleNodeSelect('areaNode')}
+          key="areaNode"
+          className="flex w-full items-center space-x-2"
+        >
+          <div className="flex flex-row items-center space-x-2">
+            <OctagonAlert className="text-purple-600" />
+            <span className="text-sm">Concepto de Producto</span>
+          </div>
+        </DropdownItem>
+        <DropdownItem
+          onClick={() => handleNodeSelect('featureNode')}
+          key="areaNode"
+          className="flex w-full items-center space-x-2"
+        >
+          <div className="flex flex-row items-center space-x-2">
+            <OctagonAlert className="text-yellow-600" />
+            <span className="text-sm">Caracteristica de Producto</span>
           </div>
         </DropdownItem>
       </DropdownMenu>

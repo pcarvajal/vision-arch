@@ -26,12 +26,12 @@ export const Register = () => {
       await createAuthCookie();
       router.replace('/');
     },
-    [router]
+    [router],
   );
 
   return (
     <>
-      <div className="text-center text-[25px] font-bold mb-6">Register</div>
+      <div className="mb-6 text-center text-[25px] font-bold">Registrate</div>
 
       <Formik
         initialValues={initialValues}
@@ -40,7 +40,7 @@ export const Register = () => {
       >
         {({ values, errors, touched, handleChange, handleSubmit }) => (
           <>
-            <div className="flex flex-col w-1/2 gap-4 mb-4">
+            <div className="mb-4 flex w-1/2 flex-col gap-4">
               <Input
                 variant="bordered"
                 label="Nombre"
@@ -72,26 +72,20 @@ export const Register = () => {
                 label="Confirmar contraseña"
                 type="password"
                 value={values.confirmPassword}
-                isInvalid={
-                  !!errors.confirmPassword && !!touched.confirmPassword
-                }
+                isInvalid={!!errors.confirmPassword && !!touched.confirmPassword}
                 errorMessage={errors.confirmPassword}
                 onChange={handleChange('confirmPassword')}
               />
             </div>
 
-            <Button
-              onPress={() => handleSubmit()}
-              variant="flat"
-              color="primary"
-            >
+            <Button onPress={() => handleSubmit()} variant="flat" color="primary">
               Registrate
             </Button>
           </>
         )}
       </Formik>
 
-      <div className="font-light text-slate-400 mt-4 text-sm">
+      <div className="mt-4 text-sm font-light text-slate-400">
         Ya tienes una cuenta ?{' '}
         <Link href="/login" className="font-bold">
           Entra aquí

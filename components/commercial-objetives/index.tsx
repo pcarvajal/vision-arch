@@ -9,11 +9,12 @@ import { TrashIcon } from '@/components/icons/accounts/trash-icon';
 import { HouseIcon } from '@/components/icons/breadcrumb/house-icon';
 import { UsersIcon } from '@/components/icons/breadcrumb/users-icon';
 import { SettingsIcon } from '@/components/icons/sidebar/settings-icon';
-import CommercialObjetivesFlow from '../flow/commercialObjetivesFlow';
+import CommercialObjetivesFlow from '../flow/CommercialObjetivesFlow';
+import NodeProviderSelect from '../flow/NodeProviderSelect';
 
 export const CommercialObjetives = () => {
   return (
-    <div className="my-10 px-4 lg:px-6 max-w-[95rem] mx-auto w-full flex flex-col gap-4">
+    <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <ul className="flex">
         <li className="flex gap-2">
           <HouseIcon />
@@ -34,8 +35,8 @@ export const CommercialObjetives = () => {
       </ul>
 
       <h3 className="text-xl font-semibold">Espacio de trabajo</h3>
-      <div className="flex justify-between flex-wrap gap-4 items-center">
-        <div className="flex items-center gap-3 flex-wrap md:flex-nowrap">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center gap-3 md:flex-nowrap">
           <Input
             classNames={{
               input: 'w-full',
@@ -48,13 +49,14 @@ export const CommercialObjetives = () => {
           <InfoIcon />
           <DotsIcon />
         </div>
-        <div className="flex flex-row gap-3.5 flex-wrap">
+        <div className="flex flex-row flex-wrap gap-3.5">
           <Button color="primary" startContent={<ExportIcon />}>
             Exportar Documento
           </Button>
+          <NodeProviderSelect />
         </div>
       </div>
-      <div className="max-w-[95rem] mx-auto w-full">
+      <div className="mx-auto w-full max-w-[95rem]">
         <Card>
           <CardBody>
             <CommercialObjetivesFlow />

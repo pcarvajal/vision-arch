@@ -18,33 +18,18 @@ import ObjectiveNode from './nodes/ObjetiveNode';
 import ProblemNode from './nodes/ProblemNode';
 import CustomEdge from './edges/CustomEdge';
 import NodeProviderSelect from './NodeProviderSelect';
+import AreaNode from './nodes/AreaNode';
+import FeatureNode from './nodes/FeatureNode';
 
-const initialNodes: Node[] = [
-  {
-    id: '0',
-    type: 'nodeProviderSelect',
-    position: { x: 50, y: 0 },
-    data: {},
-  },
-  {
-    id: '1',
-    type: 'objetiveNode',
-    data: { title: 'Objetivo 1', description: 'Descripción del objetivo 1' },
-    position: { x: 250, y: 5 },
-  },
-  {
-    id: '2',
-    type: 'problemNode',
-    data: { title: 'Problema 1', description: 'Descripción del problema 1' },
-    position: { x: 350, y: 200 },
-  },
-];
+const initialNodes: Node[] = [];
 
 const initialEdges: Edge[] = [];
 
 const nodeTypes = {
   objetiveNode: ObjectiveNode,
   problemNode: ProblemNode,
+  areaNode: AreaNode,
+  featureNode: FeatureNode,
   nodeProviderSelect: NodeProviderSelect,
 };
 
@@ -70,7 +55,7 @@ export default function CommercialObjetivesFlow() {
   );
 
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
+    <div className="flex h-screen w-screen">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -79,6 +64,7 @@ export default function CommercialObjetivesFlow() {
         onConnect={onConnect}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
+        fitView
       >
         <Controls />
         <MiniMap />

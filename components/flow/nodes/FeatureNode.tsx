@@ -5,7 +5,7 @@ import { NodeProps, Node, Handle, Position, useReactFlow } from '@xyflow/react';
 import { CircleX } from 'lucide-react';
 import { useState } from 'react';
 
-const ProblemNode = (props: NodeProps<Node<{}, 'problemNode'>>) => {
+const FeatureNode = (props: NodeProps<Node<{}, 'problemNode'>>) => {
   const { setNodes } = useReactFlow();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -14,7 +14,7 @@ const ProblemNode = (props: NodeProps<Node<{}, 'problemNode'>>) => {
 
   return (
     <>
-      <Card isHoverable={true} className="border-2 border-red-600">
+      <Card isHoverable={true} className="border-2 border-yellow-600">
         <CardBody className="flex items-center">
           {!isTitleFocused && title && (
             <h4
@@ -30,7 +30,7 @@ const ProblemNode = (props: NodeProps<Node<{}, 'problemNode'>>) => {
           {(isTitleFocused || !title) && (
             <Input
               value={title}
-              placeholder="Nuevo objetivo"
+              placeholder="Nueva característica"
               onValueChange={setTitle}
               className={`scroll-m-20 text-xl font-semibold tracking-tight`}
               onFocus={() => setIsTitleFocused(true)}
@@ -68,4 +68,4 @@ const ProblemNode = (props: NodeProps<Node<{}, 'problemNode'>>) => {
     </>
   );
 };
-export default ProblemNode;
+export default FeatureNode;

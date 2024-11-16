@@ -32,7 +32,7 @@ const CustomEdge = (props: EdgeProps) => {
           color="danger"
           aria-label="Borrar conexión"
           className="absolute -translate-x-1/2 -translate-y-1/2"
-          style={{ left: labelX, top: labelY }}
+          style={{ left: labelX, top: labelY, pointerEvents: 'all' }}
           onClick={() => {
             setEdges((edges) => edges.filter((edge) => edge.id !== id));
           }}
