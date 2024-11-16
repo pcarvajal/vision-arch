@@ -1,6 +1,6 @@
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
 import { useReactFlow } from '@xyflow/react';
-import { DiamondPlus, OctagonAlert } from 'lucide-react';
+import { DiamondPlus, OctagonAlert, PackagePlus, SquareDashedKanban } from 'lucide-react';
 
 const NodeProviderSelect = () => {
   const { setNodes } = useReactFlow();
@@ -48,7 +48,7 @@ const NodeProviderSelect = () => {
           className="flex w-full items-center space-x-2"
         >
           <div className="flex flex-row items-center space-x-2">
-            <OctagonAlert className="text-purple-600" />
+            <SquareDashedKanban className="text-purple-600" />
             <span className="text-sm">Concepto de Producto</span>
           </div>
         </DropdownItem>
@@ -58,7 +58,7 @@ const NodeProviderSelect = () => {
           className="flex w-full items-center space-x-2"
         >
           <div className="flex flex-row items-center space-x-2">
-            <OctagonAlert className="text-yellow-600" />
+            <PackagePlus className="text-yellow-600" />
             <span className="text-sm">Caracteristica de Producto</span>
           </div>
         </DropdownItem>
