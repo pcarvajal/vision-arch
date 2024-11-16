@@ -1,41 +1,72 @@
+'use client';
 import {
   ReactFlow,
   MiniMap,
   Controls,
   Background,
+  BackgroundVariant,
+  Node,
+  Edge,
   useNodesState,
   useEdgesState,
-  addEdge,
-  BackgroundVariant,
+  Connection,
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
 import { useCallback } from 'react';
+import ObjectiveNode from './nodes/ObjetiveNode';
+import ProblemNode from './nodes/ProblemNode';
+import CustomEdge from './edges/CustomEdge';
+import NodeProviderSelect from './NodeProviderSelect';
 
-const initialNodes = [
-  { id: '1', position: { x: 0, y: 0 }, data: { label: 'Problema 1' } },
-  { id: '2', position: { x: 0, y: 100 }, data: { label: 'Problema 2' } },
-  { id: '3', position: { x: 0, y: 200 }, data: { label: 'Objetivo 1' } },
-  { id: '4', position: { x: 0, y: 300 }, data: { label: 'Objetivo 2' } },
-  { id: '5', position: { x: 0, y: 400 }, data: { label: 'Objetivo 3' } },
-  { id: '6', position: { x: 0, y: 500 }, data: { label: 'Problema 3' } },
-  { id: '7', position: { x: 0, y: 600 }, data: { label: 'Problema 4' } },
-  { id: '8', position: { x: 0, y: 700 }, data: { label: 'Problema 5' } },
-  { id: '9', position: { x: 0, y: 800 }, data: { label: 'Problema 6' } },
-  { id: '10', position: { x: 0, y: 900 }, data: { label: 'Problema 3' } },
-  { id: '11', position: { x: 0, y: 1000 }, data: { label: 'Problema 4' } },
-  { id: '12', position: { x: 0, y: 1100 }, data: { label: 'Problema 5' } },
-  { id: '13', position: { x: 0, y: 1200 }, data: { label: 'Problema 6' } },
+const initialNodes: Node[] = [
+  {
+    id: '0',
+    type: 'nodeProviderSelect',
+    position: { x: 50, y: 0 },
+    data: {},
+  },
+  {
+    id: '1',
+    type: 'objetiveNode',
+    data: { title: 'Objetivo 1', description: 'Descripción del objetivo 1' },
+    position: { x: 250, y: 5 },
+  },
+  {
+    id: '2',
+    type: 'problemNode',
+    data: { title: 'Problema 1', description: 'Descripción del problema 1' },
+    position: { x: 350, y: 200 },
+  },
 ];
-const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
+
+const initialEdges: Edge[] = [];
+
+const nodeTypes = {
+  objetiveNode: ObjectiveNode,
+  problemNode: ProblemNode,
+  nodeProviderSelect: NodeProviderSelect,
+};
+
+const edgeTypes = {
+  customEdge: CustomEdge,
+};
 
 export default function CommercialObjetivesFlow() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [edges, setEdges, OnEdgesChange] = useEdgesState(initialEdges);
 
   const onConnect = useCallback(
-    (params: any) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
+    (connection: Connection) => {
+      const edge = {
+        ...connection,
+        animated: true,
+        id: `${edges.length + 1}`,
+        type: 'customEdge',
+      };
+      setEdges([...edges, edge]);
+    },
+    [edges, setEdges],
   );
 
   return (
@@ -44,8 +75,10 @@ export default function CommercialObjetivesFlow() {
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
+        onEdgesChange={OnEdgesChange}
         onConnect={onConnect}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
       >
         <Controls />
         <MiniMap />
