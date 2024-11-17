@@ -30,7 +30,7 @@ export const GoalsView = () => {
           <span> / </span>{' '}
         </li>
         <li className="flex gap-2">
-          <span>Objetivos Comerciales</span>
+          <span>Objetivos</span>
         </li>
       </ul>
 
