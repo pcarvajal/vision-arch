@@ -1,8 +1,8 @@
-import React from "react";
-import { Register } from "@/components/auth/register";
+import React from 'react';
+import { RegisterView } from '@/components/views/(auth)/register';
 
 const register = () => {
-  return <Register />;
+  return <RegisterView />;
 };
 
 export default register;

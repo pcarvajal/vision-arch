@@ -9,10 +9,10 @@ import { TrashIcon } from '@/components/icons/accounts/trash-icon';
 import { HouseIcon } from '@/components/icons/breadcrumb/house-icon';
 import { UsersIcon } from '@/components/icons/breadcrumb/users-icon';
 import { SettingsIcon } from '@/components/icons/sidebar/settings-icon';
-import CommercialObjetivesFlow from '../flow/CommercialObjetivesFlow';
-import NodeProviderSelect from '../flow/NodeProviderSelect';
+import GoalsFlow from '@/components/flows/GoalsFlow';
+import GoalsProviderSelect from '@/components/flows/providers/GoalsProviderSelect';
 
-export const CommercialObjetives = () => {
+export const GoalsView = () => {
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <ul className="flex">
@@ -53,13 +53,13 @@ export const CommercialObjetives = () => {
           <Button color="primary" startContent={<ExportIcon />}>
             Exportar Documento
           </Button>
-          <NodeProviderSelect />
+          <GoalsProviderSelect />
         </div>
       </div>
-      <div className="mx-auto w-full max-w-[95rem]">
+      <div className="mx-auto w-full">
         <Card>
-          <CardBody>
-            <CommercialObjetivesFlow />
+          <CardBody className="flex h-full w-screen overflow-hidden">
+            <GoalsFlow />
           </CardBody>
         </Card>
       </div>

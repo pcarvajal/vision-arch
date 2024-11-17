@@ -17,12 +17,11 @@ import { useCallback } from 'react';
 import ObjectiveNode from './nodes/ObjetiveNode';
 import ProblemNode from './nodes/ProblemNode';
 import CustomEdge from './edges/CustomEdge';
-import NodeProviderSelect from './NodeProviderSelect';
+import NodeProviderSelect from './providers/GoalsProviderSelect';
 import AreaNode from './nodes/AreaNode';
 import FeatureNode from './nodes/FeatureNode';
 
 const initialNodes: Node[] = [];
-
 const initialEdges: Edge[] = [];
 
 const nodeTypes = {
@@ -37,7 +36,7 @@ const edgeTypes = {
   customEdge: CustomEdge,
 };
 
-export default function CommercialObjetivesFlow() {
+export default function GoalsFlow() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, OnEdgesChange] = useEdgesState(initialEdges);
 
@@ -57,6 +56,7 @@ export default function CommercialObjetivesFlow() {
   return (
     <div className="flex h-screen w-screen">
       <ReactFlow
+        className="overflow-hidden"
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}

@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 
-export const Register = () => {
+export const RegisterView = () => {
   const router = useRouter();
 
   const initialValues: RegisterFormType = {

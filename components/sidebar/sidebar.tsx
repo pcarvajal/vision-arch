@@ -4,7 +4,6 @@ import { Avatar, Tooltip } from '@nextui-org/react';
 import { CompaniesDropdown } from './companies-dropdown';
 import { HomeIcon } from '../icons/sidebar/home-icon';
 import { PaymentsIcon } from '../icons/sidebar/payments-icon';
-import { AccountsIcon } from '../icons/sidebar/accounts-icon';
 import { SettingsIcon } from '../icons/sidebar/settings-icon';
 import { SidebarItem } from './sidebar-item';
 import { SidebarMenu } from './sidebar-menu';
@@ -16,16 +15,15 @@ import { ReportsIcon } from '../icons/sidebar/reports-icon';
 import { ProductsIcon } from '../icons/sidebar/products-icon';
 import { DevIcon } from '../icons/sidebar/dev-icon';
 import { ChangeLogIcon } from '../icons/sidebar/changelog-icon';
+import { routes } from '@/config/routes';
 
 export const SidebarWrapper = () => {
   const pathname = usePathname();
   const { collapsed, setCollapsed } = useSidebarContext();
 
   return (
-    <aside className="h-screen z-[20] sticky top-0">
-      {collapsed ? (
-        <div className={Sidebar.Overlay()} onClick={setCollapsed} />
-      ) : null}
+    <aside className="sticky top-0 z-[20] h-screen">
+      {collapsed ? <div className={Sidebar.Overlay()} onClick={setCollapsed} /> : null}
       <div
         className={Sidebar({
           collapsed: collapsed,
@@ -34,60 +32,40 @@ export const SidebarWrapper = () => {
         <div className={Sidebar.Header()}>
           <CompaniesDropdown />
         </div>
-        <div className="flex flex-col justify-between h-full">
+        <div className="flex h-full flex-col justify-between">
           <div className={Sidebar.Body()}>
             <SidebarItem
               title="Visión general"
               icon={<HomeIcon />}
               isActive={pathname === '/'}
-              href="/"
+              href={routes.protected.index}
             />
             <SidebarItem
               title="Canvas"
               icon={<ChangeLogIcon />}
-              isActive={pathname === '/canvas'}
-              href="/"
+              isActive={pathname === '#'}
+              href="#"
             />
             <SidebarMenu title="Roadmap">
               <SidebarItem
-                isActive={pathname === '/roadmap/business'}
+                isActive={pathname === '#'}
                 title="Negocio"
                 icon={<ViewIcon />}
-                href="accounts"
+                href="#"
               />
-              <SidebarItem
-                isActive={pathname === '/roadmap/financial'}
-                title="Financiero"
-                icon={<ReportsIcon />}
-              />
+              <SidebarItem isActive={pathname === '#'} title="Financiero" icon={<ReportsIcon />} />
             </SidebarMenu>
             <SidebarMenu title="Artefactos">
               <SidebarItem
-                isActive={pathname === '/artifacts/comercial-objetives'}
-                title="Objetivos Comerciales"
+                isActive={pathname === routes.protected.artifacts.goals}
+                title="Objetivos"
                 icon={<ViewIcon />}
-                href="/artifacts/comercial-objetives"
+                href={routes.protected.artifacts.goals}
               />
-              <SidebarItem
-                isActive={pathname === '/artifacts/business'}
-                title="Negocio"
-                icon={<ProductsIcon />}
-              />
-              <SidebarItem
-                isActive={pathname === '/artifacts/data'}
-                title="Datos"
-                icon={<PaymentsIcon />}
-              />
-              <SidebarItem
-                isActive={pathname === '/artifacts/applications'}
-                title="Aplicaciones"
-                icon={<FilterIcon />}
-              />
-              <SidebarItem
-                isActive={pathname === '/artifacts/technologies'}
-                title="Tecnologías"
-                icon={<DevIcon />}
-              />
+              <SidebarItem isActive={pathname === '#'} title="Negocio" icon={<ProductsIcon />} />
+              <SidebarItem isActive={pathname === '#'} title="Datos" icon={<PaymentsIcon />} />
+              <SidebarItem isActive={pathname === '#'} title="Aplicaciones" icon={<FilterIcon />} />
+              <SidebarItem isActive={pathname === '#'} title="Tecnologías" icon={<DevIcon />} />
             </SidebarMenu>
           </div>
           <div className={Sidebar.Footer()}>
@@ -102,10 +80,7 @@ export const SidebarWrapper = () => {
               </div>
             </Tooltip>
             <Tooltip content={'Perfil'} color="primary">
-              <Avatar
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-                size="sm"
-              />
+              <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" size="sm" />
             </Tooltip>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@
 import { useReactFlow } from '@xyflow/react';
 import { DiamondPlus, OctagonAlert, PackagePlus, SquareDashedKanban } from 'lucide-react';
 
-const NodeProviderSelect = () => {
+const GoalsProviderSelect = () => {
   const { setNodes } = useReactFlow();
 
   const handleNodeSelect = (nodeType: string) => {
@@ -67,4 +67,4 @@ const NodeProviderSelect = () => {
   );
 };
 
-export default NodeProviderSelect;
+export default GoalsProviderSelect;

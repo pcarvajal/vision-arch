@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
 
-export const Login = () => {
+export const LoginView = () => {
   const router = useRouter();
 
   const initialValues: LoginFormType = {
@@ -24,21 +24,17 @@ export const Login = () => {
       await createAuthCookie();
       router.replace('/');
     },
-    [router]
+    [router],
   );
 
   return (
     <>
-      <div className="text-center text-[25px] font-bold mb-6">Comenzar</div>
+      <div className="mb-6 text-center text-[25px] font-bold">Comenzar</div>
 
-      <Formik
-        initialValues={initialValues}
-        validationSchema={LoginSchema}
-        onSubmit={handleLogin}
-      >
+      <Formik initialValues={initialValues} validationSchema={LoginSchema} onSubmit={handleLogin}>
         {({ values, errors, touched, handleChange, handleSubmit }) => (
           <>
-            <div className="flex flex-col w-1/2 gap-4 mb-4">
+            <div className="mb-4 flex w-1/2 flex-col gap-4">
               <Input
                 variant="bordered"
                 label="Email"
@@ -59,18 +55,14 @@ export const Login = () => {
               />
             </div>
 
-            <Button
-              onPress={() => handleSubmit()}
-              variant="flat"
-              color="primary"
-            >
+            <Button onPress={() => handleSubmit()} variant="flat" color="primary">
               Entrar
             </Button>
           </>
         )}
       </Formik>
 
-      <div className="font-light text-slate-400 mt-4 text-sm">
+      <div className="mt-4 text-sm font-light text-slate-400">
         No tienes una cuenta?{' '}
         <Link href="/register" className="font-bold">
           Registrate
