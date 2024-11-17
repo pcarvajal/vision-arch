@@ -1,17 +1,9 @@
 import { Card, CardBody, Input } from '@nextui-org/react';
-import {
-  Handle,
-  Node,
-  NodeProps,
-  Position,
-  useReactFlow,
-  NodeResizeControl,
-  NodeResizer,
-} from '@xyflow/react';
-import { CircleX, Scaling } from 'lucide-react';
+import { Handle, Node, NodeProps, Position, useReactFlow, NodeResizer } from '@xyflow/react';
+import { CircleX } from 'lucide-react';
 import { useState } from 'react';
 
-const AreaNode = (props: NodeProps<Node<{}, 'areaNode'>>) => {
+const ConceptNode = (props: NodeProps<Node<{}, 'conceptNode'>>) => {
   const { setNodes } = useReactFlow();
   const [title, setTitle] = useState('');
   const [isTitleFocused, setIsTitleFocused] = useState(false);
@@ -38,7 +30,7 @@ const AreaNode = (props: NodeProps<Node<{}, 'areaNode'>>) => {
           {(isTitleFocused || !title) && (
             <Input
               value={title}
-              placeholder="Nuevo objetivo"
+              placeholder="Nuevo concepto"
               onValueChange={setTitle}
               className={`scroll-m-20 text-xl font-semibold tracking-tight`}
               onFocus={() => setIsTitleFocused(true)}
@@ -56,4 +48,4 @@ const AreaNode = (props: NodeProps<Node<{}, 'areaNode'>>) => {
   );
 };
 
-export default AreaNode;
+export default ConceptNode;

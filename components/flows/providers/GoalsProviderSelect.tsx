@@ -43,7 +43,7 @@ const GoalsProviderSelect = () => {
           </div>
         </DropdownItem>
         <DropdownItem
-          onClick={() => handleNodeSelect('areaNode')}
+          onClick={() => handleNodeSelect('conceptNode')}
           key="areaNode"
           className="flex w-full items-center space-x-2"
         >

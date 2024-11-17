@@ -18,8 +18,8 @@ import ObjectiveNode from './nodes/ObjetiveNode';
 import ProblemNode from './nodes/ProblemNode';
 import CustomEdge from './edges/CustomEdge';
 import NodeProviderSelect from './providers/GoalsProviderSelect';
-import AreaNode from './nodes/AreaNode';
 import FeatureNode from './nodes/FeatureNode';
+import ConceptNode from './nodes/ConceptNode';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
@@ -27,7 +27,7 @@ const initialEdges: Edge[] = [];
 const nodeTypes = {
   objetiveNode: ObjectiveNode,
   problemNode: ProblemNode,
-  areaNode: AreaNode,
+  conceptNode: ConceptNode,
   featureNode: FeatureNode,
   nodeProviderSelect: NodeProviderSelect,
 };

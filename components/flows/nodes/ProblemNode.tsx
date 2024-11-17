@@ -30,7 +30,7 @@ const ProblemNode = (props: NodeProps<Node<{}, 'problemNode'>>) => {
           {(isTitleFocused || !title) && (
             <Input
               value={title}
-              placeholder="Nuevo objetivo"
+              placeholder="Nuevo problema"
               onValueChange={setTitle}
               className={`scroll-m-20 text-xl font-semibold tracking-tight`}
               onFocus={() => setIsTitleFocused(true)}
