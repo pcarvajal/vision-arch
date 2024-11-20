@@ -11,13 +11,14 @@ import React, { useCallback } from 'react';
 import { DarkModeSwitch } from './darkmodeswitch';
 import { useRouter } from 'next/navigation';
 import { deleteAuthCookie } from '@/actions/auth.action';
+import { routes } from '@/config/routes';
 
 export const UserDropdown = () => {
   const router = useRouter();
 
   const handleLogout = useCallback(async () => {
     await deleteAuthCookie();
-    router.replace('/login');
+    router.replace(routes.public.login);
   }, [router]);
 
   return (
@@ -36,10 +37,7 @@ export const UserDropdown = () => {
         aria-label="User menu actions"
         onAction={(actionKey) => console.log({ actionKey })}
       >
-        <DropdownItem
-          key="profile"
-          className="flex flex-col justify-start w-full items-start"
-        >
+        <DropdownItem key="profile" className="flex w-full flex-col items-start justify-start">
           <p>Registrado como</p>
           <p>pcarvajal@copec.cl</p>
         </DropdownItem>
@@ -49,12 +47,7 @@ export const UserDropdown = () => {
         <DropdownItem key="system">Sistema</DropdownItem>
         <DropdownItem key="configurations">Configuración</DropdownItem>
         <DropdownItem key="help_and_feedback">Ayuda</DropdownItem>
-        <DropdownItem
-          key="logout"
-          color="danger"
-          className="text-danger"
-          onPress={handleLogout}
-        >
+        <DropdownItem key="logout" color="danger" className="text-danger" onPress={handleLogout}>
           Salir
         </DropdownItem>
         <DropdownItem key="switch" className="flex flex-row items-center">

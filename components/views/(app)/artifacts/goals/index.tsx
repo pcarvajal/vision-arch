@@ -6,37 +6,40 @@ import { DotsIcon } from '@/components/icons/accounts/dots-icon';
 import { ExportIcon } from '@/components/icons/accounts/export-icon';
 import { InfoIcon } from '@/components/icons/accounts/info-icon';
 import { TrashIcon } from '@/components/icons/accounts/trash-icon';
-import { HouseIcon } from '@/components/icons/breadcrumb/house-icon';
 import { UsersIcon } from '@/components/icons/breadcrumb/users-icon';
 import { SettingsIcon } from '@/components/icons/sidebar/settings-icon';
 import GoalsFlow from '@/components/flows/GoalsFlow';
 import GoalsProviderSelect from '@/components/flows/providers/GoalsProviderSelect';
+import { routes } from '@/config/routes';
+import { Atom, Goal, HouseIcon, icons } from 'lucide-react';
+import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
+import PageToolbar from '@/components/pages/PageToolbar';
+
+const goalsBreadcrumb = [
+  {
+    name: 'Inicio',
+    link: routes.protected.index,
+    icon: <HouseIcon className="text-sm text-foreground-500" />,
+  },
+  {
+    name: 'Artefactos',
+    icon: <Atom className="text-sm text-foreground-500" />,
+  },
+  {
+    name: 'Objetivos',
+    link: routes.protected.artifacts.goals,
+    icon: <Goal className="text-sm text-foreground-500" />,
+  },
+];
 
 export const GoalsView = () => {
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
-      <ul className="flex">
-        <li className="flex gap-2">
-          <HouseIcon />
-          <Link href={'/'}>
-            <span>Inicio</span>
-          </Link>
-          <span> / </span>{' '}
-        </li>
-
-        <li className="flex gap-2">
-          <UsersIcon />
-          <span>Artefactos</span>
-          <span> / </span>{' '}
-        </li>
-        <li className="flex gap-2">
-          <span>Objetivos</span>
-        </li>
-      </ul>
+      <PageBreadcrumb items={goalsBreadcrumb} />
 
       <h3 className="text-xl font-semibold">Espacio de trabajo</h3>
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-3 md:flex-nowrap">
+        <PageToolbar>
           <Input
             classNames={{
               input: 'w-full',
@@ -48,9 +51,9 @@ export const GoalsView = () => {
           <TrashIcon />
           <InfoIcon />
           <DotsIcon />
-        </div>
+        </PageToolbar>
         <div className="flex flex-row flex-wrap gap-3.5">
-          <Button color="primary" startContent={<ExportIcon />}>
+          <Button color="primary" startContent={<ExportIcon />} variant="shadow">
             Exportar Documento
           </Button>
           <GoalsProviderSelect />

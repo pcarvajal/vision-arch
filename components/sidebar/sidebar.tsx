@@ -37,14 +37,14 @@ export const SidebarWrapper = () => {
             <SidebarItem
               title="Visión general"
               icon={<HomeIcon />}
-              isActive={pathname === '/'}
+              isActive={pathname === routes.protected.index}
               href={routes.protected.index}
             />
             <SidebarItem
-              title="Canvas"
+              title="Compañia"
               icon={<ChangeLogIcon />}
-              isActive={pathname === '#'}
-              href="#"
+              isActive={pathname === routes.protected.company}
+              href={routes.protected.company}
             />
             <SidebarMenu title="Roadmap">
               <SidebarItem

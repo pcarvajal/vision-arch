@@ -71,7 +71,7 @@ export default function GoalsFlow() {
         <Panel position="top-left" className="min-w-[300px] gap-4">
           <YearsSlider
             className="rounded-lg bg-black bg-opacity-45 p-4 text-white dark:bg-white dark:text-black"
-            color="danger"
+            color="primary"
             defaultValue={2025}
             label="Proyección"
             minValue={2024}

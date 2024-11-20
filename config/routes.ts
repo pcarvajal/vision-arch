@@ -1,6 +1,7 @@
 export const routes = {
   protected: {
     index: '/',
+    company: '/company',
     artifacts: {
       goals: '/artifacts/goals',
     },
