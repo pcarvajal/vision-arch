@@ -1,18 +1,39 @@
 import { Slider } from '@nextui-org/react';
 
-const YearsSlider = () => {
+interface YearsSliderProps {
+  className?: string;
+  color?: UIColors;
+  step: number;
+  label: string;
+  showSteps?: boolean;
+  maxValue: number;
+  minValue: number;
+  defaultValue: number;
+}
+
+const YearsSlider = ({
+  className,
+  color,
+  defaultValue,
+  label,
+  maxValue,
+  minValue,
+  step,
+  showSteps,
+}: YearsSliderProps) => {
   return (
-    <div className="flex w-full">
+    <div className={className}>
       <Slider
         size="sm"
-        step={1}
-        color="foreground"
-        label="Proyección"
-        showSteps={true}
-        maxValue={2027}
-        minValue={2024}
-        defaultValue={2024}
+        step={step}
+        color={color || 'foreground'}
+        label={label}
+        showSteps={showSteps || false}
+        maxValue={maxValue}
+        minValue={minValue}
+        defaultValue={defaultValue}
         className="max-w-md"
+        formatOptions={{ style: 'decimal' }}
       />
     </div>
   );

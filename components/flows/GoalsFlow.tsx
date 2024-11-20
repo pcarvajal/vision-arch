@@ -10,6 +10,7 @@ import {
   useNodesState,
   useEdgesState,
   Connection,
+  Panel,
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
@@ -20,6 +21,7 @@ import CustomEdge from './edges/CustomEdge';
 import NodeProviderSelect from './providers/GoalsProviderSelect';
 import FeatureNode from './nodes/FeatureNode';
 import ConceptNode from './nodes/ConceptNode';
+import YearsSlider from './YearsSlider';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
@@ -66,6 +68,18 @@ export default function GoalsFlow() {
         edgeTypes={edgeTypes}
         fitView
       >
+        <Panel position="top-left" className="min-w-[300px] gap-4">
+          <YearsSlider
+            className="rounded-lg bg-black bg-opacity-45 p-4 text-white dark:bg-white dark:text-black"
+            color="danger"
+            defaultValue={2025}
+            label="Proyección"
+            minValue={2024}
+            maxValue={2028}
+            step={1}
+            showSteps
+          />
+        </Panel>
         <Controls />
         <MiniMap />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
