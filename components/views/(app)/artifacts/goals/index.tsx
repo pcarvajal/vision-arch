@@ -11,6 +11,7 @@ import { UsersIcon } from '@/components/icons/breadcrumb/users-icon';
 import { SettingsIcon } from '@/components/icons/sidebar/settings-icon';
 import GoalsFlow from '@/components/flows/GoalsFlow';
 import GoalsProviderSelect from '@/components/flows/providers/GoalsProviderSelect';
+import YearsSlider from '@/components/flows/YearsSlider';
 
 export const GoalsView = () => {
   return (
@@ -50,6 +51,7 @@ export const GoalsView = () => {
           <DotsIcon />
         </div>
         <div className="flex flex-row flex-wrap gap-3.5">
+          <YearsSlider />
           <Button color="primary" startContent={<ExportIcon />}>
             Exportar Documento
           </Button>
