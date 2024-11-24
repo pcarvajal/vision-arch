@@ -9,5 +9,6 @@ export const routes = {
   public: {
     login: '/login',
     register: '/register',
+    forgotPassword: '/forgot-password',
   },
 };

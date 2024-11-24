@@ -1,25 +1,20 @@
+'use client';
+
 import {
   Avatar,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  Navbar,
   NavbarItem,
 } from '@nextui-org/react';
-import React, { useCallback } from 'react';
 import { DarkModeSwitch } from './darkmodeswitch';
-import { useRouter } from 'next/navigation';
-import { deleteAuthCookie } from '@/actions/auth.action';
-import { routes } from '@/config/routes';
+import { logoutAction } from '@/actions/auth.action';
 
 export const UserDropdown = () => {
-  const router = useRouter();
-
-  const handleLogout = useCallback(async () => {
-    await deleteAuthCookie();
-    router.replace(routes.public.login);
-  }, [router]);
+  const handleLogout = async () => {
+    await logoutAction();
+  };
 
   return (
     <Dropdown>

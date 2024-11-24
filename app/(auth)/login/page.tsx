@@ -1,6 +1,6 @@
 import React from 'react';
-import { LoginView } from '@/components/views/(auth)/login';
 import { Metadata } from 'next';
+import { LoginView } from '@/components/views/(auth)/login';
 
 export const metadata: Metadata = {
   title: 'Ingresa',

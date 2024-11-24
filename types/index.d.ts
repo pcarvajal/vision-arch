@@ -9,6 +9,22 @@ declare type UIColors =
 declare type OptionalObject<T extends Record<string, any>> = T | { [K in keyof T]?: never };
 
 // Forms
+declare interface RegisterParams {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+declare interface LoginParams {
+  email: string;
+  password: string;
+}
+
+declare interface ForgotPasswordParams {
+  email: string;
+}
+
 declare interface CreateCompanyParams {
   name: string;
   mission: string;
@@ -20,4 +36,11 @@ declare interface CreateCompanyParams {
 declare interface GenerateCompanyObjetivesParams {
   year: number;
   companyId: string;
+}
+
+declare interface ResetPasswordParams {
+  password: string;
+  confirmPassword: string;
+  userId: string;
+  secret: string;
 }
