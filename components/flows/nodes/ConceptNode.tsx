@@ -1,12 +1,22 @@
 import { Card, CardBody, Input } from '@nextui-org/react';
 import { Handle, Node, NodeProps, Position, useReactFlow, NodeResizer } from '@xyflow/react';
 import { CircleX } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const ConceptNode = (props: NodeProps<Node<{}, 'conceptNode'>>) => {
+interface Data extends Record<string, unknown> {
+  title?: string;
+}
+
+const ConceptNode = (props: NodeProps<Node<Data, 'conceptNode'>>) => {
   const { setNodes } = useReactFlow();
   const [title, setTitle] = useState('');
   const [isTitleFocused, setIsTitleFocused] = useState(false);
+
+  const { title: initialTitle } = props.data;
+  useEffect(() => {
+    if (initialTitle) setTitle(initialTitle);
+  }, [initialTitle]);
+
   return (
     <>
       <NodeResizer

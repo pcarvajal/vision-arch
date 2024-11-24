@@ -22,6 +22,7 @@ import NodeProviderSelect from './providers/GoalsProviderSelect';
 import FeatureNode from './nodes/FeatureNode';
 import ConceptNode from './nodes/ConceptNode';
 import YearsSlider from './YearsSlider';
+import { generateObjetivesModel } from '@/actions/ai.actions';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
@@ -55,6 +56,14 @@ export default function GoalsFlow() {
     [edges, setEdges],
   );
 
+  const onSelectYear = async (year: number) => {
+    console.log('Selected year:', year);
+    const result = await generateObjetivesModel({ companyId: '67424a918ef90439ed279941', year });
+    const jsonResponse = JSON.parse(result);
+    setNodes(jsonResponse.nodes);
+    setEdges(jsonResponse.edges);
+  };
+
   return (
     <div className="flex h-screen w-screen">
       <ReactFlow
@@ -72,12 +81,13 @@ export default function GoalsFlow() {
           <YearsSlider
             className="rounded-lg bg-black bg-opacity-45 p-4 text-white dark:bg-white dark:text-black"
             color="primary"
-            defaultValue={2025}
+            defaultValue={2024}
             label="Proyección"
             minValue={2024}
             maxValue={2028}
             step={1}
             showSteps
+            onChangeEnd={onSelectYear}
           />
         </Panel>
         <Controls />

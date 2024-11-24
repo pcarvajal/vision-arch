@@ -9,6 +9,7 @@ interface YearsSliderProps {
   maxValue: number;
   minValue: number;
   defaultValue: number;
+  onChangeEnd: (value: number) => void;
 }
 
 const YearsSlider = ({
@@ -20,7 +21,12 @@ const YearsSlider = ({
   minValue,
   step,
   showSteps,
+  onChangeEnd,
 }: YearsSliderProps) => {
+  const handleOnChangeEnd = (value: number | number[]) => {
+    if (typeof value === 'number') onChangeEnd(value);
+  };
+
   return (
     <div className={className}>
       <Slider
@@ -34,6 +40,7 @@ const YearsSlider = ({
         defaultValue={defaultValue}
         className="max-w-md"
         formatOptions={{ style: 'decimal' }}
+        onChangeEnd={(value) => handleOnChangeEnd(value)}
       />
     </div>
   );

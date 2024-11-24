@@ -1,14 +1,20 @@
 import mongoose from 'mongoose';
 
-export const connect = async () => {
+const connection: { isConnected?: number } = {};
+
+export const dbConnect = async () => {
   try {
-    const { connection } = await mongoose.connect(process.env.MONGODB_URI!!, {});
-    if (connection.readyState === 1) {
-      console.log('MongoDB connected');
-      return Promise.resolve(true);
+    if (process.env.MONGODB_URI === undefined) {
+      throw new Error('MONGODB_URI is undefined');
     }
+    if (connection.isConnected) {
+      console.log('Using existing connection.');
+      return;
+    }
+    console.log('Using new connection.');
+    const db = await mongoose.connect(process.env.MONGODB_URI);
+    connection.isConnected = db.connections[0].readyState;
   } catch (error) {
     console.error('MongoDB connection error:', error);
-    return Promise.reject(false);
   }
 };
