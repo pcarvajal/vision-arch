@@ -10,6 +10,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import Loader from '../layout/Loader';
 import { useState } from 'react';
+import useUserStore from '@/store/userStore';
+import { useRouter } from 'next/navigation';
 
 const defaultValues = {
   email: '',
@@ -18,6 +20,8 @@ const defaultValues = {
 
 export const LoginForm = () => {
   const [loading, setLoading] = useState(false);
+  const setUser = useUserStore((state) => state.setUser);
+  const router = useRouter();
 
   const methods = useForm({
     defaultValues,
@@ -34,12 +38,19 @@ export const LoginForm = () => {
   const onSubmit = async (values: LoginSchema) => {
     setLoading(true);
     const result = await loginAction(values);
+
     if (result?.type === 'error') {
       setLoading(false);
       return toast.error(result.message);
     }
+
+    console.log(result);
+
+    setUser(result);
+
     setLoading(false);
     reset(defaultValues);
+    router.push(routes.protected.index);
   };
 
   return (

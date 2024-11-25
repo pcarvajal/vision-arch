@@ -7,7 +7,6 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname === routes.public.login) {
-    await accounts.signOut();
     return NextResponse.next();
   }
 

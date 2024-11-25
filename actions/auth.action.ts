@@ -7,6 +7,8 @@ import { cookies } from '@/libs/backend/cookies';
 import { project } from '@/libs/backend/project';
 import { teams } from '@/libs/backend/teams';
 import { users } from '@/libs/backend/users';
+import { parseStringify } from '@/libs/utils';
+import { User } from '@/types/types';
 import { redirect } from 'next/navigation';
 import { ID } from 'node-appwrite';
 
@@ -58,7 +60,7 @@ const loginAction = async ({ email, password }: LoginParams) => {
       return { message: 'Credenciales inválidas', type: 'error' };
     }
     const { secret, expire } = await users.createSession(email, password);
-    cookies.setCookie(secret, expire);
+    await cookies.setCookie(secret, expire);
 
     const preferences = await accounts.getPreferences();
 
@@ -79,11 +81,24 @@ const loginAction = async ({ email, password }: LoginParams) => {
 
       await accounts.updatePrefs({ ...preferencesParams });
     }
+    const accountData = await accounts.getAccount();
+    const preferencesData = await accounts.getPreferences();
+
+    const user: User = {
+      id: accountData.$id,
+      name: accountData.name,
+      email: accountData.email,
+      companyId: preferencesData?.companyId,
+      companyName: preferencesData?.companyName,
+      teamId: preferencesData?.teamId,
+      teamName: preferencesData?.teamName,
+    };
+
+    return parseStringify(user);
   } catch (error: any) {
     console.error(error);
     return { message: error?.message, type: 'error' };
   }
-  redirect(routes.protected.index);
 };
 
 const forgotPasswordAction = async ({ email }: ForgotPasswordParams) => {

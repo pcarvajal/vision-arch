@@ -1,3 +1,5 @@
+'use client';
+
 import { Sidebar } from './sidebar.styles';
 import { Avatar, Tooltip } from '@nextui-org/react';
 import { CompaniesDropdown } from './companies-dropdown';
@@ -15,10 +17,15 @@ import { ProductsIcon } from '../icons/sidebar/products-icon';
 import { DevIcon } from '../icons/sidebar/dev-icon';
 import { ChangeLogIcon } from '../icons/sidebar/changelog-icon';
 import { routes } from '@/config/routes';
+import useUserStore from '@/store/userStore';
 
 export const SidebarWrapper = () => {
   const pathname = usePathname();
   const { collapsed, setCollapsed } = useSidebarContext();
+  const user = useUserStore((state) => state.user);
+  const companyPath = user?.companyId
+    ? `${routes.protected.company}/${user.companyId}`
+    : routes.protected.company;
 
   return (
     <aside className="sticky top-0 z-[20] h-screen">
@@ -42,8 +49,8 @@ export const SidebarWrapper = () => {
             <SidebarItem
               title="Compañia"
               icon={<ChangeLogIcon />}
-              isActive={pathname === routes.protected.company}
-              href={routes.protected.company}
+              isActive={pathname === companyPath}
+              href={companyPath}
             />
             <SidebarMenu title="Roadmap">
               <SidebarItem
