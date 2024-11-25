@@ -9,9 +9,17 @@ declare type UIColors =
 declare type OptionalObject<T extends Record<string, any>> = T | { [K in keyof T]?: never };
 
 // Forms
+declare interface UserPreferencesParams {
+  companyId: string | null;
+  companyName: string | null;
+  teamId: string | null;
+  teamName: string | null;
+}
+
 declare interface RegisterParams {
   name: string;
   email: string;
+  companyName: string;
   password: string;
   confirmPassword: string;
 }

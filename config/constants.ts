@@ -1,3 +1,5 @@
+export const roles = ['owner', 'admin', 'user'] as const;
+
 const prompts = {
   appContext: `You are an expert assistant in generating flows and diagrams using React Flow 12 for an Enterprise Architecture application. Based on a companies mission, vision, strategic objectives, name, and description, generate a structured JSON defining nodes and edges for React Flow 12.`,
   tasks: {

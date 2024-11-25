@@ -13,6 +13,7 @@ import { useState } from 'react';
 const defaultValues = {
   email: '',
   name: '',
+  companyName: '',
   password: '',
   confirmPassword: '',
 };
@@ -51,13 +52,26 @@ export const RegisterForm = () => {
       <div className="mb-6 text-center text-[25px] font-bold">Registrate</div>
       <form onSubmit={handleSubmit(onSubmit)} className="mb-4 flex w-1/2 flex-col gap-4">
         <Controller
+          name="companyName"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              variant="bordered"
+              label="Nombre de la Compañia"
+              isInvalid={!!errors?.name}
+              errorMessage={errors?.name?.message}
+            />
+          )}
+        />
+        <Controller
           name="name"
           control={control}
           render={({ field }) => (
             <Input
               {...field}
               variant="bordered"
-              label="Nombre"
+              label="Tu Nombre"
               isInvalid={!!errors?.name}
               errorMessage={errors?.name?.message}
             />
@@ -70,7 +84,7 @@ export const RegisterForm = () => {
             <Input
               {...field}
               variant="bordered"
-              label="Email"
+              label="Tu Email Corporativo"
               type="email"
               isInvalid={!!errors?.email}
               errorMessage={errors?.email?.message}

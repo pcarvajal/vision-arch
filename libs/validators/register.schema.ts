@@ -9,6 +9,10 @@ export const registerSchema = z
       .min(1, { message: 'El nombre es requerido.' })
       .max(300, { message: 'El nombre es muy largo.' }),
     email: validateEmail,
+    companyName: z
+      .string()
+      .min(1, { message: 'El nombre es requerido.' })
+      .max(300, { message: 'El nombre es muy largo.' }),
     password: validatePassword,
     confirmPassword: validatePassword,
   })

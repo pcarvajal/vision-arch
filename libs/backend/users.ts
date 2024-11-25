@@ -5,7 +5,7 @@ export const users = {
   listUsers: async (searchTerm: string) => {
     try {
       const { users } = await createAdminClient();
-      return await users.list([], searchTerm);
+      return await users.list([Query.equal('email', searchTerm)]);
     } catch (error: any) {
       console.error(error);
       return null;

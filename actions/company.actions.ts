@@ -1,6 +1,7 @@
 'use server';
 
 import { routes } from '@/config/routes';
+import { accounts } from '@/libs/backend/accounts';
 import { dbConnect } from '@/libs/mongodb';
 import { parseStringify } from '@/libs/utils';
 import Company, { ICompany } from '@/schemas/CompanySchema';
@@ -15,12 +16,20 @@ const saveCompanyAction = async ({
 }: CreateCompanyParams) => {
   try {
     await dbConnect();
-    await Company.create({
+    const company = await Company.create({
       mission,
       vision,
       name,
       objetives,
       description,
+    });
+    const newCompany = company.toJSON();
+    console.log('Company data saved:', newCompany);
+    const preferences = await accounts.getPreferences();
+    await accounts.updatePrefs({
+      ...preferences,
+      companyId: newCompany.id,
+      companyName: newCompany.name,
     });
   } catch (error: any) {
     console.error('Error saving company data:', error);

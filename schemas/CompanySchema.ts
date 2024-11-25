@@ -7,6 +7,7 @@ export interface ICompany {
   vision: string;
   objetives: string;
   description: string;
+  teamId: string;
 }
 
 const CompanySchema = new Schema<ICompany>(
@@ -28,6 +29,10 @@ const CompanySchema = new Schema<ICompany>(
       required: true,
     },
     description: {
+      type: String,
+      required: true,
+    },
+    teamId: {
       type: String,
       required: true,
     },

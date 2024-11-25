@@ -16,9 +16,10 @@ interface CompanyInitialValues {
 
 interface CompanyFormProps {
   initialValues?: CompanyInitialValues;
+  companyName?: string;
 }
 
-const CompanyForm = ({ initialValues }: CompanyFormProps) => {
+const CompanyForm = ({ initialValues, companyName }: CompanyFormProps) => {
   const onSubmit = async (data: CompanySchema) => {
     const response = await saveCompanyAction(data);
     if (response?.type === 'error') {
@@ -30,7 +31,7 @@ const CompanyForm = ({ initialValues }: CompanyFormProps) => {
   const methods = useForm({
     defaultValues: initialValues || {
       id: '',
-      name: '',
+      name: companyName || '',
       mission: '',
       vision: '',
       objetives: '',
