@@ -1,28 +1,28 @@
 'use client';
+
 import {
-  ReactFlow,
-  MiniMap,
-  Controls,
   Background,
   BackgroundVariant,
-  Node,
-  Edge,
-  useNodesState,
-  useEdgesState,
   Connection,
+  Controls,
+  Edge,
+  MiniMap,
+  Node,
   Panel,
+  ReactFlow,
+  useEdgesState,
+  useNodesState,
 } from '@xyflow/react';
-
 import '@xyflow/react/dist/style.css';
+import { generateObjetivesModel } from '@/actions/ai.actions';
 import { useCallback } from 'react';
+import CustomEdge from './edges/CustomEdge';
+import ConceptNode from './nodes/ConceptNode';
+import FeatureNode from './nodes/FeatureNode';
 import ObjectiveNode from './nodes/ObjetiveNode';
 import ProblemNode from './nodes/ProblemNode';
-import CustomEdge from './edges/CustomEdge';
 import NodeProviderSelect from './providers/GoalsProviderSelect';
-import FeatureNode from './nodes/FeatureNode';
-import ConceptNode from './nodes/ConceptNode';
 import YearsSlider from './YearsSlider';
-import { generateObjetivesModel } from '@/actions/ai.actions';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
@@ -58,7 +58,10 @@ export default function GoalsFlow() {
 
   const onSelectYear = async (year: number) => {
     console.log('Selected year:', year);
-    const result = await generateObjetivesModel({ companyId: '67424a918ef90439ed279941', year });
+    const result = await generateObjetivesModel({
+      companyId: '67424a918ef90439ed279941',
+      year,
+    });
     const jsonResponse = JSON.parse(result);
     setNodes(jsonResponse.nodes);
     setEdges(jsonResponse.edges);
@@ -75,7 +78,6 @@ export default function GoalsFlow() {
         onConnect={onConnect}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
-        fitView
       >
         <Panel position="top-left" className="min-w-[300px] gap-4">
           <YearsSlider

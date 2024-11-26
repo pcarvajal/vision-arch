@@ -4,9 +4,15 @@
   "trailingComma": "all",
   "semi": true,
   "bracketSpacing": true,
+  "jsxSingleQuote": false,
+  "jsxBracketSameLine": false,
   "tabWidth": 2,
-  "printWidth": 100,
+  "printWidth": 80,
+  "useTabs": false,
+  "arrowParens": "always",
+  "tailwindConfig": "./tailwind.config.js",
   "plugins": [
+    "@ianvs/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss"
   ]
 }
