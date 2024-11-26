@@ -1,14 +1,6 @@
 'use server';
 import { cookies } from 'next/headers';
-import {
-  Client,
-  Account,
-  Databases,
-  Teams,
-  Storage,
-  Users,
-  Locale,
-} from 'node-appwrite';
+import { Client, Account, Databases, Teams, Storage, Users, Locale } from 'node-appwrite';
 
 const {
   APPWRITE_ENDPOINT: ENDPOINT,
@@ -47,10 +39,7 @@ export async function createSessionClient() {
 }
 // Admin
 export async function createAdminClient() {
-  const client = new Client()
-    .setEndpoint(ENDPOINT!)
-    .setProject(PROJECT!)
-    .setKey(API_KEY!);
+  const client = new Client().setEndpoint(ENDPOINT!).setProject(PROJECT!).setKey(API_KEY!);
 
   return {
     get account() {

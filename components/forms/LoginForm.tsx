@@ -44,8 +44,6 @@ export const LoginForm = () => {
       return toast.error(result.message);
     }
 
-    console.log(result);
-
     setUser(result);
 
     setLoading(false);

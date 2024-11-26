@@ -15,6 +15,8 @@ const saveCompanyAction = async ({
   description,
 }: CreateCompanyParams) => {
   try {
+    const preferences = await accounts.getPreferences();
+
     await dbConnect();
     const company = await Company.create({
       mission,
@@ -22,15 +24,17 @@ const saveCompanyAction = async ({
       name,
       objetives,
       description,
+      teamId: preferences?.teamId,
     });
+
     const newCompany = company.toJSON();
-    console.log('Company data saved:', newCompany);
-    const preferences = await accounts.getPreferences();
+
     await accounts.updatePrefs({
       ...preferences,
       companyId: newCompany.id,
       companyName: newCompany.name,
     });
+    return parseStringify(newCompany);
   } catch (error: any) {
     console.error('Error saving company data:', error);
     return { message: error?.message, type: 'error' };

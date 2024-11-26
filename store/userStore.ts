@@ -1,27 +1,20 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-interface UserState {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    companyId?: string;
-    companyName: string;
-    teamId: string;
-    teamName: string;
-  } | null;
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  companyId: string | null;
+  companyName: string;
+  teamId: string;
+  teamName: string;
+}
 
-  setUser: (user: {
-    id: string;
-    name: string;
-    email: string;
-    companyId?: string;
-    companyName: string;
-    teamId: string;
-    teamName: string;
-  }) => void;
-  clearUser: () => void;
+interface UserState {
+  user: User | null;
+  setUser: (user: User) => void;
+  updateUser: (user: User) => void;
 }
 
 const useUserStore = create(
@@ -29,11 +22,9 @@ const useUserStore = create(
     (set) => ({
       user: null,
       setUser: (user) => set({ user }),
-      clearUser: () => set({ user: null }),
+      updateUser: (user) => set((state) => ({ ...state, user })),
     }),
-    {
-      name: 'user-storage',
-    },
+    { name: 'user-store' },
   ),
 );
 

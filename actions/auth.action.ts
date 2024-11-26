@@ -10,13 +10,13 @@ import { users } from '@/libs/backend/users';
 import { parseStringify } from '@/libs/utils';
 import { User } from '@/types/types';
 import { redirect } from 'next/navigation';
-import { ID } from 'node-appwrite';
+import { ID, Query } from 'node-appwrite';
 
 const { BASE_URL: baseUrl } = process.env;
 
 const registerAction = async ({ email, password, name, companyName }: RegisterParams) => {
   try {
-    const search = await users.listUsers(email);
+    const search = await users.listUsers('email', email);
 
     if (search !== null && search?.total > 0) {
       return {
@@ -50,7 +50,7 @@ const registerAction = async ({ email, password, name, companyName }: RegisterPa
 
 const loginAction = async ({ email, password }: LoginParams) => {
   try {
-    const account = await users.listUsers(email);
+    const account = await users.listUsers('email', email);
 
     if (account?.total === 0 || account === null) {
       return { message: 'Credenciales inválidas', type: 'error' };

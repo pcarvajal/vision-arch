@@ -4,6 +4,12 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CompanySchema, companySchema } from '@/libs/validators/company.schema';
 import { saveCompanyAction } from '@/actions/company.actions';
+import { useState } from 'react';
+import Loader from '../layout/Loader';
+import { toast } from 'sonner';
+import useUserStore from '@/store/userStore';
+import { useRouter } from 'next/navigation';
+import { routes } from '@/config/routes';
 
 interface CompanyInitialValues {
   id: string;
@@ -20,12 +26,24 @@ interface CompanyFormProps {
 }
 
 const CompanyForm = ({ initialValues, companyName }: CompanyFormProps) => {
+  const [loading, setLoading] = useState(false);
+  const user = useUserStore((state) => state.user);
+  const updateUser = useUserStore((state) => state.updateUser);
+  const router = useRouter();
+
   const onSubmit = async (data: CompanySchema) => {
-    const response = await saveCompanyAction(data);
-    if (response?.type === 'error') {
-      console.log('Error saving company data:', response.message);
+    setLoading(true);
+    const result = await saveCompanyAction(data);
+
+    if (result?.type === 'error') {
+      setLoading(false);
+      return toast.error(result.message);
     }
-    console.log('Flow data saved:', response);
+    if (!user) return;
+    updateUser({ ...user, companyId: result.id, companyName: result.name });
+
+    setLoading(false);
+    router.push(routes.protected.index);
   };
 
   const methods = useForm({
@@ -43,6 +61,7 @@ const CompanyForm = ({ initialValues, companyName }: CompanyFormProps) => {
 
   return (
     <form className="flex flex-col gap-6 p-4" onSubmit={handleSubmit(onSubmit)}>
+      <Loader show={loading} />
       <Controller
         name="name"
         control={control}

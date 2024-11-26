@@ -2,10 +2,11 @@ import { createAdminClient } from '@/libs/backend/appwrite';
 import { Models, Query } from 'node-appwrite';
 
 export const users = {
-  listUsers: async (searchTerm: string) => {
+  listUsers: async (key: string, value: string) => {
     try {
       const { users } = await createAdminClient();
-      return await users.list([Query.equal('email', searchTerm)]);
+      const list = await users.list(undefined, `?${key}=${value}`);
+      return list;
     } catch (error: any) {
       console.error(error);
       return null;

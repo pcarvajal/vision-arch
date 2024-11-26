@@ -23,6 +23,7 @@ export const SidebarWrapper = () => {
   const pathname = usePathname();
   const { collapsed, setCollapsed } = useSidebarContext();
   const user = useUserStore((state) => state.user);
+
   const companyPath = user?.companyId
     ? `${routes.protected.company}/${user.companyId}`
     : routes.protected.company;
