@@ -7,8 +7,16 @@ import {
   useReactFlow,
 } from '@xyflow/react';
 
-const CustomEdge = (props: EdgeProps) => {
-  const { id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition } = props;
+export const DeleteButtonEdge = (props: EdgeProps) => {
+  const {
+    id,
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+    sourcePosition,
+    targetPosition,
+  } = props;
 
   const { setEdges } = useReactFlow();
 
@@ -43,5 +51,3 @@ const CustomEdge = (props: EdgeProps) => {
     </>
   );
 };
-
-export default CustomEdge;

@@ -39,7 +39,13 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
   }, [initialTitle, initialDescription]);
 
   return (
-    <div className="flex h-full">
+    <div
+      className="flex h-full max-w-full"
+      style={{
+        minWidth: '210px',
+        minHeight: '180px',
+      }}
+    >
       <NodeResizer
         lineStyle={{
           borderWidth: '5px',
@@ -47,14 +53,16 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
           borderColor: 'GrayText',
           opacity: 0.1,
         }}
-        minWidth={80}
-        minHeight={50}
+        minWidth={210}
+        minHeight={180}
       />
-      <Card isHoverable={true} className={`w-full border-2 ${borderColor}`}>
+      <Card
+        isHoverable={true}
+        className={`w-[210px] grow border-2 ${borderColor}`}
+      >
         <CardBody className="flex w-full flex-col">
           <div className="flex flex-col gap-2">
-            <div className="w-full text-center">
-              {' '}
+            <div className="flex w-full text-center">
               {!isTitleFocused && title && (
                 <h4
                   className="w-full cursor-text scroll-m-20 break-words text-xl font-semibold tracking-tight"
@@ -76,7 +84,7 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
                 />
               )}
             </div>
-            <div className="w-full text-center">
+            <div className="flex w-full text-center">
               {!isDescriptionFocused && description && (
                 <p
                   className="text-muted-foreground w-full cursor-text break-words text-sm text-zinc-500"
@@ -95,7 +103,6 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
                   onValueChange={setDescription}
                   onFocus={() => setIsDescriptionFocused(true)}
                   onBlur={() => setIsDescriptionFocused(false)}
-                  className="flex h-full"
                 />
               )}
             </div>

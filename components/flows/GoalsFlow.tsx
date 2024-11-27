@@ -19,7 +19,7 @@ import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 import Loader from '../layout/Loader';
 import YearsSlider from '../shared/YearsSlider';
-import CustomEdge from './edges/CustomEdge';
+import { DeleteButtonEdge } from './edges/DeleteButtonEdge';
 import { DefaultNode } from './nodes/GoalsNodes/DefaultNode';
 import NodeProviderSelect from './providers/GoalsProvider';
 
@@ -36,7 +36,7 @@ const nodeTypes = {
 };
 
 const edgeTypes = {
-  customEdge: CustomEdge,
+  deleteButtonEdge: DeleteButtonEdge,
 };
 
 export default function GoalsFlow() {
@@ -50,7 +50,7 @@ export default function GoalsFlow() {
         ...connection,
         animated: true,
         id: `${edges.length + 1}`,
-        type: 'customEdge',
+        type: 'deleteButtonEdge',
       };
       setEdges([...edges, edge]);
     },

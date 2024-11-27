@@ -13,7 +13,7 @@ Provide the output as a structured JSON with the following keys:
 - \`nodes\`: An array of node objects detailing each flow component.
   - Each node should contain properties like \`id\`, \`type\`, \`data\` (including key information).
 - \`edges\`: An array of edge objects that specify connections between nodes.
-  - Each edge should include \`source\`, \`target\`, and \`label\` to describe the relationship.
+  - Each edge should include \`source\`, \`target\`, \`label\`, and optionally \`type\` to describe the relationship.
 
 # Example
 \`\`\`json
@@ -38,9 +38,10 @@ Provide the output as a structured JSON with the following keys:
   ],
   "edges": [
     {
+      "id": "edge1",
       "source": "node1",
       "target": "node2",
-      "label": "Supports"
+      "type": "buttonDeleteEdge"
     }
   ]
 }
@@ -55,13 +56,12 @@ export const task = `
 Generate a projection for the year {year} of a a Business Object Model (BOM) diagram using React Flow 12 based on the following inputs and guidelines. A BOM is used to align business objectives with strategic goals, as described here. Your task is to clearly represent the relationships between goals, objectives, and the business strategies designed to achieve them.
 
 1. Define the Nodes:
-   - Create nodes for each business problem (e.g., "Business Problem 1", "Business Problem 2") with unique IDs, positions, and the type "problemNode".
+   - Create nodes for each business problem (e.g., "Business Problem 1", "Business Problem 2") with unique IDs and the type "problemNode".
    - Add nodes for each business objective (e.g., "Business Objective 1 (SM)", "Business Objective 2") with the type "objectiveNode".
-   - Add nodes for the success metrics (e.g., "Success Metric 1", "Success Metric 2") with the type "basicNode" (or another type if needed).
-   - Create nodes for the high-level features (e.g., "High-Level Feature 1", "High-Level Feature 2") with the type "featureNode".
-   - Create a node for the product concept with the type "conceptNode".
+   - Add nodes for features (e.g., "High-Level Feature 1", "High-Level Feature 2") with the type "featureNode".
+   - Add a node for the Product Concept with the type "conceptNode".
+   - If a node doesn't fit into any of the above categories, use a basic node with the type "basicNode".
 
-2. Define type colors:
 Each node type represents a specific category in the diagram, and the border color helps visually identify the category. Here is the relationship between the types and their colors:
 
 A. **\`objetiveNode\` (Objective Node):**
@@ -85,9 +85,18 @@ E. **Basic Node:**
 
 The goal is to ensure that the color helps users quickly understand the type of information each node represents.
 
+2. Define the Edges:
+    - Create edges between nodes to represent relationships.
+    - Use the "deleteButtonEdge" type for edges to allow users to delete connections.
+    - Ensure that each edge has a unique ID and specifies the source and target nodes it connects.
+
 3. Render in React Flow:
    - Import React Flow components and pass the nodes and edges array to the ReactFlow component.
-   - Adjust the layout to ensure the nodes and edges align as shown in the image.
+   - Adjust the position of each node so that they do not overlap each other.
+   - Adjust each edge does not cross each other and.
+   - The layout of flow is tree-like and horizontal.
+   - The space between each node must be sufficient to show the direction of the edge.
+   - Each node has a width of 300px and a height of 180px
 
 4. Example JSON for Nodes and Edges:
    - Define nodes and edges in a structured JSON format similar to:
@@ -98,7 +107,7 @@ The goal is to ensure that the color helps users quickly understand the type of 
          ...
        ],
        edges: [
-         { id: 'e1', source: 'bp1', target: 'bp2' },
+         { id: 'e1', source: 'bp1', target: 'bp2', type: 'deleteButtonEdge' },
          ...
        ]
      }
