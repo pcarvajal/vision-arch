@@ -1,19 +1,20 @@
 'use client';
-import { Button, Card, CardBody, Input } from '@nextui-org/react';
-import Link from 'next/link';
-import React from 'react';
+
+import GoalsFlow from '@/components/flows/GoalsFlow';
+import GoalsProviderSelect from '@/components/flows/providers/GoalsProvider';
 import { DotsIcon } from '@/components/icons/accounts/dots-icon';
 import { ExportIcon } from '@/components/icons/accounts/export-icon';
 import { InfoIcon } from '@/components/icons/accounts/info-icon';
 import { TrashIcon } from '@/components/icons/accounts/trash-icon';
 import { UsersIcon } from '@/components/icons/breadcrumb/users-icon';
 import { SettingsIcon } from '@/components/icons/sidebar/settings-icon';
-import GoalsFlow from '@/components/flows/GoalsFlow';
-import GoalsProviderSelect from '@/components/flows/providers/GoalsProviderSelect';
-import { routes } from '@/config/routes';
-import { Atom, Goal, HouseIcon, icons } from 'lucide-react';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import PageToolbar from '@/components/pages/PageToolbar';
+import { routes } from '@/config/routes';
+import { Button, Card, CardBody, Input } from '@nextui-org/react';
+import { Atom, Goal, HouseIcon, icons } from 'lucide-react';
+import Link from 'next/link';
+import React from 'react';
 
 const goalsBreadcrumb = [
   {
@@ -53,7 +54,11 @@ export const GoalsView = () => {
           <DotsIcon />
         </PageToolbar>
         <div className="flex flex-row flex-wrap gap-3.5">
-          <Button color="primary" startContent={<ExportIcon />} variant="shadow">
+          <Button
+            color="primary"
+            startContent={<ExportIcon />}
+            variant="shadow"
+          >
             Exportar Documento
           </Button>
           <GoalsProviderSelect />

@@ -15,23 +15,23 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { generateObjetivesModel } from '@/actions/ai.actions';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import { toast } from 'sonner';
+import Loader from '../layout/Loader';
+import YearsSlider from '../shared/YearsSlider';
 import CustomEdge from './edges/CustomEdge';
-import ConceptNode from './nodes/ConceptNode';
-import FeatureNode from './nodes/FeatureNode';
-import ObjectiveNode from './nodes/ObjetiveNode';
-import ProblemNode from './nodes/ProblemNode';
-import NodeProviderSelect from './providers/GoalsProviderSelect';
-import YearsSlider from './YearsSlider';
+import { DefaultNode } from './nodes/GoalsNodes/DefaultNode';
+import NodeProviderSelect from './providers/GoalsProvider';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
 
 const nodeTypes = {
-  objetiveNode: ObjectiveNode,
-  problemNode: ProblemNode,
-  conceptNode: ConceptNode,
-  featureNode: FeatureNode,
+  objetiveNode: DefaultNode,
+  problemNode: DefaultNode,
+  conceptNode: DefaultNode,
+  featureNode: DefaultNode,
+  basicNode: DefaultNode,
   nodeProviderSelect: NodeProviderSelect,
 };
 
@@ -40,6 +40,7 @@ const edgeTypes = {
 };
 
 export default function GoalsFlow() {
+  const [loading, setLoading] = useState(false);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, OnEdgesChange] = useEdgesState(initialEdges);
 
@@ -57,18 +58,28 @@ export default function GoalsFlow() {
   );
 
   const onSelectYear = async (year: number) => {
-    console.log('Selected year:', year);
+    setLoading(true);
     const result = await generateObjetivesModel({
       companyId: '67424a918ef90439ed279941',
       year,
     });
+
+    if (result?.message?.type === 'error') {
+      setLoading(false);
+      return toast.error(result.message.message);
+    }
+
     const jsonResponse = JSON.parse(result);
+
     setNodes(jsonResponse.nodes);
     setEdges(jsonResponse.edges);
+
+    setLoading(false);
   };
 
   return (
     <div className="flex h-screen w-screen">
+      <Loader show={loading} />
       <ReactFlow
         className="overflow-hidden"
         nodes={nodes}

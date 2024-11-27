@@ -12,19 +12,26 @@ import {
 import { CircleX } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-interface Data extends Record<string, unknown> {
+export interface Data extends Record<string, unknown> {
   title?: string;
   description?: string;
+  type: GoalsNodeTypes;
+  borderColor?: string;
 }
 
-const FeatureNode = (props: NodeProps<Node<Data, 'problemNode'>>) => {
+export const DefaultNode = (props: NodeProps<Node<Data>>) => {
   const { setNodes } = useReactFlow();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [isDescriptionFocused, setIsDescriptionFocused] = useState(false);
 
-  const { title: initialTitle, description: initialDescription } = props.data;
+  const {
+    title: initialTitle,
+    description: initialDescription,
+    type = 'basicNode',
+    borderColor = 'border-gray-600',
+  } = props.data;
 
   useEffect(() => {
     if (initialTitle) setTitle(initialTitle);
@@ -40,10 +47,10 @@ const FeatureNode = (props: NodeProps<Node<Data, 'problemNode'>>) => {
           borderColor: 'GrayText',
           opacity: 0.1,
         }}
-        minWidth={100}
+        minWidth={80}
         minHeight={50}
       />
-      <Card isHoverable={true} className="w-full border-2 border-yellow-600">
+      <Card isHoverable={true} className={`w-full border-2 ${borderColor}`}>
         <CardBody className="flex w-full flex-col">
           <div className="flex flex-col gap-2">
             <div className="w-full text-center">
@@ -110,4 +117,3 @@ const FeatureNode = (props: NodeProps<Node<Data, 'problemNode'>>) => {
     </div>
   );
 };
-export default FeatureNode;

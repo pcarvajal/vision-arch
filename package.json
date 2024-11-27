@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dagrejs/dagre": "^1.1.4",
     "@hookform/resolvers": "^3.9.1",
     "@nextui-org/react": "2.4.8",
     "@xyflow/react": "^12.3.5",

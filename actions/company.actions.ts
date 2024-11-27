@@ -1,11 +1,9 @@
 'use server';
 
-import { routes } from '@/config/routes';
 import { accounts } from '@/libs/backend/accounts';
 import { dbConnect } from '@/libs/mongodb';
 import { parseStringify } from '@/libs/utils';
 import Company, { ICompany } from '@/schemas/CompanySchema';
-import { redirect } from 'next/navigation';
 
 const saveCompanyAction = async ({
   mission,
@@ -39,7 +37,6 @@ const saveCompanyAction = async ({
     console.error('Error saving company data:', error);
     return { message: error?.message, type: 'error' };
   }
-  redirect(routes.protected.index);
 };
 
 const getCompanyAction = async (id: string) => {

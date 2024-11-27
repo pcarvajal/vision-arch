@@ -6,7 +6,31 @@ declare type UIColors =
   | 'warning'
   | 'danger'
   | undefined;
-declare type OptionalObject<T extends Record<string, any>> = T | { [K in keyof T]?: never };
+
+// Node types
+declare type GoalsNodeTypes =
+  | 'objetiveNode'
+  | 'problemNode'
+  | 'conceptNode'
+  | 'featureNode'
+  | 'basicNode';
+
+declare type GoalsEdgeTypes = 'default';
+
+declare type GoalsNodeData = {
+  title?: string;
+  description?: string;
+  borderColor?: string;
+};
+
+declare type OptionalObject<T extends Record<string, any>> =
+  | T
+  | { [K in keyof T]?: never };
+
+declare interface NodeProps<T> {
+  data: T;
+  id: string;
+}
 
 // Forms
 declare interface UserPreferencesParams {

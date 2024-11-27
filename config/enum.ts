@@ -8,3 +8,12 @@ export enum RolesEnum {
   OWNER = 'owner',
   USER = 'user',
 }
+
+// Nodes and Edges for React Flow
+export enum GoalsTypeNodesEnum {
+  PROBLEM = 'problemNode',
+  OBJECTIVE = 'objectiveNode',
+  SUCCESS_METRIC = 'default',
+  FEATURE = 'featureNode',
+  CONCEPT = 'conceptNode',
+}
