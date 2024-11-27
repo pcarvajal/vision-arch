@@ -2,8 +2,12 @@ import { createClient } from '@/libs/backend/appwrite';
 import { Account } from 'node-appwrite';
 
 export const project = {
-  createAccount: async (id: string, email: string, password: string, name: string) => {
-    console.log('createAccount', id, email, password, name);
+  createAccount: async (
+    id: string,
+    email: string,
+    password: string,
+    name: string,
+  ) => {
     try {
       const client = await createClient();
       const account = new Account(client);

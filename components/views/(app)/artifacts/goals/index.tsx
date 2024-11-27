@@ -6,15 +6,12 @@ import { DotsIcon } from '@/components/icons/accounts/dots-icon';
 import { ExportIcon } from '@/components/icons/accounts/export-icon';
 import { InfoIcon } from '@/components/icons/accounts/info-icon';
 import { TrashIcon } from '@/components/icons/accounts/trash-icon';
-import { UsersIcon } from '@/components/icons/breadcrumb/users-icon';
 import { SettingsIcon } from '@/components/icons/sidebar/settings-icon';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import PageToolbar from '@/components/pages/PageToolbar';
 import { routes } from '@/config/routes';
 import { Button, Card, CardBody, Input } from '@nextui-org/react';
-import { Atom, Goal, HouseIcon, icons } from 'lucide-react';
-import Link from 'next/link';
-import React from 'react';
+import { Atom, Goal, HouseIcon } from 'lucide-react';
 
 const goalsBreadcrumb = [
   {

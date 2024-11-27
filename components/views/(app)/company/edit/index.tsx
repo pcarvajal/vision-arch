@@ -21,7 +21,6 @@ const companyBreadcrumb = [
 
 export const CompanyEditView = async ({ id }: { id: string }) => {
   const company = await getCompanyAction(id);
-  console.log('Company data:', company);
 
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
@@ -31,7 +30,9 @@ export const CompanyEditView = async ({ id }: { id: string }) => {
         <Card className="flex max-w-[1024px]">
           <CardHeader className="flex flex-col items-start px-8 pt-10">
             <h4 className="text-large font-bold">Formulario de compañia</h4>
-            <small className="text-default-500">Modifica los datos de tu compañia</small>
+            <small className="text-default-500">
+              Modifica los datos de tu compañia
+            </small>
           </CardHeader>
           <CardBody>
             <CompanyForm initialValues={company} />

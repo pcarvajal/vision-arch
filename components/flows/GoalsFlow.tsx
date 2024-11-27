@@ -15,9 +15,11 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { generateObjetivesModel } from '@/actions/ai.actions';
+import useUserStore from '@/store/userStore';
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 import Loader from '../layout/Loader';
+import ThinkingLoader from '../shared/ThinkingLoader';
 import YearsSlider from '../shared/YearsSlider';
 import { DeleteButtonEdge } from './edges/DeleteButtonEdge';
 import { DefaultNode } from './nodes/GoalsNodes/DefaultNode';
@@ -41,6 +43,7 @@ const edgeTypes = {
 
 export default function GoalsFlow() {
   const [loading, setLoading] = useState(false);
+  const user = useUserStore((state) => state.user);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, OnEdgesChange] = useEdgesState(initialEdges);
 
@@ -59,8 +62,13 @@ export default function GoalsFlow() {
 
   const onSelectYear = async (year: number) => {
     setLoading(true);
+    const company = user?.companyId;
+    if (!company) {
+      setLoading(false);
+      return toast.error('No se ha encontrado la empresa');
+    }
     const result = await generateObjetivesModel({
-      companyId: '67424a918ef90439ed279941',
+      companyId: company,
       year,
     });
 
@@ -79,7 +87,7 @@ export default function GoalsFlow() {
 
   return (
     <div className="flex h-screen w-screen">
-      <Loader show={loading} />
+      <ThinkingLoader show={loading} />
       <ReactFlow
         className="overflow-hidden"
         nodes={nodes}

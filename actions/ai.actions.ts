@@ -38,7 +38,6 @@ const generateObjetivesModel = async ({
         },
       },
     });
-    console.log(response);
     return parseStringify(response.choices[0].message.content);
   } catch (error: any) {
     console.error('Error generating react flow:', error);

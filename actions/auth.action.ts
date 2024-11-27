@@ -8,13 +8,17 @@ import { project } from '@/libs/backend/project';
 import { teams } from '@/libs/backend/teams';
 import { users } from '@/libs/backend/users';
 import { parseStringify } from '@/libs/utils';
-import { User } from '@/types/types';
 import { redirect } from 'next/navigation';
 import { ID, Query } from 'node-appwrite';
 
 const { BASE_URL: baseUrl } = process.env;
 
-const registerAction = async ({ email, password, name, companyName }: RegisterParams) => {
+const registerAction = async ({
+  email,
+  password,
+  name,
+  companyName,
+}: RegisterParams) => {
   try {
     const search = await users.listUsers('email', email);
 
@@ -50,15 +54,6 @@ const registerAction = async ({ email, password, name, companyName }: RegisterPa
 
 const loginAction = async ({ email, password }: LoginParams) => {
   try {
-    const account = await users.listUsers('email', email);
-
-    if (account?.total === 0 || account === null) {
-      return { message: 'Credenciales inválidas', type: 'error' };
-    }
-
-    if (account?.users[0].emailVerification === false) {
-      return { message: 'Credenciales inválidas', type: 'error' };
-    }
     const { secret, expire } = await users.createSession(email, password);
     await cookies.setCookie(secret, expire);
 
@@ -70,7 +65,11 @@ const loginAction = async ({ email, password }: LoginParams) => {
       !preferences?.teamName &&
       !preferences?.companyId
     ) {
-      const team = await teams.createTeam(ID.unique(), preferences.companyName, [...roles]);
+      const team = await teams.createTeam(
+        ID.unique(),
+        preferences.companyName,
+        [...roles],
+      );
 
       const preferencesParams: UserPreferencesParams = {
         companyId: null,
@@ -84,7 +83,7 @@ const loginAction = async ({ email, password }: LoginParams) => {
     const accountData = await accounts.getAccount();
     const preferencesData = await accounts.getPreferences();
 
-    const user: User = {
+    const user = {
       id: accountData.$id,
       name: accountData.name,
       email: accountData.email,
@@ -121,7 +120,11 @@ const logoutAction = async () => {
   redirect(routes.public.login);
 };
 
-const resetPasswordAction = async ({ password, secret, userId }: ResetPasswordParams) => {
+const resetPasswordAction = async ({
+  password,
+  secret,
+  userId,
+}: ResetPasswordParams) => {
   try {
     if (!userId || !secret) return { message: 'link inválido o expirado' };
     await users.confirmPasswordRecovery(userId, secret, password);
@@ -132,4 +135,10 @@ const resetPasswordAction = async ({ password, secret, userId }: ResetPasswordPa
   redirect(routes.public.login);
 };
 
-export { registerAction, loginAction, forgotPasswordAction, logoutAction, resetPasswordAction };
+export {
+  registerAction,
+  loginAction,
+  forgotPasswordAction,
+  logoutAction,
+  resetPasswordAction,
+};
