@@ -3,15 +3,15 @@
 import GoalsFlow from '@/components/flows/GoalsFlow';
 import GoalsProviderSelect from '@/components/flows/providers/GoalsProvider';
 import { DotsIcon } from '@/components/icons/accounts/dots-icon';
-import { ExportIcon } from '@/components/icons/accounts/export-icon';
 import { InfoIcon } from '@/components/icons/accounts/info-icon';
 import { TrashIcon } from '@/components/icons/accounts/trash-icon';
 import { SettingsIcon } from '@/components/icons/sidebar/settings-icon';
+import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import PageToolbar from '@/components/pages/PageToolbar';
 import { routes } from '@/config/routes';
 import { Button, Card, CardBody, Input } from '@nextui-org/react';
-import { Atom, Goal, HouseIcon } from 'lucide-react';
+import { Atom, Goal, HouseIcon, Save } from 'lucide-react';
 
 const goalsBreadcrumb = [
   {
@@ -51,13 +51,7 @@ export const GoalsView = () => {
           <DotsIcon />
         </PageToolbar>
         <div className="flex flex-row flex-wrap gap-3.5">
-          <Button
-            color="primary"
-            startContent={<ExportIcon />}
-            variant="shadow"
-          >
-            Gaurdar proyección
-          </Button>
+          <SaveArtifactModal />
           <GoalsProviderSelect />
         </div>
       </div>

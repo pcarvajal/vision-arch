@@ -34,6 +34,14 @@ declare interface NodeProps<T> {
 }
 
 // Forms
+declare interface CreateArtifactParams {
+  name: string;
+  description: string;
+  yearProjection: number;
+  type: string;
+  data: string;
+}
+
 declare interface UserPreferencesParams {
   companyId: string | null;
   companyName: string | null;

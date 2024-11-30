@@ -2,6 +2,8 @@
 
 import { Models } from 'node-appwrite';
 
+export type ArtifactTypes = 'goals' | 'business';
+
 export interface Account extends Models.User<Models.Preferences> {}
 
 export interface User extends Models.Document {
@@ -22,4 +24,16 @@ export interface Company extends Models.Document {
   mission: string;
   vision: string;
   objetives: string;
+}
+
+export interface Artifact extends Models.Document {
+  id: string | undefined;
+  name: string;
+  userId: string;
+  companyId: string;
+  type: ArtifactTypes;
+  description: string;
+  data: string;
+  yearProjection: number;
+  createdBy: string;
 }
