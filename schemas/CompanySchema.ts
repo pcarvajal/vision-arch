@@ -8,6 +8,8 @@ export interface ICompany {
   objetives: string;
   description: string;
   teamId: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const CompanySchema = new Schema<ICompany>(
@@ -36,8 +38,18 @@ const CompanySchema = new Schema<ICompany>(
       type: String,
       required: true,
     },
+    createdAt: {
+      type: Date,
+      required: false,
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now,
+      required: false,
+    },
   },
   {
+    timestamps: true,
     toJSON: {
       transform: (_, ret) => {
         ret.id = ret._id.toString();

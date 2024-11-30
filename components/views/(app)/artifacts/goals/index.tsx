@@ -56,7 +56,7 @@ export const GoalsView = () => {
             startContent={<ExportIcon />}
             variant="shadow"
           >
-            Exportar Documento
+            Gaurdar proyección
           </Button>
           <GoalsProviderSelect />
         </div>

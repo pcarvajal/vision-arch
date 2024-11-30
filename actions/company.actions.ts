@@ -39,6 +39,43 @@ const saveCompanyAction = async ({
   }
 };
 
+const updateCompanyAction = async ({
+  id,
+  mission,
+  vision,
+  name,
+  objetives,
+  description,
+}: CreateCompanyParams) => {
+  try {
+    const preferences = await accounts.getPreferences();
+
+    await dbConnect();
+
+    await Company.updateOne({
+      mission,
+      vision,
+      name,
+      objetives,
+      description,
+      teamId: preferences?.teamId,
+    });
+
+    const result = await Company.findOne({ id: id });
+    const updatedCompany = result.toJSON();
+
+    await accounts.updatePrefs({
+      ...preferences,
+      companyId: updatedCompany.id,
+      companyName: updatedCompany.name,
+    });
+    return parseStringify(updatedCompany);
+  } catch (error: any) {
+    console.error('Error updating company data:', error);
+    return { message: error?.message, type: 'error' };
+  }
+};
+
 const getCompanyAction = async (id: string) => {
   try {
     await dbConnect();
@@ -55,4 +92,4 @@ const getCompanyAction = async (id: string) => {
   }
 };
 
-export { saveCompanyAction, getCompanyAction };
+export { saveCompanyAction, getCompanyAction, updateCompanyAction };

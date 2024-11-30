@@ -1,18 +1,22 @@
 'use client';
-import { Button, Input, Textarea } from '@nextui-org/react';
-import { Controller, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { CompanySchema, companySchema } from '@/libs/validators/company.schema';
-import { saveCompanyAction } from '@/actions/company.actions';
-import { useState } from 'react';
-import Loader from '../layout/Loader';
-import { toast } from 'sonner';
-import useUserStore from '@/store/userStore';
-import { useRouter } from 'next/navigation';
+
+import {
+  saveCompanyAction,
+  updateCompanyAction,
+} from '@/actions/company.actions';
 import { routes } from '@/config/routes';
+import { CompanySchema, companySchema } from '@/libs/validators/company.schema';
+import useUserStore from '@/store/userStore';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Input, Textarea } from '@nextui-org/react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import Loader from '../layout/Loader';
 
 interface CompanyInitialValues {
-  id: string;
+  id?: string;
   name: string;
   mission: string;
   vision: string;
@@ -33,7 +37,13 @@ const CompanyForm = ({ initialValues, companyName }: CompanyFormProps) => {
 
   const onSubmit = async (data: CompanySchema) => {
     setLoading(true);
-    const result = await saveCompanyAction(data);
+    let result;
+
+    if (initialValues) {
+      result = await updateCompanyAction(data);
+    } else {
+      result = await saveCompanyAction(data);
+    }
 
     if (result?.type === 'error') {
       setLoading(false);

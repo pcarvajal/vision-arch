@@ -2,9 +2,9 @@ import CompanyForm from '@/components/forms/CompanyForm';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import PageTitle from '@/components/pages/PageTitle';
 import { routes } from '@/config/routes';
-import { accounts } from '@/libs/backend/accounts';
+import { Preferences } from '@/types/types';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
-import { Building2, Car, HouseIcon } from 'lucide-react';
+import { Building2, HouseIcon } from 'lucide-react';
 
 const companyBreadcrumb = [
   {
@@ -19,8 +19,12 @@ const companyBreadcrumb = [
   },
 ];
 
-export const CompanyView = async () => {
-  const preferences = await accounts.getPreferences();
+interface CompanyViewProps {
+  preferences: Preferences;
+}
+
+export default function CompanyView({ preferences }: CompanyViewProps) {
+  console.log('CompanyView', preferences);
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <PageBreadcrumb items={companyBreadcrumb} />
@@ -30,7 +34,8 @@ export const CompanyView = async () => {
           <CardHeader className="flex flex-col items-start px-8 pt-10">
             <h4 className="text-large font-bold">Formulario de compañia</h4>
             <small className="text-default-500">
-              Completa los campos a continuación con la información clave de tu empresa.
+              Completa los campos a continuación con la información clave de tu
+              empresa.
             </small>
           </CardHeader>
           <CardBody>
@@ -40,4 +45,4 @@ export const CompanyView = async () => {
       </div>
     </div>
   );
-};
+}

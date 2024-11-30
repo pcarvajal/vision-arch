@@ -58,6 +58,7 @@ declare interface ForgotPasswordParams {
 }
 
 declare interface CreateCompanyParams {
+  id?: string;
   name: string;
   mission: string;
   vision: string;

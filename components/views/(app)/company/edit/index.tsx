@@ -3,6 +3,7 @@ import CompanyForm from '@/components/forms/CompanyForm';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import PageTitle from '@/components/pages/PageTitle';
 import { routes } from '@/config/routes';
+import { ICompany } from '@/schemas/CompanySchema';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
 import { Building2, Car, HouseIcon } from 'lucide-react';
 
@@ -19,9 +20,11 @@ const companyBreadcrumb = [
   },
 ];
 
-export const CompanyEditView = async ({ id }: { id: string }) => {
-  const company = await getCompanyAction(id);
+interface CompanyEditViewProps {
+  company: ICompany;
+}
 
+export const CompanyEditView = ({ company }: CompanyEditViewProps) => {
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <PageBreadcrumb items={companyBreadcrumb} />

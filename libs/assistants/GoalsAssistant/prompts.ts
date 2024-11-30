@@ -11,41 +11,9 @@ Your goal is to create a clear and accurate layout for an Enterprise Architectur
 # Output Format
 Provide the output as a structured JSON with the following keys:
 - \`nodes\`: An array of node objects detailing each flow component.
-  - Each node should contain properties like \`id\`, \`type\`, \`data\` (including key information).
+  - Each node should contain properties like \`id\`, \`type\`, \`data\` and \`position\` (including key information).
 - \`edges\`: An array of edge objects that specify connections between nodes.
-  - Each edge should include \`source\`, \`target\`, \`label\`, and optionally \`type\` to describe the relationship.
-
-# Example
-\`\`\`json
-{
-  "nodes": [
-    {
-      "id": "node1",
-      "type": "input",
-      "data": {
-        "label": "Company Mission"
-      },
-      "position": { "x": 250, "y": 25 }
-    },
-    {
-      "id": "node2",
-      "type": "default",
-      "data": {
-        "label": "Strategic Objective 1"
-      },
-      "position": { "x": 400, "y": 100 }
-    }
-  ],
-  "edges": [
-    {
-      "id": "edge1",
-      "source": "node1",
-      "target": "node2",
-      "type": "buttonDeleteEdge"
-    }
-  ]
-}
-\`\`\`
+  - Each edge should include \`id\`, \`source\`, \`target\`, and \`type\` to describe the relationship.
 
 # Notes
 - Ensure that nodes clearly represent different aspects of the company's strategic structure.
@@ -56,11 +24,10 @@ export const task = `
 Generate a projection for the year {year} of a a Business Object Model (BOM) diagram using React Flow 12 based on the following inputs and guidelines. A BOM is used to align business objectives with strategic goals, as described here. Your task is to clearly represent the relationships between goals, objectives, and the business strategies designed to achieve them.
 
 1. Define the Nodes:
-   - Create nodes for each business problem (e.g., "Business Problem 1", "Business Problem 2") with unique IDs and the type "problemNode".
-   - Add nodes for each business objective (e.g., "Business Objective 1 (SM)", "Business Objective 2") with the type "objectiveNode".
-   - Add nodes for features (e.g., "High-Level Feature 1", "High-Level Feature 2") with the type "featureNode".
-   - Add a node for the Product Concept with the type "conceptNode".
-   - If a node doesn't fit into any of the above categories, use a basic node with the type "basicNode".
+   - Create nodes for each business problem (e.g., "Business Problem 1", "Business Problem 2") with unique IDs and the type "problemNode". This node can be linked to many "objetiveNode"
+   - Add nodes for each business objective (e.g., "Business Objective 1 (SM)", "Business Objective 2") with the type "objectiveNode".This node can be linked to many "featureNode"
+   - Add nodes for features (e.g., "High-Level Feature 1", "High-Level Feature 2") with the type "featureNode". This node can only be linked to the "conceptNode"
+   - Add a node for the Product Concept with the type "conceptNode". This node only receives connections from "featureNode"
 
 Each node type represents a specific category in the diagram, and the border color helps visually identify the category. Here is the relationship between the types and their colors:
 
@@ -72,16 +39,13 @@ B. **\`problemNode\` (Problem Node):**
    - Indicates a problem or challenge the company is facing.
    - Border color: **Red** (\`border-red-600\`) because red highlights problems or warnings.
 
-C. **\`conceptNode\` (Concept Node):**
-   - Represents an idea or key concept related to objectives or problems.
-   - Border color: **Purple** (\`border-purple-600\`) because purple symbolizes creativity and strategic thinking.
-
-D. **\`featureNode\` (Feature Node):**
+C. **\`featureNode\` (Feature Node):**
    - Describes a functionality or feature that helps solve a problem or achieve an objective.
    - Border color: **Yellow** (\`border-yellow-600\`) because yellow indicates innovation and focus on details.
 
-E. **Basic Node:**
-   - If the node doesn’t fit into any of the above categories, use a **Gray** border color (\`border-gray-600\`) as a generic default.
+D. **\`conceptNode\` (Concept Node):**
+   - Represents an idea or key concept related to objectives or problems.
+   - Border color: **Purple** (\`border-purple-600\`) because purple symbolizes creativity and strategic thinking.
 
 The goal is to ensure that the color helps users quickly understand the type of information each node represents.
 
@@ -91,24 +55,47 @@ The goal is to ensure that the color helps users quickly understand the type of 
     - Ensure that each edge has a unique ID and specifies the source and target nodes it connects.
 
 3. Render in React Flow:
-   - Import React Flow components and pass the nodes and edges array to the ReactFlow component.
    - Adjust the position of each node so that they do not overlap each other.
    - Adjust each edge does not cross each other and.
    - The layout of flow is tree-like and horizontal.
    - The space between each node must be sufficient to show the direction of the edge.
    - Each node has a width of 300px and a height of 180px
 
-4. Example JSON for Nodes and Edges:
-   - Define nodes and edges in a structured JSON format similar to:
-     {
-       nodes: [
-         { id: 'bp1', type: 'problemNode', data: { type: 'problemNode', title:'Problem Title', description:'Problem Description', borderColor:'border-gray-600'' }, position: { x: 0, y: 50 } },
-         { id: 'bp2', type: 'objetiveNode', data: { type: 'objetiveNode', title:'Objetive Title', description:'Objetive Description', borderColor:'border-green-600'' }, position: { x: 0, y: 150 } }
-         ...
-       ],
-       edges: [
-         { id: 'e1', source: 'bp1', target: 'bp2', type: 'deleteButtonEdge' },
-         ...
-       ]
-     }
+    # Example
+    \`\`\`json
+    {
+      "nodes": [
+        {
+          "id": "node1",
+          "type": "problemNode",
+          "data": {
+            "type": "problemNode",
+            "title": "Problema 1",
+            "description": "Descripción del problema 1."
+            "borderColor": "border-blue-600"
+          },
+          "position": { "x": 250, "y": 25 }
+        },
+        {
+          "id": "node2",
+          "type": "objetiveNode",
+          "data": {
+            "type": "objetiveNode",
+            "title": "Objetivo 1",
+            "description": "Descripción del objetivo 1."
+            "borderColor": "border-blue-600"
+          },
+          "position": { "x": 400, "y": 100 }
+        }
+      ],
+      "edges": [
+        {
+          "id": "e01",
+          "source": "node1",
+          "target": "node2",
+          "type": "deleteButtonEdge"
+        }
+      ]
+    }
+    \`\`\`
 `;

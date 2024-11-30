@@ -18,7 +18,6 @@ import { generateObjetivesModel } from '@/actions/ai.actions';
 import useUserStore from '@/store/userStore';
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
-import Loader from '../layout/Loader';
 import ThinkingLoader from '../shared/ThinkingLoader';
 import YearsSlider from '../shared/YearsSlider';
 import { DeleteButtonEdge } from './edges/DeleteButtonEdge';
