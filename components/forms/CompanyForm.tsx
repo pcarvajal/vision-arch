@@ -31,8 +31,8 @@ interface CompanyFormProps {
 
 const CompanyForm = ({ initialValues, companyName }: CompanyFormProps) => {
   const [loading, setLoading] = useState(false);
-  const user = useUserStore((state) => state.user);
-  const updateUser = useUserStore((state) => state.updateUser);
+
+  const updateCompany = useUserStore((state) => state.updateCompany);
   const router = useRouter();
 
   const onSubmit = async (data: CompanySchema) => {
@@ -49,8 +49,8 @@ const CompanyForm = ({ initialValues, companyName }: CompanyFormProps) => {
       setLoading(false);
       return toast.error(result.message);
     }
-    if (!user) return;
-    updateUser({ ...user, companyId: result.id, companyName: result.name });
+
+    updateCompany({ ...result });
 
     setLoading(false);
     router.push(routes.protected.index);

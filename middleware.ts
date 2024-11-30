@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { accounts } from './libs/backend/accounts';
 import { routes } from './config/routes';
+import { accounts } from './libs/backend/accounts';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const protectedRoutes = [`/`, `/company`, `/artifacts`];
+  const protectedRoutes = [`/`, `/company`, `/artifacts`, `/artifacts/goals`];
   const publicRoutes = [`/login`, `/register`];
 
   const isProtectedRoute = protectedRoutes.some((route) => pathname === route);
@@ -23,14 +23,18 @@ export async function middleware(request: NextRequest) {
 
   if (isProtectedRoute) {
     if (!isLoggedIn) {
-      return NextResponse.redirect(new URL(routes.public.login, request.nextUrl.origin));
+      return NextResponse.redirect(
+        new URL(routes.public.login, request.nextUrl.origin),
+      );
     }
     return NextResponse.next(); // Permite el acceso si está logueado
   }
 
   if (isPublicRoute) {
     if (isLoggedIn) {
-      return NextResponse.redirect(new URL(routes.protected.index, request.nextUrl.origin));
+      return NextResponse.redirect(
+        new URL(routes.protected.index, request.nextUrl.origin),
+      );
     }
     return NextResponse.next();
   }
@@ -39,5 +43,12 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/company', '/artifacts', '/login', '/register'],
+  matcher: [
+    '/',
+    '/company',
+    '/artifacts',
+    '/login',
+    '/register',
+    '/artifacts/goals',
+  ],
 };

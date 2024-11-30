@@ -1,3 +1,4 @@
+declare type Role = 'owner' | 'admin' | 'user';
 declare type UIColors =
   | 'foreground'
   | 'primary'

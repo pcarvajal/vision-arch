@@ -1,28 +1,25 @@
+import { Account, Company } from '@/types/types';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  companyId: string | null;
-  companyName: string;
-  teamId: string;
-  teamName: string;
-}
-
 interface UserState {
-  user: User | null;
-  setUser: (user: User) => void;
-  updateUser: (user: User) => void;
+  account: Account | null;
+  setAccount: (account: Account) => void;
+  updateAccount: (account: Account) => void;
+  company: Company | null;
+  setCompany: (account: Company) => void;
+  updateCompany: (account: Company) => void;
 }
 
 const useUserStore = create(
   persist<UserState>(
     (set) => ({
-      user: null,
-      setUser: (user) => set({ user }),
-      updateUser: (user) => set((state) => ({ ...state, user })),
+      account: null,
+      setAccount: (account) => set({ account }),
+      updateAccount: (account) => set((state) => ({ ...state, account })),
+      company: null,
+      setCompany: (company) => set({ company }),
+      updateCompany: (company) => set((state) => ({ ...state, company })),
     }),
     { name: 'user-store' },
   ),

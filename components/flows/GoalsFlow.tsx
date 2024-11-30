@@ -42,7 +42,7 @@ const edgeTypes = {
 
 export default function GoalsFlow() {
   const [loading, setLoading] = useState(false);
-  const user = useUserStore((state) => state.user);
+  const company = useUserStore((state) => state.company);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, OnEdgesChange] = useEdgesState(initialEdges);
 
@@ -61,13 +61,13 @@ export default function GoalsFlow() {
 
   const onSelectYear = async (year: number) => {
     setLoading(true);
-    const company = user?.companyId;
-    if (!company) {
+    const companyId = company?.$id;
+    if (!companyId) {
       setLoading(false);
       return toast.error('No se ha encontrado la empresa');
     }
     const result = await generateObjetivesModel({
-      companyId: company,
+      companyId,
       year,
     });
 

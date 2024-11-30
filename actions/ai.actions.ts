@@ -1,21 +1,29 @@
 'use server';
 
 import { getBusinessObjetiveModelMessages } from '@/libs/assistants/GoalsAssistant/messages';
-import { dbConnect } from '@/libs/mongodb';
+import { databases } from '@/libs/backend/databases';
 import openai from '@/libs/openAI';
 import { parseStringify } from '@/libs/utils';
-import Company from '@/schemas/CompanySchema';
 import { schema } from '../libs/assistants/GoalsAssistant/schema';
 
-const { OPENAI_MODEL: modelAi } = process.env;
+const {
+  APPWRITE_DATABASE_ID: databaseId,
+  APPWRITE_COMPANIES_ID: companiesId,
+  APPWRITE_USERS_ID: usersId,
+  OPENAI_MODEL: modelAi,
+} = process.env;
 
 const generateObjetivesModel = async ({
   companyId,
   year,
 }: GenerateCompanyObjetivesParams) => {
   try {
-    await dbConnect();
-    const company = await Company.findById(companyId);
+    const company = await databases.getDocument(
+      databaseId!,
+      companiesId!,
+      companyId,
+    );
+
     if (!company) {
       return { message: 'Company not found', type: 'error' };
     }

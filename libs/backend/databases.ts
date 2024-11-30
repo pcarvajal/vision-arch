@@ -3,9 +3,9 @@ import { Models } from 'node-appwrite';
 
 export const databases = {
   getDocument: async <T extends Models.Document>(
+    databaseId: string,
     collectionId: string,
     documentId: string,
-    databaseId: string,
   ) => {
     try {
       const { db } = await createSessionClient();
@@ -16,8 +16,8 @@ export const databases = {
     }
   },
   getDocuments: async <T extends Models.Document>(
-    collectionId: string,
     databaseId: string,
+    collectionId: string,
     query: string[],
   ) => {
     try {
@@ -37,7 +37,13 @@ export const databases = {
   ) => {
     try {
       const { db } = await createSessionClient();
-      return db.createDocument<T>(databaseId, collectionId, documentId, data, permissions);
+      return db.createDocument<T>(
+        databaseId,
+        collectionId,
+        documentId,
+        data,
+        permissions,
+      );
     } catch (error: any) {
       console.error(error);
       throw new Error('Error al crear el documento');
@@ -52,13 +58,23 @@ export const databases = {
   ) => {
     try {
       const { db } = await createSessionClient();
-      return db.updateDocument<T>(databaseId, collectionId, documentId, data, permissions);
+      return db.updateDocument<T>(
+        databaseId,
+        collectionId,
+        documentId,
+        data,
+        permissions,
+      );
     } catch (error: any) {
       console.error(error);
       throw new Error('Error al actualizar el documento');
     }
   },
-  deleteDocument: async (databaseId: string, collectionId: string, documentId: string) => {
+  deleteDocument: async (
+    databaseId: string,
+    collectionId: string,
+    documentId: string,
+  ) => {
     try {
       const { db } = await createSessionClient();
       return db.deleteDocument(databaseId, collectionId, documentId);

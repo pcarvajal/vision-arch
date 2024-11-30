@@ -1,17 +1,22 @@
 'use server';
 
-import { roles } from '@/config/constants';
 import { routes } from '@/config/routes';
 import { accounts } from '@/libs/backend/accounts';
 import { cookies } from '@/libs/backend/cookies';
+import { databases } from '@/libs/backend/databases';
 import { project } from '@/libs/backend/project';
 import { teams } from '@/libs/backend/teams';
 import { users } from '@/libs/backend/users';
 import { parseStringify } from '@/libs/utils';
 import { redirect } from 'next/navigation';
-import { ID, Query } from 'node-appwrite';
+import { ID } from 'node-appwrite';
 
 const { BASE_URL: baseUrl } = process.env;
+const {
+  APPWRITE_DATABASE_ID: databaseId,
+  APPWRITE_COMPANIES_ID: companiesId,
+  APPWRITE_USERS_ID: usersId,
+} = process.env;
 
 const registerAction = async ({
   email,
@@ -36,14 +41,8 @@ const registerAction = async ({
     const url = `${baseUrl}/callbacks/auth/verify-user`;
     await accounts.createEmailVerification(url);
 
-    const preferencesParams: UserPreferencesParams = {
-      companyName,
-      companyId: null,
-      teamId: null,
-      teamName: null,
-    };
+    await accounts.updatePrefs({ companyName });
 
-    await accounts.updatePrefs({ ...preferencesParams });
     await accounts.signOut();
   } catch (error: any) {
     console.error(error);
@@ -57,43 +56,20 @@ const loginAction = async ({ email, password }: LoginParams) => {
     const { secret, expire } = await users.createSession(email, password);
     await cookies.setCookie(secret, expire);
 
-    const preferences = await accounts.getPreferences();
+    const account = await accounts.getAccount();
+    const team = await teams.getCurrentAccountTeams();
 
-    if (
-      preferences?.companyName &&
-      !preferences?.teamId &&
-      !preferences?.teamName &&
-      !preferences?.companyId
-    ) {
-      const team = await teams.createTeam(
-        ID.unique(),
-        preferences.companyName,
-        [...roles],
-      );
-
-      const preferencesParams: UserPreferencesParams = {
-        companyId: null,
-        companyName: preferences.companyName,
-        teamId: team.$id,
-        teamName: team.name,
-      };
-
-      await accounts.updatePrefs({ ...preferencesParams });
+    if (team?.total === 0 || !team?.teams || !team?.teams[0]) {
+      return parseStringify({ account, company: null });
     }
-    const accountData = await accounts.getAccount();
-    const preferencesData = await accounts.getPreferences();
 
-    const user = {
-      id: accountData.$id,
-      name: accountData.name,
-      email: accountData.email,
-      companyId: preferencesData?.companyId,
-      companyName: preferencesData?.companyName,
-      teamId: preferencesData?.teamId,
-      teamName: preferencesData?.teamName,
-    };
+    const company = await databases.getDocument(
+      databaseId!,
+      companiesId!,
+      team.teams[0].$id,
+    );
 
-    return parseStringify(user);
+    return parseStringify({ account, company });
   } catch (error: any) {
     console.error(error);
     return { message: error?.message, type: 'error' };
