@@ -102,9 +102,15 @@ export const schema = {
           animated: {
             type: 'boolean',
             description: 'Indicates whether the edge is animated.',
+            enum: [true],
+          },
+          type: {
+            type: 'string',
+            description: 'The type of the edge.',
+            enum: ['deleteButtonEdge'],
           },
         },
-        required: ['id', 'source', 'target', 'animated'],
+        required: ['id', 'source', 'target', 'animated', 'type'],
         additionalProperties: false,
       },
     },
