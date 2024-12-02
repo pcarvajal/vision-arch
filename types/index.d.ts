@@ -1,3 +1,6 @@
+import { ReactFlowJsonObject } from '@xyflow/react';
+
+// App
 declare type Role = 'owner' | 'admin' | 'user';
 declare type UIColors =
   | 'foreground'
@@ -8,7 +11,7 @@ declare type UIColors =
   | 'danger'
   | undefined;
 
-// Node types
+// React Flow
 declare type GoalsNodeTypes =
   | 'objetiveNode'
   | 'problemNode'

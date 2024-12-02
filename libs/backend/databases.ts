@@ -9,7 +9,7 @@ export const databases = {
   ) => {
     try {
       const { db } = await createSessionClient();
-      return db.getDocument<T>(databaseId, collectionId, documentId);
+      return await db.getDocument<T>(databaseId, collectionId, documentId);
     } catch (error: any) {
       console.error(error);
       return null;
@@ -22,7 +22,7 @@ export const databases = {
   ) => {
     try {
       const { db } = await createSessionClient();
-      return db.listDocuments<T>(databaseId, collectionId, query);
+      return await db.listDocuments<T>(databaseId, collectionId, query);
     } catch (error: any) {
       console.error(error);
       return null;
@@ -37,7 +37,7 @@ export const databases = {
   ) => {
     try {
       const { db } = await createSessionClient();
-      return db.createDocument<T>(
+      return await db.createDocument<T>(
         databaseId,
         collectionId,
         documentId,
@@ -58,7 +58,7 @@ export const databases = {
   ) => {
     try {
       const { db } = await createSessionClient();
-      return db.updateDocument<T>(
+      return await db.updateDocument<T>(
         databaseId,
         collectionId,
         documentId,
@@ -77,7 +77,7 @@ export const databases = {
   ) => {
     try {
       const { db } = await createSessionClient();
-      return db.deleteDocument(databaseId, collectionId, documentId);
+      return await db.deleteDocument(databaseId, collectionId, documentId);
     } catch (error: any) {
       console.error(error);
       throw new Error('Error al eliminar el documento');

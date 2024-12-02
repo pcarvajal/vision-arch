@@ -1,5 +1,6 @@
 // Appwrite Types
 
+import { Edge, Node, ReactFlowJsonObject, Viewport } from '@xyflow/react';
 import { Models } from 'node-appwrite';
 
 export type ArtifactTypes = 'goals' | 'business';
@@ -36,4 +37,11 @@ export interface Artifact extends Models.Document {
   data: string;
   yearProjection: number;
   createdBy: string;
+}
+
+// React Flow
+export interface ArtifactObject {
+  data: ReactFlowJsonObject;
+  year: number;
+  type: string;
 }

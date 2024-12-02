@@ -1,6 +1,7 @@
 'use client';
 
 import { logoutAction } from '@/actions/auth.action';
+import useUserStore from '@/store/userStore';
 import {
   Avatar,
   Dropdown,
@@ -8,13 +9,16 @@ import {
   DropdownMenu,
   DropdownTrigger,
   NavbarItem,
+  useUser,
 } from '@nextui-org/react';
 import blankProfile from '../../../public/profile-default.svg';
 import { DarkModeSwitch } from './darkmodeswitch';
 
 export const UserDropdown = () => {
+  const deleteStore = useUserStore((state) => state.clearPersistedStore);
   const handleLogout = async () => {
     await logoutAction();
+    deleteStore();
   };
 
   return (

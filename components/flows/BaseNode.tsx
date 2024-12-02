@@ -1,5 +1,6 @@
-import React from 'react';
+import { OptionalObject } from '@/types';
 import { Handle, NodeResizer, Position } from '@xyflow/react';
+import React from 'react';
 
 type HandleConfig = {
   type: 'source' | 'target';

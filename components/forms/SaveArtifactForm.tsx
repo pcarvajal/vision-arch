@@ -6,9 +6,9 @@ import {
   ArtifactSchema,
   artifactSchema,
 } from '@/libs/validators/artifact.schema';
+import useUserStore from '@/store/userStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Textarea } from '@nextui-org/react';
-import { useReactFlow } from '@xyflow/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -24,8 +24,8 @@ const defaultValues = {
 };
 
 export const SaveArtifactForm = () => {
-  const { toObject } = useReactFlow();
   const [loading, setLoading] = useState(false);
+  const artifact = useUserStore((state) => state.artifactObject);
   const router = useRouter();
 
   const methods = useForm({
@@ -42,11 +42,17 @@ export const SaveArtifactForm = () => {
 
   const onSubmit = async (values: ArtifactSchema) => {
     setLoading(true);
+
+    if (artifact === null) {
+      setLoading(false);
+      return toast.error('Error al recuperar el artefacto');
+    }
+
     const params = {
       ...values,
-      data: JSON.stringify(toObject()),
-      type: 'goals',
-      yearProjection: 2025,
+      data: JSON.stringify(artifact),
+      type: artifact?.type,
+      yearProjection: artifact?.year,
     };
     const result = await saveArtifactAction(params);
 
@@ -57,7 +63,7 @@ export const SaveArtifactForm = () => {
 
     setLoading(false);
     reset(defaultValues);
-    router.push(routes.protected.index);
+    return toast.success('Artefacto guardado correctamente');
   };
 
   return (

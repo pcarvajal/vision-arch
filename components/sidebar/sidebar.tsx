@@ -15,6 +15,7 @@ import { ReportsIcon } from '../icons/sidebar/reports-icon';
 import { SettingsIcon } from '../icons/sidebar/settings-icon';
 import { ViewIcon } from '../icons/sidebar/view-icon';
 import { useSidebarContext } from '../layout/layout-context';
+import { CollapseItems } from './collapse-items';
 import { CompaniesDropdown } from './companies-dropdown';
 import { SidebarItem } from './sidebar-item';
 import { SidebarMenu } from './sidebar-menu';
@@ -70,11 +71,23 @@ export const SidebarWrapper = () => {
               />
             </SidebarMenu>
             <SidebarMenu title="Artefactos">
-              <SidebarItem
-                isActive={pathname === routes.protected.artifacts.goals}
+              <CollapseItems
                 title="Objetivos"
+                items={[
+                  {
+                    title: 'Crear',
+                    href: routes.protected.artifacts.goals.create,
+                  },
+                  {
+                    title: 'Actualizar',
+                    href: routes.protected.artifacts.goals.edit,
+                  },
+                  {
+                    title: 'Visualizar',
+                    href: routes.protected.artifacts.goals.visualize,
+                  },
+                ]}
                 icon={<ViewIcon />}
-                href={routes.protected.artifacts.goals}
               />
               <SidebarItem
                 isActive={pathname === '#'}

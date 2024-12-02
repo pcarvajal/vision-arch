@@ -1,5 +1,6 @@
 'use client';
 
+import { GoalsNodeTypes } from '@/types';
 import { Card, CardBody, Input, Textarea } from '@nextui-org/react';
 import {
   Handle,
@@ -20,7 +21,7 @@ export interface Data extends Record<string, unknown> {
 }
 
 export const DefaultNode = (props: NodeProps<Node<Data>>) => {
-  const { setNodes } = useReactFlow();
+  const { setNodes, updateNodeData } = useReactFlow();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isTitleFocused, setIsTitleFocused] = useState(false);
@@ -34,9 +35,23 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
   } = props.data;
 
   useEffect(() => {
-    if (initialTitle) setTitle(initialTitle);
-    if (initialDescription) setDescription(initialDescription);
+    if (initialTitle) {
+      setTitle(initialTitle);
+    }
+    if (initialDescription) {
+      setDescription(initialDescription);
+    }
   }, [initialTitle, initialDescription]);
+
+  const onChangeTitle = (value: string) => {
+    setTitle(value);
+    updateNodeData(props.id, { title: value });
+  };
+
+  const onChangeDescription = (value: string) => {
+    setDescription(value);
+    updateNodeData(props.id, { description: value });
+  };
 
   return (
     <div
@@ -81,6 +96,7 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
                   onValueChange={setTitle}
                   onFocus={() => setIsTitleFocused(true)}
                   onBlur={() => setIsTitleFocused(false)}
+                  onChange={(e) => onChangeTitle(e.target.value)}
                 />
               )}
             </div>
@@ -103,6 +119,7 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
                   onValueChange={setDescription}
                   onFocus={() => setIsDescriptionFocused(true)}
                   onBlur={() => setIsDescriptionFocused(false)}
+                  onChange={(e) => onChangeDescription(e.target.value)}
                 />
               )}
             </div>

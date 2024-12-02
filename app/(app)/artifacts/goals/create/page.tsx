@@ -1,6 +1,6 @@
-import React from 'react';
-import { GoalsView } from '@/components/views/(app)/artifacts/goals';
+import { CreateGoalsView } from '@/components/views/(app)/artifacts/goals/create';
 import { Metadata } from 'next';
+import React from 'react';
 
 export const metadata: Metadata = {
   title: 'Objetivos',
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const GoalsPage = () => {
-  return <GoalsView />;
+  return <CreateGoalsView />;
 };
 
 export default GoalsPage;

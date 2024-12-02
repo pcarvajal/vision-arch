@@ -1,3 +1,4 @@
+import { UIColors } from '@/types';
 import { Slider } from '@nextui-org/react';
 
 interface YearsSliderProps {

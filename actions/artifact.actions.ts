@@ -4,9 +4,11 @@ import { routes } from '@/config/routes';
 import { accounts } from '@/libs/backend/accounts';
 import { databases } from '@/libs/backend/databases';
 import { teams } from '@/libs/backend/teams';
+import { parseStringify } from '@/libs/utils';
+import { CreateArtifactParams } from '@/types';
 import { Artifact, ArtifactTypes } from '@/types/types';
 import { redirect } from 'next/navigation';
-import { ID } from 'node-appwrite';
+import { ID, Query } from 'node-appwrite';
 
 const { APPWRITE_DATABASE_ID: databaseId, APPWRITE_ARTIFACTS_ID: artifactsId } =
   process.env;
@@ -44,4 +46,64 @@ const saveArtifactAction = async (params: CreateArtifactParams) => {
   redirect(routes.protected.index);
 };
 
-export { saveArtifactAction };
+const getArtifactsAction = async (type: string) => {
+  try {
+    const artifacts = await databases.getDocuments<Artifact>(
+      databaseId!,
+      artifactsId!,
+      [Query.equal('type', type), Query.orderAsc('yearProjection')],
+    );
+
+    if (artifacts === null) {
+      return { message: 'No se encuentran artefactos creados', type: 'error' };
+    }
+
+    return parseStringify(artifacts.documents);
+  } catch (error: any) {
+    console.error('Error obteniendo artefactos:', error);
+    return { message: error?.message, type: 'error' };
+  }
+};
+
+const getArtifactAction = async (id: string) => {
+  try {
+    const artifact = await databases.getDocument(databaseId!, artifactsId!, id);
+
+    if (artifact === null) {
+      return { message: 'No se encuentran el artefacto', type: 'error' };
+    }
+
+    return parseStringify(artifact);
+  } catch (error: any) {
+    console.error('Error obteniendo artefacto:', error);
+    return { message: error?.message, type: 'error' };
+  }
+};
+
+const updateArtifactAction = async (id: string, data: string) => {
+  try {
+    await databases.updateDocument<Artifact>(databaseId!, artifactsId!, id, {
+      data: data,
+    });
+  } catch (error: any) {
+    console.error('Error actualizando artefacto:', error);
+    return { message: error?.message, type: 'error' };
+  }
+};
+
+const deleteArtifactAction = async (id: string) => {
+  try {
+    await databases.deleteDocument(databaseId!, artifactsId!, id);
+  } catch (error: any) {
+    console.error('Error eliminando artefacto:', error);
+    return { message: error?.message, type: 'error' };
+  }
+};
+
+export {
+  saveArtifactAction,
+  getArtifactsAction,
+  getArtifactAction,
+  updateArtifactAction,
+  deleteArtifactAction,
+};

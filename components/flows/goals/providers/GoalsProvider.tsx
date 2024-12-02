@@ -1,3 +1,4 @@
+import { GoalsNodeData, GoalsNodeTypes } from '@/types';
 import {
   Button,
   Dropdown,
@@ -21,26 +22,38 @@ const GoalsProviderSelect = () => {
     switch (nodeType) {
       case 'objetiveNode':
         return {
+          title: '',
+          description: '',
           borderColor: 'border-green-600',
         };
       case 'problemNode':
         return {
+          title: '',
+          description: '',
           borderColor: 'border-red-600',
         };
       case 'conceptNode':
         return {
+          title: '',
+          description: '',
           borderColor: 'border-purple-600',
         };
       case 'featureNode':
         return {
+          title: '',
+          description: '',
           borderColor: 'border-yellow-600',
         };
       case 'basicNode':
         return {
+          title: '',
+          description: '',
           borderColor: 'border-gray-600',
         };
       default:
         return {
+          title: '',
+          description: '',
           borderColor: 'border-gray-600',
         };
     }

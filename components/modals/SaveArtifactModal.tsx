@@ -16,7 +16,7 @@ export default function SaveArtifactModal() {
 
   return (
     <>
-      <Button onPress={onOpen} color="primary" variant="shadow">
+      <Button onPress={onOpen} color="success" variant="shadow">
         Guardar Artefacto
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

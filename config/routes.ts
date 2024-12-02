@@ -1,9 +1,15 @@
+import { create } from 'domain';
+
 export const routes = {
   protected: {
     index: '/',
     company: '/company',
     artifacts: {
-      goals: '/artifacts/goals',
+      goals: {
+        create: '/artifacts/goals/create',
+        edit: '/artifacts/goals/edit',
+        visualize: '/artifacts/goals/visualize',
+      },
     },
   },
   public: {

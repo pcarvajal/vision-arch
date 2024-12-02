@@ -9,20 +9,23 @@ import {
   MiniMap,
   Node,
   Panel,
-  ReactFlow,
+  ReactFlowInstance,
   useEdgesState,
   useNodesState,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { generateObjetivesModel } from '@/actions/ai.actions';
+import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
 import useUserStore from '@/store/userStore';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import ThinkingLoader from '../shared/ThinkingLoader';
-import YearsSlider from '../shared/YearsSlider';
+import ThinkingLoader from '../../shared/ThinkingLoader';
+import YearsSlider from '../../shared/YearsSlider';
+import { Flow } from '../Flow';
 import { DeleteButtonEdge } from './edges/DeleteButtonEdge';
-import { DefaultNode } from './nodes/GoalsNodes/DefaultNode';
+import { DefaultNode } from './GoalsNodes/DefaultNode';
 import NodeProviderSelect from './providers/GoalsProvider';
+import GoalsProviderSelect from './providers/GoalsProvider';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
@@ -42,9 +45,15 @@ const edgeTypes = {
 
 export default function GoalsFlow() {
   const [loading, setLoading] = useState(false);
-  const company = useUserStore((state) => state.company);
+  const [year, setYear] = useState(2024);
+  const [reactFlowInstance, setReactFLowInstance] =
+    useState<ReactFlowInstance | null>(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, OnEdgesChange] = useEdgesState(initialEdges);
+
+  const company = useUserStore((state) => state.company);
+  const setArtifact = useUserStore((state) => state.setArtifactObject);
+  const deleteArtifact = useUserStore((state) => state.deleteArtifactObject);
 
   const onConnect = useCallback(
     (connection: Connection) => {
@@ -61,6 +70,7 @@ export default function GoalsFlow() {
 
   const onSelectYear = async (year: number) => {
     setLoading(true);
+    setYear(year);
     const companyId = company?.$id;
     if (!companyId) {
       setLoading(false);
@@ -84,16 +94,25 @@ export default function GoalsFlow() {
     setLoading(false);
   };
 
+  useEffect(() => {
+    const flow = reactFlowInstance?.toObject();
+    if (flow) {
+      deleteArtifact();
+      setArtifact({ data: flow, year, type: 'goals' });
+    }
+  }, [reactFlowInstance?.getEdges(), reactFlowInstance?.getNodes()]);
+
   return (
-    <div className="flex h-screen w-screen">
+    <>
       <ThinkingLoader show={loading} />
-      <ReactFlow
-        className="overflow-hidden"
+      <Flow
+        className="h-full w-full"
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={OnEdgesChange}
         onConnect={onConnect}
+        onInit={setReactFLowInstance}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
       >
@@ -110,10 +129,14 @@ export default function GoalsFlow() {
             onChangeEnd={onSelectYear}
           />
         </Panel>
+        <Panel position="top-right" className="flex gap-4">
+          <SaveArtifactModal />
+          <GoalsProviderSelect />
+        </Panel>
         <Controls />
         <MiniMap />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
-      </ReactFlow>
-    </div>
+      </Flow>
+    </>
   );
 }
