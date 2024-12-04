@@ -14,7 +14,7 @@ import {
   useNodesState,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { useCallback, useState } from 'react';
+import { CSSProperties, useCallback, useState } from 'react';
 import { CustomDefaultEdge } from '../CustomDefaultEdge';
 import { Flow } from '../Flow';
 import { ActorsNode } from './nodes/ActorsNode';
@@ -37,8 +37,6 @@ const initialNodes: Node[] = [
       backgroundColor: 'bg-pink-600',
       textColor: 'text-white',
     },
-    parentId: '1',
-    extent: 'parent',
   },
   {
     id: '3',
@@ -49,8 +47,6 @@ const initialNodes: Node[] = [
       backgroundColor: 'bg-yellow-400',
       textColor: 'text-white',
     },
-    parentId: '1',
-    extent: 'parent',
   },
   {
     id: '4',

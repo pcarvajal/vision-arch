@@ -10,7 +10,7 @@ import {
   Position,
   useReactFlow,
 } from '@xyflow/react';
-import { CircleX } from 'lucide-react';
+import { Car, CircleX } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export interface Data extends Record<string, unknown> {
@@ -22,6 +22,8 @@ export interface Data extends Record<string, unknown> {
 }
 
 export const defaultNode = (props: NodeProps<Node<Data>>) => {
+  const initialWidth = 200;
+  const initialHeight = 100;
   const [title, setTitle] = useState('');
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const { setNodes, updateNodeData } = useReactFlow();
@@ -32,7 +34,7 @@ export const defaultNode = (props: NodeProps<Node<Data>>) => {
   };
 
   const {
-    backgroundColor,
+    backgroundColor = 'bg-gray-800',
     titlePlaceholder,
     title: initialTitle,
     textColor,
@@ -45,13 +47,7 @@ export const defaultNode = (props: NodeProps<Node<Data>>) => {
   }, [initialTitle]);
 
   return (
-    <div
-      className="flex h-full max-w-full"
-      style={{
-        minWidth: '210px',
-        minHeight: '100px',
-      }}
-    >
+    <>
       <NodeResizer
         lineStyle={{
           borderWidth: '5px',
@@ -59,38 +55,40 @@ export const defaultNode = (props: NodeProps<Node<Data>>) => {
           borderColor: 'GrayText',
           opacity: 0.1,
         }}
-        minWidth={210}
-        minHeight={100}
+        minWidth={initialWidth}
+        minHeight={initialHeight}
       />
-      <Card isHoverable={true} className={`w-[210px] grow border-2`}>
-        <CardBody className={`flex w-full flex-col ${backgroundColor}`}>
-          <div className="flex flex-col gap-2">
-            <div className="flex w-full text-center">
-              {!isTitleFocused && title && (
-                <h4
-                  className={`w-full cursor-text scroll-m-20 break-words text-xl font-semibold tracking-tight ${textColor}`}
-                  onClick={() => {
-                    setIsTitleFocused(true);
-                  }}
-                >
-                  {title}
-                </h4>
-              )}
-              {(isTitleFocused || !title) && (
-                <Input
-                  value={title}
-                  placeholder={titlePlaceholder ?? 'Titulo'}
-                  onValueChange={setTitle}
-                  onFocus={() => setIsTitleFocused(true)}
-                  onBlur={() => setIsTitleFocused(false)}
-                  onChange={(e) => onChangeTitle(e.target.value)}
-                />
-              )}
-            </div>
+      <Card
+        className={`h-full min-h-[${initialHeight}px] w-full min-w-[${initialWidth}px] ${backgroundColor}`}
+      >
+        <CardBody className="flex flex-col items-center justify-center">
+          <div className="w-full text-center text-white">
+            {!isTitleFocused && title && (
+              <h4
+                className="w-full cursor-text scroll-m-20 break-words text-xl font-semibold tracking-tight"
+                onClick={() => {
+                  setIsTitleFocused(true);
+                }}
+              >
+                {title}
+              </h4>
+            )}
           </div>
-          <div className="mt-auto flex justify-center">
+          <div className="w-full text-center">
+            {(isTitleFocused || !title) && (
+              <Input
+                value={title}
+                placeholder={titlePlaceholder}
+                onValueChange={setTitle}
+                onFocus={() => setIsTitleFocused(true)}
+                onBlur={() => setIsTitleFocused(false)}
+                onChange={(e) => onChangeTitle(e.target.value)}
+              />
+            )}
+          </div>
+          <div className="flex items-center justify-center">
             <CircleX
-              className={`mt-2 h-full cursor-pointer ${textColor}`}
+              className="mt-2 h-full cursor-pointer text-red-600"
               onClick={() =>
                 setNodes((nodes) =>
                   nodes.filter((node) => node.id !== props.id),
@@ -102,6 +100,6 @@ export const defaultNode = (props: NodeProps<Node<Data>>) => {
       </Card>
       <Handle type="source" position={Position.Right} />
       <Handle type="target" position={Position.Left} />
-    </div>
+    </>
   );
 };

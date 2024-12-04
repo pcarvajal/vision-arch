@@ -2,8 +2,11 @@ import { Card, CardBody } from '@nextui-org/react';
 import { NodeResizer } from '@xyflow/react';
 
 export const SubflowNode = () => {
+  const initialWidth = 200;
+  const initialHeight = 100;
+
   return (
-    <div className="flex h-full max-w-full">
+    <>
       <NodeResizer
         lineStyle={{
           borderWidth: '5px',
@@ -11,10 +14,12 @@ export const SubflowNode = () => {
           borderColor: 'GrayText',
           opacity: 0.1,
         }}
+        minWidth={initialWidth}
+        minHeight={initialHeight}
       />
-      <Card className={`w-[200] grow border-2 border-red-600`}>
-        <CardBody className="flex w-full flex-col">SubflowNode</CardBody>
-      </Card>
-    </div>
+      <Card
+        className={`h-full border-2 border-purple-500 bg-zinc-100 opacity-80 min-h-[${initialHeight}px] w-full min-w-[${initialWidth}px]`}
+      ></Card>
+    </>
   );
 };

@@ -6,6 +6,7 @@ import {
   OnNodesChange,
   ReactFlow,
 } from '@xyflow/react';
+import { CSSProperties } from 'react';
 
 interface FlowProps {
   children?: React.ReactNode;
@@ -18,6 +19,7 @@ interface FlowProps {
   onConnect: (connection: Connection) => void;
   nodeTypes: any;
   edgeTypes: any;
+  styles?: CSSProperties;
 }
 
 export const Flow = ({
@@ -31,6 +33,7 @@ export const Flow = ({
   onConnect,
   edgeTypes,
   nodeTypes,
+  styles,
 }: FlowProps) => {
   return (
     <ReactFlow
@@ -43,6 +46,7 @@ export const Flow = ({
       onInit={onInit}
       nodeTypes={nodeTypes}
       edgeTypes={edgeTypes}
+      style={{ styles }}
     >
       {children}
     </ReactFlow>

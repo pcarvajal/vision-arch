@@ -16,16 +16,12 @@ export interface Data extends Record<string, unknown> {
 }
 
 export const ActorsNode = (props: NodeProps<Node<Data>>) => {
+  const initialWidth = 100;
+  const initialHeight = 150;
   const { setNodes, updateNodeData } = useReactFlow();
   const { actorName, backgroundColor, textColor } = props.data;
   return (
-    <div
-      className="flex h-full max-w-full"
-      style={{
-        minWidth: '100px',
-        minHeight: '150px',
-      }}
-    >
+    <>
       <NodeResizer
         lineStyle={{
           borderWidth: '5px',
@@ -33,31 +29,33 @@ export const ActorsNode = (props: NodeProps<Node<Data>>) => {
           borderColor: 'GrayText',
           opacity: 0.1,
         }}
-        minWidth={100}
-        minHeight={150}
+        minWidth={initialWidth}
+        minHeight={initialHeight}
       />
-      <Card isHoverable={false} className={`w-[100px] grow ${backgroundColor}`}>
-        <CardBody>
-          <div className={`flex flex-col`}>
-            <div className="flex flex-col items-center justify-center">
-              <h1 className={`${textColor}`}>{actorName}</h1>
-              <PersonStanding className={textColor} size={60} />
-            </div>
-            <div className="mt-4 flex flex-col items-center justify-center">
-              <CircleX
-                className={`h-full cursor-pointer ${textColor}`}
-                onClick={() =>
-                  setNodes((nodes) =>
-                    nodes.filter((node) => node.id !== props.id),
-                  )
-                }
-              />
-            </div>
+      <Card
+        className={`h-full w-full min-h-${initialHeight} min-w-${initialWidth} ${backgroundColor}`}
+      >
+        <CardBody className="flex flex-col items-center justify-center">
+          <div className="w-full text-center text-white">
+            <h1 className={`${textColor}`}>{actorName}</h1>
+          </div>
+          <div className="flex items-center justify-center">
+            <PersonStanding className={textColor} size={60} />
+          </div>
+          <div className="flex items-center justify-center">
+            <CircleX
+              className={`h-full cursor-pointer ${textColor}`}
+              onClick={() =>
+                setNodes((nodes) =>
+                  nodes.filter((node) => node.id !== props.id),
+                )
+              }
+            />
           </div>
         </CardBody>
       </Card>
       <Handle type="source" position={Position.Right} />
       <Handle type="target" position={Position.Left} />
-    </div>
+    </>
   );
 };
