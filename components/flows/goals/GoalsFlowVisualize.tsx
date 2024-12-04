@@ -18,8 +18,8 @@ import YearsSlider from '@/components/shared/YearsSlider';
 import { Artifact } from '@/types/types';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { CustomDefaultEdge } from '../CustomDefaultEdge';
 import { Flow } from '../Flow';
-import { DeleteButtonEdge } from './edges/DeleteButtonEdge';
 import { DefaultNode } from './nodes/DefaultNode';
 import NodeProviderSelect from './providers/GoalsProvider';
 
@@ -36,7 +36,7 @@ const nodeTypes = {
 };
 
 const edgeTypes = {
-  deleteButtonEdge: DeleteButtonEdge,
+  deleteButtonEdge: CustomDefaultEdge,
 };
 
 interface GoalsFlowVisualizeProps {

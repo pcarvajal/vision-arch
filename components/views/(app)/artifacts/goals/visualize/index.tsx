@@ -1,7 +1,6 @@
 import { getArtifactsAction } from '@/actions/artifact.actions';
 import GoalsFlowVisualize from '@/components/flows/goals/GoalsFlowVisualize';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
-import YearsSlider from '@/components/shared/YearsSlider';
 import { routes } from '@/config/routes';
 import { Card, CardBody } from '@nextui-org/react';
 import { Atom, Goal, HouseIcon } from 'lucide-react';

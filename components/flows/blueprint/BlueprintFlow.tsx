@@ -14,38 +14,48 @@ import {
   useNodesState,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { text } from 'stream/consumers';
 import { useCallback, useState } from 'react';
 import { CustomDefaultEdge } from '../CustomDefaultEdge';
 import { Flow } from '../Flow';
 import { ActorsNode } from './nodes/ActorsNode';
 import { defaultNode } from './nodes/DefaultNode';
+import { SubflowNode } from './nodes/SubflowNode';
 
 const initialNodes: Node[] = [
   {
     id: '1',
-    type: 'actorsNode',
-    position: { x: 250, y: 5 },
-    data: {
-      actorName: 'actor con el texto muy largo',
-      backgroundColor: 'bg-pink-600',
-      textColor: 'text-white',
-    },
+    type: 'subflowNode',
+    position: { x: 750, y: 5 },
+    data: {},
   },
   {
     id: '2',
+    type: 'actorsNode',
+    position: { x: 250, y: 5 },
+    data: {
+      actorName: 'Persona',
+      backgroundColor: 'bg-pink-600',
+      textColor: 'text-white',
+    },
+    parentId: '1',
+    extent: 'parent',
+  },
+  {
+    id: '3',
     type: 'appNode',
-    position: { x: 450, y: 5 },
+    position: { x: 350, y: 5 },
     data: {
       title: 'Caracteristica 1',
       backgroundColor: 'bg-yellow-400',
       textColor: 'text-white',
     },
+    parentId: '1',
+    extent: 'parent',
   },
   {
-    id: '3',
+    id: '4',
     type: 'appNode',
-    position: { x: 550, y: 5 },
+    position: { x: 450, y: 5 },
     data: {
       title: 'Caracteristica 1',
       backgroundColor: 'bg-gray-800',
@@ -53,7 +63,7 @@ const initialNodes: Node[] = [
     },
   },
   {
-    id: '4',
+    id: '5',
     type: 'appNode',
     position: { x: 550, y: 5 },
     data: {
@@ -63,9 +73,9 @@ const initialNodes: Node[] = [
     },
   },
   {
-    id: '5',
+    id: '6',
     type: 'appNode',
-    position: { x: 550, y: 5 },
+    position: { x: 650, y: 5 },
     data: {
       title: 'Caracteristica 1',
       backgroundColor: 'bg-purple-900',
@@ -76,6 +86,7 @@ const initialNodes: Node[] = [
 const initialEdges: Edge[] = [];
 
 const nodeTypes = {
+  subflowNode: SubflowNode,
   actorsNode: ActorsNode,
   appNode: defaultNode,
 };
