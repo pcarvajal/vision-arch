@@ -8,6 +8,11 @@ export const routes = {
         edit: '/artifacts/goals/edit',
         visualize: '/artifacts/goals/visualize',
       },
+      blueprints: {
+        create: '/artifacts/blueprints/create',
+        edit: '/artifacts/blueprints/edit',
+        visualize: '/artifacts/blueprints/visualize',
+      },
     },
   },
   public: {

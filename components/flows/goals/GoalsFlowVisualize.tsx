@@ -20,7 +20,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { Flow } from '../Flow';
 import { DeleteButtonEdge } from './edges/DeleteButtonEdge';
-import { DefaultNode } from './GoalsNodes/DefaultNode';
+import { DefaultNode } from './nodes/DefaultNode';
 import NodeProviderSelect from './providers/GoalsProvider';
 
 const initialNodes: Node[] = [];

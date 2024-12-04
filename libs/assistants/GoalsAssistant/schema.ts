@@ -107,7 +107,7 @@ export const schema = {
           type: {
             type: 'string',
             description: 'The type of the edge.',
-            enum: ['deleteButtonEdge'],
+            enum: ['customDefaultEdge'],
           },
         },
         required: ['id', 'source', 'target', 'animated', 'type'],

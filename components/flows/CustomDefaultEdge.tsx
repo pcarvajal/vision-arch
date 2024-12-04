@@ -7,7 +7,7 @@ import {
   useReactFlow,
 } from '@xyflow/react';
 
-export const DeleteButtonEdge = (props: EdgeProps) => {
+export const CustomDefaultEdge = (props: EdgeProps) => {
   const {
     id,
     sourceX,

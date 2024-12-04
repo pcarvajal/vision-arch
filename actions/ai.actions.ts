@@ -4,12 +4,12 @@ import { getBusinessObjetiveModelMessages } from '@/libs/assistants/GoalsAssista
 import { databases } from '@/libs/backend/databases';
 import openai from '@/libs/openAI';
 import { parseStringify } from '@/libs/utils';
+import { GenerateCompanyObjetivesParams } from '@/types';
 import { schema } from '../libs/assistants/GoalsAssistant/schema';
 
 const {
   APPWRITE_DATABASE_ID: databaseId,
   APPWRITE_COMPANIES_ID: companiesId,
-  APPWRITE_USERS_ID: usersId,
   OPENAI_MODEL: modelAi,
 } = process.env;
 

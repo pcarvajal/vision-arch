@@ -21,9 +21,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import ThinkingLoader from '../../shared/ThinkingLoader';
 import YearsSlider from '../../shared/YearsSlider';
+import { CustomDefaultEdge } from '../CustomDefaultEdge';
 import { Flow } from '../Flow';
-import { DeleteButtonEdge } from './edges/DeleteButtonEdge';
-import { DefaultNode } from './GoalsNodes/DefaultNode';
+import { DefaultNode } from './nodes/DefaultNode';
 import NodeProviderSelect from './providers/GoalsProvider';
 import GoalsProviderSelect from './providers/GoalsProvider';
 
@@ -40,7 +40,7 @@ const nodeTypes = {
 };
 
 const edgeTypes = {
-  deleteButtonEdge: DeleteButtonEdge,
+  customDefaultEdge: CustomDefaultEdge,
 };
 
 export default function GoalsFlow() {
@@ -61,7 +61,7 @@ export default function GoalsFlow() {
         ...connection,
         animated: true,
         id: `${edges.length + 1}`,
-        type: 'deleteButtonEdge',
+        type: 'customDefaultEdge',
       };
       setEdges([...edges, edge]);
     },

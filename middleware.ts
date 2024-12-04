@@ -6,7 +6,19 @@ import { accounts } from './libs/backend/accounts';
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const protectedRoutes = [`/`, `/company`, `/artifacts`, `/artifacts/goals`];
+  const protectedRoutes = [
+    `/`,
+    `/company`,
+    `/artifacts`,
+    `/artifacts/goals`,
+    `/artifacts/goals/create`,
+    `/artifacts/goals/visualize`,
+    `/artifacts/goals/edit`,
+    '/artifacts/blueprints',
+    `/artifacts/blueprints/create`,
+    `/artifacts/blueprints/visualize`,
+    `/artifacts/blueprints/edit`,
+  ];
   const publicRoutes = [`/login`, `/register`];
 
   const isProtectedRoute = protectedRoutes.some((route) => pathname === route);
@@ -50,5 +62,12 @@ export const config = {
     '/login',
     '/register',
     '/artifacts/goals',
+    `/artifacts/goals/create`,
+    `/artifacts/goals/visualize`,
+    `/artifacts/goals/edit`,
+    '/artifacts/blueprints',
+    `/artifacts/blueprints/create`,
+    `/artifacts/blueprints/visualize`,
+    `/artifacts/blueprints/edit`,
   ],
 };

@@ -28,7 +28,7 @@ import { SelectArtifact } from '../../shared/SelectArtifact';
 import ThinkingLoader from '../../shared/ThinkingLoader';
 import { Flow } from '../Flow';
 import { DeleteButtonEdge } from './edges/DeleteButtonEdge';
-import { DefaultNode } from './GoalsNodes/DefaultNode';
+import { DefaultNode } from './nodes/DefaultNode';
 import NodeProviderSelect from './providers/GoalsProvider';
 import GoalsProviderSelect from './providers/GoalsProvider';
 

@@ -89,10 +89,23 @@ export const SidebarWrapper = () => {
                 ]}
                 icon={<ViewIcon />}
               />
-              <SidebarItem
-                isActive={pathname === '#'}
-                title="Negocio"
+              <CollapseItems
+                title="Conceptos"
                 icon={<ProductsIcon />}
+                items={[
+                  {
+                    title: 'Crear',
+                    href: routes.protected.artifacts.blueprints.create,
+                  },
+                  {
+                    title: 'Actualizar',
+                    href: routes.protected.artifacts.blueprints.edit,
+                  },
+                  {
+                    title: 'Visualizar',
+                    href: routes.protected.artifacts.blueprints.visualize,
+                  },
+                ]}
               />
               <SidebarItem
                 isActive={pathname === '#'}

@@ -18,8 +18,7 @@ declare type GoalsNodeTypes =
   | 'conceptNode'
   | 'featureNode'
   | 'basicNode';
-
-declare type GoalsEdgeTypes = 'default';
+declare type BlueprintNodeTypes = 'actorsNode';
 
 declare type GoalsNodeData = {
   title?: string;
