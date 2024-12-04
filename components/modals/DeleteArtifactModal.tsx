@@ -21,7 +21,6 @@ export default function DeleteArtifactModal({
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleOnDelete = () => {
-    console.log('Deleting artifact');
     onDelete();
     onOpenChange();
   };

@@ -8,6 +8,12 @@ import { project } from '@/libs/backend/project';
 import { teams } from '@/libs/backend/teams';
 import { users } from '@/libs/backend/users';
 import { parseStringify } from '@/libs/utils';
+import {
+  ForgotPasswordParams,
+  LoginParams,
+  RegisterParams,
+  ResetPasswordParams,
+} from '@/types';
 import { redirect } from 'next/navigation';
 import { ID } from 'node-appwrite';
 

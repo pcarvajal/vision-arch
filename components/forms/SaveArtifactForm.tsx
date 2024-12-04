@@ -26,7 +26,7 @@ const defaultValues = {
 export const SaveArtifactForm = () => {
   const [loading, setLoading] = useState(false);
   const artifact = useUserStore((state) => state.artifactObject);
-  const router = useRouter();
+  const deleteArtifact = useUserStore((state) => state.deleteArtifactObject);
 
   const methods = useForm({
     defaultValues,
@@ -61,6 +61,7 @@ export const SaveArtifactForm = () => {
       return toast.error(result.message);
     }
 
+    deleteArtifact();
     setLoading(false);
     reset(defaultValues);
     return toast.success('Artefacto guardado correctamente');

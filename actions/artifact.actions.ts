@@ -22,6 +22,23 @@ const saveArtifactAction = async (params: CreateArtifactParams) => {
       return { message: 'No tiene asignado un team', type: 'error' };
     }
 
+    const artifacts = await databases.getDocuments<Artifact>(
+      databaseId!,
+      artifactsId!,
+      [
+        Query.equal('type', params.type),
+        Query.equal('yearProjection', params.yearProjection),
+      ],
+    );
+
+    if (artifacts && artifacts?.documents?.length > 0) {
+      await databases.deleteDocument(
+        databaseId!,
+        artifactsId!,
+        artifacts.documents[0].$id,
+      );
+    }
+
     const newArtifact = {
       name: params.name,
       description: params.description,
@@ -80,6 +97,26 @@ const getArtifactAction = async (id: string) => {
   }
 };
 
+const getArtifactByYearProjectionAndType = async (
+  yearProjection: number,
+  type: ArtifactTypes,
+) => {
+  try {
+    const artifact = await databases.getDocuments<Artifact>(
+      databaseId!,
+      artifactsId!,
+      [
+        Query.equal('yearProjection', yearProjection),
+        Query.equal('type', type),
+      ],
+    );
+    return parseStringify(artifact?.documents);
+  } catch (error: any) {
+    console.error('Error obteniendo artefacto por año de proyección:', error);
+    return { message: error?.message, type: 'error' };
+  }
+};
+
 const updateArtifactAction = async (id: string, data: string) => {
   try {
     await databases.updateDocument<Artifact>(databaseId!, artifactsId!, id, {
@@ -106,4 +143,5 @@ export {
   getArtifactAction,
   updateArtifactAction,
   deleteArtifactAction,
+  getArtifactByYearProjectionAndType,
 };

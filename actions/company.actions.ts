@@ -1,11 +1,11 @@
 'use server';
 
-import { roles } from '@/config/constants';
 import { RolesEnum } from '@/config/enum';
 import { accounts } from '@/libs/backend/accounts';
 import { databases } from '@/libs/backend/databases';
 import { teams } from '@/libs/backend/teams';
 import { parseStringify } from '@/libs/utils';
+import { CreateCompanyParams } from '@/types';
 import { Company, User } from '@/types/types';
 import { ID } from 'node-appwrite';
 
@@ -68,6 +68,7 @@ const updateCompanyAction = async (params: CreateCompanyParams) => {
     return { message: error?.message, type: 'error' };
   }
 };
+
 const getCompanyAction = async (id: string) => {
   try {
     const company = await databases.getDocument<Company>(
