@@ -1,4 +1,6 @@
-import { Button } from '@nextui-org/react';
+'use client';
+
+import { Button, Input } from '@nextui-org/react';
 import {
   BezierEdge,
   EdgeLabelRenderer,
@@ -6,9 +8,12 @@ import {
   getBezierPath,
   useReactFlow,
 } from '@xyflow/react';
-import { X } from 'lucide-react';
+import { PencilLine, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export const CustomDefaultEdge = (props: EdgeProps) => {
+  const [label, setLabel] = useState('');
+  const [isLabelFocused, setIsLabelFocused] = useState(false);
   const {
     id,
     sourceX,
@@ -17,7 +22,7 @@ export const CustomDefaultEdge = (props: EdgeProps) => {
     targetY,
     sourcePosition,
     targetPosition,
-    label,
+    label: edgeLabel,
   } = props;
 
   const { setEdges } = useReactFlow();
@@ -31,6 +36,17 @@ export const CustomDefaultEdge = (props: EdgeProps) => {
     targetPosition,
   });
 
+  useEffect(() => {
+    if (edgeLabel !== '') setLabel(edgeLabel?.toString() || '');
+  }, [edgeLabel]);
+
+  const onChangeLabel = (value: string) => {
+    setLabel(value);
+  };
+  const onClickEditLabel = () => {
+    setIsLabelFocused(true);
+  };
+  console;
   return (
     <>
       <BezierEdge {...props} label={undefined} />
@@ -39,7 +55,35 @@ export const CustomDefaultEdge = (props: EdgeProps) => {
           className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center"
           style={{ left: labelX, top: labelY, pointerEvents: 'all' }}
         >
-          <h1 className="mb-2 text-center text-sm font-bold">{label}</h1>
+          {isLabelFocused && (
+            <Input
+              value={label}
+              placeholder={'Escribe ...'}
+              onValueChange={setLabel}
+              onFocus={() => setIsLabelFocused(true)}
+              onBlur={() => setIsLabelFocused(false)}
+              onChange={(e) => onChangeLabel(e.target.value)}
+              className="w-[100px]"
+            />
+          )}
+          {!label && !isLabelFocused && (
+            <Button
+              className="mb-1 flex h-fit w-fit"
+              radius="full"
+              variant="bordered"
+              onClick={onClickEditLabel}
+            >
+              <PencilLine size={12} />
+            </Button>
+          )}
+          {label && !isLabelFocused && (
+            <h1
+              className="mb-2 text-center text-sm font-bold"
+              onClick={onClickEditLabel}
+            >
+              {label}
+            </h1>
+          )}
           <Button
             isIconOnly
             radius="full"

@@ -52,7 +52,7 @@ Please respond with the complete JSON based on the provided data.
       "data": { 
         "label": "Web Portal",       
         "backgroundColor": "#f0abfc",
-        "textColor": "text-white",
+        "textColor": "#f8fafc",
         "type": "systemNode",
         "placeholder": "Etiqueta ...",
         "width": 200,
@@ -66,7 +66,7 @@ Please respond with the complete JSON based on the provided data.
       "data": {
         "label": "Order Management System",
         "backgroundColor": "#a78bfa",
-        "textColor": "text-white',
+        "textColor": "#f8fafc",
         "type": "processNode",
         "placeholder": "Etiqueta ...",
         "width": 200,
@@ -80,7 +80,7 @@ Please respond with the complete JSON based on the provided data.
       "data": {
         "label": "Product Database',
         "backgroundColor": "#f8fafc",
-        "textColor": "text-white',
+        "textColor": "#475569',
         "type": "dataNode",
         "placeholder": "Etiqueta ...",
         "width": 200,

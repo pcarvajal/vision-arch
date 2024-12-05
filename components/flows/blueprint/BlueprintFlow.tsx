@@ -28,78 +28,7 @@ import { ProviderNode } from '../ProviderNode';
 import { ActorNode } from './nodes/ActorNode';
 import { DefaultNode } from './nodes/DefaultNode';
 
-const initialNodes: Node[] = [
-  /*   {
-    id: '2',
-    type: 'actorNode',
-    position: { x: 250, y: 5 },
-    data: {
-      label: 'Persona',
-      backgroundColor: 'bg-pink-600',
-      textColor: 'text-white',
-      type: 'actorsNode',
-      placeholder: '...',
-      width: 200,
-      height: 100,
-    },
-  },
-  {
-    id: '3',
-    type: 'systemNode',
-    position: { x: 350, y: 5 },
-    data: {
-      label: 'Caracteristica 1',
-      backgroundColor: 'bg-yellow-400',
-      textColor: 'text-white',
-      type: 'systemNode',
-      placeholder: '...',
-      width: 200,
-      height: 100,
-    },
-  },
-  {
-    id: '4',
-    type: 'processNode',
-    position: { x: 450, y: 5 },
-    data: {
-      label: 'Caracteristica 1',
-      backgroundColor: 'bg-gray-800',
-      textColor: 'text-white',
-      type: 'processNode',
-      placeholder: '...',
-      width: 200,
-      height: 100,
-    },
-  },
-  {
-    id: '5',
-    type: 'dataNode',
-    position: { x: 550, y: 5 },
-    data: {
-      label: 'Caracteristica 1',
-      backgroundColor: 'bg-indigo-500',
-      textColor: 'text-white',
-      type: 'dataNode',
-      placeholder: '...',
-      width: 200,
-      height: 100,
-    },
-  },
-  {
-    id: '6',
-    type: 'infrastructureNode',
-    position: { x: 650, y: 5 },
-    data: {
-      label: 'Caracteristica 1',
-      backgroundColor: 'bg-purple-900',
-      textColor: 'text-white',
-      type: 'infrastructureNode',
-      placeholder: '...',
-      width: 200,
-      height: 100,
-    },
-  }, */
-];
+const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
 
 const nodeTypes = {
