@@ -33,7 +33,6 @@ export const Flow = ({
   onConnect,
   edgeTypes,
   nodeTypes,
-  styles,
 }: FlowProps) => {
   return (
     <ReactFlow
@@ -46,7 +45,6 @@ export const Flow = ({
       onInit={onInit}
       nodeTypes={nodeTypes}
       edgeTypes={edgeTypes}
-      style={{ styles }}
     >
       {children}
     </ReactFlow>

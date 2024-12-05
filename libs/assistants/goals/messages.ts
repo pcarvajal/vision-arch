@@ -1,4 +1,5 @@
-import { context, task } from '@/libs/assistants/GoalsAssistant/prompts';
+import { context } from '@/libs/assistants/context';
+import { task } from '@/libs/assistants/goals/prompt';
 import { ChatCompletionMessageParam } from 'openai/resources';
 
 export const getBusinessObjetiveModelMessages = (

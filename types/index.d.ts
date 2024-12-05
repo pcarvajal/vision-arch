@@ -18,7 +18,13 @@ declare type GoalsNodeTypes =
   | 'conceptNode'
   | 'featureNode'
   | 'basicNode';
-declare type BlueprintNodeTypes = 'actorsNode';
+declare type BlueprintNodeTypes =
+  | 'actorNode'
+  | 'systemNode'
+  | 'processNode'
+  | 'dataNode'
+  | 'infrastructureNode'
+  | 'subflowNode';
 
 declare type GoalsNodeData = {
   title?: string;
@@ -77,7 +83,7 @@ declare interface CreateCompanyParams {
   description: string;
 }
 
-declare interface GenerateCompanyObjetivesParams {
+declare interface GenerateArtifactParams {
   year: number;
   companyId: string;
 }

@@ -14,7 +14,7 @@ import {
   useNodesState,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { generateObjetivesModel } from '@/actions/ai.actions';
+import { generateGoalsModel } from '@/actions/ai.actions';
 import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
 import useUserStore from '@/store/userStore';
 import { useCallback, useEffect, useState } from 'react';
@@ -76,7 +76,7 @@ export default function GoalsFlow() {
       setLoading(false);
       return toast.error('No se ha encontrado la empresa');
     }
-    const result = await generateObjetivesModel({
+    const result = await generateGoalsModel({
       companyId,
       year,
     });
