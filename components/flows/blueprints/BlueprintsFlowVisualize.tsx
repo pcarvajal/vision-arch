@@ -20,28 +20,31 @@ import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { CustomDefaultEdge } from '../CustomDefaultEdge';
 import { Flow } from '../Flow';
+import { ActorNode } from './nodes/ActorNode';
 import { DefaultNode } from './nodes/DefaultNode';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
 
 const nodeTypes = {
-  objetiveNode: DefaultNode,
-  problemNode: DefaultNode,
-  conceptNode: DefaultNode,
-  featureNode: DefaultNode,
-  basicNode: DefaultNode,
+  actorNode: ActorNode,
+  systemNode: DefaultNode,
+  processNode: DefaultNode,
+  dataNode: DefaultNode,
+  infrastructureNode: DefaultNode,
 };
 
 const edgeTypes = {
-  deleteButtonEdge: CustomDefaultEdge,
+  customDefaultEdge: CustomDefaultEdge,
 };
 
 interface GoalsFlowVisualizeProps {
-  goals: Artifact[];
+  blueprints: Artifact[];
 }
 
-export default function GoalsFlowVisualize({ goals }: GoalsFlowVisualizeProps) {
+export default function GoalsFlowVisualize({
+  blueprints,
+}: GoalsFlowVisualizeProps) {
   const [loading, setLoading] = useState(false);
   const [years, setYears] = useState<number[]>([]);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -61,17 +64,17 @@ export default function GoalsFlowVisualize({ goals }: GoalsFlowVisualizeProps) {
   );
 
   useEffect(() => {
-    const yearsArr = goals.map((goal) => {
-      return goal.yearProjection;
+    const yearsArr = blueprints.map((artifact) => {
+      return artifact.yearProjection;
     });
     setYears(yearsArr);
-  }, [goals]);
+  }, [blueprints]);
 
   const onChangeYear = (year: number) => {
     setLoading(true);
-    const goal = goals.find((g) => g.yearProjection === year);
-    if (goal) {
-      const data = JSON.parse(goal.data);
+    const artifact = blueprints.find((g) => g.yearProjection === year);
+    if (artifact) {
+      const data = JSON.parse(artifact.data);
       setNodes(data.data.nodes);
       setEdges(data.data.edges);
     } else {

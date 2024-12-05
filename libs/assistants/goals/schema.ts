@@ -109,8 +109,21 @@ export const schema = {
             description: 'The type of the edge.',
             enum: ['customDefaultEdge'],
           },
+          data: {
+            type: 'object',
+            description: 'Additional data associated with the edge.',
+            properties: {
+              editLabel: {
+                type: 'boolean',
+                description: 'If label is editable.',
+                enum: [false],
+              },
+            },
+            required: ['editLabel'],
+            additionalProperties: false,
+          },
         },
-        required: ['id', 'source', 'target', 'animated', 'type'],
+        required: ['id', 'source', 'target', 'animated', 'type', 'data'],
         additionalProperties: false,
       },
     },

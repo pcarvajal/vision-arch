@@ -20,42 +20,42 @@ import {
 } from '@/actions/artifact.actions';
 import Loader from '@/components/layout/Loader';
 import DeleteArtifactModal from '@/components/modals/DeleteArtifactModal';
-import { goalsNodes } from '@/config/constants';
+import { blueprintsNodes, goalsNodes } from '@/config/constants';
 import { Button } from '@nextui-org/react';
-import { set } from 'mongoose';
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 import { SelectArtifact } from '../../shared/SelectArtifact';
 import { CustomDefaultEdge } from '../CustomDefaultEdge';
 import { Flow } from '../Flow';
 import { ProviderNode } from '../ProviderNode';
+import { ActorNode } from './nodes/ActorNode';
 import { DefaultNode } from './nodes/DefaultNode';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
 
 const nodeTypes = {
-  objetiveNode: DefaultNode,
-  problemNode: DefaultNode,
-  conceptNode: DefaultNode,
-  featureNode: DefaultNode,
-  basicNode: DefaultNode,
+  actorNode: ActorNode,
+  systemNode: DefaultNode,
+  processNode: DefaultNode,
+  dataNode: DefaultNode,
+  infrastructureNode: DefaultNode,
 };
 
 const edgeTypes = {
-  deleteButtonEdge: CustomDefaultEdge,
+  customDefaultEdge: CustomDefaultEdge,
 };
 
-interface GoalsFlowEditProps {
+interface BlueprintsFlowEditProps {
   items: {
     key: string;
     label: string;
   }[];
 }
 
-export default function GoalsFlowEdit({ items }: GoalsFlowEditProps) {
+export default function BlueprintsFlowEdit({ items }: BlueprintsFlowEditProps) {
   const [loading, setLoading] = useState(false);
-  const [selectedGoal, setSelectedGoal] = useState('');
+  const [selectArtifact, setSelectArtifact] = useState('');
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, OnEdgesChange] = useEdgesState(initialEdges);
 
@@ -73,7 +73,7 @@ export default function GoalsFlowEdit({ items }: GoalsFlowEditProps) {
   );
 
   const onChangeArtifactValue = async (value: string) => {
-    setSelectedGoal(value);
+    setSelectArtifact(value);
     setLoading(true);
     const artifact = await getArtifactAction(value);
 
@@ -93,13 +93,13 @@ export default function GoalsFlowEdit({ items }: GoalsFlowEditProps) {
 
   const onUpdateArtifact = async () => {
     setLoading(true);
-    if (selectedGoal === '') {
+    if (selectArtifact === '') {
       setLoading(false);
-      return toast.error('Debe seleccionar un objetivo');
+      return toast.error('Debe seleccionar un artefacto');
     }
 
     const result = await updateArtifactAction(
-      selectedGoal,
+      selectArtifact,
       JSON.stringify({ data: { nodes, edges } }),
     );
 
@@ -109,18 +109,18 @@ export default function GoalsFlowEdit({ items }: GoalsFlowEditProps) {
     }
 
     setLoading(false);
-    toast.success('Objetivo actualizado');
+    toast.success('Artefacto actualizado');
   };
 
   const onDeleteArtifact = async () => {
-    console.log(selectedGoal);
+    console.log(selectArtifact);
     setLoading(true);
-    if (selectedGoal === '') {
+    if (selectArtifact === '') {
       setLoading(false);
-      return toast.error('Debe seleccionar un objetivo');
+      return toast.error('Debe seleccionar un artefacto');
     }
 
-    const result = await deleteArtifactAction(selectedGoal);
+    const result = await deleteArtifactAction(selectArtifact);
 
     if (result?.type === 'error') {
       setLoading(false);
@@ -129,9 +129,9 @@ export default function GoalsFlowEdit({ items }: GoalsFlowEditProps) {
 
     setNodes([]);
     setEdges([]);
-    setSelectedGoal('');
+    setSelectArtifact('');
     setLoading(false);
-    toast.success('Objetivo eliminado');
+    toast.success('Artefacto eliminado');
   };
 
   return (
@@ -148,14 +148,14 @@ export default function GoalsFlowEdit({ items }: GoalsFlowEditProps) {
         edgeTypes={edgeTypes}
       >
         <Panel position="top-left" className="flex w-96 gap-4">
-          <ProviderNode nodes={goalsNodes} />
+          <ProviderNode nodes={blueprintsNodes} />
         </Panel>
         <Panel position="top-right" className="flex w-96 gap-4">
           <div className="flex w-full items-center space-x-4">
             <SelectArtifact
               items={items}
-              label="Objetivos guardados"
-              value={selectedGoal}
+              label="Artefactos guardados"
+              value={selectArtifact}
               onValueChange={onChangeArtifactValue}
             />
             <Button color="success" onClick={onUpdateArtifact}>

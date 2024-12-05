@@ -23,6 +23,7 @@ export const CustomDefaultEdge = (props: EdgeProps) => {
     sourcePosition,
     targetPosition,
     label: edgeLabel,
+    data,
   } = props;
 
   const { setEdges } = useReactFlow();
@@ -46,7 +47,7 @@ export const CustomDefaultEdge = (props: EdgeProps) => {
   const onClickEditLabel = () => {
     setIsLabelFocused(true);
   };
-  console;
+
   return (
     <>
       <BezierEdge {...props} label={undefined} />
@@ -70,7 +71,7 @@ export const CustomDefaultEdge = (props: EdgeProps) => {
             <Button
               className="mb-1 flex h-fit w-fit"
               radius="full"
-              variant="bordered"
+              variant="faded"
               onClick={onClickEditLabel}
             >
               <PencilLine size={12} />
