@@ -18,11 +18,13 @@ import '@xyflow/react/dist/style.css';
 import { generateBlueprintsModel } from '@/actions/ai.actions';
 import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
 import YearsSlider from '@/components/shared/YearsSlider';
+import { blueprintsNodes } from '@/config/constants';
 import useUserStore from '@/store/userStore';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { CustomDefaultEdge } from '../CustomDefaultEdge';
 import { Flow } from '../Flow';
+import { ProviderNode } from '../ProviderNode';
 import { ActorNode } from './nodes/ActorNode';
 import { DefaultNode } from './nodes/DefaultNode';
 
@@ -158,8 +160,6 @@ export default function BlueprintFlow() {
 
     const jsonResponse = JSON.parse(result);
 
-    console.log(jsonResponse);
-
     setNodes(jsonResponse.nodes);
     setEdges(jsonResponse.edges);
 
@@ -202,6 +202,7 @@ export default function BlueprintFlow() {
           />
         </Panel>
         <Panel position="top-right" className="flex gap-4">
+          <ProviderNode nodes={blueprintsNodes} />
           <SaveArtifactModal />
         </Panel>
         <Controls />

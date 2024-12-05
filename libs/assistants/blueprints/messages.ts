@@ -21,7 +21,7 @@ export const getBlueprintsModelMessages = (
     },
     {
       role: 'user',
-      content: `${task.replace(/{{(.*?)}}/g, (_: any, key: string) => props[key.trim() as keyof BlueprintModelMessagesProps] || '')}`,
+      content: `${task.replace(/{{(.*?)}}/g, (_: any, key: string) => props[key.trim() as keyof BlueprintModelMessagesProps] || '')}. All texts of the edges and nodes must be in Spanish`,
     },
   ];
 };

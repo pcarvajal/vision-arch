@@ -27,29 +27,30 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
   const [width, setWidth] = useState(200);
   const [height, setHeight] = useState(100);
   const [label, setLabel] = useState('');
+  const [backgroundColor, setBackgroundColor] = useState('bg-gray-400');
   const [isLabelFocused, setIsLabelFocused] = useState(false);
   const { setNodes, updateNodeData } = useReactFlow();
+
+  const {
+    height: initialHeight,
+    width: initialWidth,
+    backgroundColor: initialBackgroundColor,
+    label: initialLabel,
+    placeholder,
+    textColor,
+  } = props.data;
 
   const onChangeTitle = (value: string) => {
     setLabel(value);
     updateNodeData(props.id, { label: value });
   };
 
-  const {
-    height: initialHeight,
-    width: initialWidth,
-    backgroundColor: initialBackgroundColor,
-    placeholder,
-    label: initialLabel,
-    textColor,
-  } = props.data;
-
   useEffect(() => {
-    if (initialHeight) {
-      setWidth(initialHeight);
-    }
     if (initialWidth) {
-      setHeight(initialWidth);
+      setWidth(initialWidth);
+    }
+    if (initialHeight) {
+      setHeight(initialHeight);
     }
   }, [initialWidth, initialHeight]);
 
@@ -61,7 +62,7 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
 
   useEffect(() => {
     if (initialBackgroundColor) {
-      setLabel(initialBackgroundColor);
+      setBackgroundColor(initialBackgroundColor);
     }
   }, [initialBackgroundColor]);
 
@@ -78,10 +79,15 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
         minHeight={height}
       />
       <Card
-        className={`h-full min-h-[${height}px] w-full min-w-[${width}px] ${initialBackgroundColor || 'bg-gray-300'}`}
+        className={`h-full w-full`}
+        style={{
+          backgroundColor: backgroundColor,
+          minHeight: height,
+          minWidth: width,
+        }}
       >
-        <CardBody className="flex flex-col items-center justify-center">
-          <div className={`w-full text-center ${textColor}`}>
+        <CardBody className={`flex flex-col items-center justify-center`}>
+          <div className={`w-full text-center`} style={{ color: textColor }}>
             {!isLabelFocused && label && (
               <h4
                 className="w-full cursor-text scroll-m-20 break-words text-xl font-semibold tracking-tight"
@@ -107,7 +113,8 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
           </div>
           <div className="flex items-center justify-center">
             <CircleX
-              className={`mt-2 h-full cursor-pointer ${textColor}`}
+              className={`mt-2 h-full cursor-pointer`}
+              style={{ color: textColor }}
               onClick={() =>
                 setNodes((nodes) =>
                   nodes.filter((node) => node.id !== props.id),

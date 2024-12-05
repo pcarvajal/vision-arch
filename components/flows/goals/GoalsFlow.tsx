@@ -16,6 +16,7 @@ import {
 import '@xyflow/react/dist/style.css';
 import { generateGoalsModel } from '@/actions/ai.actions';
 import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
+import { goalsNodes } from '@/config/constants';
 import useUserStore from '@/store/userStore';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -23,9 +24,8 @@ import ThinkingLoader from '../../shared/ThinkingLoader';
 import YearsSlider from '../../shared/YearsSlider';
 import { CustomDefaultEdge } from '../CustomDefaultEdge';
 import { Flow } from '../Flow';
+import { ProviderNode } from '../ProviderNode';
 import { DefaultNode } from './nodes/DefaultNode';
-import NodeProviderSelect from './providers/GoalsProvider';
-import GoalsProviderSelect from './providers/GoalsProvider';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
@@ -36,7 +36,6 @@ const nodeTypes = {
   conceptNode: DefaultNode,
   featureNode: DefaultNode,
   basicNode: DefaultNode,
-  nodeProviderSelect: NodeProviderSelect,
 };
 
 const edgeTypes = {
@@ -131,7 +130,7 @@ export default function GoalsFlow() {
         </Panel>
         <Panel position="top-right" className="flex gap-4">
           <SaveArtifactModal />
-          <GoalsProviderSelect />
+          <ProviderNode nodes={goalsNodes} />
         </Panel>
         <Controls />
         <MiniMap />

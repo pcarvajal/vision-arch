@@ -20,17 +20,15 @@ import {
 } from '@/actions/artifact.actions';
 import Loader from '@/components/layout/Loader';
 import DeleteArtifactModal from '@/components/modals/DeleteArtifactModal';
-import { Button, select } from '@nextui-org/react';
-import { set } from 'mongoose';
+import { goalsNodes } from '@/config/constants';
+import { Button } from '@nextui-org/react';
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
 import { SelectArtifact } from '../../shared/SelectArtifact';
-import ThinkingLoader from '../../shared/ThinkingLoader';
+import { CustomDefaultEdge } from '../CustomDefaultEdge';
 import { Flow } from '../Flow';
-import { DeleteButtonEdge } from './edges/DeleteButtonEdge';
+import { ProviderNode } from '../ProviderNode';
 import { DefaultNode } from './nodes/DefaultNode';
-import NodeProviderSelect from './providers/GoalsProvider';
-import GoalsProviderSelect from './providers/GoalsProvider';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
@@ -41,11 +39,11 @@ const nodeTypes = {
   conceptNode: DefaultNode,
   featureNode: DefaultNode,
   basicNode: DefaultNode,
-  nodeProviderSelect: NodeProviderSelect,
+  nodeProviderSelect: GoalsNodeProvider,
 };
 
 const edgeTypes = {
-  deleteButtonEdge: DeleteButtonEdge,
+  deleteButtonEdge: CustomDefaultEdge,
 };
 
 interface GoalsFlowEditProps {
@@ -149,7 +147,7 @@ export default function GoalsFlowEdit({ items }: GoalsFlowEditProps) {
         edgeTypes={edgeTypes}
       >
         <Panel position="top-left" className="flex w-96 gap-4">
-          <GoalsProviderSelect />
+          <ProviderNode nodes={goalsNodes} />
         </Panel>
         <Panel position="top-right" className="flex w-96 gap-4">
           <div className="flex w-full items-center space-x-4">

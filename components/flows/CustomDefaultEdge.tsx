@@ -6,6 +6,7 @@ import {
   getBezierPath,
   useReactFlow,
 } from '@xyflow/react';
+import { X } from 'lucide-react';
 
 export const CustomDefaultEdge = (props: EdgeProps) => {
   const {
@@ -16,6 +17,7 @@ export const CustomDefaultEdge = (props: EdgeProps) => {
     targetY,
     sourcePosition,
     targetPosition,
+    label,
   } = props;
 
   const { setEdges } = useReactFlow();
@@ -31,22 +33,26 @@ export const CustomDefaultEdge = (props: EdgeProps) => {
 
   return (
     <>
-      <BezierEdge {...props} />
+      <BezierEdge {...props} label={undefined} />
       <EdgeLabelRenderer>
-        <Button
-          isIconOnly
-          radius="full"
-          size="sm"
-          color="danger"
-          aria-label="Borrar conexión"
-          className="absolute -translate-x-1/2 -translate-y-1/2"
+        <div
+          className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center"
           style={{ left: labelX, top: labelY, pointerEvents: 'all' }}
-          onClick={() => {
-            setEdges((edges) => edges.filter((edge) => edge.id !== id));
-          }}
         >
-          X
-        </Button>
+          <h1 className="mb-2 text-center text-sm font-bold">{label}</h1>
+          <Button
+            isIconOnly
+            radius="full"
+            color="default"
+            aria-label="Borrar conexión"
+            className="text-sm"
+            onClick={() => {
+              setEdges((edges) => edges.filter((edge) => edge.id !== id));
+            }}
+          >
+            <X />
+          </Button>
+        </div>
       </EdgeLabelRenderer>
     </>
   );

@@ -12,12 +12,26 @@ declare type UIColors =
   | undefined;
 
 // React Flow
+declare type GoalsNodeData = {
+  title?: string;
+  description?: string;
+  borderColor?: string;
+};
 declare type GoalsNodeTypes =
   | 'objetiveNode'
   | 'problemNode'
   | 'conceptNode'
   | 'featureNode'
   | 'basicNode';
+declare type BlueprintsNodeData = {
+  backgroundColor?: string;
+  height?: number;
+  label?: string;
+  placeholder?: string;
+  textColor?: string;
+  type: BlueprintNodeTypes;
+  width?: number;
+};
 declare type BlueprintNodeTypes =
   | 'actorNode'
   | 'systemNode'
@@ -25,12 +39,6 @@ declare type BlueprintNodeTypes =
   | 'dataNode'
   | 'infrastructureNode'
   | 'subflowNode';
-
-declare type GoalsNodeData = {
-  title?: string;
-  description?: string;
-  borderColor?: string;
-};
 
 declare type OptionalObject<T extends Record<string, any>> =
   | T

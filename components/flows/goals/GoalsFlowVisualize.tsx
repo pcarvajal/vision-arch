@@ -21,7 +21,6 @@ import { toast } from 'sonner';
 import { CustomDefaultEdge } from '../CustomDefaultEdge';
 import { Flow } from '../Flow';
 import { DefaultNode } from './nodes/DefaultNode';
-import NodeProviderSelect from './providers/GoalsProvider';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
@@ -32,7 +31,6 @@ const nodeTypes = {
   conceptNode: DefaultNode,
   featureNode: DefaultNode,
   basicNode: DefaultNode,
-  nodeProviderSelect: NodeProviderSelect,
 };
 
 const edgeTypes = {

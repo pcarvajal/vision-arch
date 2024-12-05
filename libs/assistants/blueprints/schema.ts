@@ -49,18 +49,12 @@ export const schema = {
               textColor: {
                 type: 'string',
                 description: 'Color of the label node.',
-                enum: ['text-white'],
+                enum: ['#f8fafc', '#475569'],
               },
               backgroundColor: {
                 type: 'string',
                 description: 'Color of background node.',
-                enum: [
-                  'bg-blue-700',
-                  'bg-indigo-700',
-                  'bg-violet-700',
-                  'bg-purple-700',
-                  'bg-fuchsia-700',
-                ],
+                enum: ['#fcd34d', '#f0abfc', '#a78bfa', '#f8fafc', '#f9a8d4'],
               },
               type: {
                 type: 'string',

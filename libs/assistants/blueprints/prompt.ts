@@ -37,8 +37,8 @@ Please respond with the complete JSON based on the provided data.
       "type": "actorNode",
       "data": { 
         "label": "Customer",       
-        "backgroundColor": "bg-fuchsia-700",
-        "textColor": "text-white",
+        "backgroundColor": "#fcd34d",
+        "textColor": "#f8fafc",
         "type": "actorNode",
         "placeholder": "Etiqueta ...",
         "width": 200,
@@ -51,7 +51,7 @@ Please respond with the complete JSON based on the provided data.
       "type": "systemNode",
       "data": { 
         "label": "Web Portal",       
-        "backgroundColor": "bg-purple-700",
+        "backgroundColor": "#f0abfc",
         "textColor": "text-white",
         "type": "systemNode",
         "placeholder": "Etiqueta ...",
@@ -65,7 +65,7 @@ Please respond with the complete JSON based on the provided data.
       "type": "processNode",
       "data": {
         "label": "Order Management System",
-        "backgroundColor": "bg-violet-700",
+        "backgroundColor": "#a78bfa",
         "textColor": "text-white',
         "type": "processNode",
         "placeholder": "Etiqueta ...",
@@ -79,7 +79,7 @@ Please respond with the complete JSON based on the provided data.
       "type": "dataNode",
       "data": {
         "label": "Product Database',
-        "backgroundColor": "bg-indigo-700",
+        "backgroundColor": "#f8fafc",
         "textColor": "text-white',
         "type": "dataNode",
         "placeholder": "Etiqueta ...",
@@ -93,7 +93,7 @@ Please respond with the complete JSON based on the provided data.
       "type": "infrastructureNode",
       "data": {
         "label": "AWS Cloud",
-        "backgroundColor": "bg-blue-700",
+        "backgroundColor": "#f9a8d4",
         "textColor": "text-white",
         "type": "infrastructureNode",
         "placeholder": "Etiqueta ...",

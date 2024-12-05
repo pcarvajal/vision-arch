@@ -1,9 +1,9 @@
 // Appwrite Types
 
-import { Edge, Node, ReactFlowJsonObject, Viewport } from '@xyflow/react';
+import { ReactFlowJsonObject } from '@xyflow/react';
 import { Models } from 'node-appwrite';
 
-export type ArtifactTypes = 'goals' | 'business';
+export type ArtifactTypes = 'goals' | 'blueprints';
 
 export interface Account extends Models.User<Models.Preferences> {}
 

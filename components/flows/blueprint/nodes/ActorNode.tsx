@@ -25,6 +25,7 @@ export const ActorNode = (props: NodeProps<Node<Data>>) => {
   const [width, setWidth] = useState(200);
   const [height, setHeight] = useState(100);
   const [label, setLabel] = useState('');
+  const [backgroundColor, setBackgroundColor] = useState('bg-gray-400');
   const [isLabelFocused, setIsLabelFocused] = useState(false);
   const { setNodes, updateNodeData } = useReactFlow();
 
@@ -32,7 +33,7 @@ export const ActorNode = (props: NodeProps<Node<Data>>) => {
     height: initialHeight,
     width: initialWidth,
     label: initialLabel,
-    backgroundColor,
+    backgroundColor: initialBackgroundColor,
     textColor,
     placeholder,
   } = props.data;
@@ -43,11 +44,11 @@ export const ActorNode = (props: NodeProps<Node<Data>>) => {
   };
 
   useEffect(() => {
-    if (initialHeight) {
-      setWidth(initialHeight);
-    }
     if (initialWidth) {
-      setHeight(initialWidth);
+      setWidth(initialWidth);
+    }
+    if (initialHeight) {
+      setHeight(initialHeight);
     }
   }, [initialWidth, initialHeight]);
 
@@ -56,6 +57,12 @@ export const ActorNode = (props: NodeProps<Node<Data>>) => {
       setLabel(initialLabel);
     }
   }, [initialLabel]);
+
+  useEffect(() => {
+    if (initialBackgroundColor) {
+      setBackgroundColor(initialBackgroundColor);
+    }
+  }, [initialBackgroundColor]);
 
   return (
     <>
@@ -70,10 +77,15 @@ export const ActorNode = (props: NodeProps<Node<Data>>) => {
         minHeight={height}
       />
       <Card
-        className={`h-full w-full min-h-${height} min-w-${width} ${backgroundColor}`}
+        className={`h-full w-full`}
+        style={{
+          minWidth: width,
+          minHeight: height,
+          backgroundColor: backgroundColor,
+        }}
       >
-        <CardBody className="flex flex-col items-center justify-center">
-          <div className="w-full text-center text-white">
+        <CardBody className={`flex flex-col items-center justify-center`}>
+          <div className={`w-full text-center`} style={{ color: textColor }}>
             {!isLabelFocused && label && (
               <h4
                 className="w-full cursor-text scroll-m-20 break-words text-xl font-semibold tracking-tight"
@@ -85,7 +97,7 @@ export const ActorNode = (props: NodeProps<Node<Data>>) => {
               </h4>
             )}
           </div>
-          <div className="w-full text-center text-white">
+          <div className="w-full text-center" style={{ color: textColor }}>
             {(isLabelFocused || !label) && (
               <Input
                 value={label}
@@ -98,11 +110,12 @@ export const ActorNode = (props: NodeProps<Node<Data>>) => {
             )}
           </div>
           <div className="flex items-center justify-center">
-            <PersonStanding className={textColor} size={60} />
+            <PersonStanding size={60} style={{ color: textColor }} />
           </div>
           <div className="flex items-center justify-center">
             <CircleX
-              className={`h-full cursor-pointer ${textColor}`}
+              className={`h-full cursor-pointer`}
+              style={{ color: textColor }}
               onClick={() =>
                 setNodes((nodes) =>
                   nodes.filter((node) => node.id !== props.id),
