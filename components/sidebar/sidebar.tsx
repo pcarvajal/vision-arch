@@ -5,8 +5,6 @@ import useUserStore from '@/store/userStore';
 import { Avatar, Tooltip } from '@nextui-org/react';
 import { usePathname } from 'next/navigation';
 import { BalanceIcon } from '../icons/sidebar/balance-icon';
-import { ChangeLogIcon } from '../icons/sidebar/changelog-icon';
-import { DevIcon } from '../icons/sidebar/dev-icon';
 import { FilterIcon } from '../icons/sidebar/filter-icon';
 import { HomeIcon } from '../icons/sidebar/home-icon';
 import { PaymentsIcon } from '../icons/sidebar/payments-icon';
@@ -107,20 +105,26 @@ export const SidebarWrapper = () => {
                   },
                 ]}
               />
-              <SidebarItem
-                isActive={pathname === '#'}
-                title="Datos"
+              <CollapseItems
+                title="CSVLOD"
                 icon={<PaymentsIcon />}
-              />
-              <SidebarItem
-                isActive={pathname === '#'}
-                title="Aplicaciones"
-                icon={<FilterIcon />}
-              />
-              <SidebarItem
-                isActive={pathname === '#'}
-                title="Tecnologías"
-                icon={<DevIcon />}
+                items={[
+                  {
+                    title: 'Cons / Políticas',
+                    href: routes.protected.artifacts.csvlod.considerations
+                      .policies.index,
+                  },
+                  {
+                    title: 'Cons / Principios',
+                    href: routes.protected.artifacts.csvlod.considerations
+                      .principles.index,
+                  },
+                  {
+                    title: 'Std / Pautas',
+                    href: routes.protected.artifacts.csvlod.standards.guidelines
+                      .index,
+                  },
+                ]}
               />
             </SidebarMenu>
           </div>

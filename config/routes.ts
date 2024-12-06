@@ -13,6 +13,21 @@ export const routes = {
         edit: '/artifacts/blueprints/edit',
         visualize: '/artifacts/blueprints/visualize',
       },
+      csvlod: {
+        considerations: {
+          policies: {
+            index: '/artifacts/csvlod/considerations/policies',
+          },
+          principles: {
+            index: '/artifacts/csvlod/considerations/principles',
+          },
+        },
+        standards: {
+          guidelines: {
+            index: '/artifacts/csvlod/standards/guidelines',
+          },
+        },
+      },
     },
   },
   public: {

@@ -16,7 +16,7 @@ interface FlowProps {
   onNodesChange: OnNodesChange<Node>;
   onEdgesChange: OnEdgesChange<Edge>;
   onInit?: (reactFlowInstance: any) => void;
-  onConnect: (connection: Connection) => void;
+  onConnect?: (connection: Connection) => void;
   nodeTypes: any;
   edgeTypes: any;
   styles?: CSSProperties;
