@@ -63,6 +63,8 @@ export interface CustomNode {
   };
 }
 
+export interface CustomEdge {}
+
 export interface ArtifactObject {
   data: ReactFlowJsonObject;
   year: number;

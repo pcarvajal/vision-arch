@@ -17,3 +17,9 @@ export enum GoalsTypeNodesEnum {
   FEATURE = 'featureNode',
   CONCEPT = 'conceptNode',
 }
+
+export enum CsvlodArtifactsEnum {
+  PRINCIPLES = 'principles',
+  POLICIES = 'policies',
+  GUIDELINES = 'guidelines',
+}

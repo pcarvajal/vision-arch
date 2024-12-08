@@ -8,17 +8,22 @@ import {
   DropdownSection,
   DropdownTrigger,
 } from '@nextui-org/react';
-import { Handshake, ListChecks, Siren } from 'lucide-react';
 
 interface CsvlodArtifactSelectorProps {
   items: ArtifactSelectorWithSections[];
+  onArtifactSelect: (item: string) => void;
 }
 
 export default function CsvlodArtifactSelector({
   items,
+  onArtifactSelect,
 }: CsvlodArtifactSelectorProps) {
   const iconClasses =
     'text-xl text-default-500 pointer-events-none flex-shrink-0';
+
+  const handleItemSelect = (item: string) => {
+    onArtifactSelect(item);
+  };
 
   return (
     <Dropdown>
@@ -39,6 +44,7 @@ export default function CsvlodArtifactSelector({
                 startContent={
                   item.icon ? <item.icon className={iconClasses} /> : null
                 }
+                onClick={() => handleItemSelect(item.type)}
               >
                 {item.label}
               </DropdownItem>

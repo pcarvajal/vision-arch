@@ -1,43 +1,64 @@
 'use client';
 
-import { Card, CardBody, Input } from '@nextui-org/react';
+import { Card, CardBody, CardHeader, Input, Textarea } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 
-export interface Data extends Record<string, unknown> {
-  label?: string;
-  placeholder?: string;
-  width?: number;
-  height?: number;
+export interface TitleAndItemsNodeData extends Record<string, unknown> {
+  title: string;
+  description: string;
+  items: Array<{
+    id: string;
+    title: string;
+    type: 'TextArea' | 'Input';
+    value: string;
+  }>;
 }
 
-export const TitleAndItemsNode = (props: NodeProps<Node<Data>>) => {
-  const {
-    width: initialWidth,
-    height: initialHeight,
-    label: initialLabel = 'Texto',
-    placeholder,
-  } = props.data;
+export const TitleAndItemsNode = (
+  props: NodeProps<Node<TitleAndItemsNodeData>>,
+) => {
+  const [titleFocused, setTitleFocused] = useState(false);
+  const [descriptionFocused, setDescriptionFocused] = useState(false);
+  const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
 
-  const { setNodes, updateNodeData, updateNode } = useReactFlow();
+  const itemRefs = useRef<{
+    [key: string]: HTMLInputElement | HTMLTextAreaElement | null;
+  }>({});
 
-  const [label, setLabel] = useState('');
-  const [isLabelFocused, setIsLabelFocused] = useState(false);
-  const [dimensions, setDimensions] = useState({
-    width: initialWidth,
-    height: initialHeight,
-  });
+  const { updateNodeData } = useReactFlow();
+  const { title, description, items } = props.data
+    .customData as TitleAndItemsNodeData;
 
-  const onChangeTitle = (value: string) => {
-    setLabel(value);
-    updateNodeData(props.id, { label: value });
+  const handleInputChange = (value: string, id: string) => {
+    const newItems = items.map((item) =>
+      item.id === id ? { ...item, value } : item,
+    );
+    updateNodeData(props.id, {
+      customData: { title, description, items: newItems },
+    });
   };
 
-  useEffect(() => {
-    if (initialLabel) {
-      setLabel(initialLabel);
+  const handleInputHeaderChange = (value: string, id: string) => {
+    if (id === 'title') {
+      updateNodeData(props.id, {
+        customData: { title: value, description, items },
+      });
     }
-  }, [initialLabel]);
+    if (id === 'description') {
+      updateNodeData(props.id, {
+        customData: { title, description: value, items },
+      });
+    }
+  };
+
+  const handleItemFocus = (id: string) => {
+    setFocusedItemId(id);
+  };
+
+  const handleItemBlur = () => {
+    setFocusedItemId(null);
+  };
 
   return (
     <>
@@ -50,45 +71,96 @@ export const TitleAndItemsNode = (props: NodeProps<Node<Data>>) => {
         }}
         minWidth={80}
         minHeight={80}
-        onResize={(event, params) => {
-          const { width, height, x, y } = params;
-          setDimensions({ width, height });
-          updateNodeData(props.id, { width, height });
-          updateNode(props.id, { position: { x, y } });
-        }}
       />
       <Card
         className={`h-full w-full`}
         style={{
           minWidth: 80,
           minHeight: 80,
-          width: `${dimensions.width}px`,
-          height: `${dimensions.height}px`,
         }}
       >
         <CardBody className="w-50 h-300">
-          <div className="flex h-full w-full items-center justify-center">
-            {!isLabelFocused && label && (
-              <h2
-                className="-rotate-90 whitespace-nowrap text-center"
-                onClick={() => {
-                  setIsLabelFocused(true);
-                }}
+          <CardHeader className="flex-col items-start px-4 pb-0 pt-2">
+            {title && !titleFocused ? (
+              <p
+                className="font-bold uppercase"
+                onClick={() => setTitleFocused(true)}
               >
-                {label}
-              </h2>
-            )}
-            {(isLabelFocused || !label) && (
+                {title}
+              </p>
+            ) : (
               <Input
-                value={label}
-                placeholder={placeholder}
-                onValueChange={setLabel}
-                onFocus={() => setIsLabelFocused(true)}
-                onBlur={() => setIsLabelFocused(false)}
-                onChange={(e) => onChangeTitle(e.target.value)}
+                id="title"
+                label="Titulo"
+                className="w-full"
+                value={title}
+                onFocus={() => setTitleFocused(true)}
+                onBlur={() => setTitleFocused(false)}
+                onChange={(e) =>
+                  handleInputHeaderChange(e.target.value, 'title')
+                }
               />
             )}
-          </div>
+            {description && !descriptionFocused ? (
+              <small
+                className="text-default-500"
+                onClick={() => setDescriptionFocused(true)}
+              >
+                {description}
+              </small>
+            ) : (
+              <Input
+                id="description"
+                label="Descripción"
+                className="w-full"
+                value={description}
+                onFocus={() => setDescriptionFocused(true)}
+                onBlur={() => setDescriptionFocused(false)}
+                onChange={(e) =>
+                  handleInputHeaderChange(e.target.value, 'description')
+                }
+              />
+            )}
+          </CardHeader>
+          <CardBody className="px-4 py-2">
+            <ul className="max-w-md list-inside list-disc space-y-1">
+              {items &&
+                items.map((item) => (
+                  <li>
+                    {focusedItemId === item.id ? (
+                      item.type === 'Input' ? (
+                        <Input
+                          id={item.id}
+                          label={item.title}
+                          value={item.value}
+                          ref={(el) => (itemRefs.current[item.id] = el)}
+                          onChange={(e) =>
+                            handleInputChange(e.target.value, item.id)
+                          }
+                          onBlur={handleItemBlur}
+                        />
+                      ) : (
+                        <Textarea
+                          id={item.id}
+                          label={item.title}
+                          value={item.value}
+                          ref={(el) => (itemRefs.current[item.id] = el)}
+                          onChange={(e) =>
+                            handleInputChange(e.target.value, item.id)
+                          }
+                          onBlur={handleItemBlur}
+                        />
+                      )
+                    ) : (
+                      <div onClick={() => handleItemFocus(item.id)}>
+                        <span>{item.title}: </span>
+                        {item.value && <p>{item.value}</p>}
+                      </div>
+                    )}
+                  </li>
+                ))}
+            </ul>
+          </CardBody>
         </CardBody>
       </Card>
     </>

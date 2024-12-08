@@ -14,7 +14,6 @@ interface ProviderNodeProps {
 
 export const ProviderSchemaNode = ({ nodes }: ProviderNodeProps) => {
   const { setNodes } = useReactFlow();
-  console.log('nodes', nodes);
 
   const handleNodeSelect = (nodeType: string) => {
     const nodeData = nodes.find((node) => node.type === nodeType);

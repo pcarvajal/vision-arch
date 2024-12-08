@@ -1,6 +1,7 @@
+import { TitleAndItemsNodeData } from '@/components/flows/csvlod/nodes/TitleAndItemsNode';
 import { BlueprintNodeTypes } from '@/types';
 import { ArtifactSelectorWithSections, CustomNode } from '@/types/types';
-import { Position } from '@xyflow/react';
+import { Textarea } from '@nextui-org/react';
 import {
   DiamondPlus,
   Handshake,
@@ -13,6 +14,7 @@ import {
   SquareDashedKanban,
   Text,
 } from 'lucide-react';
+import { CsvlodArtifactsEnum } from './enum';
 
 // Roles
 export const roles = ['owner', 'admin', 'user'] as const;
@@ -180,19 +182,19 @@ export const blueprintsNodes: Array<{
     },
   },
 ];
-// Csvlod : Artifacts
+// CSVLOD : Artifacts
 export const csvlodArtifactsSelectorItems: ArtifactSelectorWithSections[] = [
   {
     section: 'Consideraciones',
     items: [
       {
-        type: 'principles',
+        type: CsvlodArtifactsEnum.PRINCIPLES,
         label: 'Principios',
         icon: Handshake,
         description: 'Crea un nuevo esquema de principios',
       },
       {
-        type: 'policies',
+        type: CsvlodArtifactsEnum.POLICIES,
         label: 'Políticas',
         icon: Siren,
         description: 'Crea nuevas políticas',
@@ -203,7 +205,7 @@ export const csvlodArtifactsSelectorItems: ArtifactSelectorWithSections[] = [
     section: 'Estandards',
     items: [
       {
-        type: 'guidelines',
+        type: CsvlodArtifactsEnum.GUIDELINES,
         label: 'Pautas',
         icon: ListChecks,
         description: 'Crea nuevas pautas',
@@ -212,7 +214,7 @@ export const csvlodArtifactsSelectorItems: ArtifactSelectorWithSections[] = [
   },
 ];
 
-// Csvlod : Policies
+// CSVLOD : Policies
 export const csvlodPoliciesNodes: Array<CustomNode> = [
   {
     id: '1',
@@ -300,6 +302,119 @@ export const csvlodPoliciesNodes: Array<CustomNode> = [
     icon: Text,
     customData: {
       textBlock: 'Política 1: Descripción de la política ...',
+    },
+  },
+];
+
+// CSVLOD: Principles
+export const csvlodPrinciplesNodes: Array<CustomNode> = [
+  {
+    id: '1',
+    type: 'principleTitleAndItemsNode',
+    position: {
+      x: 300,
+      y: 500,
+    },
+    label: 'Bloque de texto de principio',
+    width: 100,
+    height: 250,
+    color: '#0ea5e9',
+    borderColor: '#0c4a6e',
+    zIndex: 900,
+    icon: Text,
+    customData: {
+      title: 'Principio',
+      description: 'Principio 1: Descripción del principio ...',
+      items: [
+        {
+          id: '1',
+          title: 'Declaración',
+          type: 'TextArea',
+          value: 'Descripciones de la declaración ...',
+        },
+        {
+          id: '2',
+          title: 'Razón',
+          type: 'TextArea',
+          value: 'Descripciones de la razón ...',
+        },
+        {
+          id: '3',
+          title: 'Implicaciones',
+          type: 'TextArea',
+          value: 'Descripciones de las implicaciones ...',
+        },
+      ],
+    },
+  },
+];
+
+// CSVLOD: Guidelines
+export const csvlodGuidelinesNodes: Array<CustomNode> = [
+  {
+    id: '1',
+    type: 'standardAreaNode',
+    position: {
+      x: 0,
+      y: 0,
+    },
+    label: 'Área de estandard',
+    width: 100,
+    height: 250,
+    color: '#0ea5e9',
+    borderColor: '#0c4a6e',
+    zIndex: 900,
+    icon: Scan,
+  },
+  {
+    id: '2',
+    type: 'guidelineAreaNode',
+    position: {
+      x: 0,
+      y: 0,
+    },
+    label: 'Área de pauta',
+    width: 100,
+    height: 250,
+    color: '#0ea5e9',
+    borderColor: '#0c4a6e',
+    zIndex: 900,
+    icon: Scan,
+  },
+  {
+    id: '3',
+    type: 'standardTextBlockNode',
+    position: {
+      x: 0,
+      y: 0,
+    },
+    label: 'Bloque de texto de estandard',
+    width: 600,
+    height: 250,
+    color: '#a855f7',
+    borderColor: '#581c87',
+    zIndex: 900,
+    icon: Text,
+    customData: {
+      textBlock: 'Política 1: Descripción de la política ...',
+    },
+  },
+  {
+    id: '4',
+    type: 'guidelineTextBlockNode',
+    position: {
+      x: 0,
+      y: 0,
+    },
+    label: 'Bloque de texto de pauta',
+    width: 600,
+    height: 250,
+    color: '#a855f7',
+    borderColor: '#581c87',
+    zIndex: 900,
+    icon: Text,
+    customData: {
+      textBlock: 'Pauta 1: Descripción de la pauta ...',
     },
   },
 ];
