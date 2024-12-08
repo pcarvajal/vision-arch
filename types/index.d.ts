@@ -40,6 +40,12 @@ declare type BlueprintNodeTypes =
   | 'infrastructureNode'
   | 'subflowNode';
 
+declare type CsvlodPoliciesTypes =
+  | 'policyAreaNode'
+  | 'policyTypeAreaNode'
+  | 'policyDescriptionAreaNode'
+  | 'policyTypeLabelNode';
+
 declare type OptionalObject<T extends Record<string, any>> =
   | T
   | { [K in keyof T]?: never };

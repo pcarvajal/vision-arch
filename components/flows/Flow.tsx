@@ -13,6 +13,7 @@ interface FlowProps {
   className?: string;
   nodes: Node[];
   edges: Edge[];
+  snapToGrid?: boolean;
   onNodesChange: OnNodesChange<Node>;
   onEdgesChange: OnEdgesChange<Edge>;
   onInit?: (reactFlowInstance: any) => void;
@@ -20,6 +21,7 @@ interface FlowProps {
   nodeTypes: any;
   edgeTypes: any;
   styles?: CSSProperties;
+  elevateNodesOnSelect?: boolean;
 }
 
 export const Flow = ({
@@ -27,12 +29,14 @@ export const Flow = ({
   className,
   nodes,
   edges,
+  snapToGrid = false,
   onNodesChange,
   onEdgesChange,
   onInit,
   onConnect,
   edgeTypes,
   nodeTypes,
+  elevateNodesOnSelect = true,
 }: FlowProps) => {
   return (
     <ReactFlow
@@ -45,6 +49,8 @@ export const Flow = ({
       onInit={onInit}
       nodeTypes={nodeTypes}
       edgeTypes={edgeTypes}
+      snapToGrid
+      elevateNodesOnSelect={elevateNodesOnSelect}
     >
       {children}
     </ReactFlow>

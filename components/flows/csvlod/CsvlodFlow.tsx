@@ -2,6 +2,8 @@
 
 import ThinkingLoader from '@/components/shared/ThinkingLoader';
 import '@xyflow/react/dist/style.css';
+import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
+import { csvlodPoliciesNodes } from '@/config/constants';
 import {
   Background,
   BackgroundVariant,
@@ -9,30 +11,28 @@ import {
   Edge,
   MiniMap,
   Node,
+  Panel,
   useEdgesState,
   useNodesState,
 } from '@xyflow/react';
 import { useState } from 'react';
 import { CustomDefaultEdge } from '../CustomDefaultEdge';
 import { Flow } from '../Flow';
+import { ProviderNode } from '../ProviderNode';
 import { AreaNode } from './nodes/AreaNode';
-import { TextNode } from './nodes/TextNode';
+import { TextBlockNode } from './nodes/TextBlockNode';
+import { VerticalLabelNode } from './nodes/VerticalLabelNode';
 
-const initialNodes: Node[] = [
-  { id: '1', type: 'areaNode', position: { x: 200, y: 200 }, data: {} },
-  {
-    id: '2',
-    type: 'textNode',
-    position: { x: 100, y: 100 },
-    data: {},
-    parentId: '1',
-  },
-];
+const initialNodes: Node[] = csvlodPoliciesNodes;
 const initialEdges: Edge[] = [];
 
 const nodeTypes = {
-  textNode: TextNode,
-  areaNode: AreaNode,
+  policyTypeAreaNode: AreaNode,
+  policyTypeLabelNode: VerticalLabelNode,
+  policyAreaNode: AreaNode,
+  policyTextBlockNode: TextBlockNode,
+  policyDescriptionAreaNode: AreaNode,
+  policyDescriptionTextBlockNode: TextBlockNode,
 };
 
 const edgeTypes = {
@@ -55,7 +55,13 @@ export const CsvlodFlow = () => {
         onEdgesChange={OnEdgesChange}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
+        snapToGrid={true}
+        elevateNodesOnSelect={false}
       >
+        <Panel position="top-right" className="flex gap-4">
+          <ProviderNode nodes={csvlodPoliciesNodes} />
+          <SaveArtifactModal />
+        </Panel>
         <Controls />
         <MiniMap />
         <Background variant={BackgroundVariant.Lines} gap={12} size={1} />

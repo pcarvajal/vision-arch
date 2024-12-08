@@ -1,4 +1,6 @@
 import { BlueprintNodeTypes } from '@/types';
+import { CustomNode } from '@/types/types';
+import { Position } from '@xyflow/react';
 import {
   DiamondPlus,
   OctagonAlert,
@@ -12,6 +14,7 @@ export const roles = ['owner', 'admin', 'user'] as const;
 
 // Nodes
 // Goals
+
 export const goalsNodes: Array<{
   type: string;
   name: string;
@@ -169,6 +172,116 @@ export const blueprintsNodes: Array<{
       width: 200,
       height: 100,
       placeholder: 'Ingresa una componente de infraestructura ...',
+    },
+  },
+];
+
+// Csvlod : Policies
+export const csvlodPoliciesNodes: Array<CustomNode> = [
+  {
+    id: '1',
+    type: 'policyTypeAreaNode',
+    position: {
+      x: 0,
+      y: 0,
+    },
+    data: {
+      type: 'policyTypeAreaNode',
+      label: 'Tipo de política',
+      width: 100,
+      height: 250,
+      color: '#0ea5e9',
+      borderColor: '#0c4a6e',
+      zIndex: 900,
+    },
+  },
+  {
+    id: '2',
+    type: 'policyAreaNode',
+    position: {
+      x: 0,
+      y: 0,
+    },
+    data: {
+      type: 'policyAreaNode',
+      label: 'Política',
+      width: 140,
+      height: 250,
+      color: '#eab308',
+      borderColor: '#713f12',
+      zIndex: 900,
+    },
+  },
+  {
+    id: '3',
+    type: 'policyDescriptionAreaNode',
+    position: {
+      x: 0,
+      y: 0,
+    },
+    data: {
+      type: 'policyDescriptionAreaNode',
+      label: 'Descripción de la política',
+      width: 600,
+      height: 250,
+      color: '#a855f7',
+      borderColor: '#581c87',
+      zIndex: 900,
+    },
+  },
+  {
+    id: '4',
+    type: 'policyTypeLabelNode',
+    position: {
+      x: 0,
+      y: 0,
+    },
+    data: {
+      type: 'policyTypeLabelNode',
+      label: 'Tipo de política',
+      width: 88,
+      height: 193,
+      color: '',
+      borderColor: '',
+      zIndex: undefined,
+    },
+  },
+  {
+    id: '5',
+    type: 'policyTextBlockNode',
+    position: {
+      x: 300,
+      y: 500,
+    },
+    data: {
+      type: 'policyTextBlockNode',
+      label: 'Titulo de política',
+      width: 110,
+      height: 80,
+      color: '',
+      borderColor: '',
+      customData: {
+        textBlock: 'Mi Política 1 ...',
+      },
+    },
+  },
+  {
+    id: '6',
+    type: 'policyDescriptionTextBlockNode',
+    position: {
+      x: 300,
+      y: 400,
+    },
+    data: {
+      type: 'policyDescriptionTextBlockNode',
+      label: 'Texto de descripción de política',
+      width: 240,
+      height: 80,
+      color: '',
+      borderColor: '',
+      customData: {
+        textBlock: 'Política 1: Descripción de la política ...',
+      },
     },
   },
 ];
