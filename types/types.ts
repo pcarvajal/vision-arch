@@ -43,26 +43,23 @@ export interface Artifact extends Models.Document {
 export interface CustomNode {
   id: string;
   type: string;
+  label?: string;
+  width?: number;
+  height?: number;
+  color?: string;
+  borderColor?: string;
+  backgroundColor?: string;
+  icon?: React.ComponentType<{ className?: string }> | undefined;
+  iconColor?: string;
+  zIndex?: number;
+  parentId?: string;
+  extent?: 'parent' | CoordinateExtent;
   position: {
     x: number;
     y: number;
   };
-  parentId?: string;
-  extent?: 'parent' | CoordinateExtent;
-  data: {
-    type: string;
-    label?: string;
-    width?: number;
-    height?: number;
-    color?: string;
-    borderColor?: string;
-    backgroundColor?: string;
-    icon?: React.ComponentType<{ className?: string }> | undefined;
-    iconColor?: string;
-    zIndex?: number;
-    customData?: {
-      [key: string]: any;
-    };
+  customData?: {
+    [key: string]: any;
   };
 }
 
@@ -70,4 +67,16 @@ export interface ArtifactObject {
   data: ReactFlowJsonObject;
   year: number;
   type: string;
+}
+
+export interface ArtifactSelectorItem {
+  type: string;
+  label: string;
+  icon?: React.ComponentType<{ className?: string }> | undefined;
+  description?: string;
+}
+
+export interface ArtifactSelectorWithSections {
+  section: string;
+  items: ArtifactSelectorItem[];
 }

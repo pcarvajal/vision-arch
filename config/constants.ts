@@ -1,12 +1,17 @@
 import { BlueprintNodeTypes } from '@/types';
-import { CustomNode } from '@/types/types';
+import { ArtifactSelectorWithSections, CustomNode } from '@/types/types';
 import { Position } from '@xyflow/react';
 import {
   DiamondPlus,
+  Handshake,
+  ListChecks,
   OctagonAlert,
   PackagePlus,
   Ruler,
+  Scan,
+  Siren,
   SquareDashedKanban,
+  Text,
 } from 'lucide-react';
 
 // Roles
@@ -175,6 +180,37 @@ export const blueprintsNodes: Array<{
     },
   },
 ];
+// Csvlod : Artifacts
+export const csvlodArtifactsSelectorItems: ArtifactSelectorWithSections[] = [
+  {
+    section: 'Consideraciones',
+    items: [
+      {
+        type: 'principles',
+        label: 'Principios',
+        icon: Handshake,
+        description: 'Crea un nuevo esquema de principios',
+      },
+      {
+        type: 'policies',
+        label: 'Políticas',
+        icon: Siren,
+        description: 'Crea nuevas políticas',
+      },
+    ],
+  },
+  {
+    section: 'Estandards',
+    items: [
+      {
+        type: 'guidelines',
+        label: 'Pautas',
+        icon: ListChecks,
+        description: 'Crea nuevas pautas',
+      },
+    ],
+  },
+];
 
 // Csvlod : Policies
 export const csvlodPoliciesNodes: Array<CustomNode> = [
@@ -185,15 +221,13 @@ export const csvlodPoliciesNodes: Array<CustomNode> = [
       x: 0,
       y: 0,
     },
-    data: {
-      type: 'policyTypeAreaNode',
-      label: 'Tipo de política',
-      width: 100,
-      height: 250,
-      color: '#0ea5e9',
-      borderColor: '#0c4a6e',
-      zIndex: 900,
-    },
+    label: 'Área tipo de política',
+    width: 100,
+    height: 250,
+    color: '#0ea5e9',
+    borderColor: '#0c4a6e',
+    zIndex: 900,
+    icon: Scan,
   },
   {
     id: '2',
@@ -202,15 +236,13 @@ export const csvlodPoliciesNodes: Array<CustomNode> = [
       x: 0,
       y: 0,
     },
-    data: {
-      type: 'policyAreaNode',
-      label: 'Política',
-      width: 140,
-      height: 250,
-      color: '#eab308',
-      borderColor: '#713f12',
-      zIndex: 900,
-    },
+    label: 'Área política',
+    width: 140,
+    height: 250,
+    color: '#eab308',
+    borderColor: '#713f12',
+    zIndex: 900,
+    icon: Scan,
   },
   {
     id: '3',
@@ -219,15 +251,13 @@ export const csvlodPoliciesNodes: Array<CustomNode> = [
       x: 0,
       y: 0,
     },
-    data: {
-      type: 'policyDescriptionAreaNode',
-      label: 'Descripción de la política',
-      width: 600,
-      height: 250,
-      color: '#a855f7',
-      borderColor: '#581c87',
-      zIndex: 900,
-    },
+    label: 'Área descripción de la política',
+    width: 600,
+    height: 250,
+    color: '#a855f7',
+    borderColor: '#581c87',
+    zIndex: 900,
+    icon: Scan,
   },
   {
     id: '4',
@@ -236,15 +266,11 @@ export const csvlodPoliciesNodes: Array<CustomNode> = [
       x: 0,
       y: 0,
     },
-    data: {
-      type: 'policyTypeLabelNode',
-      label: 'Tipo de política',
-      width: 88,
-      height: 193,
-      color: '',
-      borderColor: '',
-      zIndex: undefined,
-    },
+    label: 'Bloque tipo de política',
+    width: 88,
+    height: 193,
+    zIndex: undefined,
+    icon: Text,
   },
   {
     id: '5',
@@ -253,16 +279,12 @@ export const csvlodPoliciesNodes: Array<CustomNode> = [
       x: 300,
       y: 500,
     },
-    data: {
-      type: 'policyTextBlockNode',
-      label: 'Titulo de política',
-      width: 110,
-      height: 80,
-      color: '',
-      borderColor: '',
-      customData: {
-        textBlock: 'Mi Política 1 ...',
-      },
+    label: 'Bloque titulo de política',
+    width: 110,
+    height: 80,
+    icon: Text,
+    customData: {
+      textBlock: 'Mi Política 1 ...',
     },
   },
   {
@@ -272,16 +294,12 @@ export const csvlodPoliciesNodes: Array<CustomNode> = [
       x: 300,
       y: 400,
     },
-    data: {
-      type: 'policyDescriptionTextBlockNode',
-      label: 'Texto de descripción de política',
-      width: 240,
-      height: 80,
-      color: '',
-      borderColor: '',
-      customData: {
-        textBlock: 'Política 1: Descripción de la política ...',
-      },
+    label: 'Bloque descripción de política',
+    width: 240,
+    height: 80,
+    icon: Text,
+    customData: {
+      textBlock: 'Política 1: Descripción de la política ...',
     },
   },
 ];

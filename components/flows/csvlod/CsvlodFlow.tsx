@@ -3,7 +3,10 @@
 import ThinkingLoader from '@/components/shared/ThinkingLoader';
 import '@xyflow/react/dist/style.css';
 import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
-import { csvlodPoliciesNodes } from '@/config/constants';
+import {
+  csvlodArtifactsSelectorItems,
+  csvlodPoliciesNodes,
+} from '@/config/constants';
 import {
   Background,
   BackgroundVariant,
@@ -19,11 +22,13 @@ import { useState } from 'react';
 import { CustomDefaultEdge } from '../CustomDefaultEdge';
 import { Flow } from '../Flow';
 import { ProviderNode } from '../ProviderNode';
+import { ProviderSchemaNode } from '../ProviderSchemaNode';
+import CsvlodArtifactSelector from './CsvlodArtifactSelector';
 import { AreaNode } from './nodes/AreaNode';
 import { TextBlockNode } from './nodes/TextBlockNode';
 import { VerticalLabelNode } from './nodes/VerticalLabelNode';
 
-const initialNodes: Node[] = csvlodPoliciesNodes;
+const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
 
 const nodeTypes = {
@@ -59,7 +64,8 @@ export const CsvlodFlow = () => {
         elevateNodesOnSelect={false}
       >
         <Panel position="top-right" className="flex gap-4">
-          <ProviderNode nodes={csvlodPoliciesNodes} />
+          <CsvlodArtifactSelector items={csvlodArtifactsSelectorItems} />
+          <ProviderSchemaNode nodes={csvlodPoliciesNodes} />
           <SaveArtifactModal />
         </Panel>
         <Controls />
