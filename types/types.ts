@@ -66,9 +66,10 @@ export interface CustomNode {
 export interface CustomEdge {}
 
 export interface ArtifactObject {
-  data: ReactFlowJsonObject;
+  data: ReactFlowJsonObject | null;
   year: number;
   type: string;
+  details?: { name: string; category: string };
 }
 
 export interface ArtifactSelectorItem {
@@ -81,4 +82,14 @@ export interface ArtifactSelectorItem {
 export interface ArtifactSelectorWithSections {
   section: string;
   items: ArtifactSelectorItem[];
+}
+
+// OpenAI
+export interface ModelMessagesProps {
+  name: string;
+  mission: string;
+  vision: string;
+  objetives: string;
+  description: string;
+  year: string;
 }

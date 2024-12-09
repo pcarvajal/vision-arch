@@ -1,7 +1,5 @@
-import { TitleAndItemsNodeData } from '@/components/flows/csvlod/nodes/TitleAndItemsNode';
 import { BlueprintNodeTypes } from '@/types';
 import { ArtifactSelectorWithSections, CustomNode } from '@/types/types';
-import { Textarea } from '@nextui-org/react';
 import {
   DiamondPlus,
   Handshake,
@@ -19,9 +17,15 @@ import { CsvlodArtifactsEnum } from './enum';
 // Roles
 export const roles = ['owner', 'admin', 'user'] as const;
 
+// Proyections
+export const yearRange = {
+  min: 2024,
+  max: 2028,
+  default: 2024,
+};
+
 // Nodes
 // Goals
-
 export const goalsNodes: Array<{
   type: string;
   name: string;
@@ -89,7 +93,6 @@ export const goalsNodes: Array<{
     },
   },
 ];
-
 // Blueprints
 export const blueprintsNodes: Array<{
   type: string;
@@ -213,7 +216,6 @@ export const csvlodArtifactsSelectorItems: ArtifactSelectorWithSections[] = [
     ],
   },
 ];
-
 // CSVLOD : Policies
 export const csvlodPoliciesNodes: Array<CustomNode> = [
   {
@@ -305,7 +307,6 @@ export const csvlodPoliciesNodes: Array<CustomNode> = [
     },
   },
 ];
-
 // CSVLOD: Principles
 export const csvlodPrinciplesNodes: Array<CustomNode> = [
   {
@@ -323,8 +324,8 @@ export const csvlodPrinciplesNodes: Array<CustomNode> = [
     zIndex: 900,
     icon: Text,
     customData: {
-      title: 'Principio',
-      description: 'Principio 1: Descripción del principio ...',
+      title: 'Titulo del principio',
+      description: 'Descripción del principio ...',
       items: [
         {
           id: '1',
@@ -348,7 +349,6 @@ export const csvlodPrinciplesNodes: Array<CustomNode> = [
     },
   },
 ];
-
 // CSVLOD: Guidelines
 export const csvlodGuidelinesNodes: Array<CustomNode> = [
   {

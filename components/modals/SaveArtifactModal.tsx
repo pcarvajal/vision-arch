@@ -60,7 +60,7 @@ export default function SaveArtifactModal() {
         variant="shadow"
         isDisabled={saveButtonDisabled}
       >
-        Guardar Artefacto
+        Guardar
       </Button>
       {showReplaceModal && (
         <ConfirmReplaceArtifactModal
@@ -73,9 +73,7 @@ export default function SaveArtifactModal() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                Guardar artefacto
-              </ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Guardar</ModalHeader>
               <ModalBody>
                 <SaveArtifactForm />
               </ModalBody>

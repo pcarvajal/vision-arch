@@ -100,6 +100,7 @@ declare interface CreateCompanyParams {
 declare interface GenerateArtifactParams {
   year: number;
   companyId: string;
+  type?: string;
 }
 
 declare interface ResetPasswordParams {

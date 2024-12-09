@@ -1,7 +1,6 @@
 import { ArtifactSelectorWithSections } from '@/types/types';
 import {
   Button,
-  cn,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -28,7 +27,7 @@ export default function CsvlodArtifactSelector({
   return (
     <Dropdown>
       <DropdownTrigger>
-        <Button variant="bordered">Seleccionar artefacto</Button>
+        <Button variant="faded">Seleccionar artefacto</Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Menu de artefactos" variant="faded">
         {items.map((section) => (

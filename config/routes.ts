@@ -14,19 +14,9 @@ export const routes = {
         visualize: '/artifacts/blueprints/visualize',
       },
       csvlod: {
-        considerations: {
-          policies: {
-            index: '/artifacts/csvlod/considerations/policies',
-          },
-          principles: {
-            index: '/artifacts/csvlod/considerations/principles',
-          },
-        },
-        standards: {
-          guidelines: {
-            index: '/artifacts/csvlod/standards/guidelines',
-          },
-        },
+        create: '/artifacts/csvlod/create',
+        edit: '/artifacts/csvlod/edit',
+        visualize: '/artifacts/csvlod/visualize',
       },
     },
   },

@@ -110,19 +110,16 @@ export const SidebarWrapper = () => {
                 icon={<PaymentsIcon />}
                 items={[
                   {
-                    title: 'Cons / Políticas',
-                    href: routes.protected.artifacts.csvlod.considerations
-                      .policies.index,
+                    title: 'Crear',
+                    href: routes.protected.artifacts.csvlod.create,
                   },
                   {
-                    title: 'Cons / Principios',
-                    href: routes.protected.artifacts.csvlod.considerations
-                      .principles.index,
+                    title: 'Editar',
+                    href: routes.protected.artifacts.csvlod.edit,
                   },
                   {
-                    title: 'Std / Pautas',
-                    href: routes.protected.artifacts.csvlod.standards.guidelines
-                      .index,
+                    title: 'Visualizar',
+                    href: routes.protected.artifacts.csvlod.visualize,
                   },
                 ]}
               />

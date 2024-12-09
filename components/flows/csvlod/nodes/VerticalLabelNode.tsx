@@ -2,6 +2,7 @@
 
 import { Card, CardBody, Input } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
+import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export interface Data extends Record<string, unknown> {
@@ -66,7 +67,18 @@ export const VerticalLabelNode = (props: NodeProps<Node<Data>>) => {
           height: `${dimensions.height}px`,
         }}
       >
-        <CardBody className="w-50 h-300">
+        <CardBody>
+          <div className="absolute right-0 top-0 p-2">
+            <X
+              className="cursor-pointer"
+              size={15}
+              onClick={() => {
+                setNodes((nodes) =>
+                  nodes.filter((node) => node.id !== props.id),
+                );
+              }}
+            />
+          </div>
           <div className="flex h-full w-full items-center justify-center">
             {!isLabelFocused && label && (
               <h2

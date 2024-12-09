@@ -1,8 +1,8 @@
 'use client';
 
-import { text } from 'stream/consumers';
-import { Card, CardBody, Textarea } from '@nextui-org/react';
+import { Card, CardBody, CardHeader, Textarea } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
+import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export interface Data extends Record<string, unknown> {
@@ -10,19 +10,21 @@ export interface Data extends Record<string, unknown> {
   placeholder?: string;
   width?: number;
   height?: number;
+  customData?: {
+    textBlock?: string;
+  };
 }
 
 export const TextBlockNode = (props: NodeProps<Node<Data>>) => {
   const {
-    width: initialWidth = 100,
-    height: initialHeight = 100,
-    label,
-    textBlock: initialTextBlock,
+    width: initialWidth,
+    height: initialHeight,
+    customData,
     placeholder,
   } = props.data;
 
   const { setNodes, updateNodeData, updateNode } = useReactFlow();
-  const [textBlock, setTextBlock] = useState('sdsadsa');
+  const [textBlock, setTextBlock] = useState(customData?.textBlock);
   const [isTextBlockFocused, setIsTextBlockFocused] = useState(false);
 
   const [dimensions, setDimensions] = useState({
@@ -36,12 +38,10 @@ export const TextBlockNode = (props: NodeProps<Node<Data>>) => {
   };
 
   useEffect(() => {
-    if (initialTextBlock) {
-      setTextBlock(initialTextBlock as string);
+    if (customData?.textBlock) {
+      setTextBlock(customData?.textBlock);
     }
-  }, [initialTextBlock]);
-
-  const onResize = () => {};
+  }, [customData?.textBlock]);
 
   return (
     <>
@@ -71,6 +71,17 @@ export const TextBlockNode = (props: NodeProps<Node<Data>>) => {
         }}
       >
         <CardBody className="flex flex-col items-center justify-center">
+          <div className="absolute right-0 top-0 p-2">
+            <X
+              className="cursor-pointer"
+              size={15}
+              onClick={() => {
+                setNodes((nodes) =>
+                  nodes.filter((node) => node.id !== props.id),
+                );
+              }}
+            />
+          </div>
           <div className="w-full">
             {!isTextBlockFocused && textBlock && (
               <p
@@ -90,6 +101,7 @@ export const TextBlockNode = (props: NodeProps<Node<Data>>) => {
                 onFocus={() => setIsTextBlockFocused(true)}
                 onBlur={() => setIsTextBlockFocused(false)}
                 onChange={(e) => onChangeTitle(e.target.value)}
+                className="pt-2"
               />
             )}
           </div>

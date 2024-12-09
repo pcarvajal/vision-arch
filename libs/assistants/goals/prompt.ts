@@ -49,7 +49,7 @@ The goal is to ensure that the color helps users quickly understand the type of 
           "data": {
             "type": "problemNode",
             "title": "Problema 1",
-            "description": "Descripción del problema 1."
+            "description": "Descripción del problema 1.",
             "borderColor": "border-blue-600"
           },
           "position": { "x": 250, "y": 25 }
@@ -60,7 +60,7 @@ The goal is to ensure that the color helps users quickly understand the type of 
           "data": {
             "type": "objetiveNode",
             "title": "Objetivo 1",
-            "description": "Descripción del objetivo 1."
+            "description": "Descripción del objetivo 1.",
             "borderColor": "border-blue-600"
           },
           "position": { "x": 400, "y": 100 }

@@ -1,5 +1,5 @@
 import { CsvlodPoliciesTypes } from '@/types';
-import { Card } from '@nextui-org/react';
+import { Card, CardHeader } from '@nextui-org/react';
 import {
   Node,
   NodeProps,
@@ -7,6 +7,7 @@ import {
   Position,
   useReactFlow,
 } from '@xyflow/react';
+import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export interface Data extends Record<string, unknown> {
@@ -22,7 +23,7 @@ export interface Data extends Record<string, unknown> {
 
 export const AreaNode = (props: NodeProps<Node<Data>>) => {
   const { zIndex: initialzIndex, id } = props.data;
-  const { updateNode, getNode } = useReactFlow();
+  const { updateNode, getNode, setNodes } = useReactFlow();
   const [zIndex, setZIndex] = useState(initialzIndex);
 
   console.log('ID PROPS', id);
@@ -61,11 +62,20 @@ export const AreaNode = (props: NodeProps<Node<Data>>) => {
           zIndex,
         }}
       >
-        {label && (
-          <p className="p-1 text-left text-sm" style={{ color: textColor }}>
-            {label}
-          </p>
-        )}
+        <CardHeader className="flex flex-row items-center justify-between">
+          {label && (
+            <p className="p-1 text-left text-sm" style={{ color: textColor }}>
+              {label}
+            </p>
+          )}
+          <X
+            className="cursor-pointer"
+            size={15}
+            onClick={() => {
+              setNodes((nodes) => nodes.filter((node) => node.id !== props.id));
+            }}
+          />
+        </CardHeader>
       </Card>
     </>
   );

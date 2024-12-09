@@ -1,7 +1,15 @@
 'use client';
 
-import { Card, CardBody, CardHeader, Input, Textarea } from '@nextui-org/react';
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Divider,
+  Input,
+  Textarea,
+} from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
+import { X } from 'lucide-react';
 import { useRef, useState } from 'react';
 
 export interface TitleAndItemsNodeData extends Record<string, unknown> {
@@ -26,7 +34,7 @@ export const TitleAndItemsNode = (
     [key: string]: HTMLInputElement | HTMLTextAreaElement | null;
   }>({});
 
-  const { updateNodeData } = useReactFlow();
+  const { updateNodeData, setNodes } = useReactFlow();
   const { title, description, items } = props.data
     .customData as TitleAndItemsNodeData;
 
@@ -69,23 +77,28 @@ export const TitleAndItemsNode = (
           borderColor: 'GrayText',
           opacity: 0.1,
         }}
-        minWidth={80}
-        minHeight={80}
+        minWidth={242}
+        minHeight={111}
       />
       <Card
         className={`h-full w-full`}
         style={{
-          minWidth: 80,
-          minHeight: 80,
+          minWidth: 242,
+          minHeight: 111,
         }}
       >
-        <CardBody className="w-50 h-300">
+        <CardBody className="h-full w-full">
           <CardHeader className="flex-col items-start px-4 pb-0 pt-2">
+            <X
+              className="absolute right-2 top-2 cursor-pointer"
+              onClick={() => {
+                setNodes((nodes) =>
+                  nodes.filter((node) => node.id !== props.id),
+                );
+              }}
+            />
             {title && !titleFocused ? (
-              <p
-                className="font-bold uppercase"
-                onClick={() => setTitleFocused(true)}
-              >
+              <p className="font-bold" onClick={() => setTitleFocused(true)}>
                 {title}
               </p>
             ) : (
@@ -122,43 +135,49 @@ export const TitleAndItemsNode = (
               />
             )}
           </CardHeader>
-          <CardBody className="px-4 py-2">
-            <ul className="max-w-md list-inside list-disc space-y-1">
+          <CardBody className="w-full px-4 py-2">
+            <ul className="list-inside list-disc space-y-1">
               {items &&
-                items.map((item) => (
-                  <li>
-                    {focusedItemId === item.id ? (
-                      item.type === 'Input' ? (
-                        <Input
-                          id={item.id}
-                          label={item.title}
-                          value={item.value}
-                          ref={(el) => (itemRefs.current[item.id] = el)}
-                          onChange={(e) =>
-                            handleInputChange(e.target.value, item.id)
-                          }
-                          onBlur={handleItemBlur}
-                        />
-                      ) : (
-                        <Textarea
-                          id={item.id}
-                          label={item.title}
-                          value={item.value}
-                          ref={(el) => (itemRefs.current[item.id] = el)}
-                          onChange={(e) =>
-                            handleInputChange(e.target.value, item.id)
-                          }
-                          onBlur={handleItemBlur}
-                        />
-                      )
+                items.map((item) =>
+                  focusedItemId === item.id ? (
+                    item.type === 'Input' ? (
+                      <Input
+                        id={item.id}
+                        label={item.title}
+                        value={item.value}
+                        ref={(el) => (itemRefs.current[item.id] = el)}
+                        onChange={(e) =>
+                          handleInputChange(e.target.value, item.id)
+                        }
+                        onBlur={handleItemBlur}
+                      />
                     ) : (
-                      <div onClick={() => handleItemFocus(item.id)}>
-                        <span>{item.title}: </span>
-                        {item.value && <p>{item.value}</p>}
-                      </div>
-                    )}
-                  </li>
-                ))}
+                      <Textarea
+                        id={item.id}
+                        label={item.title}
+                        value={item.value}
+                        ref={(el) => (itemRefs.current[item.id] = el)}
+                        onChange={(e) =>
+                          handleInputChange(e.target.value, item.id)
+                        }
+                        onBlur={handleItemBlur}
+                      />
+                    )
+                  ) : (
+                    <div className="">
+                      <li
+                        onClick={() => handleItemFocus(item.id)}
+                        className="flex flex-col space-x-2"
+                      >
+                        <p className="font-bold">{item.title}</p>
+                        <p>{item.value}</p>
+                      </li>
+                      {item.id !== items[items.length - 1].id && (
+                        <Divider className="my-4" />
+                      )}
+                    </div>
+                  ),
+                )}
             </ul>
           </CardBody>
         </CardBody>
