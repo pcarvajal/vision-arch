@@ -3,6 +3,7 @@
 import { getBlueprintsModelMessages } from '@/libs/assistants/blueprints/messages';
 import { getCsvlodConsiderationsPoliciesModel } from '@/libs/assistants/csvlod/considerations/policies/messages';
 import { getCsvlodConsiderationsPrinciplesModel } from '@/libs/assistants/csvlod/considerations/principles/messages';
+import { getCsvlodStandardsGuidelinesModelMessages } from '@/libs/assistants/csvlod/standards/guidelines/messages';
 import { getBusinessObjetiveModelMessages } from '@/libs/assistants/goals/messages';
 import { databases } from '@/libs/backend/databases';
 import openai from '@/libs/openAI';
@@ -175,8 +176,8 @@ const getCsvlodModelMessages = (
       return getCsvlodConsiderationsPrinciplesModel(props);
     case 'policies':
       return getCsvlodConsiderationsPoliciesModel(props);
-    /*     case 'guidelines':
-      return getCsvlodStandardsGuidelinesModelMessages(props); */
+    case 'guidelines':
+      return getCsvlodStandardsGuidelinesModelMessages(props);
     default:
       return [];
   }
