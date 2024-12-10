@@ -1,4 +1,4 @@
-import BlueprintFlow from '@/components/flows/blueprints/BlueprintsFlow';
+import BlueprintFlow from '@/components/diagrams/blueprints/BlueprintsFlow';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import { routes } from '@/config/routes';
 import { Card, CardBody } from '@nextui-org/react';

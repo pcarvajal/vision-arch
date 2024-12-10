@@ -1,5 +1,5 @@
 import { getArtifactsAction } from '@/actions/artifact.actions';
-import BlueprintsFlowEdit from '@/components/flows/blueprints/BlueprintsFlowEdit';
+import BlueprintsFlowEdit from '@/components/diagrams/blueprints/BlueprintsFlowEdit';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import { routes } from '@/config/routes';
 import { Artifact } from '@/types/types';

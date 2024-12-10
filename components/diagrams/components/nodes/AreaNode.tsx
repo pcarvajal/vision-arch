@@ -1,35 +1,13 @@
-import { CsvlodPoliciesTypes } from '@/types';
+import { CustomNodeData } from '@/types';
 import { Card, CardHeader } from '@nextui-org/react';
-import {
-  Node,
-  NodeProps,
-  NodeResizer,
-  Position,
-  useReactFlow,
-} from '@xyflow/react';
+import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
 import { X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-export interface Data extends Record<string, unknown> {
-  type: CsvlodPoliciesTypes;
-  label?: string;
-  width?: number;
-  height?: number;
-  color?: string;
-  borderColor?: string;
-  textColor?: string;
-  zIndex?: number;
-}
-
-export const AreaNode = (props: NodeProps<Node<Data>>) => {
+export const AreaNode = (props: NodeProps<Node<CustomNodeData>>) => {
   const { zIndex: initialzIndex, id } = props.data;
-  const { updateNode, getNode, setNodes } = useReactFlow();
+  const { getNode, setNodes } = useReactFlow();
   const [zIndex, setZIndex] = useState(initialzIndex);
-
-  console.log('ID PROPS', id);
-  console.log('ID', getNode(id as string)?.id);
-  console.log('X', getNode(id as string)?.position.x);
-  console.log('Y', getNode(id as string)?.position.y);
 
   const {
     type,
@@ -38,7 +16,7 @@ export const AreaNode = (props: NodeProps<Node<Data>>) => {
     height = 100,
     color = '#6b7280',
     borderColor = '#18181b',
-    textColor = '#f9fafb',
+    color: textColor = '#f9fafb',
   } = props.data;
   return (
     <>

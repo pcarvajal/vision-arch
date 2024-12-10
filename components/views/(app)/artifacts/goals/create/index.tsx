@@ -1,4 +1,4 @@
-import GoalsFlow from '@/components/flows/goals/GoalsFlow';
+import GoalsFlow from '@/components/diagrams/goals/GoalsFlow';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import { routes } from '@/config/routes';
 import { Card, CardBody } from '@nextui-org/react';
@@ -29,9 +29,7 @@ export const CreateGoalsView = () => {
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <PageBreadcrumb items={breadcrumb} />
-
       <h3 className="text-xl font-semibold">Espacio de trabajo</h3>
-
       <div className="h-[600px] w-full">
         <Card className="h-full w-full">
           <CardBody className="h-full w-full">

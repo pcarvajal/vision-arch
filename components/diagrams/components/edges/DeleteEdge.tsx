@@ -11,9 +11,7 @@ import {
 import { PencilLine, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-export const CustomDefaultEdge = (props: EdgeProps) => {
-  const [label, setLabel] = useState('');
-  const [isLabelFocused, setIsLabelFocused] = useState(false);
+export const DeleteEdge = (props: EdgeProps) => {
   const {
     id,
     sourceX,
@@ -23,12 +21,12 @@ export const CustomDefaultEdge = (props: EdgeProps) => {
     sourcePosition,
     targetPosition,
     label: edgeLabel,
-    data,
   } = props;
 
   const { setEdges } = useReactFlow();
-
-  const [edgePath, labelX, labelY] = getBezierPath({
+  const [label, setLabel] = useState('');
+  const [isLabelFocused, setIsLabelFocused] = useState(false);
+  const [labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
     targetX,

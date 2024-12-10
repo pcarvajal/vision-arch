@@ -1,23 +1,23 @@
 'use client';
 
+import { CustomNodeData } from '@/types';
 import { Card, CardBody, Input } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-export interface Data extends Record<string, unknown> {
-  label?: string;
-  placeholder?: string;
-  width?: number;
-  height?: number;
-}
+type VerticalTitleNodeData = {
+  placeholder: string;
+};
 
-export const VerticalLabelNode = (props: NodeProps<Node<Data>>) => {
+export const VerticalTitleNode = (
+  props: NodeProps<Node<CustomNodeData<VerticalTitleNodeData>>>,
+) => {
   const {
     width: initialWidth,
     height: initialHeight,
     label: initialLabel = 'Texto',
-    placeholder,
+    nodeData: { placeholder },
   } = props.data;
 
   const { setNodes, updateNodeData, updateNode } = useReactFlow();

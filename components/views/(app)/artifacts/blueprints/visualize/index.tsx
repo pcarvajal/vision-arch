@@ -1,5 +1,5 @@
 import { getArtifactsAction } from '@/actions/artifact.actions';
-import BlueprintsFlowVisualize from '@/components/flows/blueprints/BlueprintsFlowVisualize';
+import BlueprintsFlowVisualize from '@/components/diagrams/blueprints/BlueprintsFlowVisualize';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import { routes } from '@/config/routes';
 import { Card, CardBody } from '@nextui-org/react';

@@ -2,44 +2,9 @@ import { ReactFlowJsonObject } from '@xyflow/react';
 import { Artifact } from './types';
 
 // App
-declare type OptionalObject<T extends Record<string, any>> =
-  | T
-  | { [K in keyof T]?: never };
 declare type Role = 'owner' | 'admin' | 'user';
-declare type UIColors =
-  | 'foreground'
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | undefined;
 
-// Stores
-declare type ArtifactFlowDataStore = {
-  data: ReactFlowJsonObject;
-  year: number;
-  type: ArtifactType;
-  details: { name: string; category: string } | null;
-};
-
-// Custom nodes (RF12)
-declare type CustomNodeData = {
-  id: string;
-  type: string;
-  label: string | undefined;
-  width: number | undefined;
-  height: number | undefined;
-  color: string | undefined;
-  borderColor: string | undefined;
-  backgroundColor: string | undefined;
-  zIndex: number | undefined;
-  customData?: {
-    [key: string]: any;
-  };
-  parentId?: string;
-  extent?: string;
-};
+declare type ArtifactCategory = 'csvlod' | 'objetives' | 'togaf';
 
 declare type ArtifactType =
   | 'goals'
@@ -79,6 +44,40 @@ declare type CsvlodGuidelinesNodeType =
   | 'standardTextBlockNode'
   | 'guidelineTextBlockNode';
 
+// Stores
+declare type ArtifactFlowDataStore = {
+  data: ReactFlowJsonObject | null;
+  year: number;
+  type: ArtifactType;
+  details: { name: string; category: string } | null;
+};
+
+// Custom nodes (RF12)
+declare type CustomNode<T = unknown> = {
+  id?: string;
+  type: string;
+  position: { x: number; y: number };
+  data: CustomNodeData<T>;
+  label: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  colorIcon?: string;
+};
+
+declare type CustomNodeData<T = unknown> = {
+  id: string;
+  type: ArtifactType;
+  label: string | undefined;
+  width: number | undefined;
+  height: number | undefined;
+  color: string | undefined;
+  borderColor: string | undefined;
+  backgroundColor: string | undefined;
+  zIndex: number | undefined;
+  nodeData: T;
+  parentId?: string;
+  extent?: string;
+};
+
 // OpenAI lib
 declare type ModelMessagesParams = {
   name: string;
@@ -87,6 +86,18 @@ declare type ModelMessagesParams = {
   objetives: string;
   description: string;
   year: string;
+};
+
+// Fields
+declare type CustomNodeSelect = {
+  section: string;
+  items: {
+    id: string;
+    type: string;
+    label: string;
+    icon?: React.ComponentType<{ className?: string }>;
+    description?: string;
+  };
 };
 
 // Forms

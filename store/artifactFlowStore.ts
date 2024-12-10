@@ -1,6 +1,14 @@
-import { ArtifactFlowDataStore } from '@/types';
+import { ArtifactType } from '@/types';
+import { ReactFlowJsonObject } from '@xyflow/react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
+declare type ArtifactFlowDataStore = {
+  data: ReactFlowJsonObject | null;
+  year: number;
+  type: ArtifactType;
+  details: { name: string; category: string } | null;
+};
 
 export type ArtifactFlowState = {
   artifactFlow: ArtifactFlowDataStore | null;

@@ -1,4 +1,3 @@
-import { CoordinateExtent, ReactFlowJsonObject } from '@xyflow/react';
 import { Models } from 'node-appwrite';
 import { ArtifactType } from '.';
 
@@ -42,32 +41,9 @@ export interface ArtifactModel extends Artifact, Models.Document {}
 export interface Account extends Models.User<Models.Preferences> {}
 export interface Preferences extends Models.Preferences {}
 
-// React Flow
-export interface CustomNode {
-  id: string;
-  type: string;
-  label?: string;
-  width?: number;
-  height?: number;
-  color?: string;
-  borderColor?: string;
-  backgroundColor?: string;
-  icon?: React.ComponentType<{ className?: string }> | undefined;
-  iconColor?: string;
-  zIndex?: number;
-  parentId?: string;
-  extent?: 'parent' | CoordinateExtent;
-  position: {
-    x: number;
-    y: number;
-  };
-  customData?: {
-    [key: string]: any;
-  };
-}
-
 // Forms
 export interface ArtifactSelectorItem {
+  id: string;
   type: string;
   label: string;
   icon?: React.ComponentType<{ className?: string }> | undefined;

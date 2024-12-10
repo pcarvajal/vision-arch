@@ -1,6 +1,6 @@
 'use client';
 
-import { GoalsNodeTypes } from '@/types';
+import { CustomNodeData } from '@/types';
 import { Card, CardBody, Input, Textarea } from '@nextui-org/react';
 import {
   Handle,
@@ -13,14 +13,16 @@ import {
 import { CircleX } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-export interface Data extends Record<string, unknown> {
-  title?: string;
-  description?: string;
-  type: GoalsNodeTypes;
-  borderColor?: string;
-}
+type TitleDescriptionNodeData = {
+  title: string;
+  titlePlaceholder: string;
+  description: string;
+  descriptionPlaceholder: string;
+};
 
-export const DefaultNode = (props: NodeProps<Node<Data>>) => {
+export const TitleDescriptionNode = (
+  props: NodeProps<Node<CustomNodeData<TitleDescriptionNodeData>>>,
+) => {
   const { setNodes, updateNodeData } = useReactFlow();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -28,8 +30,7 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
   const [isDescriptionFocused, setIsDescriptionFocused] = useState(false);
 
   const {
-    title: initialTitle,
-    description: initialDescription,
+    nodeData: { title: initialTitle, description: initialDescription },
     type = 'basicNode',
     borderColor = 'border-gray-600',
   } = props.data;

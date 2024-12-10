@@ -1,5 +1,5 @@
-import { BlueprintNodeTypes } from '@/types';
-import { ArtifactSelectorWithSections, CustomNode } from '@/types/types';
+import { BlueprintNodeTypes, CustomNode } from '@/types';
+import { ArtifactSelectorWithSections } from '@/types/types';
 import {
   DiamondPlus,
   Handshake,
@@ -26,20 +26,10 @@ export const yearRange = {
 
 // Nodes
 // Goals
-export const goalsNodes: Array<{
-  type: string;
-  name: string;
-  icon?: React.ComponentType<{ className?: string }>;
-  iconColor?: string;
-  data: {
-    title?: string;
-    description?: string;
-    borderColor?: string;
-  };
-}> = [
+export const goalsNodes: CustomNode[] = [
   {
     type: 'objetiveNode',
-    name: 'Objetivo',
+    label: 'Objetivo',
     icon: DiamondPlus,
     iconColor: '#16a34a',
     data: {

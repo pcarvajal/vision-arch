@@ -1,4 +1,4 @@
-import { BlueprintsNodeData, GoalsNodeData, GoalsNodeTypes } from '@/types';
+import { CustomNode } from '@/types';
 import {
   Button,
   Dropdown,
@@ -8,17 +8,11 @@ import {
 } from '@nextui-org/react';
 import { useReactFlow } from '@xyflow/react';
 
-interface ProviderNodeProps {
-  nodes: {
-    type: string;
-    name: string;
-    icon?: React.ComponentType<{ className?: string }>;
-    iconColor?: string;
-    data: GoalsNodeData | BlueprintsNodeData;
-  }[];
+interface SelectNodesProps {
+  nodes: CustomNode[];
 }
 
-export const ProviderNode = ({ nodes }: ProviderNodeProps) => {
+export const SelectNodes = ({ nodes }: SelectNodesProps) => {
   const { setNodes } = useReactFlow();
 
   const handleNodeSelect = (nodeType: string) => {
@@ -31,7 +25,7 @@ export const ProviderNode = ({ nodes }: ProviderNodeProps) => {
         type: nodeType,
         position: { x: location, y: location },
         data: {
-          ...nodeData?.data,
+          ...nodeData,
         },
       },
     ]);
@@ -53,7 +47,7 @@ export const ProviderNode = ({ nodes }: ProviderNodeProps) => {
             >
               <div className="flex flex-row items-center space-x-2">
                 {node.icon && <node.icon />}
-                <span className="text-sm">{node.name}</span>
+                <span className="text-sm">{node.label}</span>
               </div>
             </DropdownItem>
           ))}

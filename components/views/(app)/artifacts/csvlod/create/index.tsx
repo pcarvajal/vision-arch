@@ -1,4 +1,4 @@
-import { CsvlodFlow } from '@/components/flows/csvlod/CsvlodFlow';
+import { CsvlodFlow } from '@/components/diagrams/csvlod/CsvlodFlow';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import { routes } from '@/config/routes';
 import { Atom, HouseIcon } from 'lucide-react';

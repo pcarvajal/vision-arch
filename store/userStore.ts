@@ -5,6 +5,7 @@ import { persist } from 'zustand/middleware';
 export type UserState = {
   account: Account | null;
   company: Company | null;
+  loading: boolean;
 };
 
 export type UserActions = {
@@ -12,6 +13,7 @@ export type UserActions = {
   updateAccount: (account: Account) => void;
   setCompany: (account: Company) => void;
   updateCompany: (account: Company) => void;
+  setLoading: (loading: boolean) => void;
   clearPersistedStore: () => void;
 };
 
@@ -26,6 +28,8 @@ const useUserStore = create(
       company: null,
       setCompany: (company) => set({ company }),
       updateCompany: (company) => set((state) => ({ ...state, company })),
+      loading: false,
+      setLoading: (loading) => set({ loading }),
       clearPersistedStore: () => {
         useUserStore.persist.clearStorage();
         set({ account: null, company: null });

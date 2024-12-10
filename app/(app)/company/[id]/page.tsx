@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Compañia | Editar',
-  description: 'Vision Arch | Plataforma de Arquitectura Empresarial',
+  description: 'Editar Compañia',
 };
 
 const EditCompanyPage = async ({ params }: { params: { id: string } }) => {

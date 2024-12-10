@@ -9,54 +9,62 @@ import {
   MiniMap,
   Node,
   Panel,
+  ReactFlow,
   ReactFlowInstance,
   useEdgesState,
   useNodesState,
+  type EdgeTypes,
+  type NodeTypes,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { generateGoalsModel } from '@/actions/ai.actions';
+import { generateModel } from '@/actions/ai.actions';
+import YearsSlider from '@/components/diagrams/components/YearsSlider';
 import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
+import ThinkingLoader from '@/components/shared/ThinkingLoader';
 import { goalsNodes } from '@/config/constants';
 import useArtifactFlowStore from '@/store/artifactFlowStore';
 import useUserStore from '@/store/userStore';
-import { useCallback, useEffect, useState } from 'react';
+import { ArtifactCategory, ArtifactType } from '@/types';
+import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
-import ThinkingLoader from '../../shared/ThinkingLoader';
-import YearsSlider from '../../shared/YearsSlider';
-import { CustomDefaultEdge } from '../CustomDefaultEdge';
-import { Flow } from '../Flow';
-import { ProviderNode } from '../ProviderNode';
-import { DefaultNode } from './nodes/DefaultNode';
+import { DeleteEdge } from './components/edges/DeleteEdge';
+import { SelectNodes } from './components/SelectNodes';
 
-const initialNodes: Node[] = [];
-const initialEdges: Edge[] = [];
-
-const nodeTypes = {
-  objetiveNode: DefaultNode,
-  problemNode: DefaultNode,
-  conceptNode: DefaultNode,
-  featureNode: DefaultNode,
-  basicNode: DefaultNode,
+type FlowProps<T> = {
+  types: ArtifactType[];
+  category: ArtifactCategory;
+  customNodes: NodeTypes;
+  customEdges: EdgeTypes;
+  initialFlow?: { initialNodes: Node[]; initialEdges: Edge[] };
 };
 
-const edgeTypes = {
-  customDefaultEdge: CustomDefaultEdge,
-};
-
-export default function GoalsFlow() {
-  const [loading, setLoading] = useState(false);
-  const [year, setYear] = useState(2024);
-  const [reactFlowInstance, setReactFLowInstance] =
-    useState<ReactFlowInstance | null>(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, OnEdgesChange] = useEdgesState(initialEdges);
-
+export default function ArtifactFlow<T>({
+  types,
+  category,
+  customNodes,
+  customEdges,
+  initialFlow = { initialNodes: [], initialEdges: [] },
+}: FlowProps<T>) {
+  const loading = useUserStore((state) => state.loading);
+  const setLoading = useUserStore((state) => state.setLoading);
   const company = useUserStore((state) => state.company);
   const setArtifactFlow = useArtifactFlowStore(
     (state) => state.setArtifactFlow,
   );
   const deleteArtifactFlow = useArtifactFlowStore(
     (state) => state.deleteArtifactFlow,
+  );
+
+  const [reactFlowInstance, setReactFLowInstance] =
+    useState<ReactFlowInstance | null>(null);
+  const [nodes, setNodes, onNodesChange] = useNodesState(
+    initialFlow.initialNodes,
+  );
+  const [edges, setEdges, OnEdgesChange] = useEdgesState(
+    initialFlow.initialEdges,
+  );
+  const [artifactSelected, setArtifactSelected] = useState<ArtifactType | null>(
+    null,
   );
 
   const onConnect = useCallback(
@@ -74,15 +82,19 @@ export default function GoalsFlow() {
 
   const onSelectYear = async (year: number) => {
     setLoading(true);
-    setYear(year);
-    const companyId = company?.$id;
-    if (!companyId) {
+
+    if (!company?.id) {
       setLoading(false);
       return toast.error('No se ha encontrado la empresa');
     }
-    const result = await generateGoalsModel({
-      companyId,
+
+    if (!artifactSelected)
+      return toast.error('No se ha seleccionado un tipo de artefacto');
+
+    const result = await generateModel({
+      companyId: company.id,
       year,
+      type: artifactSelected,
     });
 
     if (result?.message?.type === 'error') {
@@ -94,22 +106,23 @@ export default function GoalsFlow() {
 
     setNodes(jsonResponse.nodes);
     setEdges(jsonResponse.edges);
-
+    setArtifactFlow({
+      data: jsonResponse,
+      type: artifactSelected,
+      details: null,
+      year,
+    });
     setLoading(false);
   };
 
-  useEffect(() => {
-    const flow = reactFlowInstance?.toObject();
-    if (flow) {
-      deleteArtifactFlow();
-      setArtifactFlow({ data: flow });
-    }
-  }, [reactFlowInstance?.getEdges(), reactFlowInstance?.getNodes()]);
+  const edge = {
+    custom: DeleteEdge,
+  };
 
   return (
     <>
       <ThinkingLoader show={loading} />
-      <Flow
+      <ReactFlow
         className="h-full w-full"
         nodes={nodes}
         edges={edges}
@@ -117,30 +130,20 @@ export default function GoalsFlow() {
         onEdgesChange={OnEdgesChange}
         onConnect={onConnect}
         onInit={setReactFLowInstance}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
+        nodeTypes={customNodes}
+        edgeTypes={customEdges}
       >
         <Panel position="top-left" className="min-w-[300px] gap-4">
-          <YearsSlider
-            className="rounded-lg bg-black bg-opacity-45 p-4 text-white dark:bg-white dark:text-black"
-            color="primary"
-            defaultValue={2024}
-            label="Proyección"
-            minValue={2024}
-            maxValue={2028}
-            step={1}
-            showSteps
-            onChangeEnd={onSelectYear}
-          />
+          <YearsSlider label="Proyección" step={1} onChangeEnd={onSelectYear} />
         </Panel>
         <Panel position="top-right" className="flex gap-4">
           <SaveArtifactModal />
-          <ProviderNode nodes={goalsNodes} />
+          <SelectNodes nodes={goalsNodes} />
         </Panel>
         <Controls />
         <MiniMap />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
-      </Flow>
+      </ReactFlow>
     </>
   );
 }

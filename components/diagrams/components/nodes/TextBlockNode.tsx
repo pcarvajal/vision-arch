@@ -1,30 +1,27 @@
 'use client';
 
+import { CustomNodeData } from '@/types';
 import { Card, CardBody, CardHeader, Textarea } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-export interface Data extends Record<string, unknown> {
-  label?: string;
-  placeholder?: string;
-  width?: number;
-  height?: number;
-  customData?: {
-    textBlock?: string;
-  };
-}
+type TextBlockNodeData = {
+  placeholder: string;
+  textBlock: string;
+};
 
-export const TextBlockNode = (props: NodeProps<Node<Data>>) => {
+export const TextBlockNode = (
+  props: NodeProps<Node<CustomNodeData<TextBlockNodeData>>>,
+) => {
   const {
     width: initialWidth,
     height: initialHeight,
-    customData,
-    placeholder,
+    nodeData: { placeholder, textBlock: initialTextBlock },
   } = props.data;
 
   const { setNodes, updateNodeData, updateNode } = useReactFlow();
-  const [textBlock, setTextBlock] = useState(customData?.textBlock);
+  const [textBlock, setTextBlock] = useState(initialTextBlock);
   const [isTextBlockFocused, setIsTextBlockFocused] = useState(false);
 
   const [dimensions, setDimensions] = useState({
@@ -38,10 +35,10 @@ export const TextBlockNode = (props: NodeProps<Node<Data>>) => {
   };
 
   useEffect(() => {
-    if (customData?.textBlock) {
-      setTextBlock(customData?.textBlock);
+    if (initialTextBlock) {
+      setTextBlock(initialTextBlock);
     }
-  }, [customData?.textBlock]);
+  }, [initialTextBlock]);
 
   return (
     <>

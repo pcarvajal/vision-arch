@@ -1,4 +1,6 @@
-import { BlueprintNodeTypes } from '@/types';
+'use client';
+
+import { CustomNodeData } from '@/types';
 import { Card, CardBody, Input } from '@nextui-org/react';
 import {
   Handle,
@@ -8,20 +10,18 @@ import {
   Position,
   useReactFlow,
 } from '@xyflow/react';
-import { CircleX, PersonStanding } from 'lucide-react';
+import { CircleX } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { LeftRightHandle } from '../handles/LeftRightHandle';
 
-export interface Data extends Record<string, unknown> {
-  type: BlueprintNodeTypes;
-  label?: string;
-  placeholder?: string;
-  textColor?: string;
-  backgroundColor?: string;
-  width?: number;
-  height?: number;
-}
+type TitleDescriptionNodeData = {
+  title: string;
+  placeholder: string;
+};
 
-export const ActorNode = (props: NodeProps<Node<Data>>) => {
+export const TitleNode = (
+  props: NodeProps<Node<CustomNodeData<TitleDescriptionNodeData>>>,
+) => {
   const [width, setWidth] = useState(200);
   const [height, setHeight] = useState(100);
   const [label, setLabel] = useState('');
@@ -32,13 +32,13 @@ export const ActorNode = (props: NodeProps<Node<Data>>) => {
   const {
     height: initialHeight,
     width: initialWidth,
-    label: initialLabel,
     backgroundColor: initialBackgroundColor,
-    textColor,
-    placeholder,
+    label: initialLabel,
+    color: textColor,
+    nodeData: { title, placeholder },
   } = props.data;
 
-  const onChangeLabel = (value: string) => {
+  const onChangeTitle = (value: string) => {
     setLabel(value);
     updateNodeData(props.id, { label: value });
   };
@@ -79,9 +79,9 @@ export const ActorNode = (props: NodeProps<Node<Data>>) => {
       <Card
         className={`h-full w-full`}
         style={{
-          minWidth: width,
-          minHeight: height,
           backgroundColor: backgroundColor,
+          minHeight: height,
+          minWidth: width,
         }}
       >
         <CardBody className={`flex flex-col items-center justify-center`}>
@@ -97,24 +97,21 @@ export const ActorNode = (props: NodeProps<Node<Data>>) => {
               </h4>
             )}
           </div>
-          <div className="w-full text-center" style={{ color: textColor }}>
+          <div className="w-full text-center">
             {(isLabelFocused || !label) && (
               <Input
-                value={label}
+                value={title}
                 placeholder={placeholder}
                 onValueChange={setLabel}
                 onFocus={() => setIsLabelFocused(true)}
                 onBlur={() => setIsLabelFocused(false)}
-                onChange={(e) => onChangeLabel(e.target.value)}
+                onChange={(e) => onChangeTitle(e.target.value)}
               />
             )}
           </div>
           <div className="flex items-center justify-center">
-            <PersonStanding size={60} style={{ color: textColor }} />
-          </div>
-          <div className="flex items-center justify-center">
             <CircleX
-              className={`h-full cursor-pointer`}
+              className={`mt-2 h-full cursor-pointer`}
               style={{ color: textColor }}
               onClick={() =>
                 setNodes((nodes) =>
@@ -125,8 +122,7 @@ export const ActorNode = (props: NodeProps<Node<Data>>) => {
           </div>
         </CardBody>
       </Card>
-      <Handle type="source" position={Position.Right} />
-      <Handle type="target" position={Position.Left} />
+      <LeftRightHandle />
     </>
   );
 };

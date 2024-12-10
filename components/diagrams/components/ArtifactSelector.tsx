@@ -8,15 +8,15 @@ import {
   DropdownTrigger,
 } from '@nextui-org/react';
 
-interface CsvlodArtifactSelectorProps {
+interface ArtifactSelectorProps {
   items: ArtifactSelectorWithSections[];
   onArtifactSelect: (item: string) => void;
 }
 
-export default function CsvlodArtifactSelector({
+export default function ArtifactSelector({
   items,
   onArtifactSelect,
-}: CsvlodArtifactSelectorProps) {
+}: ArtifactSelectorProps) {
   const iconClasses =
     'text-xl text-default-500 pointer-events-none flex-shrink-0';
 

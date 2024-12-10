@@ -1,5 +1,5 @@
 import { getArtifactsAction } from '@/actions/artifact.actions';
-import GoalsFlowEdit from '@/components/flows/goals/GoalsFlowEdit';
+import GoalsFlowEdit from '@/components/diagrams/goals/GoalsFlowEdit';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import { routes } from '@/config/routes';
 import { Artifact } from '@/types/types';

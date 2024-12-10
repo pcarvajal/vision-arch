@@ -1,28 +1,17 @@
-import { UIColors } from '@/types';
+import { yearRange } from '@/config/constants';
 import { Slider } from '@nextui-org/react';
 
 interface YearsSliderProps {
-  className?: string;
-  color?: UIColors;
   step: number;
   label: string;
-  showSteps?: boolean;
-  maxValue: number;
-  minValue: number;
-  defaultValue: number;
   isDisabled?: boolean;
+  className?: string;
   onChangeEnd: (value: number) => void;
 }
 
 const YearsSlider = ({
   className,
-  color,
-  defaultValue,
   label,
-  maxValue,
-  minValue,
-  step,
-  showSteps,
   isDisabled = false,
   onChangeEnd,
 }: YearsSliderProps) => {
@@ -34,14 +23,14 @@ const YearsSlider = ({
     <div className={className}>
       <Slider
         size="sm"
-        step={step}
-        color={color || 'foreground'}
+        step={1}
+        color={'primary'}
         label={label}
-        showSteps={showSteps || false}
-        maxValue={maxValue}
-        minValue={minValue}
-        defaultValue={defaultValue}
-        className="max-w-md"
+        showSteps={true}
+        maxValue={yearRange.max}
+        minValue={yearRange.min}
+        defaultValue={yearRange.default}
+        className="max-w-md rounded-lg bg-black bg-opacity-45 p-4 text-white dark:bg-white dark:text-black"
         formatOptions={{ style: 'decimal' }}
         onChangeEnd={(value) => handleOnChangeEnd(value)}
         isDisabled={isDisabled}

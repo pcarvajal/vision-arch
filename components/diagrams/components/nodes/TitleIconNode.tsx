@@ -1,6 +1,5 @@
-'use client';
-
-import { BlueprintNodeTypes } from '@/types';
+import { CustomNodeData } from '@/types';
+import { CustomNode } from '@/types/types';
 import { Card, CardBody, Input } from '@nextui-org/react';
 import {
   Handle,
@@ -10,20 +9,17 @@ import {
   Position,
   useReactFlow,
 } from '@xyflow/react';
-import { CircleX } from 'lucide-react';
+import { CircleX, PersonStanding } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { LeftRightHandle } from '../handles/LeftRightHandle';
 
-export interface Data extends Record<string, unknown> {
-  backgroundColor?: string;
-  height?: number;
-  label?: string;
-  placeholder?: string;
-  textColor?: string;
-  type: BlueprintNodeTypes;
-  width?: number;
-}
+type TitleIconNodeData = {
+  placeholder: string;
+};
 
-export const DefaultNode = (props: NodeProps<Node<Data>>) => {
+export const TitleIconNode = (
+  props: NodeProps<Node<CustomNodeData<TitleIconNodeData>>>,
+) => {
   const [width, setWidth] = useState(200);
   const [height, setHeight] = useState(100);
   const [label, setLabel] = useState('');
@@ -34,13 +30,13 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
   const {
     height: initialHeight,
     width: initialWidth,
-    backgroundColor: initialBackgroundColor,
     label: initialLabel,
-    placeholder,
-    textColor,
+    backgroundColor: initialBackgroundColor,
+    color: textColor,
+    nodeData: { placeholder },
   } = props.data;
 
-  const onChangeTitle = (value: string) => {
+  const onChangeLabel = (value: string) => {
     setLabel(value);
     updateNodeData(props.id, { label: value });
   };
@@ -81,9 +77,9 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
       <Card
         className={`h-full w-full`}
         style={{
-          backgroundColor: backgroundColor,
-          minHeight: height,
           minWidth: width,
+          minHeight: height,
+          backgroundColor: backgroundColor,
         }}
       >
         <CardBody className={`flex flex-col items-center justify-center`}>
@@ -99,7 +95,7 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
               </h4>
             )}
           </div>
-          <div className="w-full text-center">
+          <div className="w-full text-center" style={{ color: textColor }}>
             {(isLabelFocused || !label) && (
               <Input
                 value={label}
@@ -107,13 +103,16 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
                 onValueChange={setLabel}
                 onFocus={() => setIsLabelFocused(true)}
                 onBlur={() => setIsLabelFocused(false)}
-                onChange={(e) => onChangeTitle(e.target.value)}
+                onChange={(e) => onChangeLabel(e.target.value)}
               />
             )}
           </div>
           <div className="flex items-center justify-center">
+            <PersonStanding size={60} style={{ color: textColor }} />
+          </div>
+          <div className="flex items-center justify-center">
             <CircleX
-              className={`mt-2 h-full cursor-pointer`}
+              className={`h-full cursor-pointer`}
               style={{ color: textColor }}
               onClick={() =>
                 setNodes((nodes) =>
@@ -124,8 +123,7 @@ export const DefaultNode = (props: NodeProps<Node<Data>>) => {
           </div>
         </CardBody>
       </Card>
-      <Handle type="source" position={Position.Right} />
-      <Handle type="target" position={Position.Left} />
+      <LeftRightHandle />
     </>
   );
 };

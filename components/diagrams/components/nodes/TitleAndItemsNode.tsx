@@ -1,5 +1,6 @@
 'use client';
 
+import { CustomNodeData } from '@/types';
 import {
   Card,
   CardBody,
@@ -12,20 +13,26 @@ import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useRef, useState } from 'react';
 
-export interface TitleAndItemsNodeData extends Record<string, unknown> {
+export interface Item {
+  id: string;
+  title: string;
+  type: 'TextArea' | 'Input';
+  value: string;
+}
+
+export interface TitleAndItemsNodeData {
   title: string;
   description: string;
-  items: Array<{
-    id: string;
-    title: string;
-    type: 'TextArea' | 'Input';
-    value: string;
-  }>;
+  items: Item[];
 }
 
 export const TitleAndItemsNode = (
-  props: NodeProps<Node<TitleAndItemsNodeData>>,
+  props: NodeProps<Node<CustomNodeData<TitleAndItemsNodeData>>>,
 ) => {
+  const {
+    nodeData: { items, title, description },
+  } = props.data;
+
   const [titleFocused, setTitleFocused] = useState(false);
   const [descriptionFocused, setDescriptionFocused] = useState(false);
   const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
@@ -35,11 +42,9 @@ export const TitleAndItemsNode = (
   }>({});
 
   const { updateNodeData, setNodes } = useReactFlow();
-  const { title, description, items } = props.data
-    .customData as TitleAndItemsNodeData;
 
   const handleInputChange = (value: string, id: string) => {
-    const newItems = items.map((item) =>
+    const newItems = items.map((item: Item) =>
       item.id === id ? { ...item, value } : item,
     );
     updateNodeData(props.id, {
@@ -138,7 +143,7 @@ export const TitleAndItemsNode = (
           <CardBody className="w-full px-4 py-2">
             <ul className="list-inside list-disc space-y-1">
               {items &&
-                items.map((item) =>
+                items.map((item: Item) =>
                   focusedItemId === item.id ? (
                     item.type === 'Input' ? (
                       <Input
