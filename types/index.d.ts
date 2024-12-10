@@ -17,9 +17,9 @@ declare type UIColors =
 
 // Stores
 declare type ArtifactFlowDataStore = {
-  data: ReactFlowJsonObject | null;
-  year: number | null;
-  type: string | null;
+  data: ReactFlowJsonObject;
+  year: number;
+  type: ArtifactType;
   details: { name: string; category: string } | null;
 };
 

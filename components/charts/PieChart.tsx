@@ -1,5 +1,6 @@
 'use client';
-import { PieChart as PieChartRC, Pie, Tooltip, Cell } from 'recharts';
+
+import { Cell, Pie, PieChart as PieChartRC, Tooltip } from 'recharts';
 
 const data01 = [
   { name: 'Avance', value: 41.6, fill: '#56e9b1' },

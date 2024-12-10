@@ -1,13 +1,13 @@
-import type { Metadata, NextPage } from 'next';
 import { HomeView } from '@/components/views/(app)/index';
+import type { Metadata, NextPage } from 'next';
 
 export const metadata: Metadata = {
   title: 'Dashboard',
-  description: 'Plataforma de Arquitectura Empresarial',
+  description: 'Vision Arch | Plataforma de Arquitectura Empresarial',
 };
 
-const Home: NextPage = () => {
+const HomePage = () => {
   return <HomeView />;
 };
 
-export default Home;
+export default HomePage;

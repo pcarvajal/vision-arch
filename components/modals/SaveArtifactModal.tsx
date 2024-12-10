@@ -1,8 +1,7 @@
 'use client';
 
 import { getArtifactByYearProjectionAndType } from '@/actions/artifact.actions';
-import useUserStore from '@/store/userStore';
-import { ArtifactTypes } from '@/types/types';
+import useArtifactFlowStore from '@/store/artifactFlowStore';
 import {
   Button,
   Modal,
@@ -15,21 +14,21 @@ import {
 import { useReactFlow } from '@xyflow/react';
 import { useEffect, useState } from 'react';
 import { SaveArtifactForm } from '../forms/SaveArtifactForm';
-import { ConfirmReplaceArtifactModal } from './ConfirmReplaceArtifactModal';
+import { ConfirmModal } from './ConfirmModal';
 
 export default function SaveArtifactModal() {
   const { getNodes } = useReactFlow();
-  const { artifactObject } = useUserStore();
+  const { artifactFlow } = useArtifactFlowStore();
   const [showReplaceModal, setShowReplaceModal] = useState(false);
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleIsArtifactExist = async () => {
-    if (artifactObject?.year) {
+    if (artifactFlow?.year && artifactFlow?.type) {
       const artifactFinded = await getArtifactByYearProjectionAndType(
-        artifactObject?.year,
-        artifactObject?.type as ArtifactTypes,
+        artifactFlow?.year,
+        artifactFlow?.type,
       );
       if (artifactFinded.length > 0) {
         setShowReplaceModal(true);
@@ -50,7 +49,7 @@ export default function SaveArtifactModal() {
     } else {
       setSaveButtonDisabled(false);
     }
-  }, [artifactObject]);
+  }, [artifactFlow]);
 
   return (
     <>
@@ -63,7 +62,9 @@ export default function SaveArtifactModal() {
         Guardar
       </Button>
       {showReplaceModal && (
-        <ConfirmReplaceArtifactModal
+        <ConfirmModal
+          title="Reemplazar"
+          message="Ya existe un artefacto con el mismo año y tipo, ¿desea reemplazarlo?"
           onCancel={() => setShowReplaceModal(false)}
           onConfirm={handleReplaceConfirmed}
           isOpen={true}

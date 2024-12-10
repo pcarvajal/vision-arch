@@ -1,4 +1,5 @@
 'use client';
+
 import Chart, { Props } from 'react-apexcharts';
 
 const state: Props['series'] = [
@@ -87,10 +88,10 @@ const options: Props['options'] = {
   markers: false,
 };
 
-export const Steam = () => {
+const Steam = () => {
   return (
     <>
-      <div className="w-full z-20">
+      <div className="z-20 w-full">
         <div id="chart">
           <Chart options={options} series={state} type="area" height={425} />
         </div>
@@ -98,3 +99,5 @@ export const Steam = () => {
     </>
   );
 };
+
+export default Steam;

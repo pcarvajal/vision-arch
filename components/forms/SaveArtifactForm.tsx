@@ -1,17 +1,14 @@
 'use client';
 
 import { saveArtifactAction } from '@/actions/artifact.actions';
-import { routes } from '@/config/routes';
 import {
   ArtifactSchema,
   artifactSchema,
 } from '@/libs/validators/artifact.schema';
 import useArtifactFlowStore from '@/store/artifactFlowStore';
-import useFlowStore from '@/store/flowStore';
-import useUserStore from '@/store/userStore';
+import { CreateArtifactParams } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Textarea } from '@nextui-org/react';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -27,8 +24,7 @@ const defaultValues = {
 
 export const SaveArtifactForm = () => {
   const [loading, setLoading] = useState(false);
-  const flow = useFlowStore((state) => state.flow);
-  const deleteflow = useFlowStore((state) => state.deleteFlow);
+
   const artifactFlow = useArtifactFlowStore((state) => state.artifactFlow);
   const deleteArtifactFlow = useArtifactFlowStore(
     (state) => state.deleteArtifactFlow,
@@ -54,11 +50,11 @@ export const SaveArtifactForm = () => {
       return toast.error('Error al recuperar el artefacto');
     }
 
-    const params = {
+    const params: CreateArtifactParams = {
       ...values,
       data: JSON.stringify(artifactFlow),
-      type: flow?.type ?? '',
-      yearProjection: flow?.year ?? 1,
+      type: artifactFlow.type,
+      yearProjection: artifactFlow.year,
     };
     const result = await saveArtifactAction(params);
 
@@ -67,7 +63,6 @@ export const SaveArtifactForm = () => {
       return toast.error(result.message);
     }
 
-    deleteflow();
     deleteArtifactFlow();
     setLoading(false);
     reset(defaultValues);
