@@ -2,18 +2,23 @@ import { Account, Company } from '@/types/types';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-interface UserState {
+export type UserState = {
   account: Account | null;
   company: Company | null;
+};
+
+export type UserActions = {
   setAccount: (account: Account) => void;
   updateAccount: (account: Account) => void;
   setCompany: (account: Company) => void;
   updateCompany: (account: Company) => void;
   clearPersistedStore: () => void;
-}
+};
+
+export type UserStore = UserState & UserActions;
 
 const useUserStore = create(
-  persist<UserState>(
+  persist<UserStore>(
     (set) => ({
       account: null,
       setAccount: (account) => set({ account }),

@@ -17,7 +17,7 @@ import '@xyflow/react/dist/style.css';
 import { generateGoalsModel } from '@/actions/ai.actions';
 import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
 import { goalsNodes } from '@/config/constants';
-import useArtifactFlowStore from '@/store/artifactStore';
+import useArtifactFlowStore from '@/store/artifactFlowStore';
 import useUserStore from '@/store/userStore';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';

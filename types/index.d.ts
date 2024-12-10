@@ -1,6 +1,10 @@
 import { ReactFlowJsonObject } from '@xyflow/react';
+import { Artifact } from './types';
 
 // App
+declare type OptionalObject<T extends Record<string, any>> =
+  | T
+  | { [K in keyof T]?: never };
 declare type Role = 'owner' | 'admin' | 'user';
 declare type UIColors =
   | 'foreground'
@@ -11,28 +15,47 @@ declare type UIColors =
   | 'danger'
   | undefined;
 
-// React Flow
-declare type GoalsNodeData = {
-  title?: string;
-  description?: string;
-  borderColor?: string;
+// Stores
+declare type ArtifactFlowDataStore = {
+  data: ReactFlowJsonObject | null;
+  year: number | null;
+  type: string | null;
+  details: { name: string; category: string } | null;
 };
-declare type GoalsNodeTypes =
+
+// Custom nodes (RF12)
+declare type CustomNodeData = {
+  id: string;
+  type: string;
+  label: string | undefined;
+  width: number | undefined;
+  height: number | undefined;
+  color: string | undefined;
+  borderColor: string | undefined;
+  backgroundColor: string | undefined;
+  zIndex: number | undefined;
+  customData?: {
+    [key: string]: any;
+  };
+  parentId?: string;
+  extent?: string;
+};
+
+declare type ArtifactType =
+  | 'goals'
+  | 'blueprints'
+  | 'policies'
+  | 'principles'
+  | 'guidelines';
+
+declare type GoalsNodeType =
   | 'objetiveNode'
   | 'problemNode'
   | 'conceptNode'
   | 'featureNode'
   | 'basicNode';
-declare type BlueprintsNodeData = {
-  backgroundColor?: string;
-  height?: number;
-  label?: string;
-  placeholder?: string;
-  textColor?: string;
-  type: BlueprintNodeTypes;
-  width?: number;
-};
-declare type BlueprintNodeTypes =
+
+declare type BlueprintNodeType =
   | 'actorNode'
   | 'systemNode'
   | 'processNode'
@@ -40,30 +63,33 @@ declare type BlueprintNodeTypes =
   | 'infrastructureNode'
   | 'subflowNode';
 
-declare type CsvlodPoliciesTypes =
+declare type CsvlodPoliciesNodeType =
   | 'policyAreaNode'
   | 'policyTypeAreaNode'
   | 'policyDescriptionAreaNode'
-  | 'policyTypeLabelNode';
+  | 'policyTypeLabelNode'
+  | 'policyTextBlockNode'
+  | 'policyDescriptionTextBlockNode';
 
-declare type OptionalObject<T extends Record<string, any>> =
-  | T
-  | { [K in keyof T]?: never };
+declare type CsvlodPrinciplesNodeType = 'principleTitleAndItemsNode';
 
-declare interface NodeProps<T> {
-  data: T;
-  id: string;
-}
+declare type CsvlodGuidelinesNodeType =
+  | 'standardAreaNode'
+  | 'guidelineAreaNode'
+  | 'standardTextBlockNode'
+  | 'guidelineTextBlockNode';
+
+// OpenAI lib
+declare type ModelMessagesParams = {
+  name: string;
+  mission: string;
+  vision: string;
+  objetives: string;
+  description: string;
+  year: string;
+};
 
 // Forms
-declare interface CreateArtifactParams {
-  name: string;
-  description: string;
-  yearProjection: number;
-  type: string;
-  data: string;
-}
-
 declare interface UserPreferencesParams {
   companyId: string | null;
   companyName: string | null;
@@ -88,6 +114,13 @@ declare interface ForgotPasswordParams {
   email: string;
 }
 
+declare interface ResetPasswordParams {
+  password: string;
+  confirmPassword: string;
+  userId: string;
+  secret: string;
+}
+
 declare interface CreateCompanyParams {
   id?: string;
   name: string;
@@ -97,15 +130,16 @@ declare interface CreateCompanyParams {
   description: string;
 }
 
+declare interface CreateArtifactParams {
+  name: string;
+  description: string;
+  yearProjection: number;
+  type: ArtifactType;
+  data: string;
+}
+
 declare interface GenerateArtifactParams {
   year: number;
   companyId: string;
-  type?: string;
-}
-
-declare interface ResetPasswordParams {
-  password: string;
-  confirmPassword: string;
-  userId: string;
-  secret: string;
+  type: ArtifactType;
 }

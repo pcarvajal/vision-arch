@@ -6,7 +6,7 @@ import {
   ArtifactSchema,
   artifactSchema,
 } from '@/libs/validators/artifact.schema';
-import useArtifactFlowStore from '@/store/artifactStore';
+import useArtifactFlowStore from '@/store/artifactFlowStore';
 import useFlowStore from '@/store/flowStore';
 import useUserStore from '@/store/userStore';
 import { zodResolver } from '@hookform/resolvers/zod';

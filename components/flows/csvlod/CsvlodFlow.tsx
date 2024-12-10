@@ -14,7 +14,7 @@ import {
   yearRange,
 } from '@/config/constants';
 import { CsvlodArtifactsEnum } from '@/config/enum';
-import useArtifactFlowStore from '@/store/artifactStore';
+import useArtifactFlowStore from '@/store/artifactFlowStore';
 import useFlowStore from '@/store/flowStore';
 import useUserStore from '@/store/userStore';
 import { ArtifactFlowData, CustomNode, FlowData } from '@/types/types';

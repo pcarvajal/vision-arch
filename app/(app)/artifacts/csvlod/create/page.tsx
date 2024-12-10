@@ -3,12 +3,12 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Crear | CSVLOD',
-  description: 'Artefactos CSVLOD',
+  title: 'CSVLOD | Crear',
+  description: 'CSVLOD de la organización',
 };
 
-const PoliciesPage = () => {
+const CsvlodCreatePage = () => {
   return <CsvlodCreateView />;
 };
 
-export default PoliciesPage;
+export default CsvlodCreatePage;

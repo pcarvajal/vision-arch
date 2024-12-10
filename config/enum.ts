@@ -1,3 +1,4 @@
+// App
 export enum UserStatusEnum {
   VERIFIED = 'verified',
   UNVERIFIED = 'unverified',
@@ -9,7 +10,16 @@ export enum RolesEnum {
   USER = 'user',
 }
 
-// Nodes and Edges for React Flow
+// Artifacts
+export enum ArtifactEnum {
+  PRINCIPLES = 'principles',
+  POLICIES = 'policies',
+  GUIDELINES = 'guidelines',
+  GOALS = 'goals',
+  BLUEPRINTS = 'blueprints',
+}
+
+// Nodes
 export enum GoalsTypeNodesEnum {
   PROBLEM = 'problemNode',
   OBJECTIVE = 'objectiveNode',

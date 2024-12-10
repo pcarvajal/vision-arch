@@ -6,7 +6,7 @@ import { databases } from '@/libs/backend/databases';
 import { teams } from '@/libs/backend/teams';
 import { parseStringify } from '@/libs/utils';
 import { CreateCompanyParams } from '@/types';
-import { Company, User } from '@/types/types';
+import { Company, CompanyModel, User, UserModel } from '@/types/types';
 import { ID } from 'node-appwrite';
 
 const {
@@ -23,22 +23,29 @@ const saveCompanyAction = async (params: CreateCompanyParams) => {
       RolesEnum.OWNER,
     ]);
 
-    const company = await databases.createDocument<Company>(
+    const newCompany: Company = params;
+
+    const company = await databases.createDocument<CompanyModel>(
       databaseId!,
       companiesId!,
       team?.$id,
-      { ...params },
+      { ...newCompany },
     );
 
-    await databases.createDocument<User>(databaseId!, usersId!, account.$id, {
-      name: account.name,
-      email: account.email,
-      companyId: company.$id,
-      companyName: company.name,
-      teamId: team.$id,
-      teamName: team.name,
-      avatar: account.prefs?.avatar,
-    });
+    await databases.createDocument<UserModel>(
+      databaseId!,
+      usersId!,
+      account.$id,
+      {
+        name: account.name,
+        email: account.email,
+        companyId: company.$id,
+        companyName: company.name,
+        teamId: team.$id,
+        teamName: team.name,
+        avatar: account.prefs?.avatar,
+      },
+    );
 
     return parseStringify(company);
   } catch (error: any) {
@@ -55,11 +62,12 @@ const updateCompanyAction = async (params: CreateCompanyParams) => {
       return { message: 'No tiene asignado un team', type: 'error' };
     }
 
-    const company = await databases.updateDocument<Company>(
+    const updatedCompany: Company = params;
+    const company = await databases.updateDocument<CompanyModel>(
       databaseId!,
       companiesId!,
       team.teams[0].$id,
-      { ...params },
+      { ...updatedCompany },
     );
 
     return parseStringify(company);
@@ -71,14 +79,14 @@ const updateCompanyAction = async (params: CreateCompanyParams) => {
 
 const getCompanyAction = async (id: string) => {
   try {
-    const company = await databases.getDocument<Company>(
+    const company = await databases.getDocument<CompanyModel>(
       databaseId!,
       companiesId!,
       id,
     );
 
     if (!company) {
-      return { message: 'Company not found', type: 'error' };
+      return { message: 'Compañia no encontrada', type: 'error' };
     }
 
     return parseStringify(company);

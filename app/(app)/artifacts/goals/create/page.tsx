@@ -3,12 +3,12 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Objetivos',
+  title: 'Objetivos | Crear',
   description: 'Objetivos de la organización',
 };
 
-const GoalsPage = () => {
+const GoalsCreatePage = () => {
   return <CreateGoalsView />;
 };
 
-export default GoalsPage;
+export default GoalsCreatePage;

@@ -1,19 +1,10 @@
-// Appwrite Types
-
 import { CoordinateExtent, ReactFlowJsonObject } from '@xyflow/react';
 import { Models } from 'node-appwrite';
+import { ArtifactType } from '.';
 
-export type ArtifactTypes =
-  | 'goals'
-  | 'blueprints'
-  | 'policies'
-  | 'principles'
-  | 'guidelines';
-
-export interface Account extends Models.User<Models.Preferences> {}
-
-export interface User extends Models.Document {
-  id: string | undefined;
+// App
+export interface User {
+  id?: string | undefined;
   name: string;
   email: string;
   companyId: string;
@@ -23,8 +14,8 @@ export interface User extends Models.Document {
   avatar: string | undefined;
 }
 
-export interface Company extends Models.Document {
-  id: string | undefined;
+export interface Company {
+  id?: string | undefined;
   name: string;
   description: string;
   mission: string;
@@ -32,30 +23,26 @@ export interface Company extends Models.Document {
   objetives: string;
 }
 
-export interface Artifact extends Models.Document {
-  id: string | undefined;
+export interface Artifact {
+  id?: string | undefined;
   name: string;
   userId: string;
   companyId: string;
-  type: ArtifactTypes;
+  type: ArtifactType;
   description: string;
   data: string;
   yearProjection: number;
   createdBy: string;
 }
 
+// Appwrite
+export interface UserModel extends User, Models.Document {}
+export interface CompanyModel extends Company, Models.Document {}
+export interface ArtifactModel extends Artifact, Models.Document {}
+export interface Account extends Models.User<Models.Preferences> {}
+export interface Preferences extends Models.Preferences {}
+
 // React Flow
-
-export interface FlowData {
-  year: number;
-  type: string;
-  details?: { name: string; category: string };
-}
-
-export interface ArtifactFlowData {
-  data: ReactFlowJsonObject | null;
-}
-
 export interface CustomNode {
   id: string;
   type: string;
@@ -80,7 +67,6 @@ export interface CustomNode {
 }
 
 // Forms
-
 export interface ArtifactSelectorItem {
   type: string;
   label: string;
@@ -91,14 +77,4 @@ export interface ArtifactSelectorItem {
 export interface ArtifactSelectorWithSections {
   section: string;
   items: ArtifactSelectorItem[];
-}
-
-// OpenAI
-export interface ModelMessagesProps {
-  name: string;
-  mission: string;
-  vision: string;
-  objetives: string;
-  description: string;
-  year: string;
 }

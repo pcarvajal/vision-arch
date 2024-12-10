@@ -1,17 +1,22 @@
-import { ArtifactFlowData } from '@/types/types';
+import { ArtifactFlowDataStore } from '@/types';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export interface ArtifactFlowStoreState {
-  artifactFlow: ArtifactFlowData | null;
-  setArtifactFlow: (artifactFlow: ArtifactFlowData) => void;
-  updateArtifactFlow: (artifactFlow: ArtifactFlowData) => void;
+export type ArtifactFlowState = {
+  artifactFlow: ArtifactFlowDataStore | null;
+};
+
+export type ArtifactFlowActions = {
+  setArtifactFlow: (artifactFlow: ArtifactFlowDataStore) => void;
+  updateArtifactFlow: (artifactFlow: ArtifactFlowDataStore) => void;
   deleteArtifactFlow: () => void;
   clearPersistedArtifactFlowStore: () => void;
-}
+};
+
+export type ArtifactFlowStore = ArtifactFlowState & ArtifactFlowActions;
 
 const useArtifactFlowStore = create(
-  persist<ArtifactFlowStoreState>(
+  persist<ArtifactFlowStore>(
     (set) => ({
       artifactFlow: null,
       setArtifactFlow: (artifactFlow) => set({ artifactFlow }),

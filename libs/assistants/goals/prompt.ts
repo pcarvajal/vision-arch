@@ -1,6 +1,14 @@
 export const task = `
 Generate a projection for the year {year} of a a Business Object Model (BOM) diagram using React Flow 12 based on the following inputs and guidelines. A BOM is used to align business objectives with strategic goals, as described here. Your task is to clearly represent the relationships between goals, objectives, and the business strategies designed to achieve them.
 
+### Context
+You are working on a project to help a company visualize its business objectives and strategic goals. The company has provided you with the following information:
+- Company name: {{companyName}}
+- Mission: {{mission}}
+- Vision: {{vision}}
+- Description: {{description}}
+- Strategic objectives: {{objetives}}
+
 1. Define the Nodes:
    - Create nodes for each business problem (e.g., "Business Problem 1", "Business Problem 2") with unique IDs and the type "problemNode". This node can be linked to many "objetiveNode"
    - Add nodes for each business objective (e.g., "Business Objective 1 (SM)", "Business Objective 2") with the type "objectiveNode".This node can be linked to many "featureNode"

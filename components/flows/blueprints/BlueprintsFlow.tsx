@@ -19,7 +19,7 @@ import { generateBlueprintsModel } from '@/actions/ai.actions';
 import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
 import YearsSlider from '@/components/shared/YearsSlider';
 import { blueprintsNodes } from '@/config/constants';
-import useArtifactFlowStore from '@/store/artifactStore';
+import useArtifactFlowStore from '@/store/artifactFlowStore';
 import useFlowStore from '@/store/flowStore';
 import useUserStore from '@/store/userStore';
 import { useCallback, useEffect, useState } from 'react';

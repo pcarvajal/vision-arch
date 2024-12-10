@@ -1,10 +1,10 @@
 import { accounts } from '@/libs/backend/accounts';
 import { parseStringify } from '@/libs/utils';
+import { Preferences } from '@/types/types';
 
 const getUserPreferencesAction = async () => {
   try {
-    const account = await accounts.getPreferences();
-
+    const account: Preferences | null = await accounts.getPreferences();
     return parseStringify(account);
   } catch (error: any) {
     console.error('Error getting user preferences:', error);
