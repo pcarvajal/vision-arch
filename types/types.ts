@@ -3,7 +3,12 @@
 import { CoordinateExtent, ReactFlowJsonObject } from '@xyflow/react';
 import { Models } from 'node-appwrite';
 
-export type ArtifactTypes = 'goals' | 'blueprints';
+export type ArtifactTypes =
+  | 'goals'
+  | 'blueprints'
+  | 'policies'
+  | 'principles'
+  | 'guidelines';
 
 export interface Account extends Models.User<Models.Preferences> {}
 
@@ -40,6 +45,17 @@ export interface Artifact extends Models.Document {
 }
 
 // React Flow
+
+export interface FlowData {
+  year: number;
+  type: string;
+  details?: { name: string; category: string };
+}
+
+export interface ArtifactFlowData {
+  data: ReactFlowJsonObject | null;
+}
+
 export interface CustomNode {
   id: string;
   type: string;
@@ -63,14 +79,7 @@ export interface CustomNode {
   };
 }
 
-export interface CustomEdge {}
-
-export interface ArtifactObject {
-  data: ReactFlowJsonObject | null;
-  year: number;
-  type: string;
-  details?: { name: string; category: string };
-}
+// Forms
 
 export interface ArtifactSelectorItem {
   type: string;

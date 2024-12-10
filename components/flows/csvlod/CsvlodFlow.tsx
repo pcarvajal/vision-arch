@@ -14,8 +14,10 @@ import {
   yearRange,
 } from '@/config/constants';
 import { CsvlodArtifactsEnum } from '@/config/enum';
+import useArtifactFlowStore from '@/store/artifactStore';
+import useFlowStore from '@/store/flowStore';
 import useUserStore from '@/store/userStore';
-import { ArtifactObject, CustomNode } from '@/types/types';
+import { ArtifactFlowData, CustomNode, FlowData } from '@/types/types';
 import { Card, CardBody } from '@nextui-org/react';
 import {
   Background,
@@ -31,7 +33,6 @@ import {
 } from '@xyflow/react';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { set } from 'zod';
 import { CustomDefaultEdge } from '../CustomDefaultEdge';
 import { Flow } from '../Flow';
 import { ProviderSchemaNode } from '../ProviderSchemaNode';
@@ -81,35 +82,43 @@ export const CsvlodFlow = () => {
   );
 
   const company = useUserStore((state) => state.company);
-  const artifactObject = useUserStore((state) => state.artifactObject);
-  const setArtifact = useUserStore((state) => state.setArtifactObject);
-  const deleteArtifact = useUserStore((state) => state.deleteArtifactObject);
-  const updateArtifact = useUserStore((state) => state.updateArtifactObject);
+
+  const flow = useFlowStore((state) => state.flow);
+  const deleteFlow = useFlowStore((state) => state.deleteFlow);
+  const updateFlow = useFlowStore((state) => state.updateFlow);
+
+  const artifactFlow = useArtifactFlowStore((state) => state.artifactFlow);
+  const deleteArtifactFlow = useArtifactFlowStore(
+    (state) => state.deleteArtifactFlow,
+  );
+  const updateArtifactFlow = useArtifactFlowStore(
+    (state) => state.updateArtifactFlow,
+  );
 
   const handleArtifactSelect = useCallback(
     (item: string) => {
       switch (item) {
         case CsvlodArtifactsEnum.PRINCIPLES:
           setNodesForArtifact(csvlodPrinciplesNodes);
-          modifyArtifactStore({
+          modifyFlowStore({
             details: { name: 'Principios', category: 'Consideraciones' },
           });
           break;
         case CsvlodArtifactsEnum.POLICIES:
           setNodesForArtifact(csvlodPoliciesNodes);
-          modifyArtifactStore({
+          modifyFlowStore({
             details: { name: 'Políticas', category: 'Consideraciones' },
           });
           break;
         case CsvlodArtifactsEnum.GUIDELINES:
           setNodesForArtifact(csvlodGuidelinesNodes);
-          modifyArtifactStore({
+          modifyFlowStore({
             details: { name: 'Pautas', category: 'Estandards' },
           });
           break;
         default:
           setNodesForArtifact(null);
-          modifyArtifactStore({
+          modifyFlowStore({
             details: undefined,
           });
           break;
@@ -177,27 +186,28 @@ export const CsvlodFlow = () => {
     setLoading(false);
   };
 
-  const modifyArtifactStore = (data: Partial<ArtifactObject>) => {
-    if (artifactObject) {
-      const updatedArtifact = {
-        ...artifactObject,
-        ...data,
+  const modifyFlowStore = (data: Partial<FlowData>) => {
+    if (flow) {
+      const updatedFlow = {
+        ...flow,
+        data,
       };
-      updateArtifact(updatedArtifact);
+      updateFlow(updatedFlow);
     } else {
-      deleteArtifact();
-      setArtifact({ data: null, year: 2024, type: 'csvlod', ...data });
+      deleteArtifactFlow();
+      deleteFlow();
     }
   };
 
   useEffect(() => {
-    deleteArtifact();
+    deleteArtifactFlow();
+    deleteFlow();
   }, []);
 
   return (
     <>
       <h3 className="text-xl font-semibold">
-        Espacio de trabajo {artifactObject?.details?.name || ''}
+        Espacio de trabajo {flow?.details?.name || ''}
       </h3>
 
       <div className="h-[600px] w-full">
@@ -225,6 +235,7 @@ export const CsvlodFlow = () => {
                   defaultValue={yearRange.default}
                   step={1}
                   showSteps
+                  isDisabled={artifactSelected === null ? true : false}
                   onChangeEnd={handleYearChange}
                 />
               </Panel>

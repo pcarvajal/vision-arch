@@ -19,6 +19,8 @@ import { generateBlueprintsModel } from '@/actions/ai.actions';
 import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
 import YearsSlider from '@/components/shared/YearsSlider';
 import { blueprintsNodes } from '@/config/constants';
+import useArtifactFlowStore from '@/store/artifactStore';
+import useFlowStore from '@/store/flowStore';
 import useUserStore from '@/store/userStore';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -52,8 +54,14 @@ export default function BlueprintFlow() {
     useState<ReactFlowInstance | null>(null);
 
   const company = useUserStore((state) => state.company);
-  const setArtifact = useUserStore((state) => state.setArtifactObject);
-  const deleteArtifact = useUserStore((state) => state.deleteArtifactObject);
+  const setArtifactFlow = useArtifactFlowStore(
+    (state) => state.setArtifactFlow,
+  );
+  const deleteArtifactFlow = useArtifactFlowStore(
+    (state) => state.deleteArtifactFlow,
+  );
+  const deleteFlow = useFlowStore((state) => state.deleteFlow);
+  const setFlow = useFlowStore((state) => state.setFlow);
 
   const onConnect = useCallback(
     (connection: Connection) => {
@@ -98,8 +106,10 @@ export default function BlueprintFlow() {
   useEffect(() => {
     const flow = reactFlowInstance?.toObject();
     if (flow) {
-      deleteArtifact();
-      setArtifact({ data: flow, year, type: 'blueprints' });
+      deleteArtifactFlow();
+      deleteFlow();
+      setFlow({ year, type: 'blueprints' });
+      setArtifactFlow({ data: flow });
     }
   }, [reactFlowInstance?.getEdges(), reactFlowInstance?.getNodes()]);
 

@@ -17,6 +17,7 @@ import '@xyflow/react/dist/style.css';
 import { generateGoalsModel } from '@/actions/ai.actions';
 import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
 import { goalsNodes } from '@/config/constants';
+import useArtifactFlowStore from '@/store/artifactStore';
 import useUserStore from '@/store/userStore';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -51,8 +52,12 @@ export default function GoalsFlow() {
   const [edges, setEdges, OnEdgesChange] = useEdgesState(initialEdges);
 
   const company = useUserStore((state) => state.company);
-  const setArtifact = useUserStore((state) => state.setArtifactObject);
-  const deleteArtifact = useUserStore((state) => state.deleteArtifactObject);
+  const setArtifactFlow = useArtifactFlowStore(
+    (state) => state.setArtifactFlow,
+  );
+  const deleteArtifactFlow = useArtifactFlowStore(
+    (state) => state.deleteArtifactFlow,
+  );
 
   const onConnect = useCallback(
     (connection: Connection) => {
@@ -96,8 +101,8 @@ export default function GoalsFlow() {
   useEffect(() => {
     const flow = reactFlowInstance?.toObject();
     if (flow) {
-      deleteArtifact();
-      setArtifact({ data: flow, year, type: 'goals' });
+      deleteArtifactFlow();
+      setArtifactFlow({ data: flow });
     }
   }, [reactFlowInstance?.getEdges(), reactFlowInstance?.getNodes()]);
 
