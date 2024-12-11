@@ -1,5 +1,4 @@
-import { BlueprintNodeTypes, CustomNode } from '@/types';
-import { ArtifactSelectorWithSections } from '@/types/types';
+import { CustomNode } from '@/types';
 import {
   DiamondPlus,
   Handshake,
@@ -29,382 +28,404 @@ export const yearRange = {
 export const goalsNodes: CustomNode[] = [
   {
     type: 'objetiveNode',
-    label: 'Objetivo',
-    icon: DiamondPlus,
-    iconColor: '#16a34a',
     data: {
-      title: '',
-      description: '',
+      nodeData: {
+        title: '',
+        description: '',
+      },
+      icon: DiamondPlus,
+      iconColor: '#16a34a',
+      label: 'Objetivo',
+      category: 'objetives',
+      categoryLabel: 'Objetivos',
       borderColor: 'border-green-600',
     },
   },
   {
     type: 'problemNode',
-    name: 'Problema',
-    icon: OctagonAlert,
-    iconColor: '#dc2626',
     data: {
-      title: '',
-      description: '',
+      nodeData: {
+        title: '',
+        description: '',
+      },
+      label: 'Problema',
+      icon: OctagonAlert,
+      iconColor: '#dc2626',
+      category: 'objetives',
+      categoryLabel: 'Objetivos',
       borderColor: 'border-red-600',
     },
   },
   {
     type: 'conceptNode',
-    name: 'Concepto',
-    icon: SquareDashedKanban,
-    iconColor: '#9333ea',
     data: {
-      title: '',
-      description: '',
+      nodeData: {
+        title: '',
+        description: '',
+      },
+      label: 'Concepto',
+      category: 'objetives',
+      categoryLabel: 'Objetivos',
+      icon: SquareDashedKanban,
+      iconColor: '#9333ea',
       borderColor: 'border-purple-600',
     },
   },
   {
     type: 'featureNode',
-    name: 'Característica',
-    icon: PackagePlus,
-    iconColor: '#ca8a04',
     data: {
-      title: '',
-      description: '',
+      nodeData: {
+        title: '',
+        description: '',
+      },
+      category: 'objetives',
+      categoryLabel: 'Objetivos',
+      label: 'Característica',
+      icon: PackagePlus,
+      iconColor: '#ca8a04',
       borderColor: 'border-yellow-600',
     },
   },
   {
     type: 'basicNode',
-    name: 'Básico',
-    icon: Ruler,
-    iconColor: '#475569',
     data: {
-      title: '',
-      description: '',
+      nodeData: {
+        title: '',
+        description: '',
+      },
+      category: 'objetives',
+      categoryLabel: 'Objetivos',
+      label: 'Básico',
+      icon: Ruler,
+      iconColor: '#475569',
       borderColor: 'border-slate-600',
     },
   },
 ];
 // Blueprints
-export const blueprintsNodes: Array<{
-  type: string;
-  name: string;
-  icon?: React.ComponentType<{ className?: string }>;
-  iconColor?: string;
-  data: {
-    label: string;
-    textColor: string;
-    backgroundColor: string;
-    type: BlueprintNodeTypes;
-    width: number;
-    height: number;
-    placeholder: string;
-  };
-}> = [
+export const blueprintsNodes: CustomNode[] = [
   {
     type: 'actorNode',
-    name: 'Actor',
-    icon: DiamondPlus,
-    iconColor: '#16a34a',
     data: {
+      nodeData: {
+        titlePlaceholder: 'Ingresa un actor ...',
+      },
+      category: 'togaf',
+      categoryLabel: 'TOGAF',
       label: 'Actor',
-      textColor: '#f8fafc',
+      color: '#f8fafc',
       backgroundColor: '#fcd34d',
-      type: 'actorNode',
+      icon: DiamondPlus,
+      iconColor: '#16a34a',
       width: 200,
       height: 100,
-      placeholder: 'Ingresa un actor ...',
     },
   },
   {
     type: 'systemNode',
-    name: 'Sistema',
-    icon: OctagonAlert,
-    iconColor: '#dc2626',
     data: {
+      nodeData: {
+        titlePlaceholder: 'Ingresa un sistema ...',
+      },
+      category: 'togaf',
+      categoryLabel: 'TOGAF',
       label: 'Sistema',
-      textColor: '#f8fafc',
+      color: '#f8fafc',
       backgroundColor: '#f0abfc',
-      type: 'systemNode',
+      icon: OctagonAlert,
+      iconColor: '#dc2626',
       width: 200,
       height: 100,
-      placeholder: 'Ingresa un sistema ...',
     },
   },
   {
     type: 'processNode',
-    name: 'Proceso',
-    icon: SquareDashedKanban,
-    iconColor: '#9333ea',
     data: {
+      nodeData: {
+        titlePlaceholder: 'Ingresa un proceso ...',
+      },
+      category: 'togaf',
+      categoryLabel: 'TOGAF',
       label: 'Proceso',
-      textColor: '#f8fafc',
+      color: '#f8fafc',
       backgroundColor: '#a78bfa',
-      type: 'processNode',
+      icon: SquareDashedKanban,
+      iconColor: '#9333ea',
       width: 200,
       height: 100,
-      placeholder: 'Ingresa un proceso ...',
     },
   },
   {
     type: 'dataNode',
-    name: 'Dato',
-    icon: PackagePlus,
-    iconColor: '#ca8a04',
     data: {
+      nodeData: {
+        titlePlaceholder: 'Ingresa una fuente de datos ...',
+      },
+      category: 'togaf',
+      categoryLabel: 'TOGAF',
       label: 'Dato',
-      textColor: '#475569',
+      color: '#475569',
       backgroundColor: '#f8fafc',
-      type: 'dataNode',
+      icon: PackagePlus,
+      iconColor: '#ca8a04',
       width: 200,
       height: 100,
-      placeholder: 'Ingresa una fuente de datos ...',
     },
   },
   {
     type: 'infrastructureNode',
-    name: 'Infraestructura',
-    icon: Ruler,
-    iconColor: '#475569',
     data: {
+      nodeData: {
+        titlePlaceholder: 'Ingresa una componente de infraestructura ...',
+      },
+      category: 'togaf',
+      categoryLabel: 'TOGAF',
       label: 'Infraestructura',
-      textColor: '#f8fafc',
+      color: '#f8fafc',
       backgroundColor: '#f9a8d4',
-      type: 'infrastructureNode',
+      icon: Ruler,
+      iconColor: '#475569',
       width: 200,
       height: 100,
-      placeholder: 'Ingresa una componente de infraestructura ...',
     },
   },
 ];
-// CSVLOD : Artifacts
-export const csvlodArtifactsSelectorItems: ArtifactSelectorWithSections[] = [
-  {
-    section: 'Consideraciones',
-    items: [
-      {
-        type: CsvlodArtifactsEnum.PRINCIPLES,
-        label: 'Principios',
-        icon: Handshake,
-        description: 'Crea un nuevo esquema de principios',
-      },
-      {
-        type: CsvlodArtifactsEnum.POLICIES,
-        label: 'Políticas',
-        icon: Siren,
-        description: 'Crea nuevas políticas',
-      },
-    ],
-  },
-  {
-    section: 'Estandards',
-    items: [
-      {
-        type: CsvlodArtifactsEnum.GUIDELINES,
-        label: 'Pautas',
-        icon: ListChecks,
-        description: 'Crea nuevas pautas',
-      },
-    ],
-  },
-];
+
 // CSVLOD : Policies
-export const csvlodPoliciesNodes: Array<CustomNode> = [
+export const csvlodPoliciesNodes: CustomNode[] = [
   {
-    id: '1',
     type: 'policyTypeAreaNode',
-    position: {
-      x: 0,
-      y: 0,
+    data: {
+      nodeData: {
+        title: 'Tipo de política',
+      },
+      category: 'csvlod',
+      categoryLabel: 'CSVLOD',
+      subcategory: 'policies',
+      subcategoryLabel: 'Políticas',
+      label: 'Área tipo de política',
+      width: 100,
+      height: 250,
+      color: '#0ea5e9',
+      borderColor: '#0c4a6e',
+      zIndex: 900,
+      icon: Scan,
     },
-    label: 'Área tipo de política',
-    width: 100,
-    height: 250,
-    color: '#0ea5e9',
-    borderColor: '#0c4a6e',
-    zIndex: 900,
-    icon: Scan,
   },
   {
-    id: '2',
     type: 'policyAreaNode',
-    position: {
-      x: 0,
-      y: 0,
+    data: {
+      nodeData: {
+        title: 'Política',
+      },
+      category: 'csvlod',
+      categoryLabel: 'CSVLOD',
+      subcategory: 'policies',
+      subcategoryLabel: 'Políticas',
+      label: 'Área política',
+      width: 140,
+      height: 250,
+      color: '#eab308',
+      borderColor: '#713f12',
+      zIndex: 900,
+      icon: Scan,
     },
-    label: 'Área política',
-    width: 140,
-    height: 250,
-    color: '#eab308',
-    borderColor: '#713f12',
-    zIndex: 900,
-    icon: Scan,
   },
   {
-    id: '3',
     type: 'policyDescriptionAreaNode',
-    position: {
-      x: 0,
-      y: 0,
+    data: {
+      nodeData: {
+        title: 'Descripción',
+      },
+      category: 'csvlod',
+      categoryLabel: 'CSVLOD',
+      subcategory: 'policies',
+      subcategoryLabel: 'Políticas',
+      label: 'Área descripción de la política',
+      width: 600,
+      height: 250,
+      color: '#a855f7',
+      borderColor: '#581c87',
+      zIndex: 900,
+      icon: Scan,
     },
-    label: 'Área descripción de la política',
-    width: 600,
-    height: 250,
-    color: '#a855f7',
-    borderColor: '#581c87',
-    zIndex: 900,
-    icon: Scan,
   },
   {
-    id: '4',
     type: 'policyTypeLabelNode',
-    position: {
-      x: 0,
-      y: 0,
+    data: {
+      nodeData: {
+        title: 'Tipo de política',
+        titlePlaceholder: 'Ingresa un tipo de política ...',
+      },
+      category: 'csvlod',
+      categoryLabel: 'CSVLOD',
+      subcategory: 'policies',
+      subcategoryLabel: 'Políticas',
+      label: 'Bloque tipo de política',
+      width: 88,
+      height: 193,
+      zIndex: undefined,
+      icon: Text,
     },
-    label: 'Bloque tipo de política',
-    width: 88,
-    height: 193,
-    zIndex: undefined,
-    icon: Text,
   },
   {
-    id: '5',
     type: 'policyTextBlockNode',
-    position: {
-      x: 300,
-      y: 500,
-    },
-    label: 'Bloque titulo de política',
-    width: 110,
-    height: 80,
-    icon: Text,
-    customData: {
-      textBlock: 'Mi Política 1 ...',
+    data: {
+      nodeData: {
+        textBlock: 'Política',
+        textBlockPlaceholder: 'Ingresa una política ...',
+      },
+      category: 'csvlod',
+      categoryLabel: 'CSVLOD',
+      subcategory: 'policies',
+      subcategoryLabel: 'Políticas',
+      label: 'Bloque titulo de política',
+      width: 110,
+      height: 80,
+      icon: Text,
     },
   },
   {
-    id: '6',
     type: 'policyDescriptionTextBlockNode',
-    position: {
-      x: 300,
-      y: 400,
-    },
-    label: 'Bloque descripción de política',
-    width: 240,
-    height: 80,
-    icon: Text,
-    customData: {
-      textBlock: 'Política 1: Descripción de la política ...',
+    data: {
+      nodeData: {
+        textBlock: 'Descripción de la política',
+        textBlockPlaceholder: 'Ingresa una descripción de la política ...',
+      },
+      category: 'csvlod',
+      categoryLabel: 'CSVLOD',
+      subcategory: 'policies',
+      subcategoryLabel: 'Políticas',
+      label: 'Bloque descripción de política',
+      width: 240,
+      height: 80,
+      icon: Text,
     },
   },
 ];
 // CSVLOD: Principles
-export const csvlodPrinciplesNodes: Array<CustomNode> = [
+export const csvlodPrinciplesNodes: CustomNode[] = [
   {
-    id: '1',
     type: 'principleTitleAndItemsNode',
-    position: {
-      x: 300,
-      y: 500,
-    },
-    label: 'Bloque de texto de principio',
-    width: 100,
-    height: 250,
-    color: '#0ea5e9',
-    borderColor: '#0c4a6e',
-    zIndex: 900,
-    icon: Text,
-    customData: {
-      title: 'Titulo del principio',
-      description: 'Descripción del principio ...',
-      items: [
-        {
-          id: '1',
-          title: 'Declaración',
-          type: 'TextArea',
-          value: 'Descripciones de la declaración ...',
-        },
-        {
-          id: '2',
-          title: 'Razón',
-          type: 'TextArea',
-          value: 'Descripciones de la razón ...',
-        },
-        {
-          id: '3',
-          title: 'Implicaciones',
-          type: 'TextArea',
-          value: 'Descripciones de las implicaciones ...',
-        },
-      ],
+    data: {
+      nodeData: {
+        title: 'Titulo del principio',
+        titlePlaceholder: 'Ingresa un título ...',
+        description: 'Descripción del principio ...',
+        descriptionPlaceholder: 'Ingresa una descripción ...',
+        items: [
+          {
+            id: '1',
+            title: 'Declaración',
+            type: 'TextArea',
+            value: 'Descripciones de la declaración ...',
+          },
+          {
+            id: '2',
+            title: 'Razón',
+            type: 'TextArea',
+            value: 'Descripciones de la razón ...',
+          },
+          {
+            id: '3',
+            title: 'Implicaciones',
+            type: 'TextArea',
+            value: 'Descripciones de las implicaciones ...',
+          },
+        ],
+      },
+      category: 'csvlod',
+      categoryLabel: 'CSVLOD',
+      subcategory: 'principles',
+      subcategoryLabel: 'Principios',
+      label: 'Bloque de texto de principio',
+      width: 100,
+      height: 250,
+      color: '#0ea5e9',
+      borderColor: '#0c4a6e',
+      zIndex: 900,
+      icon: Text,
     },
   },
 ];
 // CSVLOD: Guidelines
-export const csvlodGuidelinesNodes: Array<CustomNode> = [
+export const csvlodGuidelinesNodes: CustomNode[] = [
   {
-    id: '1',
     type: 'standardAreaNode',
-    position: {
-      x: 0,
-      y: 0,
+    data: {
+      nodeData: {
+        title: 'Estandard',
+      },
+      category: 'csvlod',
+      categoryLabel: 'CSVLOD',
+      subcategory: 'guidelines',
+      subcategoryLabel: 'Estándares',
+      label: 'Área de estandard',
+      width: 100,
+      height: 250,
+      color: '#0ea5e9',
+      borderColor: '#0c4a6e',
+      zIndex: 900,
+      icon: Scan,
     },
-    label: 'Área de estandard',
-    width: 100,
-    height: 250,
-    color: '#0ea5e9',
-    borderColor: '#0c4a6e',
-    zIndex: 900,
-    icon: Scan,
   },
   {
-    id: '2',
     type: 'guidelineAreaNode',
-    position: {
-      x: 0,
-      y: 0,
+    data: {
+      nodeData: {
+        title: 'Pauta',
+      },
+      category: 'csvlod',
+      categoryLabel: 'CSVLOD',
+      subcategory: 'guidelines',
+      subcategoryLabel: 'Estándares',
+      label: 'Área de pauta',
+      width: 100,
+      height: 250,
+      color: '#0ea5e9',
+      borderColor: '#0c4a6e',
+      zIndex: 900,
+      icon: Scan,
     },
-    label: 'Área de pauta',
-    width: 100,
-    height: 250,
-    color: '#0ea5e9',
-    borderColor: '#0c4a6e',
-    zIndex: 900,
-    icon: Scan,
   },
   {
-    id: '3',
     type: 'standardTextBlockNode',
-    position: {
-      x: 0,
-      y: 0,
-    },
-    label: 'Bloque de texto de estandard',
-    width: 600,
-    height: 250,
-    color: '#a855f7',
-    borderColor: '#581c87',
-    zIndex: 900,
-    icon: Text,
-    customData: {
-      textBlock: 'Política 1: Descripción de la política ...',
+    data: {
+      nodeData: {
+        textBlock: 'Política 1: Descripción de la política ...',
+        textBlockPlaceholder: 'Ingresa una descripción de la política ...',
+      },
+      category: 'csvlod',
+      categoryLabel: 'CSVLOD',
+      subcategory: 'guidelines',
+      subcategoryLabel: 'Estándares',
+      label: 'Bloque de texto de estandard',
+      width: 600,
+      height: 250,
+      color: '#a855f7',
+      borderColor: '#581c87',
+      zIndex: 900,
+      icon: Text,
     },
   },
   {
-    id: '4',
     type: 'guidelineTextBlockNode',
-    position: {
-      x: 0,
-      y: 0,
-    },
-    label: 'Bloque de texto de pauta',
-    width: 600,
-    height: 250,
-    color: '#a855f7',
-    borderColor: '#581c87',
-    zIndex: 900,
-    icon: Text,
-    customData: {
-      textBlock: 'Pauta 1: Descripción de la pauta ...',
+    data: {
+      nodeData: {
+        textBlock: 'Pauta 1: Descripción de la pauta ...',
+        textBlockPlaceholder: 'Ingresa una descripción de la pauta ...',
+      },
+      category: 'csvlod',
+      categoryLabel: 'CSVLOD',
+      subcategory: 'guidelines',
+      subcategoryLabel: 'Estándares',
+      label: 'Bloque de texto de pauta',
+      width: 600,
+      height: 250,
+      color: '#a855f7',
+      borderColor: '#581c87',
+      zIndex: 900,
+      icon: Text,
     },
   },
 ];

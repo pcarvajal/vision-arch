@@ -40,17 +40,3 @@ export interface CompanyModel extends Company, Models.Document {}
 export interface ArtifactModel extends Artifact, Models.Document {}
 export interface Account extends Models.User<Models.Preferences> {}
 export interface Preferences extends Models.Preferences {}
-
-// Forms
-export interface ArtifactSelectorItem {
-  id: string;
-  type: string;
-  label: string;
-  icon?: React.ComponentType<{ className?: string }> | undefined;
-  description?: string;
-}
-
-export interface ArtifactSelectorWithSections {
-  section: string;
-  items: ArtifactSelectorItem[];
-}

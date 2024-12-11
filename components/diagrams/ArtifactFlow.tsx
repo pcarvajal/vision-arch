@@ -21,30 +21,30 @@ import { generateModel } from '@/actions/ai.actions';
 import YearsSlider from '@/components/diagrams/components/YearsSlider';
 import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
 import ThinkingLoader from '@/components/shared/ThinkingLoader';
-import { goalsNodes } from '@/config/constants';
 import useArtifactFlowStore from '@/store/artifactFlowStore';
 import useUserStore from '@/store/userStore';
-import { ArtifactCategory, ArtifactType } from '@/types';
+import { ArtifactCategory, ArtifactType, CustomNode } from '@/types';
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
-import { DeleteEdge } from './components/edges/DeleteEdge';
 import { SelectNodes } from './components/SelectNodes';
 
-type FlowProps<T> = {
+interface ArtifactFlowProps<T> {
   types: ArtifactType[];
   category: ArtifactCategory;
-  customNodes: NodeTypes;
-  customEdges: EdgeTypes;
+  nodeTypes: NodeTypes;
+  edgeTypes: EdgeTypes;
+  customNodes: CustomNode[];
   initialFlow?: { initialNodes: Node[]; initialEdges: Edge[] };
-};
+}
 
 export default function ArtifactFlow<T>({
   types,
   category,
   customNodes,
-  customEdges,
+  nodeTypes,
+  edgeTypes,
   initialFlow = { initialNodes: [], initialEdges: [] },
-}: FlowProps<T>) {
+}: ArtifactFlowProps<T>) {
   const loading = useUserStore((state) => state.loading);
   const setLoading = useUserStore((state) => state.setLoading);
   const company = useUserStore((state) => state.company);
@@ -115,10 +115,6 @@ export default function ArtifactFlow<T>({
     setLoading(false);
   };
 
-  const edge = {
-    custom: DeleteEdge,
-  };
-
   return (
     <>
       <ThinkingLoader show={loading} />
@@ -130,15 +126,15 @@ export default function ArtifactFlow<T>({
         onEdgesChange={OnEdgesChange}
         onConnect={onConnect}
         onInit={setReactFLowInstance}
-        nodeTypes={customNodes}
-        edgeTypes={customEdges}
+        nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
       >
         <Panel position="top-left" className="min-w-[300px] gap-4">
           <YearsSlider label="Proyección" step={1} onChangeEnd={onSelectYear} />
         </Panel>
         <Panel position="top-right" className="flex gap-4">
           <SaveArtifactModal />
-          <SelectNodes nodes={goalsNodes} />
+          <SelectNodes nodes={customNodes} />
         </Panel>
         <Controls />
         <MiniMap />

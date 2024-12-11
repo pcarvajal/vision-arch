@@ -1,8 +1,14 @@
-import GoalsFlow from '@/components/diagrams/goals/GoalsFlow';
+import ArtifactFlow from '@/components/diagrams/ArtifactFlow';
+import { goalsFlowTypes } from '@/components/diagrams/NodeFlowsTypes';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
+import { goalsNodes } from '@/config/constants';
 import { routes } from '@/config/routes';
 import { Card, CardBody } from '@nextui-org/react';
 import { Atom, Goal, HouseIcon } from 'lucide-react';
+import {
+  ArtifactCategoryEnum,
+  ArtifactEnum,
+} from '../../../../../../config/enum';
 
 const breadcrumb = [
   {
@@ -33,7 +39,13 @@ export const CreateGoalsView = () => {
       <div className="h-[600px] w-full">
         <Card className="h-full w-full">
           <CardBody className="h-full w-full">
-            <GoalsFlow />
+            <ArtifactFlow
+              types={[ArtifactEnum.GOALS]}
+              category={ArtifactCategoryEnum.OBJETIVES}
+              edgeTypes={goalsFlowTypes.edgeTypes}
+              nodeTypes={goalsFlowTypes.nodeTypes}
+              customNodes={goalsNodes}
+            />
           </CardBody>
         </Card>
       </div>

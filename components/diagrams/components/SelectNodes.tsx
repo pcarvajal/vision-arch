@@ -46,8 +46,8 @@ export const SelectNodes = ({ nodes }: SelectNodesProps) => {
               key={node.type}
             >
               <div className="flex flex-row items-center space-x-2">
-                {node.icon && <node.icon />}
-                <span className="text-sm">{node.label}</span>
+                {node.data.icon && <node.data.icon />}
+                <span className="text-sm">{node.data.label}</span>
               </div>
             </DropdownItem>
           ))}

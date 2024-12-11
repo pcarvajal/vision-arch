@@ -1,4 +1,4 @@
-import { ArtifactSelectorWithSections } from '@/types/types';
+import { ArtifactSelectorWithSection } from '@/types';
 import {
   Button,
   Dropdown,
@@ -9,11 +9,11 @@ import {
 } from '@nextui-org/react';
 
 interface ArtifactSelectorProps {
-  items: ArtifactSelectorWithSections[];
+  items: ArtifactSelectorWithSection[];
   onArtifactSelect: (item: string) => void;
 }
 
-export default function ArtifactSelector({
+export default function ArtifactSelectWithSection({
   items,
   onArtifactSelect,
 }: ArtifactSelectorProps) {

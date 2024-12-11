@@ -1,25 +1,22 @@
+import { CustomNode } from '@/types';
 import { ReactFlowJsonObject } from '@xyflow/react';
 import { Artifact } from './types';
 
 // App
 declare type Role = 'owner' | 'admin' | 'user';
-
 declare type ArtifactCategory = 'csvlod' | 'objetives' | 'togaf';
-
 declare type ArtifactType =
   | 'goals'
   | 'blueprints'
   | 'policies'
   | 'principles'
   | 'guidelines';
-
 declare type GoalsNodeType =
   | 'objetiveNode'
   | 'problemNode'
   | 'conceptNode'
   | 'featureNode'
   | 'basicNode';
-
 declare type BlueprintNodeType =
   | 'actorNode'
   | 'systemNode'
@@ -27,7 +24,6 @@ declare type BlueprintNodeType =
   | 'dataNode'
   | 'infrastructureNode'
   | 'subflowNode';
-
 declare type CsvlodPoliciesNodeType =
   | 'policyAreaNode'
   | 'policyTypeAreaNode'
@@ -35,70 +31,68 @@ declare type CsvlodPoliciesNodeType =
   | 'policyTypeLabelNode'
   | 'policyTextBlockNode'
   | 'policyDescriptionTextBlockNode';
-
 declare type CsvlodPrinciplesNodeType = 'principleTitleAndItemsNode';
-
 declare type CsvlodGuidelinesNodeType =
   | 'standardAreaNode'
   | 'guidelineAreaNode'
   | 'standardTextBlockNode'
   | 'guidelineTextBlockNode';
-
-// Stores
-declare type ArtifactFlowDataStore = {
-  data: ReactFlowJsonObject | null;
-  year: number;
-  type: ArtifactType;
-  details: { name: string; category: string } | null;
-};
+declare type CustomNodeType =
+  | GoalsNodeType
+  | BlueprintNodeType
+  | CsvlodPoliciesNodeType
+  | CsvlodPrinciplesNodeType
+  | CsvlodGuidelinesNodeType;
 
 // Custom nodes (RF12)
-declare type CustomNode<T = unknown> = {
+declare interface CustomNode<T = unknown> {
   id?: string;
-  type: string;
-  position: { x: number; y: number };
+  type: CustomNodeType;
+  position?: { x: number; y: number };
   data: CustomNodeData<T>;
-  label: string;
-  icon?: React.ComponentType<{ className?: string }>;
-  colorIcon?: string;
-};
+}
 
-declare type CustomNodeData<T = unknown> = {
-  id: string;
-  type: ArtifactType;
-  label: string | undefined;
-  width: number | undefined;
-  height: number | undefined;
-  color: string | undefined;
-  borderColor: string | undefined;
-  backgroundColor: string | undefined;
-  zIndex: number | undefined;
+declare interface CustomNodeData<T = unknown> {
+  label: string;
+  category: ArtifactCategory;
+  categoryLabel: string;
+  subcategory?: string;
+  subcategoryLabel?: string;
+  description?: string;
+  width?: number;
+  height?: number;
+  color?: string;
+  borderColor?: string;
+  backgroundColor?: string;
+  zIndex?: number;
+  icon?: React.ComponentType<{ className?: string }>;
+  iconColor?: string;
   nodeData: T;
-  parentId?: string;
-  extent?: string;
-};
+}
 
 // OpenAI lib
-declare type ModelMessagesParams = {
+declare interface ModelMessagesParams {
   name: string;
   mission: string;
   vision: string;
   objetives: string;
   description: string;
   year: string;
-};
+}
 
 // Fields
-declare type CustomNodeSelect = {
+declare interface ArtifactSelectItem {
+  id: string;
+  type: ArtifactType;
+  label: string;
+  description?: string;
+  icon?: React.ComponentType<{ className?: string }>;
+}
+
+declare interface ArtifactSelectorWithSection {
   section: string;
-  items: {
-    id: string;
-    type: string;
-    label: string;
-    icon?: React.ComponentType<{ className?: string }>;
-    description?: string;
-  };
-};
+  items: ArtifactItem[];
+}
 
 // Forms
 declare interface UserPreferencesParams {

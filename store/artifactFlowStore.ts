@@ -3,7 +3,7 @@ import { ReactFlowJsonObject } from '@xyflow/react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-declare type ArtifactFlowDataStore = {
+type ArtifactFlowDataStore = {
   data: ReactFlowJsonObject | null;
   year: number;
   type: ArtifactType;

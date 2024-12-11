@@ -11,6 +11,12 @@ export enum RolesEnum {
 }
 
 // Artifacts
+export enum ArtifactCategoryEnum {
+  CSVLOD = 'csvlod',
+  TOGAF = 'togaf',
+  OBJETIVES = 'objetives',
+}
+
 export enum ArtifactEnum {
   PRINCIPLES = 'principles',
   POLICIES = 'policies',

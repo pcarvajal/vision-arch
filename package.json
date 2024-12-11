@@ -2,6 +2,7 @@
   "name": "vision-arch",
   "version": "0.1.0",
   "private": true,
+  "author": "Andrés Carvajal <causticrez@gmail.com> (https://github.com/pcarvajal)",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
