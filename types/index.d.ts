@@ -52,7 +52,7 @@ declare interface CustomNode<T = unknown> {
   data: CustomNodeData<T>;
 }
 
-declare interface CustomNodeData<T = unknown> {
+declare interface CustomNodeData<T = unknown> extends Record<string, unknown> {
   label: string;
   category: ArtifactCategory;
   categoryLabel: string;

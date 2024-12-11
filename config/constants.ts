@@ -1,17 +1,13 @@
 import { CustomNode } from '@/types';
 import {
   DiamondPlus,
-  Handshake,
-  ListChecks,
   OctagonAlert,
   PackagePlus,
   Ruler,
   Scan,
-  Siren,
   SquareDashedKanban,
   Text,
 } from 'lucide-react';
-import { CsvlodArtifactsEnum } from './enum';
 
 // Roles
 export const roles = ['owner', 'admin', 'user'] as const;

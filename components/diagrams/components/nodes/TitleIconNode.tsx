@@ -1,14 +1,8 @@
+'use client';
+
 import { CustomNodeData } from '@/types';
-import { CustomNode } from '@/types/types';
 import { Card, CardBody, Input } from '@nextui-org/react';
-import {
-  Handle,
-  Node,
-  NodeProps,
-  NodeResizer,
-  Position,
-  useReactFlow,
-} from '@xyflow/react';
+import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
 import { CircleX, PersonStanding } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { LeftRightHandle } from '../handles/LeftRightHandle';

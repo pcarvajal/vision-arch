@@ -1,5 +1,4 @@
 import { getArtifactsAction } from '@/actions/artifact.actions';
-import GoalsFlowVisualize from '@/components/diagrams/goals/GoalsFlowVisualize';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import { routes } from '@/config/routes';
 import { Card, CardBody } from '@nextui-org/react';
@@ -35,9 +34,7 @@ export const VisualizeGoalsView = async () => {
       <h3 className="text-xl font-semibold">Espacio de trabajo</h3>
       <div className="h-[600px] w-full">
         <Card className="h-full w-full">
-          <CardBody className="h-full w-full gap-4">
-            <GoalsFlowVisualize goals={goals} />
-          </CardBody>
+          <CardBody className="h-full w-full gap-4"></CardBody>
         </Card>
       </div>
     </div>

@@ -1,3 +1,5 @@
+'use client';
+
 import { CustomNode } from '@/types';
 import {
   Button,

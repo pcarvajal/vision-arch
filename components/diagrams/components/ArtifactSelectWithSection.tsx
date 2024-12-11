@@ -1,3 +1,5 @@
+'use client';
+
 import { ArtifactSelectorWithSection } from '@/types';
 import {
   Button,

@@ -1,4 +1,3 @@
-import BlueprintFlow from '@/components/diagrams/blueprints/BlueprintsFlow';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import { routes } from '@/config/routes';
 import { Card, CardBody } from '@nextui-org/react';
@@ -34,9 +33,7 @@ export const CreateBlueprintsView = () => {
 
       <div className="h-[600px] w-full">
         <Card className="h-full w-full">
-          <CardBody className="h-full w-full">
-            <BlueprintFlow />
-          </CardBody>
+          <CardBody className="h-full w-full"></CardBody>
         </Card>
       </div>
     </div>

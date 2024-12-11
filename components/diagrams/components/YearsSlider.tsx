@@ -1,3 +1,5 @@
+'use client';
+
 import { yearRange } from '@/config/constants';
 import { Slider } from '@nextui-org/react';
 

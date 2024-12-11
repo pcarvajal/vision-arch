@@ -1,3 +1,5 @@
+'use client';
+
 import { Handle, Position } from '@xyflow/react';
 
 export const LeftRightHandle = () => {

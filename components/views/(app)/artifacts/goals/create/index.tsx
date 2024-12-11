@@ -9,6 +9,7 @@ import {
   ArtifactCategoryEnum,
   ArtifactEnum,
 } from '../../../../../../config/enum';
+import { GoalsFlow } from './flow';
 
 const breadcrumb = [
   {
@@ -39,13 +40,7 @@ export const CreateGoalsView = () => {
       <div className="h-[600px] w-full">
         <Card className="h-full w-full">
           <CardBody className="h-full w-full">
-            <ArtifactFlow
-              types={[ArtifactEnum.GOALS]}
-              category={ArtifactCategoryEnum.OBJETIVES}
-              edgeTypes={goalsFlowTypes.edgeTypes}
-              nodeTypes={goalsFlowTypes.nodeTypes}
-              customNodes={goalsNodes}
-            />
+            <GoalsFlow />
           </CardBody>
         </Card>
       </div>

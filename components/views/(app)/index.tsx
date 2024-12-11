@@ -1,22 +1,30 @@
 'use client';
 
-import React from 'react';
-import dynamic from 'next/dynamic';
 import { CardBalance1 } from '@/components/views/(app)/elements/card-balance1';
 import { CardBalance2 } from '@/components/views/(app)/elements/card-balance2';
 import { CardBalance3 } from '@/components/views/(app)/elements/card-balance3';
+import dynamic from 'next/dynamic';
 
-const Chart = dynamic(() => import('../../charts/steam').then((mod) => mod.Steam), {
+/* const Chart = dynamic(
+  () => import('@/components/charts/_Steam').then((mod) => mod.Steam),
+  {
+    ssr: false,
+    loading: () => <p>Loading Chart...</p>,
+  },
+); */
+
+const PieChart = dynamic(() => import('@/components/charts/PieChart'), {
   ssr: false,
+  loading: () => <p>Loading Chart...</p>,
 });
 
-const PieChart = dynamic(() => import('../../charts/PieChart'), {
-  ssr: false,
-});
-
-const HorizontalBarChart = dynamic(() => import('../../charts/HorizontalBarChart'), {
-  ssr: false,
-});
+const HorizontalBarChart = dynamic(
+  () => import('@/components/charts/HorizontalBarChart'),
+  {
+    ssr: false,
+    loading: () => <p>Loading Chart...</p>,
+  },
+);
 
 export const HomeView = () => (
   <div className="h-full lg:px-6">
@@ -36,7 +44,7 @@ export const HomeView = () => (
         <div className="flex h-full flex-col gap-2">
           <h3 className="text-xl font-semibold">Comparativa de Desempeño</h3>
           <div className="w-full rounded-2xl bg-default-50 p-6 shadow-lg">
-            <Chart />
+            {/*            <Chart /> */}
           </div>
         </div>
       </div>

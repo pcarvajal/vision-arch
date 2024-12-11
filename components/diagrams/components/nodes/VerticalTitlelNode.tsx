@@ -6,9 +6,9 @@ import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-type VerticalTitleNodeData = {
+interface VerticalTitleNodeData {
   placeholder: string;
-};
+}
 
 export const VerticalTitleNode = (
   props: NodeProps<Node<CustomNodeData<VerticalTitleNodeData>>>,

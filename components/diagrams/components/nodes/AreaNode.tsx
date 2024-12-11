@@ -1,16 +1,24 @@
+'use client';
+
 import { CustomNodeData } from '@/types';
 import { Card, CardHeader } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useState } from 'react';
 
-export const AreaNode = (props: NodeProps<Node<CustomNodeData>>) => {
-  const { zIndex: initialzIndex, id } = props.data;
+interface AreaNodeData {
+  title: string;
+}
+
+export const AreaNode = (
+  props: NodeProps<Node<CustomNodeData<AreaNodeData>>>,
+) => {
+  const { zIndex: initialzIndex } = props.data;
+  const { id, type } = props;
   const { getNode, setNodes } = useReactFlow();
   const [zIndex, setZIndex] = useState(initialzIndex);
 
   const {
-    type,
     label,
     width = 100,
     height = 100,
@@ -18,6 +26,7 @@ export const AreaNode = (props: NodeProps<Node<CustomNodeData>>) => {
     borderColor = '#18181b',
     color: textColor = '#f9fafb',
   } = props.data;
+
   return (
     <>
       <NodeResizer

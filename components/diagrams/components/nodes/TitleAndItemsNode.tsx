@@ -150,7 +150,9 @@ export const TitleAndItemsNode = (
                         id={item.id}
                         label={item.title}
                         value={item.value}
-                        ref={(el) => (itemRefs.current[item.id] = el)}
+                        ref={(el) => {
+                          itemRefs.current[item.id] = el;
+                        }}
                         onChange={(e) =>
                           handleInputChange(e.target.value, item.id)
                         }
@@ -161,7 +163,9 @@ export const TitleAndItemsNode = (
                         id={item.id}
                         label={item.title}
                         value={item.value}
-                        ref={(el) => (itemRefs.current[item.id] = el)}
+                        ref={(el) => {
+                          itemRefs.current[item.id] = el;
+                        }}
                         onChange={(e) =>
                           handleInputChange(e.target.value, item.id)
                         }
