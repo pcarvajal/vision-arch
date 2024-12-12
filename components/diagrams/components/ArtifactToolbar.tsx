@@ -34,7 +34,7 @@ export const ArtifactToolbar = ({
           />
         )}
       </div>
-      <div className="flex flex-col space-x-4">
+      <div className="flex flex-row space-x-4">
         {selectNodeItems.length > 0 && <SelectNodes nodes={selectNodeItems} />}
         {saveArtifactModal && <SaveArtifactModal />}
       </div>

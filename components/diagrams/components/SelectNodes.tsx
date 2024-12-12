@@ -36,13 +36,13 @@ export const SelectNodes = ({ nodes }: SelectNodesProps) => {
   };
 
   return (
-    <Dropdown closeOnSelect={true}>
+    <Dropdown>
       <DropdownTrigger>
-        <Button variant="shadow" color="danger">
-          Nodos
+        <Button variant="ghost" color="danger">
+          Seleccionar Nodo
         </Button>
       </DropdownTrigger>
-      <DropdownMenu>
+      <DropdownMenu aria-label="Menu de Nodos" variant="faded">
         {nodes &&
           nodes.map((node) => (
             <DropdownItem

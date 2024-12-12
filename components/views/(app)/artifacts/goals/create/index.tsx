@@ -52,7 +52,15 @@ export const CreateGoalsView = () => {
             },
           ]}
           saveArtifactModal={true}
-          selectNodeItems={[]}
+          selectNodeItems={[
+            {
+              type: 'basicNode',
+              label: 'Basico',
+              category: 'objetives',
+              nodeData: { name: 'Basico' },
+              categoryLabel: 'Objetivos',
+            },
+          ]}
           className="gap-2"
         />
       </div>

@@ -31,7 +31,7 @@ export default function ArtifactSelectWithSection({
   return (
     <Dropdown>
       <DropdownTrigger>
-        <Button variant="faded">Seleccionar artefacto</Button>
+        <Button variant="ghost">Seleccionar artefacto</Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Menu de artefactos" variant="faded">
         {items.map((section) => (
