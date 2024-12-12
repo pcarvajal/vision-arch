@@ -1,19 +1,12 @@
 'use client';
 
-import { CustomNodeData } from '@/types';
+import { CustomNodeData, TextBlockNodeProps } from '@/types';
 import { Card, CardBody, CardHeader, Textarea } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-type TextBlockNodeData = {
-  placeholder: string;
-  textBlock: string;
-};
-
-export const TextBlockNode = (
-  props: NodeProps<Node<CustomNodeData<TextBlockNodeData>>>,
-) => {
+export const TextBlockNode = (props: NodeProps<Node<TextBlockNodeProps>>) => {
   const {
     width: initialWidth,
     height: initialHeight,

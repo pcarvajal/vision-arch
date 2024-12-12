@@ -40,40 +40,61 @@ export const schema = {
           },
           data: {
             type: 'object',
-            description: 'Additional data associated with the node.',
             properties: {
-              title: {
-                type: 'string',
-                description: 'Title of the node.',
-              },
-              description: {
-                type: 'string',
-                description: 'Description of the node.',
-              },
-              borderColor: {
-                type: 'string',
-                description: 'Color of node.',
-                enum: [
-                  'border-green-600',
-                  'border-red-600',
-                  'border-purple-600',
-                  'border-yellow-600',
-                  'border-gray-600',
-                ],
-              },
               type: {
                 type: 'string',
-                description: 'Type of node.',
                 enum: [
                   'objetiveNode',
                   'problemNode',
                   'conceptNode',
                   'featureNode',
-                  'basicNode',
                 ],
               },
+              nodeData: {
+                type: 'object',
+                properties: {
+                  title: {
+                    type: 'string',
+                    description: 'Title of the node.',
+                  },
+                  description: {
+                    type: 'string',
+                    description: 'Description of the node.',
+                  },
+                },
+                required: ['title', 'description'],
+                additionalProperties: false,
+              },
+              nodeBaseType: {
+                type: 'string',
+                enum: ['BaseNodeTypeEnum.TITLE_DESCRIPTION'],
+              },
+              label: {
+                type: 'string',
+                description: 'Label associated with the node.',
+              },
+              icon: {
+                type: 'string',
+                description: 'Icon name associated with the node.',
+              },
+              iconColor: {
+                type: 'string',
+                description: 'Hex color value for the icon.',
+              },
+              borderColor: {
+                type: 'string',
+                description: 'Hex color value for the border.',
+              },
             },
-            required: ['title', 'description', 'borderColor', 'type'],
+            required: [
+              'type',
+              'nodeData',
+              'nodeBaseType',
+              'label',
+              'icon',
+              'iconColor',
+              'borderColor',
+            ],
             additionalProperties: false,
           },
         },

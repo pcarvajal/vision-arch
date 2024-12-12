@@ -1,7 +1,7 @@
 'use client';
 
 import Icon from '@/components/shared/Icon';
-import { CustomNodeData } from '@/types';
+import { GenericNodeProps } from '@/types';
 import {
   Button,
   Dropdown,
@@ -13,15 +13,17 @@ import { useReactFlow } from '@xyflow/react';
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
 
 interface SelectNodesProps {
-  nodes: CustomNodeData[];
+  nodes: GenericNodeProps[];
 }
 
 export const SelectNodes = ({ nodes }: SelectNodesProps) => {
   const { setNodes } = useReactFlow();
+  const presetNodes = nodes.map((node) => node.node);
 
   const handleNodeSelect = (nodeType: string) => {
-    const nodeData = nodes.find((node) => node.type === nodeType);
+    const nodeData = presetNodes.find((node) => node.type === nodeType);
     const location = Math.random() * 200;
+
     setNodes((nodes) => [
       ...nodes,
       {
@@ -43,8 +45,8 @@ export const SelectNodes = ({ nodes }: SelectNodesProps) => {
         </Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Menu de Nodos" variant="faded">
-        {nodes &&
-          nodes.map((node) => (
+        {presetNodes &&
+          presetNodes.map((node) => (
             <DropdownItem
               onPress={() => handleNodeSelect(node.type)}
               key={node.type}

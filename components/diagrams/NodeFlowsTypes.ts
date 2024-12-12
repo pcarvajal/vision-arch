@@ -1,3 +1,4 @@
+import { FlowType } from '@/types';
 import { DeleteEdge } from './components/edges/DeleteEdge';
 import { AreaNode } from './components/nodes/AreaNode';
 import { NoteNode } from './components/nodes/NoteNode';
@@ -39,7 +40,7 @@ const blueprintsFlowTypes = {
 };
 
 // CSVLOD
-const policiesFlowTypes = {
+const policiesFlowTypes: FlowType = {
   nodeTypes: {
     policyTypeAreaNode: AreaNode,
     policyTypeLabelNode: VerticalTitleNode,
@@ -55,7 +56,7 @@ const policiesFlowTypes = {
   },
 };
 
-const principlesFlowTypes = {
+const principlesFlowTypes: FlowType = {
   nodeTypes: {
     principleTitleAndItemsNode: TitleAndItemsNode,
     noteNode: NoteNode,
@@ -65,7 +66,7 @@ const principlesFlowTypes = {
   },
 };
 
-const guidelinesFlowTypes = {
+const guidelinesFlowTypes: FlowType = {
   nodeTypes: {
     standardAreaNode: AreaNode,
     guidelineAreaNode: AreaNode,

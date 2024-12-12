@@ -1,18 +1,12 @@
 'use client';
 
-import { CustomNodeData } from '@/types';
+import { NoteNodeProps } from '@/types';
 import { Textarea } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useState } from 'react';
 
-interface TextBlockNodeData {
-  text: string | undefined;
-}
-
-export const NoteNode = (
-  props: NodeProps<Node<CustomNodeData<TextBlockNodeData>>>,
-) => {
+export const NoteNode = (props: NodeProps<Node<NoteNodeProps>>) => {
   const {
     width: initialWidth,
     height: initialHeight,

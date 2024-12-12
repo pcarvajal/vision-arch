@@ -49,39 +49,57 @@ The goal is to ensure that the color helps users quickly understand the type of 
 
     # Example
     \`\`\`json
-    {
-      "nodes": [
-        {
-          "id": "node1",
-          "type": "problemNode",
-          "data": {
-            "type": "problemNode",
-            "title": "Problema 1",
-            "description": "Descripción del problema 1.",
-            "borderColor": "border-blue-600"
-          },
-          "position": { "x": 250, "y": 25 }
-        },
-        {
-          "id": "node2",
-          "type": "objetiveNode",
-          "data": {
-            "type": "objetiveNode",
-            "title": "Objetivo 1",
-            "description": "Descripción del objetivo 1.",
-            "borderColor": "border-blue-600"
-          },
-          "position": { "x": 400, "y": 100 }
-        }
-      ],
-      "edges": [
-        {
-          "id": "e01",
-          "source": "node1",
-          "target": "node2",
-          "type": "deleteButtonEdge"
-        }
-      ]
-    }
+   {
+   "nodes":[
+      {
+         "id":"node1",
+         "type":"problemNode",
+         "data":{
+            "type":"problemNode",
+            "nodeData":{
+               "title":"",
+               "description":""
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.TITLE_DESCRIPTION",
+            "label":"Problema",
+            "icon":"octagon-alert",
+            "iconColor":"#dc2626",
+            "borderColor":"#dc2626"
+         },
+         "position":{
+            "x":250,
+            "y":25
+         }
+      },
+      {
+         "id":"node2",
+         "type":"objetiveNode",
+         "data":{
+            "type":"objetiveNode",
+            "nodeData":{
+               "title":"",
+               "description":""
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.TITLE_DESCRIPTION",
+            "icon":"diamond-plus",
+            "iconColor":"#16a34a",
+            "label":"Objetivo",
+            "borderColor":"#16a34a"
+         },
+         "position":{
+            "x":400,
+            "y":100
+         }
+      }
+   ],
+   "edges":[
+      {
+         "id":"e01",
+         "source":"node1",
+         "target":"node2",
+         "type":"deleteButtonEdge"
+      }
+   ]
+}
     \`\`\`
 `;

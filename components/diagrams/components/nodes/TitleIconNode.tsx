@@ -1,19 +1,13 @@
 'use client';
 
-import { CustomNodeData } from '@/types';
+import { CustomNodeData, TitleIconNodeProps } from '@/types';
 import { Card, CardBody, Input } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
 import { CircleX, PersonStanding } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { LeftRightHandle } from '../handles/LeftRightHandle';
 
-type TitleIconNodeData = {
-  placeholder: string;
-};
-
-export const TitleIconNode = (
-  props: NodeProps<Node<CustomNodeData<TitleIconNodeData>>>,
-) => {
+export const TitleIconNode = (props: NodeProps<Node<TitleIconNodeProps>>) => {
   const [width, setWidth] = useState(200);
   const [height, setHeight] = useState(100);
   const [label, setLabel] = useState('');
@@ -27,7 +21,7 @@ export const TitleIconNode = (
     label: initialLabel,
     backgroundColor: initialBackgroundColor,
     color: textColor,
-    nodeData: { placeholder },
+    nodeData: { titlePlaceholder: placeholder },
   } = props.data;
 
   const onChangeLabel = (value: string) => {

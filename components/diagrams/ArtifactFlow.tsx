@@ -18,41 +18,43 @@ import {
   ReactFlowInstance,
   useEdgesState,
   useNodesState,
+  useViewport,
   type EdgeTypes,
   type NodeTypes,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { generateModel } from '@/actions/ai.actions';
 import YearsSlider from '@/components/diagrams/components/YearsSlider';
-import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
 import ThinkingLoader from '@/components/shared/ThinkingLoader';
+import { yearRange } from '@/config/constants';
 import useArtifactFlowStore from '@/store/artifactFlowStore';
 import useUserStore from '@/store/userStore';
-import { ArtifactCategory, ArtifactType, CustomNodeData } from '@/types';
-import { use, useCallback, useEffect, useState } from 'react';
+import { ArtifactProps, ArtifactType } from '@/types';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { SelectNodes } from './components/SelectNodes';
 
 interface ArtifactFlowProps<T> {
-  types: ArtifactType[];
-  category: ArtifactCategory;
+  artifact: ArtifactProps;
   nodeTypes: NodeTypes;
   edgeTypes: EdgeTypes;
-  customNodes: CustomNodeData[];
-  initialFlow?: { initialNodes: Node[]; initialEdges: Edge[] };
 }
 
 export default function ArtifactFlow<T>({
-  types,
-  category,
-  customNodes,
+  artifact: {
+    initialFlow,
+    category,
+    categoryLabel,
+    type,
+    typeLabel,
+    presetNodes,
+  },
   nodeTypes,
   edgeTypes,
-  initialFlow = { initialNodes: [], initialEdges: [] },
 }: ArtifactFlowProps<T>) {
   const loading = useUserStore((state) => state.loading);
   const setLoading = useUserStore((state) => state.setLoading);
   const company = useUserStore((state) => state.company);
+  const viewport = useViewport();
   const setArtifactFlow = useArtifactFlowStore(
     (state) => state.setArtifactFlow,
   );
@@ -60,13 +62,13 @@ export default function ArtifactFlow<T>({
     (state) => state.deleteArtifactFlow,
   );
 
-  const [artifactSelected, setArtifactSelected] = useState<ArtifactType | null>(
-    null,
-  );
+  const [year, setYear] = useState<number>(yearRange.default);
+  const [artifactSelected, setArtifactSelected] = useState<ArtifactType>(type);
+
   const [reactFlowInstance, setReactFLowInstance] =
     useState<ReactFlowInstance | null>(null);
-  const [nodes, setNodes] = useNodesState(initialFlow.initialNodes);
-  const [edges, setEdges] = useEdgesState(initialFlow.initialEdges);
+  const [nodes, setNodes] = useNodesState(initialFlow?.nodes || []);
+  const [edges, setEdges] = useEdgesState(initialFlow?.edges || []);
 
   const onNodesChange = useCallback(
     (changes: NodeChange<Node>[]) =>
@@ -86,19 +88,6 @@ export default function ArtifactFlow<T>({
     [setEdges],
   );
 
-  /*   const onConnect = useCallback(
-    (connection: Connection) => {
-      const edge = {
-        ...connection,
-        animated: true,
-        id: `${edges.length + 1}`,
-        type: 'customDefaultEdge',
-      };
-      setEdges([...edges, edge]);
-    },
-    [edges, setEdges],
-  ); */
-
   const onSelectYear = async (year: number) => {
     setLoading(true);
 
@@ -111,13 +100,14 @@ export default function ArtifactFlow<T>({
       setLoading(false);
       return toast.error('No se ha seleccionado un tipo de artefacto');
     }
+    setYear(year);
 
     const result = await generateModel({
       companyId: company.id,
       year,
       type: artifactSelected,
     });
-    console.log(result);
+
     if (result?.type === 'error') {
       setLoading(false);
       return toast.error(result?.message || 'Error generando el modelo');
@@ -127,22 +117,21 @@ export default function ArtifactFlow<T>({
 
     setNodes(jsonResponse.nodes);
     setEdges(jsonResponse.edges);
-    setArtifactFlow({
-      data: jsonResponse,
-      type: artifactSelected,
-      details: null,
-      year,
-    });
+
     setLoading(false);
   };
 
   useEffect(() => {
-    if (types) {
-      if (types.length > 0 && types.length < 2) {
-        setArtifactSelected(types[0]);
-      }
-    }
-  }, [types]);
+    setArtifactFlow({
+      year,
+      data: { nodes, edges, viewport },
+      type: artifactSelected,
+    });
+
+    return () => {
+      deleteArtifactFlow();
+    };
+  }, [nodes, edges, viewport]);
 
   return (
     <>

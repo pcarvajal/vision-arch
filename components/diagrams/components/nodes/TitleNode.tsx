@@ -1,6 +1,6 @@
 'use client';
 
-import { CustomNodeData } from '@/types';
+import { CustomNodeData, TitleNodeProps } from '@/types';
 import { Card, CardBody, Input } from '@nextui-org/react';
 import {
   Handle,
@@ -14,14 +14,7 @@ import { CircleX } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { LeftRightHandle } from '../handles/LeftRightHandle';
 
-type TitleDescriptionNodeData = {
-  title: string;
-  placeholder: string;
-};
-
-export const TitleNode = (
-  props: NodeProps<Node<CustomNodeData<TitleDescriptionNodeData>>>,
-) => {
+export const TitleNode = (props: NodeProps<Node<TitleNodeProps>>) => {
   const [width, setWidth] = useState(200);
   const [height, setHeight] = useState(100);
   const [label, setLabel] = useState('');

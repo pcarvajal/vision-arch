@@ -1,6 +1,6 @@
 'use client';
 
-import { CustomNodeData } from '@/types';
+import { TitleAndItemsNodeProps } from '@/types';
 import {
   Card,
   CardBody,
@@ -13,21 +13,8 @@ import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useRef, useState } from 'react';
 
-export interface Item {
-  id: string;
-  title: string;
-  type: 'TextArea' | 'Input';
-  value: string;
-}
-
-export interface TitleAndItemsNodeData {
-  title: string;
-  description: string;
-  items: Item[];
-}
-
 export const TitleAndItemsNode = (
-  props: NodeProps<Node<CustomNodeData<TitleAndItemsNodeData>>>,
+  props: NodeProps<Node<TitleAndItemsNodeProps>>,
 ) => {
   const {
     nodeData: { items, title, description },
@@ -44,7 +31,7 @@ export const TitleAndItemsNode = (
   const { updateNodeData, setNodes } = useReactFlow();
 
   const handleInputChange = (value: string, id: string) => {
-    const newItems = items.map((item: Item) =>
+    const newItems = items.map((item) =>
       item.id === id ? { ...item, value } : item,
     );
     updateNodeData(props.id, {
@@ -143,7 +130,7 @@ export const TitleAndItemsNode = (
           <CardBody className="w-full px-4 py-2">
             <ul className="list-inside list-disc space-y-1">
               {items &&
-                items.map((item: Item) =>
+                items.map((item) =>
                   focusedItemId === item.id ? (
                     item.type === 'Input' ? (
                       <Input

@@ -1,6 +1,6 @@
 'use client';
 
-import { CustomNodeData } from '@/types';
+import { TitleDescriptionNodeProps } from '@/types';
 import { Card, CardBody, Input, Textarea } from '@nextui-org/react';
 import {
   Handle,
@@ -11,23 +11,13 @@ import {
   useReactFlow,
 } from '@xyflow/react';
 import { CircleX } from 'lucide-react';
-import { useEffect, useState } from 'react';
-
-type TitleDescriptionNodeData = {
-  title: string;
-  titlePlaceholder: string;
-  description: string;
-  descriptionPlaceholder: string;
-};
+import { useState } from 'react';
 
 export const TitleDescriptionNode = (
-  props: NodeProps<Node<CustomNodeData<TitleDescriptionNodeData>>>,
+  props: NodeProps<Node<TitleDescriptionNodeProps>>,
 ) => {
-  console.log('props', props);
-  console.log('target', props.data);
   const {
     nodeData: { title: initialTitle, description: initialDescription },
-    type = 'basicNode',
     borderColor = 'border-gray-600',
   } = props.data;
 

@@ -54,161 +54,148 @@ Provide a complete example of a JSON schema with placeholder data to demonstrate
 
 \`\`\`json
 {
-  "nodes": [
-    {
-      "id": "standardAreaNode1",
-      "type": "standardAreaNode",
-      "position": {
-        "x": 300,
-        "y": 50
+   "nodes":[
+      {
+         "id":"standardAreaNode1",
+         "type":"standardAreaNode",
+         "position":{
+            "x":300,
+            "y":50
+         },
+         "data":{
+            "type":"standardAreaNode",
+            "nodeData":{
+               "title":"Estandard"
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.AREA",
+            "label":"Área de estandard",
+            "width":100,
+            "height":250,
+            "color":"#0ea5e9",
+            "borderColor":"#0c4a6e",
+            "zIndex":900,
+            "icon":"scan"
+         }
       },
-      "data": {
-        "id": "standardAreaNode1",
-        "type": "standardAreaNode",
-        "position": {
-          "x": 300,
-          "y": 50
-        },
-        "label": "Data Security Standards",
-        "width": 200,
-        "height": 150,
-        "color": "#1d4ed8",
-        "borderColor": "#1e3a8a",
-        "zIndex": 900,
-        "icon": ""
-      }
-    },
-    {
-      "id": "guidelineAreaNode2",
-      "type": "guidelineAreaNode",
-      "position": {
-        "x": 600,
-        "y": 50
+      {
+         "id":"guidelineAreaNode2",
+         "type":"guidelineAreaNode",
+         "position":{
+            "x":600,
+            "y":50
+         },
+         "data":{
+            "type":"guidelineAreaNode",
+            "nodeData":{
+               "title":"Pauta"
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.AREA",
+            "label":"Área de pauta",
+            "width":100,
+            "height":250,
+            "color":"#0ea5e9",
+            "borderColor":"#0c4a6e",
+            "zIndex":900,
+            "icon":"scan"
+         }
       },
-      "data": {
-        "id": "guidelineAreaNode2",
-        "type": "guidelineAreaNode",
-        "position": {
-          "x": 600,
-          "y": 50
-        },
-        "label": "Data Security Guidelines",
-        "width": 200,
-        "height": 150,
-        "color": "#a855f7",
-        "borderColor": "#581c87",
-        "zIndex": 900,
-        "icon": ""
-      }
-    },
-    {
-      "id": "standardTextBlockNode3",
-      "type": "standardTextBlockNode",
-      "position": {
-        "x": 320,
-        "y": 75
+      {
+         "id":"standardTextBlockNode3",
+         "type":"standardTextBlockNode",
+         "position":{
+            "x":320,
+            "y":75
+         },
+         "data":{
+            "type":"standardTextBlockNode",
+            "nodeData":{
+               "textBlock":"Política 1: Descripción de la política ...",
+               "textBlockPlaceholder":"Ingresa una descripción de la política ..."
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.TEXT_BLOCK",
+            "label":"Bloque de texto de estandard",
+            "width":600,
+            "height":250,
+            "color":"#a855f7",
+            "borderColor":"#581c87",
+            "zIndex":900,
+            "icon":"text"
+         }
       },
-      "data": {
-        "id": "standardTextBlockNode3",
-        "type": "standardTextBlockNode",
-        "position": {
-          "x": 320,
-          "y": 75
-        },
-        "label": "Encryption protocols",
-        "width": 180,
-        "height": 80,
-        "color": "#2563eb",
-        "borderColor": "#1e40af",
-        "zIndex": 1000,
-        "icon": "",
-        "customData": {
-          "textBlock": "Encryption protocols for data in transit."
-        }
-      }
-    },
-    {
-      "id": "standardTextBlockNode4",
-      "type": "standardTextBlockNode",
-      "position": {
-        "x": 320,
-        "y": 175
+      {
+         "id":"standardTextBlockNode4",
+         "type":"standardTextBlockNode",
+         "position":{
+            "x":320,
+            "y":175
+         },
+         "data":{
+            "type":"standardTextBlockNode",
+            "nodeData":{
+               "textBlock":"Política 1: Descripción de la política ...",
+               "textBlockPlaceholder":"Ingresa una descripción de la política ..."
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.TEXT_BLOCK",
+            "label":"Bloque de texto de estandard",
+            "width":600,
+            "height":250,
+            "color":"#a855f7",
+            "borderColor":"#581c87",
+            "zIndex":900,
+            "icon":"text"
+         }
       },
-      "data": {
-        "id": "standardTextBlockNode4",
-        "type": "standardTextBlockNode",
-        "position": {
-          "x": 320,
-          "y": 175
-        },
-        "label": "Access control mechanisms",
-        "width": 180,
-        "height": 80,
-        "color": "#2563eb",
-        "borderColor": "#1e40af",
-        "zIndex": 1000,
-        "icon": "",
-        "customData": {
-          "textBlock": "Access control mechanisms for sensitive data."
-        }
-      }
-    },
-    {
-      "id": "guidelineTextBlockNode5",
-      "type": "guidelineTextBlockNode",
-      "position": {
-        "x": 620,
-        "y": 75
+      {
+         "id":"guidelineTextBlockNode5",
+         "type":"guidelineTextBlockNode",
+         "position":{
+            "x":620,
+            "y":75
+         },
+         "data":{
+            "type":"guidelineTextBlockNode",
+            "nodeData":{
+               "textBlock":"Pauta 1: Descripción de la pauta ...",
+               "textBlockPlaceholder":"Ingresa una descripción de la pauta ..."
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.TEXT_BLOCK",
+            "label":"Bloque de texto de pauta",
+            "width":600,
+            "height":250,
+            "color":"#a855f7",
+            "borderColor":"#581c87",
+            "zIndex":900,
+            "icon":"text"
+         }
       },
-      "data": {
-        "id": "guidelineTextBlockNode5",
-        "type": "guidelineTextBlockNode",
-        "position": {
-          "x": 620,
-          "y": 75
-        },
-        "label": "AES-256 Encryption",
-        "width": 180,
-        "height": 80,
-        "color": "#9333ea",
-        "borderColor": "#6b21a8",
-        "zIndex": 1000,
-        "icon": "",
-        "customData": {
-          "textBlock": "Use AES-256 encryption for data transmission."
-        }
+      {
+         "id":"guidelineTextBlockNode6",
+         "type":"guidelineTextBlockNode",
+         "position":{
+            "x":620,
+            "y":175
+         },
+         "data":{
+            "type":"guidelineTextBlockNode",
+            "nodeData":{
+               "textBlock":"Pauta 1: Descripción de la pauta ...",
+               "textBlockPlaceholder":"Ingresa una descripción de la pauta ..."
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.TEXT_BLOCK",
+            "label":"Bloque de texto de pauta",
+            "width":600,
+            "height":250,
+            "color":"#a855f7",
+            "borderColor":"#581c87",
+            "zIndex":900,
+            "icon":"text"
+         }
       }
-    },
-    {
-      "id": "guidelineTextBlockNode6",
-      "type": "guidelineTextBlockNode",
-      "position": {
-        "x": 620,
-        "y": 175
-      },
-      "data": {
-        "id": "guidelineTextBlockNode6",
-        "type": "guidelineTextBlockNode",
-        "position": {
-          "x": 620,
-          "y": 175
-        },
-        "label": "RBAC Implementation",
-        "width": 180,
-        "height": 80,
-        "color": "#9333ea",
-        "borderColor": "#6b21a8",
-        "zIndex": 1000,
-        "icon": "",
-        "customData": {
-          "textBlock": "Implement role-based access control (RBAC)."
-        }
-      }
-    }
-  ],
-  "edges": []
+   ],
+   "edges":[
+      
+   ]
 }
-
  \`\`\`
 ### Notes
 The output must be modular, adaptable, and fully compatible with React Flow 12. Use sample data to represent the company's name, mission, vision, description, and strategic objectives.

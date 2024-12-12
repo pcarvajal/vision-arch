@@ -1,4 +1,4 @@
-import { ArtifactEnum } from '@/config/enum';
+import { ArtifacTypeEnum } from '@/config/enum';
 import { ArtifactType, ModelMessagesParams } from '@/types';
 import { ChatCompletionMessageParam } from 'openai/resources';
 import { schema as blueprintsSchema } from '../libs/assistants/blueprints/schema';
@@ -14,15 +14,15 @@ import { getGoalsMessages } from './assistants/goals/messages';
 
 const getSchemaHelper = (type: ArtifactType) => {
   switch (type) {
-    case ArtifactEnum.PRINCIPLES:
+    case ArtifacTypeEnum.PRINCIPLES:
       return principlesSchema;
-    case ArtifactEnum.POLICIES:
+    case ArtifacTypeEnum.POLICIES:
       return policiesSchema;
-    case ArtifactEnum.GUIDELINES:
+    case ArtifacTypeEnum.GUIDELINES:
       return guidelinesSchema;
-    case ArtifactEnum.GOALS:
+    case ArtifacTypeEnum.GOALS:
       return goalsSchema;
-    case ArtifactEnum.BLUEPRINTS:
+    case ArtifacTypeEnum.BLUEPRINTS:
       return blueprintsSchema;
     default:
       return {};
@@ -34,15 +34,15 @@ const getMessagesHelper = (
   params: ModelMessagesParams,
 ): ChatCompletionMessageParam[] => {
   switch (type) {
-    case ArtifactEnum.PRINCIPLES:
+    case ArtifacTypeEnum.PRINCIPLES:
       return getCsvlodConsiderationsPrinciplesModel(params);
-    case ArtifactEnum.POLICIES:
+    case ArtifacTypeEnum.POLICIES:
       return getCsvlodConsiderationsPoliciesModel(params);
-    case ArtifactEnum.GUIDELINES:
+    case ArtifacTypeEnum.GUIDELINES:
       return getCsvlodStandardsGuidelinesModelMessages(params);
-    case ArtifactEnum.GOALS:
+    case ArtifacTypeEnum.GOALS:
       return getGoalsMessages(params);
-    case ArtifactEnum.BLUEPRINTS:
+    case ArtifacTypeEnum.BLUEPRINTS:
       return getBlueprintsModelMessages(params);
     default:
       return [];

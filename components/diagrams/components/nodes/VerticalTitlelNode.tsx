@@ -1,17 +1,13 @@
 'use client';
 
-import { CustomNodeData } from '@/types';
+import { VerticalTitleNodeProps } from '@/types';
 import { Card, CardBody, Input } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-interface VerticalTitleNodeData {
-  placeholder: string;
-}
-
 export const VerticalTitleNode = (
-  props: NodeProps<Node<CustomNodeData<VerticalTitleNodeData>>>,
+  props: NodeProps<Node<VerticalTitleNodeProps>>,
 ) => {
   const {
     width: initialWidth,

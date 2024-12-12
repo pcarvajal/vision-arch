@@ -7,7 +7,6 @@ type ArtifactFlowDataStore = {
   data: ReactFlowJsonObject | null;
   year: number;
   type: ArtifactType;
-  details: { name: string; category: string } | null;
 };
 
 export type ArtifactFlowState = {

@@ -1,41 +1,50 @@
 'use client';
 
 import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
-import { ArtifactSelectorWithSection, CustomNodeData } from '@/types';
+import {
+  ArtifactSelectorWithSection,
+  CustomNodeData,
+  GenericNodeProps,
+} from '@/types';
 import React from 'react';
 import { Artifact } from '../../../types/types';
 import ArtifactSelectWithSection from './ArtifactSelectWithSection';
 import { SelectNodes } from './SelectNodes';
 
 interface ArtifactToolbarProps {
+  selectNodeItems?: GenericNodeProps[];
   saveArtifactModal?: boolean;
-  selectNodeItems: CustomNodeData[];
-  artifactSelectWithSectionItems: ArtifactSelectorWithSection[];
+  artifactSelect?: {
+    items: ArtifactSelectorWithSection[];
+    defaultItem?: string;
+    onArtifactSelect: (item: string) => void;
+  };
   className?: string;
 }
 
-export const ArtifactToolbar = ({
+export const ArtifactToolbar = <T extends CustomNodeData>({
   saveArtifactModal,
   selectNodeItems,
-  artifactSelectWithSectionItems,
+  artifactSelect,
   className,
 }: ArtifactToolbarProps) => {
-  const handleArtifactSelect = (artifact: Artifact) => {
-    console.log(artifact);
+  const handleArtifactSelect = (artifact: string) => {
+    artifactSelect?.onArtifactSelect(artifact);
   };
 
   return (
     <div className="flex flex-row space-x-4">
       <div>
-        {artifactSelectWithSectionItems.length > 0 && (
+        {artifactSelect && (
           <ArtifactSelectWithSection
-            items={artifactSelectWithSectionItems}
-            onArtifactSelect={() => handleArtifactSelect}
+            defaultItem={artifactSelect.defaultItem}
+            items={artifactSelect.items}
+            onArtifactSelect={handleArtifactSelect}
           />
         )}
       </div>
       <div className="flex flex-row space-x-4">
-        {selectNodeItems.length > 0 && <SelectNodes nodes={selectNodeItems} />}
+        {selectNodeItems && <SelectNodes nodes={selectNodeItems} />}
         {saveArtifactModal && <SaveArtifactModal />}
       </div>
     </div>

@@ -17,7 +17,7 @@ export enum ArtifactCategoryEnum {
   OBJETIVES = 'objetives',
 }
 
-export enum ArtifactEnum {
+export enum ArtifacTypeEnum {
   PRINCIPLES = 'principles',
   POLICIES = 'policies',
   GUIDELINES = 'guidelines',
@@ -25,17 +25,28 @@ export enum ArtifactEnum {
   BLUEPRINTS = 'blueprints',
 }
 
+export enum ArtifactDimensionEnum {
+  CONSIDERATIONS = 'considerations',
+  STANDARDS = 'standards',
+}
+
 // Nodes
+export enum BaseNodeTypeEnum {
+  AREA = 'areaNode',
+  TEXT_BLOCK = 'textBlockNode',
+  TITLE_AND_ITEMS = 'titleAndItemsNode',
+  TITLE_DESCRIPTION = 'titleDescriptionNode',
+  TITLE_ICON = 'titleIconNode',
+  TITLE = 'titleNode',
+  VERTICAL_TITLE = 'verticalTitleNode',
+  NOTE = 'noteNode',
+  BASIC = 'basicNode',
+}
+
 export enum GoalsTypeNodesEnum {
   PROBLEM = 'problemNode',
   OBJECTIVE = 'objectiveNode',
   SUCCESS_METRIC = 'default',
   FEATURE = 'featureNode',
   CONCEPT = 'conceptNode',
-}
-
-export enum CsvlodArtifactsEnum {
-  PRINCIPLES = 'principles',
-  POLICIES = 'policies',
-  GUIDELINES = 'guidelines',
 }

@@ -1,22 +1,24 @@
 import { CustomNode } from '@/types';
 import { ReactFlowJsonObject } from '@xyflow/react';
-import { Artifact } from './types';
+import { TitleDescriptionNode } from '../components/diagrams/components/nodes/TitleDescriptionNode';
 
 // App
 declare type Role = 'owner' | 'admin' | 'user';
-declare type ArtifactCategory = 'csvlod' | 'objetives' | 'togaf' | 'shared';
+
+declare type ArtifactCategory = 'csvlod' | 'togaf' | 'objetives';
 declare type ArtifactType =
   | 'goals'
   | 'blueprints'
   | 'policies'
   | 'principles'
   | 'guidelines';
+declare type ArtifactDimension = 'considerations' | 'standards';
+
 declare type GoalsNodeType =
   | 'objetiveNode'
   | 'problemNode'
   | 'conceptNode'
-  | 'featureNode'
-  | 'basicNode';
+  | 'featureNode';
 declare type BlueprintNodeType =
   | 'actorNode'
   | 'systemNode'
@@ -37,7 +39,16 @@ declare type CsvlodGuidelinesNodeType =
   | 'guidelineAreaNode'
   | 'standardTextBlockNode'
   | 'guidelineTextBlockNode';
-declare type SharedNodeType = 'noteNode';
+declare type BaseNodeType =
+  | 'areaNode'
+  | 'textBlockNode'
+  | 'titleAndItemsNode'
+  | 'titleDescriptionNode'
+  | 'titleIconNode'
+  | 'titleNode'
+  | 'VerticalTitleNode';
+declare type SharedNodeType = 'noteNode' | 'basicNode';
+declare type NodeBaseType = BaseNodeType | SharedNodeType;
 declare type CustomNodeType =
   | GoalsNodeType
   | BlueprintNodeType
@@ -45,15 +56,30 @@ declare type CustomNodeType =
   | CsvlodPrinciplesNodeType
   | CsvlodGuidelinesNodeType
   | SharedNodeType;
+declare type CustomNodeProps =
+  | AreaNodeProps
+  | NoteNodeProps
+  | TextBlockNodeProps
+  | TitleAndItemsNodeProps
+  | TitleDescriptionNodeProps
+  | TitleIconNodeProps
+  | TitleNodeProps
+  | VerticalTitleNodeProps;
 
-// Custom nodes (RF12)
-declare interface CustomNodeData<T = unknown> extends Record<string, unknown> {
-  type: CustomNodeType;
-  label: string;
+declare interface ArtifactProps {
   category: ArtifactCategory;
   categoryLabel: string;
-  subcategory?: string;
-  subcategoryLabel?: string;
+  type: ArtifactType;
+  typeLabel: string;
+  presetNodes: GenericNodeProps[];
+  initialFlow?: ReactFlowJsonObject;
+}
+
+// Custom Nodes
+declare interface CustomNodeData<T = unknown> extends Record<string, unknown> {
+  type: CustomNodeType;
+  nodeBaseType: NodeBaseType;
+  label: string;
   description?: string;
   width?: number;
   height?: number;
@@ -63,7 +89,79 @@ declare interface CustomNodeData<T = unknown> extends Record<string, unknown> {
   zIndex?: number;
   icon?: string;
   iconColor?: string;
-  nodeData: T;
+}
+// Custom Node Props
+declare interface AreaNodeProps extends CustomNodeData {
+  nodeData: {
+    title: string;
+  };
+}
+
+declare interface NoteNodeProps extends CustomNodeData {
+  nodeData: {
+    text: string;
+  };
+}
+
+declare interface TextBlockNodeProps extends CustomNodeData {
+  nodeData: {
+    textBlock: string;
+    placeholder: string;
+  };
+}
+
+declare interface TitleAndItemsNodeProps extends CustomNodeData {
+  nodeData: {
+    title: string;
+    description: string;
+    items: {
+      id: string;
+      title: string;
+      type: 'TextArea' | 'Input';
+      value: string;
+    }[];
+  };
+}
+
+declare interface TitleDescriptionNodeProps extends CustomNodeData {
+  nodeData: {
+    title: string;
+    titlePlaceholder: string;
+    description: string;
+    descriptionPlaceholder: string;
+  };
+}
+
+declare interface TitleIconNodeProps extends CustomNodeData {
+  nodeData: {
+    title: string;
+    titlePlaceholder: string;
+    icon: string;
+  };
+}
+
+declare interface TitleNodeProps extends CustomNodeData {
+  nodeData: {
+    title: string;
+    placeholder: string;
+  };
+}
+declare interface VerticalTitleNodeProps extends CustomNodeData {
+  nodeData: {
+    title: string;
+    placeholder: string;
+  };
+}
+
+declare interface GenericNodeProps<T extends AllNodeProps = AllNodeProps> {
+  node: T;
+  additionalData?: Record<string, unknown>;
+}
+
+// Flow Types
+declare interface FlowType {
+  nodeTypes: Record<string, CustomNode>;
+  edgeTypes: Record<string, CustomEdge>;
 }
 
 // OpenAI lib
@@ -79,13 +177,14 @@ declare interface ModelMessagesParams {
 // Fields
 declare interface ArtifactSelectItem {
   id: string;
-  type: ArtifactType;
+  type: string;
   label: string;
   description?: string;
   icon?: string;
 }
 
 declare interface ArtifactSelectorWithSection {
+  id: string;
   section: string;
   items: ArtifactSelectItem[];
 }
