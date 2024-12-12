@@ -4,7 +4,7 @@ import { Artifact } from './types';
 
 // App
 declare type Role = 'owner' | 'admin' | 'user';
-declare type ArtifactCategory = 'csvlod' | 'objetives' | 'togaf';
+declare type ArtifactCategory = 'csvlod' | 'objetives' | 'togaf' | 'shared';
 declare type ArtifactType =
   | 'goals'
   | 'blueprints'
@@ -37,22 +37,18 @@ declare type CsvlodGuidelinesNodeType =
   | 'guidelineAreaNode'
   | 'standardTextBlockNode'
   | 'guidelineTextBlockNode';
+declare type SharedNodeType = 'noteNode';
 declare type CustomNodeType =
   | GoalsNodeType
   | BlueprintNodeType
   | CsvlodPoliciesNodeType
   | CsvlodPrinciplesNodeType
-  | CsvlodGuidelinesNodeType;
+  | CsvlodGuidelinesNodeType
+  | SharedNodeType;
 
 // Custom nodes (RF12)
-declare interface CustomNode<T = unknown> {
-  id?: string;
-  type: CustomNodeType;
-  position?: { x: number; y: number };
-  data: CustomNodeData<T>;
-}
-
 declare interface CustomNodeData<T = unknown> extends Record<string, unknown> {
+  type: CustomNodeType;
   label: string;
   category: ArtifactCategory;
   categoryLabel: string;
@@ -65,7 +61,7 @@ declare interface CustomNodeData<T = unknown> extends Record<string, unknown> {
   borderColor?: string;
   backgroundColor?: string;
   zIndex?: number;
-  icon?: React.ComponentType<{ className?: string }>;
+  icon?: string;
   iconColor?: string;
   nodeData: T;
 }

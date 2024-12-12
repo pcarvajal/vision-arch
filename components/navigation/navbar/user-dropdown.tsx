@@ -1,6 +1,7 @@
 'use client';
 
 import { logoutAction } from '@/actions/auth.action';
+import useArtifactFlowStore from '@/store/artifactFlowStore';
 import useUserStore from '@/store/userStore';
 import {
   Avatar,
@@ -15,10 +16,14 @@ import blankProfile from '../../../public/profile-default.svg';
 import { DarkModeSwitch } from './darkmodeswitch';
 
 export const UserDropdown = () => {
-  const deleteStore = useUserStore((state) => state.clearPersistedStore);
+  const clearUserStore = useUserStore((state) => state.clearPersistedStore);
+  const clearArtifactFlowStore = useArtifactFlowStore(
+    (state) => state.clearPersistedArtifactFlowStore,
+  );
   const handleLogout = async () => {
     await logoutAction();
-    deleteStore();
+    clearUserStore();
+    clearArtifactFlowStore();
   };
 
   return (

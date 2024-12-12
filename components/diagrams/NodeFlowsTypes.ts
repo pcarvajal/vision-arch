@@ -1,5 +1,6 @@
 import { DeleteEdge } from './components/edges/DeleteEdge';
 import { AreaNode } from './components/nodes/AreaNode';
+import { NoteNode } from './components/nodes/NoteNode';
 import { TextBlockNode } from './components/nodes/TextBlockNode';
 import { TitleAndItemsNode } from './components/nodes/TitleAndItemsNode';
 import { TitleDescriptionNode } from './components/nodes/TitleDescriptionNode';
@@ -15,6 +16,7 @@ const goalsFlowTypes = {
     conceptNode: TitleDescriptionNode,
     featureNode: TitleDescriptionNode,
     basicNode: TitleDescriptionNode,
+    noteNode: NoteNode,
   },
   edgeTypes: {
     deleteButtonEdge: DeleteEdge,
@@ -29,6 +31,7 @@ const blueprintsFlowTypes = {
     processNode: TitleNode,
     dataNode: TitleNode,
     infrastructureNode: TitleNode,
+    noteNode: NoteNode,
   },
   edgeTypes: {
     deleteButtonEdge: DeleteEdge,
@@ -44,6 +47,8 @@ const policiesFlowTypes = {
     policyTextBlockNode: TextBlockNode,
     policyDescriptionAreaNode: AreaNode,
     policyDescriptionTextBlockNode: TextBlockNode,
+    textBlockNode: TextBlockNode,
+    noteNode: NoteNode,
   },
   edgeTypes: {
     deleteButtonEdge: DeleteEdge,
@@ -53,6 +58,7 @@ const policiesFlowTypes = {
 const principlesFlowTypes = {
   nodeTypes: {
     principleTitleAndItemsNode: TitleAndItemsNode,
+    noteNode: NoteNode,
   },
   edgeTypes: {
     deleteButtonEdge: DeleteEdge,
@@ -65,6 +71,7 @@ const guidelinesFlowTypes = {
     guidelineAreaNode: AreaNode,
     standardTextBlockNode: TextBlockNode,
     guidelineTextBlockNode: TextBlockNode,
+    noteNode: NoteNode,
   },
   edgeTypes: {
     deleteButtonEdge: DeleteEdge,

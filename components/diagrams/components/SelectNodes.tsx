@@ -1,6 +1,7 @@
 'use client';
 
-import { CustomNode } from '@/types';
+import Icon from '@/components/shared/Icon';
+import { CustomNodeData } from '@/types';
 import {
   Button,
   Dropdown,
@@ -9,9 +10,10 @@ import {
   DropdownTrigger,
 } from '@nextui-org/react';
 import { useReactFlow } from '@xyflow/react';
+import dynamicIconImports from 'lucide-react/dynamicIconImports';
 
 interface SelectNodesProps {
-  nodes: CustomNode[];
+  nodes: CustomNodeData[];
 }
 
 export const SelectNodes = ({ nodes }: SelectNodesProps) => {
@@ -44,12 +46,14 @@ export const SelectNodes = ({ nodes }: SelectNodesProps) => {
         {nodes &&
           nodes.map((node) => (
             <DropdownItem
-              onClick={() => handleNodeSelect(node.type)}
+              onPress={() => handleNodeSelect(node.type)}
               key={node.type}
             >
               <div className="flex flex-row items-center space-x-2">
-                {node.data.icon && <node.data.icon />}
-                <span className="text-sm">{node.data.label}</span>
+                {node.icon && (
+                  <Icon name={node.icon as keyof typeof dynamicIconImports} />
+                )}
+                <span className="text-sm">{node.label}</span>
               </div>
             </DropdownItem>
           ))}

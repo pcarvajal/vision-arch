@@ -23,26 +23,19 @@ type TitleDescriptionNodeData = {
 export const TitleDescriptionNode = (
   props: NodeProps<Node<CustomNodeData<TitleDescriptionNodeData>>>,
 ) => {
-  const { setNodes, updateNodeData } = useReactFlow();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [isTitleFocused, setIsTitleFocused] = useState(false);
-  const [isDescriptionFocused, setIsDescriptionFocused] = useState(false);
-
+  console.log('props', props);
+  console.log('target', props.data);
   const {
     nodeData: { title: initialTitle, description: initialDescription },
     type = 'basicNode',
     borderColor = 'border-gray-600',
   } = props.data;
 
-  useEffect(() => {
-    if (initialTitle) {
-      setTitle(initialTitle);
-    }
-    if (initialDescription) {
-      setDescription(initialDescription);
-    }
-  }, [initialTitle, initialDescription]);
+  const { setNodes, updateNodeData } = useReactFlow();
+  const [title, setTitle] = useState(initialTitle);
+  const [description, setDescription] = useState(initialDescription);
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
+  const [isDescriptionFocused, setIsDescriptionFocused] = useState(false);
 
   const onChangeTitle = (value: string) => {
     setTitle(value);
@@ -75,6 +68,9 @@ export const TitleDescriptionNode = (
       <Card
         isHoverable={true}
         className={`w-[210px] grow border-2 ${borderColor}`}
+        style={{
+          borderColor: borderColor,
+        }}
       >
         <CardBody className="flex w-full flex-col">
           <div className="flex flex-col gap-2">

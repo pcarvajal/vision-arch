@@ -19,9 +19,9 @@ export type UserActions = {
 
 export type UserStore = UserState & UserActions;
 
-const useUserStore = create(
-  persist<UserStore>(
-    (set) => ({
+const useUserStore = create<UserStore>()(
+  persist(
+    (set, get) => ({
       account: null,
       setAccount: (account) => set({ account }),
       updateAccount: (account) => set((state) => ({ ...state, account })),
@@ -35,7 +35,13 @@ const useUserStore = create(
         set({ account: null, company: null });
       },
     }),
-    { name: 'user-store' },
+    {
+      name: 'user-store',
+      partialize: (state) =>
+        Object.fromEntries(
+          Object.entries(state).filter(([key]) => !['loading'].includes(key)),
+        ),
+    },
   ),
 );
 

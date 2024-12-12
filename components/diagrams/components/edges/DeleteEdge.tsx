@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Input } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
 import {
   BezierEdge,
   EdgeLabelRenderer,
@@ -8,8 +8,7 @@ import {
   getBezierPath,
   useReactFlow,
 } from '@xyflow/react';
-import { PencilLine, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
 
 export const DeleteEdge = (props: EdgeProps) => {
   const {
@@ -24,9 +23,7 @@ export const DeleteEdge = (props: EdgeProps) => {
   } = props;
 
   const { setEdges } = useReactFlow();
-  const [label, setLabel] = useState('');
-  const [isLabelFocused, setIsLabelFocused] = useState(false);
-  const [labelX, labelY] = getBezierPath({
+  const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
     targetX,
@@ -35,61 +32,25 @@ export const DeleteEdge = (props: EdgeProps) => {
     targetPosition,
   });
 
-  useEffect(() => {
-    if (edgeLabel !== '') setLabel(edgeLabel?.toString() || '');
-  }, [edgeLabel]);
-
-  const onChangeLabel = (value: string) => {
-    setLabel(value);
-  };
-  const onClickEditLabel = () => {
-    setIsLabelFocused(true);
-  };
-
   return (
     <>
       <BezierEdge {...props} label={undefined} />
       <EdgeLabelRenderer>
         <div
-          className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center"
-          style={{ left: labelX, top: labelY, pointerEvents: 'all' }}
+          className="nodrag nopan"
+          style={{
+            position: 'absolute',
+            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+            pointerEvents: 'all',
+          }}
         >
-          {isLabelFocused && (
-            <Input
-              value={label}
-              placeholder={'Escribe ...'}
-              onValueChange={setLabel}
-              onFocus={() => setIsLabelFocused(true)}
-              onBlur={() => setIsLabelFocused(false)}
-              onChange={(e) => onChangeLabel(e.target.value)}
-              className="w-[100px]"
-            />
-          )}
-          {!label && !isLabelFocused && (
-            <Button
-              className="mb-1 flex h-fit w-fit"
-              radius="full"
-              variant="faded"
-              onClick={onClickEditLabel}
-            >
-              <PencilLine size={12} />
-            </Button>
-          )}
-          {label && !isLabelFocused && (
-            <h1
-              className="mb-2 text-center text-sm font-bold"
-              onClick={onClickEditLabel}
-            >
-              {label}
-            </h1>
-          )}
           <Button
             isIconOnly
             radius="full"
             color="default"
             aria-label="Borrar conexión"
             className="text-sm"
-            onClick={() => {
+            onPress={() => {
               setEdges((edges) => edges.filter((edge) => edge.id !== id));
             }}
           >
