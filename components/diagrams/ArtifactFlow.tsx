@@ -161,10 +161,6 @@ export default function ArtifactFlow<T>({
         <Panel position="top-left" className="min-w-[300px] gap-4">
           <YearsSlider label="Proyección" step={1} onChangeEnd={onSelectYear} />
         </Panel>
-        <Panel position="top-right" className="flex gap-4">
-          <SaveArtifactModal />
-          <SelectNodes nodes={customNodes} />
-        </Panel>
         <Controls />
         <MiniMap />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />

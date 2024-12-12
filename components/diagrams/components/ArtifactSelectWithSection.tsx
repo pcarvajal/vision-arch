@@ -1,5 +1,6 @@
 'use client';
 
+import Icon from '@/components/shared/Icon';
 import { ArtifactSelectorWithSection } from '@/types';
 import {
   Button,
@@ -9,6 +10,7 @@ import {
   DropdownSection,
   DropdownTrigger,
 } from '@nextui-org/react';
+import dynamicIconImports from 'lucide-react/dynamicIconImports';
 
 interface ArtifactSelectorProps {
   items: ArtifactSelectorWithSection[];
@@ -43,9 +45,11 @@ export default function ArtifactSelectWithSection({
                 key={item.type}
                 description={item.description}
                 startContent={
-                  item.icon ? <item.icon className={iconClasses} /> : null
+                  item.icon ? (
+                    <Icon name={item.icon as keyof typeof dynamicIconImports} />
+                  ) : null
                 }
-                onClick={() => handleItemSelect(item.type)}
+                onPress={() => handleItemSelect(item.type)}
               >
                 {item.label}
               </DropdownItem>

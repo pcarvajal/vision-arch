@@ -82,12 +82,12 @@ declare interface ArtifactSelectItem {
   type: ArtifactType;
   label: string;
   description?: string;
-  icon?: React.ComponentType<{ className?: string }>;
+  icon?: string;
 }
 
 declare interface ArtifactSelectorWithSection {
   section: string;
-  items: ArtifactItem[];
+  items: ArtifactSelectItem[];
 }
 
 // Forms

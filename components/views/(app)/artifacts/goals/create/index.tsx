@@ -1,5 +1,6 @@
 import ArtifactFlow from '@/components/diagrams/ArtifactFlow';
 import ArtifactSelectWithSection from '@/components/diagrams/components/ArtifactSelectWithSection';
+import { ArtifactToolbar } from '@/components/diagrams/components/ArtifactToolbar';
 import { goalsFlowTypes } from '@/components/diagrams/NodeFlowsTypes';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import { goalsNodes } from '@/config/constants';
@@ -33,8 +34,27 @@ export const CreateGoalsView = () => {
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <PageBreadcrumb items={breadcrumb} />
-      <div>
+      <div className="flex flex-row justify-between space-x-2">
         <h3 className="text-xl font-semibold">Espacio de trabajo</h3>
+        <ArtifactToolbar
+          artifactSelectWithSectionItems={[
+            {
+              section: 'Objetivos',
+              items: [
+                {
+                  id: '1',
+                  label: 'Example',
+                  description: 'My Description',
+                  type: 'goals',
+                  icon: 'goal',
+                },
+              ],
+            },
+          ]}
+          saveArtifactModal={true}
+          selectNodeItems={[]}
+          className="gap-2"
+        />
       </div>
       <div className="h-[600px] w-full">
         <Card className="h-full w-full">
