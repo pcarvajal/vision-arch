@@ -20,7 +20,7 @@ const goalsFlowTypes = {
     noteNode: NoteNode,
   },
   edgeTypes: {
-    deleteButtonEdge: DeleteEdge,
+    deleteEdge: DeleteEdge,
   },
 };
 
@@ -35,7 +35,7 @@ const blueprintsFlowTypes = {
     noteNode: NoteNode,
   },
   edgeTypes: {
-    deleteButtonEdge: DeleteEdge,
+    deleteEdge: DeleteEdge,
   },
 };
 
@@ -52,7 +52,7 @@ const policiesFlowTypes: FlowType = {
     noteNode: NoteNode,
   },
   edgeTypes: {
-    deleteButtonEdge: DeleteEdge,
+    deleteEdge: DeleteEdge,
   },
 };
 
@@ -62,7 +62,7 @@ const principlesFlowTypes: FlowType = {
     noteNode: NoteNode,
   },
   edgeTypes: {
-    deleteButtonEdge: DeleteEdge,
+    deleteEdge: DeleteEdge,
   },
 };
 
@@ -75,7 +75,7 @@ const guidelinesFlowTypes: FlowType = {
     noteNode: NoteNode,
   },
   edgeTypes: {
-    deleteButtonEdge: DeleteEdge,
+    deleteEdge: DeleteEdge,
   },
 };
 

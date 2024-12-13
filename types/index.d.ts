@@ -1,5 +1,5 @@
 import { CustomNode } from '@/types';
-import { ReactFlowJsonObject } from '@xyflow/react';
+import { Node, NodeProps, ReactFlowJsonObject } from '@xyflow/react';
 import { TitleDescriptionNode } from '../components/diagrams/components/nodes/TitleDescriptionNode';
 
 // App
@@ -76,8 +76,7 @@ declare interface ArtifactProps {
 }
 
 // Custom Nodes
-declare interface CustomNodeData<T = unknown> extends Record<string, unknown> {
-  type: CustomNodeType;
+declare type CustomNodeData = {
   nodeBaseType: NodeBaseType;
   label: string;
   description?: string;
@@ -89,28 +88,29 @@ declare interface CustomNodeData<T = unknown> extends Record<string, unknown> {
   zIndex?: number;
   icon?: string;
   iconColor?: string;
-}
+} & Record<string, unknown>;
 // Custom Node Props
-declare interface AreaNodeProps extends CustomNodeData {
+declare type AreaNodeProps = CustomNodeData & {
   nodeData: {
     title: string;
   };
-}
+} & CustomNodeData;
 
-declare interface NoteNodeProps extends CustomNodeData {
+declare type NoteNodeProps = CustomNodeData & {
   nodeData: {
-    text: string;
+    title: string;
+    description: string;
   };
-}
+};
 
-declare interface TextBlockNodeProps extends CustomNodeData {
+declare type TextBlockNodeProps = CustomNodeData & {
   nodeData: {
     textBlock: string;
     placeholder: string;
   };
-}
+} & CustomNodeData;
 
-declare interface TitleAndItemsNodeProps extends CustomNodeData {
+declare type TitleAndItemsNodeProps = CustomNodeData & {
   nodeData: {
     title: string;
     description: string;
@@ -121,37 +121,38 @@ declare interface TitleAndItemsNodeProps extends CustomNodeData {
       value: string;
     }[];
   };
-}
+} & CustomNodeData;
 
-declare interface TitleDescriptionNodeProps extends CustomNodeData {
+declare type TitleDescriptionNodeProps = CustomNodeData & {
   nodeData: {
     title: string;
     titlePlaceholder: string;
     description: string;
     descriptionPlaceholder: string;
   };
-}
+} & CustomNodeData;
 
-declare interface TitleIconNodeProps extends CustomNodeData {
+declare type TitleIconNodeProps = CustomNodeData & {
   nodeData: {
     title: string;
     titlePlaceholder: string;
     icon: string;
   };
-}
+} & CustomNodeData;
 
-declare interface TitleNodeProps extends CustomNodeData {
+declare type TitleNodeProps = CustomNodeData & {
   nodeData: {
     title: string;
     placeholder: string;
   };
-}
-declare interface VerticalTitleNodeProps extends CustomNodeData {
+} & CustomNodeData;
+
+declare type VerticalTitleNodeProps = CustomNodeData & {
   nodeData: {
     title: string;
     placeholder: string;
   };
-}
+};
 
 declare interface GenericNodeProps<T extends AllNodeProps = AllNodeProps> {
   node: T;

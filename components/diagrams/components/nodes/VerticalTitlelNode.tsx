@@ -1,40 +1,30 @@
 'use client';
 
+import { useCustomNodeData } from '@/components/hooks/useCustomNode';
 import { VerticalTitleNodeProps } from '@/types';
 import { Card, CardBody, Input } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
 import { X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-export const VerticalTitleNode = (
-  props: NodeProps<Node<VerticalTitleNodeProps>>,
-) => {
+type VerticalNodeData = Node<VerticalTitleNodeProps>;
+
+export const VerticalTitleNode = (props: NodeProps<VerticalNodeData>) => {
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
+
   const {
-    width: initialWidth,
-    height: initialHeight,
-    label: initialLabel = 'Texto',
-    nodeData: { placeholder },
-  } = props.data;
-
-  const { setNodes, updateNodeData, updateNode } = useReactFlow();
-
-  const [label, setLabel] = useState('');
-  const [isLabelFocused, setIsLabelFocused] = useState(false);
-  const [dimensions, setDimensions] = useState({
-    width: initialWidth,
-    height: initialHeight,
-  });
+    nodeData,
+    setNodeData,
+    removeNode,
+    height,
+    width,
+    setWidth,
+    setHeight,
+  } = useCustomNodeData<VerticalTitleNodeProps>(props);
 
   const onChangeTitle = (value: string) => {
-    setLabel(value);
-    updateNodeData(props.id, { label: value });
+    setNodeData({ ...nodeData, title: value });
   };
-
-  useEffect(() => {
-    if (initialLabel) {
-      setLabel(initialLabel);
-    }
-  }, [initialLabel]);
 
   return (
     <>
@@ -47,52 +37,41 @@ export const VerticalTitleNode = (
         }}
         minWidth={80}
         minHeight={80}
-        onResize={(event, params) => {
-          const { width, height, x, y } = params;
-          setDimensions({ width, height });
-          updateNodeData(props.id, { width, height });
-          updateNode(props.id, { position: { x, y } });
+        onResize={(e, size) => {
+          setWidth(size.width);
+          setHeight(size.height);
         }}
       />
       <Card
         className={`h-full w-full`}
         style={{
+          height,
+          width,
           minWidth: 80,
           minHeight: 80,
-          width: `${dimensions.width}px`,
-          height: `${dimensions.height}px`,
         }}
       >
         <CardBody>
           <div className="absolute right-0 top-0 p-2">
-            <X
-              className="cursor-pointer"
-              size={15}
-              onClick={() => {
-                setNodes((nodes) =>
-                  nodes.filter((node) => node.id !== props.id),
-                );
-              }}
-            />
+            <X className="cursor-pointer" size={15} onClick={removeNode} />
           </div>
           <div className="flex h-full w-full items-center justify-center">
-            {!isLabelFocused && label && (
+            {!isTitleFocused && nodeData.title && (
               <h2
                 className="-rotate-90 whitespace-nowrap text-center"
                 onClick={() => {
-                  setIsLabelFocused(true);
+                  setIsTitleFocused(true);
                 }}
               >
-                {label}
+                {nodeData.title}
               </h2>
             )}
-            {(isLabelFocused || !label) && (
+            {(isTitleFocused || !nodeData.title) && (
               <Input
-                value={label}
-                placeholder={placeholder}
-                onValueChange={setLabel}
-                onFocus={() => setIsLabelFocused(true)}
-                onBlur={() => setIsLabelFocused(false)}
+                value={nodeData.title}
+                placeholder={nodeData.placeholder}
+                onFocus={() => setIsTitleFocused(true)}
+                onBlur={() => setIsTitleFocused(false)}
                 onChange={(e) => onChangeTitle(e.target.value)}
               />
             )}

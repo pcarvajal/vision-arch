@@ -54,11 +54,16 @@ export const schema = {
               nodeData: {
                 type: 'object',
                 properties: {
+                  title: {
+                    type: 'string',
+                    description: 'Title of the node.',
+                  },
                   titlePlaceholder: {
                     type: 'string',
+                    description: 'Placeholder for the title.',
                   },
                 },
-                required: ['titlePlaceholder'],
+                required: ['titlePlaceholder', 'title'],
                 additionalProperties: false,
               },
               nodeBaseType: {
@@ -136,7 +141,7 @@ export const schema = {
           type: {
             type: 'string',
             description: 'The type of the edge.',
-            enum: ['customDefaultEdge'],
+            enum: ['deleteEdge'],
           },
           data: {
             type: 'object',

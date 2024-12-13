@@ -45,7 +45,7 @@ export const schema = {
                 properties: {
                   title: {
                     type: 'string',
-                    description: 'Title of the policy node.',
+                    description: 'Title of the policy',
                   },
                   titlePlaceholder: {
                     type: 'string',

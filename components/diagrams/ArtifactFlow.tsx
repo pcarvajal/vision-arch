@@ -30,7 +30,7 @@ import { yearRange } from '@/config/constants';
 import useArtifactFlowStore from '@/store/artifactFlowStore';
 import useUserStore from '@/store/userStore';
 import { ArtifactProps, ArtifactType } from '@/types';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
 interface ArtifactFlowProps<T> {
@@ -55,6 +55,7 @@ export default function ArtifactFlow<T>({
   const setLoading = useUserStore((state) => state.setLoading);
   const company = useUserStore((state) => state.company);
   const viewport = useViewport();
+
   const setArtifactFlow = useArtifactFlowStore(
     (state) => state.setArtifactFlow,
   );
@@ -63,6 +64,7 @@ export default function ArtifactFlow<T>({
   );
 
   const [year, setYear] = useState<number>(yearRange.default);
+
   const [artifactSelected, setArtifactSelected] = useState<ArtifactType>(type);
 
   const [reactFlowInstance, setReactFLowInstance] =
@@ -82,7 +84,7 @@ export default function ArtifactFlow<T>({
   );
   const onConnect = useCallback(
     (connection: Connection) => {
-      const edge = { ...connection, animated: true, type: 'deleteButtonEdge' };
+      const edge = { ...connection, animated: true, type: 'deleteEdge' };
       setEdges((eds) => addEdge(edge, eds));
     },
     [setEdges],
@@ -102,6 +104,8 @@ export default function ArtifactFlow<T>({
     }
     setYear(year);
 
+    console.log('ARTIFACT', artifactSelected);
+
     const result = await generateModel({
       companyId: company.id,
       year,
@@ -114,6 +118,8 @@ export default function ArtifactFlow<T>({
     }
 
     const jsonResponse = JSON.parse(result);
+
+    console.log('JSON RESPONSE', jsonResponse);
 
     setNodes(jsonResponse.nodes);
     setEdges(jsonResponse.edges);
@@ -133,6 +139,22 @@ export default function ArtifactFlow<T>({
     };
   }, [nodes, edges, viewport]);
 
+  useEffect(() => {
+    setArtifactSelected(type);
+    return () => {
+      setNodes([]);
+      setEdges([]);
+      deleteArtifactFlow();
+    };
+  }, [type]);
+
+  const flowNodetypes = useMemo(
+    () => ({
+      nodeTypes,
+    }),
+    [nodeTypes],
+  );
+
   return (
     <>
       <ThinkingLoader show={loading} />
@@ -144,7 +166,7 @@ export default function ArtifactFlow<T>({
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onInit={setReactFLowInstance}
-        nodeTypes={nodeTypes}
+        nodeTypes={flowNodetypes.nodeTypes}
         edgeTypes={edgeTypes}
       >
         <Panel position="top-left" className="min-w-[300px] gap-4">

@@ -1,5 +1,6 @@
 'use client';
 
+import { useCustomNodeData } from '@/components/hooks/useCustomNode';
 import { TitleAndItemsNodeProps } from '@/types';
 import {
   Card,
@@ -9,46 +10,41 @@ import {
   Input,
   Textarea,
 } from '@nextui-org/react';
-import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
+import { Node, NodeProps, NodeResizer } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useRef, useState } from 'react';
 
-export const TitleAndItemsNode = (
-  props: NodeProps<Node<TitleAndItemsNodeProps>>,
-) => {
-  const {
-    nodeData: { items, title, description },
-  } = props.data;
+type TitleAndItemsNodeData = Node<TitleAndItemsNodeProps>;
 
+export const TitleAndItemsNode = (props: NodeProps<TitleAndItemsNodeData>) => {
   const [titleFocused, setTitleFocused] = useState(false);
   const [descriptionFocused, setDescriptionFocused] = useState(false);
   const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
+
+  const {
+    nodeData,
+    setNodeData,
+    removeNode,
+    height,
+    width,
+    setWidth,
+    setHeight,
+  } = useCustomNodeData<TitleAndItemsNodeProps>(props);
 
   const itemRefs = useRef<{
     [key: string]: HTMLInputElement | HTMLTextAreaElement | null;
   }>({});
 
-  const { updateNodeData, setNodes } = useReactFlow();
-
   const handleInputChange = (value: string, id: string) => {
-    const newItems = items.map((item) =>
+    const newItems = nodeData.items.map((item) =>
       item.id === id ? { ...item, value } : item,
     );
-    updateNodeData(props.id, {
-      customData: { title, description, items: newItems },
-    });
+    setNodeData({ ...nodeData, items: newItems });
   };
 
   const handleInputHeaderChange = (value: string, id: string) => {
     if (id === 'title') {
-      updateNodeData(props.id, {
-        customData: { title: value, description, items },
-      });
-    }
-    if (id === 'description') {
-      updateNodeData(props.id, {
-        customData: { title, description: value, items },
-      });
+      setNodeData({ ...nodeData, title: value });
     }
   };
 
@@ -71,34 +67,36 @@ export const TitleAndItemsNode = (
         }}
         minWidth={242}
         minHeight={111}
+        onResize={(e, size) => {
+          setWidth(size.width);
+          setHeight(size.height);
+        }}
       />
       <Card
         className={`h-full w-full`}
         style={{
           minWidth: 242,
           minHeight: 111,
+          height,
+          width,
         }}
       >
         <CardBody className="h-full w-full">
           <CardHeader className="flex-col items-start px-4 pb-0 pt-2">
             <X
               className="absolute right-2 top-2 cursor-pointer"
-              onClick={() => {
-                setNodes((nodes) =>
-                  nodes.filter((node) => node.id !== props.id),
-                );
-              }}
+              onClick={removeNode}
             />
-            {title && !titleFocused ? (
+            {nodeData.title && !titleFocused ? (
               <p className="font-bold" onClick={() => setTitleFocused(true)}>
-                {title}
+                {nodeData.title}
               </p>
             ) : (
               <Input
                 id="title"
                 label="Titulo"
                 className="w-full"
-                value={title}
+                value={nodeData.title}
                 onFocus={() => setTitleFocused(true)}
                 onBlur={() => setTitleFocused(false)}
                 onChange={(e) =>
@@ -106,19 +104,19 @@ export const TitleAndItemsNode = (
                 }
               />
             )}
-            {description && !descriptionFocused ? (
+            {nodeData.description && !descriptionFocused ? (
               <small
                 className="text-default-500"
                 onClick={() => setDescriptionFocused(true)}
               >
-                {description}
+                {nodeData.description}
               </small>
             ) : (
               <Input
                 id="description"
                 label="Descripción"
                 className="w-full"
-                value={description}
+                value={nodeData.description}
                 onFocus={() => setDescriptionFocused(true)}
                 onBlur={() => setDescriptionFocused(false)}
                 onChange={(e) =>
@@ -128,12 +126,13 @@ export const TitleAndItemsNode = (
             )}
           </CardHeader>
           <CardBody className="w-full px-4 py-2">
-            <ul className="list-inside list-disc space-y-1">
-              {items &&
-                items.map((item) =>
+            <div className="list-inside list-disc space-y-1">
+              {nodeData.items &&
+                nodeData.items.map((item) =>
                   focusedItemId === item.id ? (
                     item.type === 'Input' ? (
                       <Input
+                        key={`${item.id}-input`}
                         id={item.id}
                         label={item.title}
                         value={item.value}
@@ -147,6 +146,7 @@ export const TitleAndItemsNode = (
                       />
                     ) : (
                       <Textarea
+                        key={`${item.id}-textArea`}
                         id={item.id}
                         label={item.title}
                         value={item.value}
@@ -160,21 +160,23 @@ export const TitleAndItemsNode = (
                       />
                     )
                   ) : (
-                    <div className="">
+                    <ul key={`${item.id}-ul`}>
                       <li
+                        key={`${item.id}-li`}
                         onClick={() => handleItemFocus(item.id)}
                         className="flex flex-col space-x-2"
                       >
                         <p className="font-bold">{item.title}</p>
                         <p>{item.value}</p>
                       </li>
-                      {item.id !== items[items.length - 1].id && (
-                        <Divider className="my-4" />
+                      {item.id !==
+                        nodeData.items[nodeData.items.length - 1].id && (
+                        <Divider className="my-4" key={`${item.id}-divider`} />
                       )}
-                    </div>
+                    </ul>
                   ),
                 )}
-            </ul>
+            </div>
           </CardBody>
         </CardBody>
       </Card>

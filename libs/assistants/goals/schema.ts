@@ -128,7 +128,7 @@ export const schema = {
           type: {
             type: 'string',
             description: 'The type of the edge.',
-            enum: ['customDefaultEdge'],
+            enum: ['deleteEdge'],
           },
           data: {
             type: 'object',

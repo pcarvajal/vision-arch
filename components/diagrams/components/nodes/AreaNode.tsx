@@ -1,31 +1,25 @@
 'use client';
 
-import { CustomNodeData } from '@/types';
+import { useCustomNodeData } from '@/components/hooks/useCustomNode';
+import { AreaNodeProps } from '@/types';
 import { Card, CardHeader } from '@nextui-org/react';
-import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
+import { Node, NodeProps, NodeResizer } from '@xyflow/react';
 import { X } from 'lucide-react';
-import { useState } from 'react';
 
-interface AreaNodeData {
-  title: string;
-}
+type AreaNodeData = Node<AreaNodeProps>;
 
-export const AreaNode = (
-  props: NodeProps<Node<CustomNodeData<AreaNodeData>>>,
-) => {
-  const { zIndex: initialzIndex } = props.data;
-  const { id, type } = props;
-  const { getNode, setNodes } = useReactFlow();
-  const [zIndex, setZIndex] = useState(initialzIndex);
-
+export const AreaNode = (props: NodeProps<AreaNodeData>) => {
   const {
-    label,
-    width = 100,
-    height = 100,
-    color = '#6b7280',
-    borderColor = '#18181b',
-    color: textColor = '#f9fafb',
-  } = props.data;
+    nodeData,
+    removeNode,
+    color,
+    borderColor,
+    zIndex,
+    height,
+    setHeight,
+    width,
+    setWidth,
+  } = useCustomNodeData<AreaNodeProps>(props);
 
   return (
     <>
@@ -36,32 +30,30 @@ export const AreaNode = (
           borderColor: 'GrayText',
           opacity: 0.1,
         }}
-        minWidth={width}
-        minHeight={height}
+        minWidth={80}
+        minHeight={80}
+        onResize={(e, size) => {
+          setWidth(size.width);
+          setHeight(size.height);
+        }}
       />
       <Card
         className={`h-full w-full border-2 border-indigo-900 bg-indigo-400 opacity-50`}
         style={{
-          minWidth: width,
-          minHeight: height,
-          borderColor,
+          width,
+          height,
+          minWidth: 80,
+          minHeight: 80,
+          borderColor: borderColor,
           backgroundColor: color,
           zIndex,
         }}
       >
         <CardHeader className="flex flex-row items-center justify-between">
-          {label && (
-            <p className="p-1 text-left text-sm" style={{ color: textColor }}>
-              {label}
-            </p>
+          {nodeData.title && (
+            <p className="p-1 text-left text-sm">{nodeData.title}</p>
           )}
-          <X
-            className="cursor-pointer"
-            size={15}
-            onClick={() => {
-              setNodes((nodes) => nodes.filter((node) => node.id !== props.id));
-            }}
-          />
+          <X className="cursor-pointer" size={15} onClick={removeNode} />
         </CardHeader>
       </Card>
     </>

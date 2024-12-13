@@ -1,61 +1,33 @@
 'use client';
 
+import { useCustomNodeData } from '@/components/hooks/useCustomNode';
 import { CustomNodeData, TitleNodeProps } from '@/types';
 import { Card, CardBody, Input } from '@nextui-org/react';
-import {
-  Handle,
-  Node,
-  NodeProps,
-  NodeResizer,
-  Position,
-  useReactFlow,
-} from '@xyflow/react';
+import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
 import { CircleX } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { LeftRightHandle } from '../handles/LeftRightHandle';
 
-export const TitleNode = (props: NodeProps<Node<TitleNodeProps>>) => {
-  const [width, setWidth] = useState(200);
-  const [height, setHeight] = useState(100);
-  const [label, setLabel] = useState('');
-  const [backgroundColor, setBackgroundColor] = useState('bg-gray-400');
-  const [isLabelFocused, setIsLabelFocused] = useState(false);
-  const { setNodes, updateNodeData } = useReactFlow();
+type TitleNodeData = Node<TitleNodeProps>;
+
+export const TitleNode = (props: NodeProps<TitleNodeData>) => {
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
 
   const {
-    height: initialHeight,
-    width: initialWidth,
-    backgroundColor: initialBackgroundColor,
-    label: initialLabel,
-    color: textColor,
-    nodeData: { title, placeholder },
-  } = props.data;
+    nodeData,
+    setNodeData,
+    removeNode,
+    backgroundColor,
+    color,
+    height,
+    width,
+    setWidth,
+    setHeight,
+  } = useCustomNodeData<TitleNodeProps>(props);
 
   const onChangeTitle = (value: string) => {
-    setLabel(value);
-    updateNodeData(props.id, { label: value });
+    setNodeData({ ...nodeData, title: value });
   };
-
-  useEffect(() => {
-    if (initialWidth) {
-      setWidth(initialWidth);
-    }
-    if (initialHeight) {
-      setHeight(initialHeight);
-    }
-  }, [initialWidth, initialHeight]);
-
-  useEffect(() => {
-    if (initialLabel) {
-      setLabel(initialLabel);
-    }
-  }, [initialLabel]);
-
-  useEffect(() => {
-    if (initialBackgroundColor) {
-      setBackgroundColor(initialBackgroundColor);
-    }
-  }, [initialBackgroundColor]);
 
   return (
     <>
@@ -66,38 +38,43 @@ export const TitleNode = (props: NodeProps<Node<TitleNodeProps>>) => {
           borderColor: 'GrayText',
           opacity: 0.1,
         }}
-        minWidth={width}
-        minHeight={height}
+        minWidth={100}
+        minHeight={100}
+        onResize={(e, size) => {
+          setWidth(size.width);
+          setHeight(size.height);
+        }}
       />
       <Card
         className={`h-full w-full`}
         style={{
+          height,
+          width,
           backgroundColor: backgroundColor,
-          minHeight: height,
-          minWidth: width,
+          minHeight: 100,
+          minWidth: 100,
         }}
       >
         <CardBody className={`flex flex-col items-center justify-center`}>
-          <div className={`w-full text-center`} style={{ color: textColor }}>
-            {!isLabelFocused && label && (
+          <div className={`w-full text-center`} style={{ color: color }}>
+            {!isTitleFocused && nodeData.title && (
               <h4
                 className="w-full cursor-text scroll-m-20 break-words text-xl font-semibold tracking-tight"
                 onClick={() => {
-                  setIsLabelFocused(true);
+                  setIsTitleFocused(true);
                 }}
               >
-                {label}
+                {nodeData.title}
               </h4>
             )}
           </div>
           <div className="w-full text-center">
-            {(isLabelFocused || !label) && (
+            {(isTitleFocused || !nodeData.title) && (
               <Input
-                value={title}
-                placeholder={placeholder}
-                onValueChange={setLabel}
-                onFocus={() => setIsLabelFocused(true)}
-                onBlur={() => setIsLabelFocused(false)}
+                value={nodeData.title}
+                placeholder={nodeData.placeholder}
+                onFocus={() => setIsTitleFocused(true)}
+                onBlur={() => setIsTitleFocused(false)}
                 onChange={(e) => onChangeTitle(e.target.value)}
               />
             )}
@@ -105,12 +82,8 @@ export const TitleNode = (props: NodeProps<Node<TitleNodeProps>>) => {
           <div className="flex items-center justify-center">
             <CircleX
               className={`mt-2 h-full cursor-pointer`}
-              style={{ color: textColor }}
-              onClick={() =>
-                setNodes((nodes) =>
-                  nodes.filter((node) => node.id !== props.id),
-                )
-              }
+              style={{ color: color }}
+              onClick={removeNode}
             />
           </div>
         </CardBody>

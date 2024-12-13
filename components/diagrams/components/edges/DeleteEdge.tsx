@@ -47,7 +47,7 @@ export const DeleteEdge = (props: EdgeProps) => {
           <Button
             isIconOnly
             radius="full"
-            color="default"
+            color="danger"
             aria-label="Borrar conexión"
             className="text-sm"
             onPress={() => {
