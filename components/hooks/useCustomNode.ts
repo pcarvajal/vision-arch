@@ -26,8 +26,6 @@ export const useCustomNodeData = <T extends CustomNodeData>(
   const [nodeBaseType, setNodeBaseType] = useState(data.nodeBaseType || '');
   const [type, setType] = useState(data.type || '');
 
-  console.log('useCustomNodeData', nodeData);
-
   // Método para actualizar nodos globalmente en React Flow
   const updateNodeData = () => {
     console.log('updateNodeData');

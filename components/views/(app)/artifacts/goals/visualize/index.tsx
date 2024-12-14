@@ -1,5 +1,7 @@
-import { getArtifactsAction } from '@/actions/artifact.actions';
+import ArtifactFlow from '@/components/diagrams/ArtifactFlow';
+import { goalsFlowTypes } from '@/components/diagrams/NodeFlowsTypes';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
+import { goalsArtifactProps } from '@/config/constants';
 import { routes } from '@/config/routes';
 import { Card, CardBody } from '@nextui-org/react';
 import { Atom, Goal, HouseIcon } from 'lucide-react';
@@ -26,15 +28,21 @@ const goalsBreadcrumb = [
 ];
 
 export const VisualizeGoalsView = async () => {
-  const goals = await getArtifactsAction('goals');
-
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <PageBreadcrumb items={goalsBreadcrumb} />
       <h3 className="text-xl font-semibold">Espacio de trabajo</h3>
       <div className="h-[600px] w-full">
         <Card className="h-full w-full">
-          <CardBody className="h-full w-full gap-4"></CardBody>
+          <CardBody className="h-full w-full gap-4">
+            <ArtifactFlow
+              yearSlider={true}
+              artifact={goalsArtifactProps}
+              visualize={true}
+              edgeTypes={goalsFlowTypes.edgeTypes}
+              nodeTypes={goalsFlowTypes.nodeTypes}
+            />
+          </CardBody>
         </Card>
       </div>
     </div>

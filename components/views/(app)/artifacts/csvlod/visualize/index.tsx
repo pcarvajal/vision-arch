@@ -45,7 +45,7 @@ const breadcrumb = [
   },
 ];
 
-export const EditCsvlodView = () => {
+export const VisualizeCsvlodView = () => {
   const [items, setItems] = useState([]);
   const [artifactSelected, setArtifactSelected] = useState(
     policiesArtifactProps,
@@ -72,21 +72,6 @@ export const EditCsvlodView = () => {
     }
   };
 
-  const handleArtifactSelectUpdate = async (item: string) => {
-    const csvlodArtifact = await getArtifactAction(item);
-    const artifact = JSON.parse(csvlodArtifact.data);
-
-    setArtifactSelected({
-      ...artifactSelected,
-      id: csvlodArtifact.$id,
-      initialFlow: {
-        nodes: artifact.data.nodes,
-        edges: artifact.data.edges,
-        viewport: artifact.data.viewport,
-      },
-    });
-  };
-
   useEffect(() => {
     async function getArtifacts() {
       const artifacts = await getArtifactsAction(artifactSelected.type);
@@ -109,10 +94,6 @@ export const EditCsvlodView = () => {
         </h3>
         <ArtifactToolbar
           className="flex w-full flex-row items-center justify-end gap-2"
-          companyArtifacts={{
-            items: items,
-            onValueChange: handleArtifactSelectUpdate,
-          }}
           saveArtifactModal={true}
           selectNodeItems={artifactSelected.presetNodes}
           artifactSelect={
@@ -128,7 +109,8 @@ export const EditCsvlodView = () => {
         <Card className="h-full w-full">
           <CardBody className="h-full w-full">
             <ArtifactFlow
-              yearSlider={false}
+              visualize={true}
+              yearSlider={true}
               artifact={artifactSelected}
               edgeTypes={flowTypes.edgeTypes}
               nodeTypes={flowTypes.nodeTypes}

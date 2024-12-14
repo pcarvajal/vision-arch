@@ -12,6 +12,7 @@ import {
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { generateModel } from '@/actions/ai.actions';
+import { getArtifactByYearProjectionAndType } from '@/actions/artifact.actions';
 import YearsSlider from '@/components/diagrams/components/YearsSlider';
 import ThinkingLoader from '@/components/shared/ThinkingLoader';
 import useArtifactFlowStore from '@/store/artifactFlowStore';
@@ -23,9 +24,10 @@ import { useFlow } from '../hooks/useFlow';
 
 interface ArtifactFlowProps<T> {
   artifact: ArtifactProps;
-  nodeTypes: NodeTypes;
-  edgeTypes: EdgeTypes;
+  nodeTypes?: NodeTypes;
+  edgeTypes?: EdgeTypes;
   yearSlider?: boolean;
+  visualize?: boolean;
 }
 
 export default function ArtifactFlow<T>({
@@ -33,11 +35,11 @@ export default function ArtifactFlow<T>({
   nodeTypes,
   edgeTypes,
   yearSlider = true,
+  visualize = false,
 }: ArtifactFlowProps<T>) {
   const loading = useUserStore((state) => state.loading);
   const setLoading = useUserStore((state) => state.setLoading);
   const company = useUserStore((state) => state.company);
-
   const setArtifactFlow = useArtifactFlowStore(
     (state) => state.setArtifactFlow,
   );
@@ -62,8 +64,53 @@ export default function ArtifactFlow<T>({
     setReactFLowInstance,
   } = useFlow(artifact);
 
+  const handleVisualizeArtifact = async (year: number) => {
+    if (year) {
+      console.log('request', { year, artifact: artifact.type });
+      const result = await getArtifactByYearProjectionAndType(
+        year,
+        artifact.type,
+      );
+
+      console.log('response', result);
+
+      if (result?.type === 'error') {
+        return toast.error(result?.message || 'Error obteniendo el artefacto');
+      }
+
+      if (result.length > 1) {
+        return toast.error(
+          'Mas de un artefacto encontrado para este año, revisa tus datos',
+        );
+      }
+
+      if (result.length === 0) {
+        return toast.error('No se ha encontrado el artefacto para este año');
+      }
+
+      const artifactData = JSON.parse(result[0].data);
+
+      console.log('target', artifactData);
+      setNodes(artifactData.data.nodes);
+      setEdges(artifactData.data.edges);
+      viewport.x = artifactData.data.viewport.x;
+      viewport.y = artifactData.data.viewport.y;
+      viewport.zoom = artifactData.data.viewport.zoom;
+
+      return toast.success('Artefacto cargado correctamente');
+    }
+    return toast.error('No se ha encontrado el artefacto para este año');
+  };
+
   const onSelectYear = async (year: number) => {
     setLoading(true);
+    setYear(year);
+
+    if (visualize) {
+      handleVisualizeArtifact(year);
+      setLoading(false);
+      return;
+    }
 
     if (!company?.id) {
       setLoading(false);
