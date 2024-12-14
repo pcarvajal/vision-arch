@@ -1,5 +1,9 @@
 'use client';
 
+import {
+  getArtifactAction,
+  getArtifactsAction,
+} from '@/actions/artifact.actions';
 import ArtifactFlow from '@/components/diagrams/ArtifactFlow';
 import { ArtifactToolbar } from '@/components/diagrams/components/ArtifactToolbar';
 import {
@@ -18,7 +22,7 @@ import { routes } from '@/config/routes';
 import { FlowType } from '@/types';
 import { Card, CardBody } from '@nextui-org/react';
 import { Atom, Goal, HouseIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const breadcrumb = [
   {
@@ -41,7 +45,8 @@ const breadcrumb = [
   },
 ];
 
-export const CreateCsvlodView = () => {
+export const EditCsvlodView = () => {
+  const [items, setItems] = useState([]);
   const [artifactSelected, setArtifactSelected] = useState(
     policiesArtifactProps,
   );
@@ -67,12 +72,47 @@ export const CreateCsvlodView = () => {
     }
   };
 
+  const handleArtifactSelectUpdate = async (item: string) => {
+    const csvlodArtifact = await getArtifactAction(item);
+    const artifact = JSON.parse(csvlodArtifact.data);
+
+    setArtifactSelected({
+      ...artifactSelected,
+      id: csvlodArtifact.$id,
+      initialFlow: {
+        nodes: artifact.data.nodes,
+        edges: artifact.data.edges,
+        viewport: artifact.data.viewport,
+      },
+    });
+  };
+
+  useEffect(() => {
+    async function getArtifacts() {
+      const artifacts = await getArtifactsAction(artifactSelected.type);
+      setItems(
+        artifacts.map((artifact: any) => ({
+          key: artifact.$id,
+          label: artifact.name,
+        })),
+      );
+    }
+    getArtifacts();
+  }, []);
+
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <PageBreadcrumb items={breadcrumb} />
       <div className="flex flex-row justify-between space-x-2">
-        <h3 className="text-xl font-semibold">Espacio de trabajo</h3>
+        <h3 className="flex w-full text-xl font-semibold">
+          Espacio de trabajo
+        </h3>
         <ArtifactToolbar
+          className="flex w-full flex-row items-center justify-end gap-2"
+          companyArtifacts={{
+            items: items,
+            onValueChange: handleArtifactSelectUpdate,
+          }}
           saveArtifactModal={true}
           selectNodeItems={artifactSelected.presetNodes}
           artifactSelect={

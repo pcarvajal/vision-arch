@@ -4,6 +4,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 type ArtifactFlowDataStore = {
+  id?: string;
   data: ReactFlowJsonObject | null;
   year: number;
   type: ArtifactType;

@@ -56,6 +56,7 @@ export const SaveArtifactForm = () => {
       type: artifactFlow.type,
       yearProjection: artifactFlow.year,
     };
+
     const result = await saveArtifactAction(params);
 
     if (result?.type === 'error') {

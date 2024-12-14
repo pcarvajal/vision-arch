@@ -8,37 +8,31 @@ interface SelectItem {
 }
 
 interface SelectArtifactProps {
-  label: string;
-  placeholder?: string;
-  disabledKeys?: string[];
   items: SelectItem[];
   onValueChange: (value: string) => void;
-  value: string;
+  className?: string;
 }
 
 export const SelectArtifact = ({
   items,
-  disabledKeys,
-  placeholder,
-  label,
   onValueChange,
-  value,
+  className,
 }: SelectArtifactProps) => {
   const handleChangeValue = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onValueChange(e.target.value);
   };
+
   return (
-    <Select
-      label={label}
-      placeholder={placeholder}
-      disabledKeys={disabledKeys}
-      className="w-full"
-      onChange={handleChangeValue}
-      value={value}
-    >
-      {items.map((item) => (
-        <SelectItem key={item.key}>{item.label}</SelectItem>
-      ))}
-    </Select>
+    <div className={className}>
+      <Select
+        className=""
+        onChange={handleChangeValue}
+        label="Selecciona un artefacto"
+      >
+        {items.map((item) => (
+          <SelectItem key={item.key}>{item.label}</SelectItem>
+        ))}
+      </Select>
+    </div>
   );
 };

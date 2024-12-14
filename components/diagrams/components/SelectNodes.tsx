@@ -14,9 +14,10 @@ import dynamicIconImports from 'lucide-react/dynamicIconImports';
 
 interface SelectNodesProps {
   nodes: GenericNodeProps[];
+  className?: string;
 }
 
-export const SelectNodes = ({ nodes }: SelectNodesProps) => {
+export const SelectNodes = ({ nodes, className }: SelectNodesProps) => {
   const { setNodes } = useReactFlow();
   const presetNodes = nodes.map((node) => node.node);
 
@@ -38,7 +39,7 @@ export const SelectNodes = ({ nodes }: SelectNodesProps) => {
   };
 
   return (
-    <Dropdown>
+    <Dropdown className={className}>
       <DropdownTrigger>
         <Button variant="ghost" color="danger">
           Seleccionar Nodo

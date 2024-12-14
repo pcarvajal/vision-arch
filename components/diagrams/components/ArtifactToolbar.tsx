@@ -7,13 +7,17 @@ import {
   GenericNodeProps,
 } from '@/types';
 import React from 'react';
-import { Artifact } from '../../../types/types';
 import ArtifactSelectWithSection from './ArtifactSelectWithSection';
+import { SelectArtifact } from './SelectArtifact';
 import { SelectNodes } from './SelectNodes';
 
 interface ArtifactToolbarProps {
   selectNodeItems?: GenericNodeProps[];
   saveArtifactModal?: boolean;
+  companyArtifacts?: {
+    items: { key: string; label: string }[];
+    onValueChange: (value: string) => void;
+  };
   artifactSelect?: {
     items: ArtifactSelectorWithSection[];
     defaultItem?: string;
@@ -26,6 +30,7 @@ export const ArtifactToolbar = <T extends CustomNodeData>({
   saveArtifactModal,
   selectNodeItems,
   artifactSelect,
+  companyArtifacts,
   className,
 }: ArtifactToolbarProps) => {
   const handleArtifactSelect = (artifact: string) => {
@@ -33,8 +38,17 @@ export const ArtifactToolbar = <T extends CustomNodeData>({
   };
 
   return (
-    <div className="flex flex-row space-x-4">
-      <div>
+    <div className={className}>
+      <div className="flex flex-row items-center space-x-4">
+        {companyArtifacts && (
+          <div className="flex w-[300px] flex-row justify-between space-x-4">
+            <SelectArtifact
+              items={companyArtifacts.items}
+              onValueChange={companyArtifacts.onValueChange}
+              className="flex-grow"
+            />
+          </div>
+        )}
         {artifactSelect && (
           <ArtifactSelectWithSection
             defaultItem={artifactSelect.defaultItem}

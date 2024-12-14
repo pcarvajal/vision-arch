@@ -26,8 +26,11 @@ export const useCustomNodeData = <T extends CustomNodeData>(
   const [nodeBaseType, setNodeBaseType] = useState(data.nodeBaseType || '');
   const [type, setType] = useState(data.type || '');
 
+  console.log('useCustomNodeData', nodeData);
+
   // Método para actualizar nodos globalmente en React Flow
   const updateNodeData = () => {
+    console.log('updateNodeData');
     setNodes((nodes) =>
       nodes.map((node) =>
         node.id === id
@@ -73,6 +76,7 @@ export const useCustomNodeData = <T extends CustomNodeData>(
     label,
     nodeBaseType,
     type,
+    nodeData,
   ]);
 
   // Método para eliminar nodo

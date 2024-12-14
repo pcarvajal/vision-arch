@@ -17,12 +17,14 @@ interface ArtifactSelectorProps {
   defaultItem?: string;
   items: ArtifactSelectorWithSection[];
   onArtifactSelect: (item: string) => void;
+  className?: string;
 }
 
 export default function ArtifactSelectWithSection({
   items,
   onArtifactSelect,
   defaultItem,
+  className,
 }: ArtifactSelectorProps) {
   const [selectedItem, setSelectedItem] = useState<ArtifactSelectItem | null>(
     null,
@@ -52,7 +54,7 @@ export default function ArtifactSelectWithSection({
   }, []);
 
   return (
-    <Dropdown>
+    <Dropdown className={className}>
       <DropdownTrigger>
         <Button variant="ghost">{`${selectedItem?.label || 'Seleccionar artefacto '}`}</Button>
       </DropdownTrigger>

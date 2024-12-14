@@ -1,24 +1,12 @@
 'use client';
 
 import {
-  addEdge,
-  applyEdgeChanges,
-  applyNodeChanges,
   Background,
   BackgroundVariant,
-  Connection,
   Controls,
-  Edge,
-  EdgeChange,
   MiniMap,
-  Node,
-  NodeChange,
   Panel,
   ReactFlow,
-  ReactFlowInstance,
-  useEdgesState,
-  useNodesState,
-  useViewport,
   type EdgeTypes,
   type NodeTypes,
 } from '@xyflow/react';
@@ -26,35 +14,29 @@ import '@xyflow/react/dist/style.css';
 import { generateModel } from '@/actions/ai.actions';
 import YearsSlider from '@/components/diagrams/components/YearsSlider';
 import ThinkingLoader from '@/components/shared/ThinkingLoader';
-import { yearRange } from '@/config/constants';
 import useArtifactFlowStore from '@/store/artifactFlowStore';
 import useUserStore from '@/store/userStore';
-import { ArtifactProps, ArtifactType } from '@/types';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ArtifactProps } from '@/types';
+import { useEffect, useMemo } from 'react';
 import { toast } from 'sonner';
+import { useFlow } from '../hooks/useFlow';
 
 interface ArtifactFlowProps<T> {
   artifact: ArtifactProps;
   nodeTypes: NodeTypes;
   edgeTypes: EdgeTypes;
+  yearSlider?: boolean;
 }
 
 export default function ArtifactFlow<T>({
-  artifact: {
-    initialFlow,
-    category,
-    categoryLabel,
-    type,
-    typeLabel,
-    presetNodes,
-  },
+  artifact,
   nodeTypes,
   edgeTypes,
+  yearSlider = true,
 }: ArtifactFlowProps<T>) {
   const loading = useUserStore((state) => state.loading);
   const setLoading = useUserStore((state) => state.setLoading);
   const company = useUserStore((state) => state.company);
-  const viewport = useViewport();
 
   const setArtifactFlow = useArtifactFlowStore(
     (state) => state.setArtifactFlow,
@@ -63,32 +45,22 @@ export default function ArtifactFlow<T>({
     (state) => state.deleteArtifactFlow,
   );
 
-  const [year, setYear] = useState<number>(yearRange.default);
-
-  const [artifactSelected, setArtifactSelected] = useState<ArtifactType>(type);
-
-  const [reactFlowInstance, setReactFLowInstance] =
-    useState<ReactFlowInstance | null>(null);
-  const [nodes, setNodes] = useNodesState(initialFlow?.nodes || []);
-  const [edges, setEdges] = useEdgesState(initialFlow?.edges || []);
-
-  const onNodesChange = useCallback(
-    (changes: NodeChange<Node>[]) =>
-      setNodes((nds) => applyNodeChanges(changes, nds)),
-    [setNodes],
-  );
-  const onEdgesChange = useCallback(
-    (changes: EdgeChange<Edge>[]) =>
-      setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [setEdges],
-  );
-  const onConnect = useCallback(
-    (connection: Connection) => {
-      const edge = { ...connection, animated: true, type: 'deleteEdge' };
-      setEdges((eds) => addEdge(edge, eds));
-    },
-    [setEdges],
-  );
+  const {
+    artifactSelected,
+    setYear,
+    year,
+    nodes,
+    edges,
+    viewport,
+    setNodes,
+    setEdges,
+    setArtifactSelected,
+    type,
+    onConnect,
+    onNodesChange,
+    onEdgesChange,
+    setReactFLowInstance,
+  } = useFlow(artifact);
 
   const onSelectYear = async (year: number) => {
     setLoading(true);
@@ -104,8 +76,6 @@ export default function ArtifactFlow<T>({
     }
     setYear(year);
 
-    console.log('ARTIFACT', artifactSelected);
-
     const result = await generateModel({
       companyId: company.id,
       year,
@@ -119,8 +89,6 @@ export default function ArtifactFlow<T>({
 
     const jsonResponse = JSON.parse(result);
 
-    console.log('JSON RESPONSE', jsonResponse);
-
     setNodes(jsonResponse.nodes);
     setEdges(jsonResponse.edges);
 
@@ -129,6 +97,7 @@ export default function ArtifactFlow<T>({
 
   useEffect(() => {
     setArtifactFlow({
+      id: artifact.id,
       year,
       data: { nodes, edges, viewport },
       type: artifactSelected,
@@ -169,9 +138,15 @@ export default function ArtifactFlow<T>({
         nodeTypes={flowNodetypes.nodeTypes}
         edgeTypes={edgeTypes}
       >
-        <Panel position="top-left" className="min-w-[300px] gap-4">
-          <YearsSlider label="Proyección" step={1} onChangeEnd={onSelectYear} />
-        </Panel>
+        {yearSlider && (
+          <Panel position="top-left" className="min-w-[300px] gap-4">
+            <YearsSlider
+              label="Proyección"
+              step={1}
+              onChangeEnd={onSelectYear}
+            />
+          </Panel>
+        )}
         <Controls />
         <MiniMap />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />

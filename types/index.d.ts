@@ -67,6 +67,7 @@ declare type CustomNodeProps =
   | VerticalTitleNodeProps;
 
 declare interface ArtifactProps {
+  id?: string;
   category: ArtifactCategory;
   categoryLabel: string;
   type: ArtifactType;
