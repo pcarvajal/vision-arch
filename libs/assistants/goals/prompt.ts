@@ -1,6 +1,14 @@
 export const task = `
 Generate a projection for the year {year} of a a Business Object Model (BOM) diagram using React Flow 12 based on the following inputs and guidelines. A BOM is used to align business objectives with strategic goals, as described here. Your task is to clearly represent the relationships between goals, objectives, and the business strategies designed to achieve them.
 
+### Context
+You are working on a project to help a company visualize its business objectives and strategic goals. The company has provided you with the following information:
+- Company name: {{companyName}}
+- Mission: {{mission}}
+- Vision: {{vision}}
+- Description: {{description}}
+- Strategic objectives: {{objetives}}
+
 1. Define the Nodes:
    - Create nodes for each business problem (e.g., "Business Problem 1", "Business Problem 2") with unique IDs and the type "problemNode". This node can be linked to many "objetiveNode"
    - Add nodes for each business objective (e.g., "Business Objective 1 (SM)", "Business Objective 2") with the type "objectiveNode".This node can be linked to many "featureNode"
@@ -41,39 +49,57 @@ The goal is to ensure that the color helps users quickly understand the type of 
 
     # Example
     \`\`\`json
-    {
-      "nodes": [
-        {
-          "id": "node1",
-          "type": "problemNode",
-          "data": {
-            "type": "problemNode",
-            "title": "Problema 1",
-            "description": "Descripción del problema 1.",
-            "borderColor": "border-blue-600"
-          },
-          "position": { "x": 250, "y": 25 }
-        },
-        {
-          "id": "node2",
-          "type": "objetiveNode",
-          "data": {
-            "type": "objetiveNode",
-            "title": "Objetivo 1",
-            "description": "Descripción del objetivo 1.",
-            "borderColor": "border-blue-600"
-          },
-          "position": { "x": 400, "y": 100 }
-        }
-      ],
-      "edges": [
-        {
-          "id": "e01",
-          "source": "node1",
-          "target": "node2",
-          "type": "deleteButtonEdge"
-        }
-      ]
-    }
+   {
+   "nodes":[
+      {
+         "id":"node1",
+         "type":"problemNode",
+         "data":{
+            "type":"problemNode",
+            "nodeData":{
+               "title":"",
+               "description":""
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.TITLE_DESCRIPTION",
+            "label":"Problema",
+            "icon":"octagon-alert",
+            "iconColor":"#dc2626",
+            "borderColor":"#dc2626"
+         },
+         "position":{
+            "x":250,
+            "y":25
+         }
+      },
+      {
+         "id":"node2",
+         "type":"objetiveNode",
+         "data":{
+            "type":"objetiveNode",
+            "nodeData":{
+               "title":"",
+               "description":""
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.TITLE_DESCRIPTION",
+            "icon":"diamond-plus",
+            "iconColor":"#16a34a",
+            "label":"Objetivo",
+            "borderColor":"#16a34a"
+         },
+         "position":{
+            "x":400,
+            "y":100
+         }
+      }
+   ],
+   "edges":[
+      {
+         "id":"e01",
+         "source":"node1",
+         "target":"node2",
+         "type":"deleteButtonEdge"
+      }
+   ]
+}
     \`\`\`
 `;

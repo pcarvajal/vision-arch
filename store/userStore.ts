@@ -1,41 +1,47 @@
-import { Account, ArtifactObject, Company } from '@/types/types';
+import { Account, Company } from '@/types/types';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-interface UserState {
+export type UserState = {
   account: Account | null;
+  company: Company | null;
+  loading: boolean;
+};
+
+export type UserActions = {
   setAccount: (account: Account) => void;
   updateAccount: (account: Account) => void;
-  company: Company | null;
   setCompany: (account: Company) => void;
   updateCompany: (account: Company) => void;
-  artifactObject: ArtifactObject | null;
-  setArtifactObject: (artifactObject: ArtifactObject) => void;
-  updateArtifactObject: (artifactObject: ArtifactObject) => void;
-  deleteArtifactObject: () => void;
+  setLoading: (loading: boolean) => void;
   clearPersistedStore: () => void;
-}
+};
 
-const useUserStore = create(
-  persist<UserState>(
-    (set) => ({
+export type UserStore = UserState & UserActions;
+
+const useUserStore = create<UserStore>()(
+  persist(
+    (set, get) => ({
       account: null,
       setAccount: (account) => set({ account }),
       updateAccount: (account) => set((state) => ({ ...state, account })),
       company: null,
       setCompany: (company) => set({ company }),
       updateCompany: (company) => set((state) => ({ ...state, company })),
-      artifactObject: null,
-      setArtifactObject: (artifactObject) => set({ artifactObject }),
-      updateArtifactObject: (artifactObject) =>
-        set((state) => ({ ...state, artifactObject })),
-      deleteArtifactObject: () => set({ artifactObject: null }),
+      loading: false,
+      setLoading: (loading) => set({ loading }),
       clearPersistedStore: () => {
         useUserStore.persist.clearStorage();
-        set({ account: null, company: null, artifactObject: null });
+        set({ account: null, company: null });
       },
     }),
-    { name: 'user-store' },
+    {
+      name: 'user-store',
+      partialize: (state) =>
+        Object.fromEntries(
+          Object.entries(state).filter(([key]) => !['loading'].includes(key)),
+        ),
+    },
   ),
 );
 

@@ -24,7 +24,6 @@ interface CompanyViewProps {
 }
 
 export default function CompanyView({ preferences }: CompanyViewProps) {
-  console.log('CompanyView', preferences);
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <PageBreadcrumb items={companyBreadcrumb} />

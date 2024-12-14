@@ -50,144 +50,138 @@ Provide a complete example of a JSON schema with placeholder data to demonstrate
 
 \`\`\`json
 {
-  "nodes": [
-    {
-      "id": "policyTypeAreaNode1",
-      "type": "policyTypeAreaNode",
-      "position": {
-        "x": 250,
-        "y": 25
+   "nodes":[
+      {
+         "id":"policyTypeAreaNode1",
+         "type":"policyTypeAreaNode",
+         "position":{
+            "x":250,
+            "y":25
+         },
+         "data":{
+            "type":"policyTypeAreaNode",
+            "nodeData":{
+               "title":"Tipo de política"
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.AREA",
+            "label":"Área tipo de política",
+            "width":100,
+            "height":250,
+            "color":"#0ea5e9",
+            "borderColor":"#0c4a6e",
+            "zIndex":900,
+            "icon":"scan"
+         }
       },
-      "data": {
-        "id": "1",
-        "type": "policyTypeAreaNode",
-        "position": {
-          "x": 50,
-          "y": 50
-        },
-        "label": "Policy Type Area",
-        "width": 150,
-        "height": 300,
-        "color": "#1d4ed8",
-        "borderColor": "#1e3a8a",
-        "zIndex": 1000,
-        "icon": ""
-      }
-    },
-    {
-      "id": "policyAreaNode2",
-      "type": "policyAreaNode",
-      "position": {
-        "x": 250,
-        "y": 50
+      {
+         "id":"policyAreaNode2",
+         "type":"policyAreaNode",
+         "position":{
+            "x":250,
+            "y":50
+         },
+         "data":{
+            "type":"policyAreaNode",
+            "nodeData":{
+               "title":"Política"
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.AREA",
+            "label":"Área política",
+            "width":140,
+            "height":250,
+            "color":"#eab308",
+            "borderColor":"#713f12",
+            "zIndex":900,
+            "icon":"scan"
+         }
       },
-      "data": {
-        "id": "policyAreaNode2",
-        "type": "policyTypeAreaNode",
-        "position": {
-          "x": 250,
-          "y": 50
-        },
-        "label": "Policy Area",
-        "width": 200,
-        "height": 300,
-        "color": "#d97706",
-        "borderColor": "#92400e",
-        "zIndex": 1000,
-        "icon": ""
-      }
-    },
-    {
-      "id": "policyDescriptionAreaNode3",
-      "type": "policyDescriptionAreaNode",
-      "position": {
-        "x": 500,
-        "y": 50
+      {
+         "id":"policyDescriptionAreaNode3",
+         "type":"policyDescriptionAreaNode",
+         "position":{
+            "x":500,
+            "y":50
+         },
+         "data":{
+            "type":"policyDescriptionAreaNode",
+            "nodeData":{
+               "title":"Descripción"
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.AREA",
+            "label":"Área descripción de la política",
+            "width":600,
+            "height":250,
+            "color":"#a855f7",
+            "borderColor":"#581c87",
+            "zIndex":900,
+            "icon":"scan"
+         }
       },
-      "data": {
-        "id": "policyDescriptionAreaNode3",
-        "type": "policyDescriptionAreaNode",
-        "position": {
-          "x": 500,
-          "y": 50
-        },
-        "label": "Policy Description Area",
-        "width": 400,
-        "height": 300,
-        "color": "#9333ea",
-        "borderColor": "#6b21a8",
-        "zIndex": 1000,
-        "icon": ""
-      }
-    },
-    {
-      "id": "policyTypeLabelNode4",
-      "type": "policyTypeLabelNode",
-      "position": {
-        "x": 75,
-        "y": 75
+      {
+         "id":"policyTypeLabelNode4",
+         "type":"policyTypeLabelNode",
+         "position":{
+            "x":75,
+            "y":75
+         },
+         "data":{
+            "type":"policyTypeLabelNode",
+            "nodeData":{
+               "title":"Tipo de política",
+               "titlePlaceholder":"Ingresa un tipo de política ..."
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.TITLE",
+            "label":"Bloque tipo de política",
+            "width":88,
+            "height":193,
+            "zIndex":"undefined",
+            "icon":"text"
+         }
       },
-      "data": {
-        "id": "policyTypeLabelNode4",
-        "type": "policyTypeLabelNode",
-        "position": {
-          "x": 75,
-          "y": 75
-        },
-        "label": "Policy Type Block",
-        "width": 120,
-        "height": 200,
-        "icon": ""
-      }
-    },
-    {
-      "id": "policyTextBlockNode5",
-      "type": "policyTextBlockNode",
-      "position": {
-        "x": 275,
-        "y": 125
+      {
+         "id":"policyTextBlockNode5",
+         "type":"policyTextBlockNode",
+         "position":{
+            "x":275,
+            "y":125
+         },
+         "data":{
+            "type":"policyTextBlockNode",
+            "nodeData":{
+               "textBlock":"Política",
+               "textBlockPlaceholder":"Ingresa una política ..."
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.TEXT_BLOCK",
+            "label":"Bloque titulo de política",
+            "width":110,
+            "height":80,
+            "icon":"text"
+         }
       },
-      "data": {
-        "id": "policyTextBlockNode5",
-        "type": "policyTextBlockNode",
-        "position": {
-          "x": 275,
-          "y": 125
-        },
-        "label": "Policy Title Block",
-        "width": 150,
-        "height": 200,
-        "icon": "",
-        "customData": {
-          "textBlock": "Company Policy Example Title"
-        }
+      {
+         "id":"policyDescriptionTextBlockNode6",
+         "type":"policyDescriptionTextBlockNode",
+         "position":{
+            "x":525,
+            "y":125
+         },
+         "data":{
+            "type":"policyDescriptionTextBlockNode",
+            "nodeData":{
+               "textBlock":"Descripción de la política",
+               "textBlockPlaceholder":"Ingresa una descripción de la política ..."
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.TEXT_BLOCK",
+            "label":"Bloque descripción de política",
+            "width":240,
+            "height":80,
+            "icon":"text"
+         }
       }
-    },
-    {
-      "id": "policyDescriptionTextBlockNode6",
-      "type": "policyDescriptionTextBlockNode",
-      "position": {
-        "x": 525,
-        "y": 125
-      },
-      "data": {
-        "id": "policyDescriptionTextBlockNode6",
-        "type": "policyDescriptionTextBlockNode",
-        "position": {
-          "x": 525,
-          "y": 125
-        },
-        "label": "Policy Description Block",
-        "width": 300,
-        "height": 100,
-        "icon": "",
-        "customData": {
-          "textBlock": "Example description of the company policy, detailing its scope and application."
-        }
-      }
-    }
-  ],
-  "edges": []
+   ],
+   "edges":[
+      
+   ]
 }
  \`\`\`
 

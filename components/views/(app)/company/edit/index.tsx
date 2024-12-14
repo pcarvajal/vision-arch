@@ -1,11 +1,10 @@
-import { getCompanyAction } from '@/actions/company.actions';
 import CompanyForm from '@/components/forms/CompanyForm';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import PageTitle from '@/components/pages/PageTitle';
 import { routes } from '@/config/routes';
-import { ICompany } from '@/schemas/CompanySchema';
+import { Company } from '@/types/types';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
-import { Building2, Car, HouseIcon } from 'lucide-react';
+import { Building2, HouseIcon } from 'lucide-react';
 
 const companyBreadcrumb = [
   {
@@ -21,7 +20,7 @@ const companyBreadcrumb = [
 ];
 
 interface CompanyEditViewProps {
-  company: ICompany;
+  company: Company;
 }
 
 export const CompanyEditView = ({ company }: CompanyEditViewProps) => {

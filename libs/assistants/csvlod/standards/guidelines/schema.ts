@@ -33,41 +33,45 @@ export const schema = {
           data: {
             type: 'object',
             properties: {
-              id: {
-                type: 'string',
-                description:
-                  'Unique identifier for the data associated with the node.',
-              },
               type: {
                 type: 'string',
-                description: 'Type of the data associated with the node.',
+                description: 'The specific type of the node.',
               },
-              position: {
+              nodeData: {
                 type: 'object',
                 properties: {
-                  x: {
-                    type: 'number',
-                    description: "X coordinate of the data's position.",
+                  title: {
+                    type: 'string',
+                    description: 'The title of the node.',
                   },
-                  y: {
-                    type: 'number',
-                    description: "Y coordinate of the data's position.",
+                  textBlock: {
+                    type: 'string',
+                    description: 'Text content for text block nodes.',
+                  },
+                  textBlockPlaceholder: {
+                    type: 'string',
+                    description:
+                      'Placeholder text for input fields within text blocks.',
                   },
                 },
-                required: ['x', 'y'],
+                required: ['title', 'textBlock', 'textBlockPlaceholder'],
                 additionalProperties: false,
+              },
+              nodeBaseType: {
+                type: 'string',
+                description: 'Base type category for nodes.',
               },
               label: {
                 type: 'string',
-                description: 'Label for the node.',
+                description: 'A descriptive label for the node.',
               },
               width: {
                 type: 'number',
-                description: 'Width of the node.',
+                description: 'The width of the node.',
               },
               height: {
                 type: 'number',
-                description: 'Height of the node.',
+                description: 'The height of the node.',
               },
               color: {
                 type: 'string',
@@ -75,32 +79,21 @@ export const schema = {
               },
               borderColor: {
                 type: 'string',
-                description: 'Border color of the node.',
+                description: "Color of the node's border.",
               },
               zIndex: {
                 type: 'number',
-                description: 'Z-index of the node.',
+                description: 'Layering order of the node.',
               },
               icon: {
                 type: 'string',
-                description: 'Icon associated with the node.',
-              },
-              customData: {
-                type: 'object',
-                properties: {
-                  textBlock: {
-                    type: 'string',
-                    description: 'Additional information about the node.',
-                  },
-                },
-                required: ['textBlock'],
-                additionalProperties: false,
+                description: 'Icon representing the node.',
               },
             },
             required: [
-              'id',
               'type',
-              'position',
+              'nodeData',
+              'nodeBaseType',
               'label',
               'width',
               'height',
@@ -108,7 +101,6 @@ export const schema = {
               'borderColor',
               'zIndex',
               'icon',
-              'customData',
             ],
             additionalProperties: false,
           },

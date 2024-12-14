@@ -40,25 +40,9 @@ export const schema = {
           },
           data: {
             type: 'object',
-            description: 'Additional data associated with the node.',
             properties: {
-              label: {
-                type: 'string',
-                description: 'Label of the node.',
-              },
-              textColor: {
-                type: 'string',
-                description: 'Color of the label node.',
-                enum: ['#f8fafc', '#475569'],
-              },
-              backgroundColor: {
-                type: 'string',
-                description: 'Color of background node.',
-                enum: ['#fcd34d', '#f0abfc', '#a78bfa', '#f8fafc', '#f9a8d4'],
-              },
               type: {
                 type: 'string',
-                description: 'Type of node.',
                 enum: [
                   'actorNode',
                   'systemNode',
@@ -67,27 +51,58 @@ export const schema = {
                   'infrastructureNode',
                 ],
               },
+              nodeData: {
+                type: 'object',
+                properties: {
+                  title: {
+                    type: 'string',
+                    description: 'Title of the node.',
+                  },
+                  titlePlaceholder: {
+                    type: 'string',
+                    description: 'Placeholder for the title.',
+                  },
+                },
+                required: ['titlePlaceholder', 'title'],
+                additionalProperties: false,
+              },
+              nodeBaseType: {
+                type: 'string',
+                enum: ['BaseNodeTypeEnum.TITLE_ICON', 'BaseNodeTypeEnum.TITLE'],
+              },
+              label: {
+                type: 'string',
+              },
+              color: {
+                type: 'string',
+              },
+              backgroundColor: {
+                type: 'string',
+              },
+              icon: {
+                type: 'string',
+              },
+              iconColor: {
+                type: 'string',
+              },
               width: {
                 type: 'number',
-                description: 'Width of the node.',
               },
               height: {
                 type: 'number',
-                description: 'Height of the node.',
-              },
-              placeholder: {
-                type: 'string',
-                description: 'Placeholder of the node.',
               },
             },
             required: [
-              'label',
-              'textColor',
-              'backgroundColor',
               'type',
+              'nodeData',
+              'nodeBaseType',
+              'label',
+              'color',
+              'backgroundColor',
+              'icon',
+              'iconColor',
               'width',
               'height',
-              'placeholder',
             ],
             additionalProperties: false,
           },
@@ -126,7 +141,7 @@ export const schema = {
           type: {
             type: 'string',
             description: 'The type of the edge.',
-            enum: ['customDefaultEdge'],
+            enum: ['deleteEdge'],
           },
           data: {
             type: 'object',

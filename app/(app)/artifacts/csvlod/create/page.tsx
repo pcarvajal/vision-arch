@@ -1,14 +1,14 @@
-import { CsvlodCreateView } from '@/components/views/(app)/artifacts/csvlod/create';
+import { CreateCsvlodView } from '@/components/views/(app)/artifacts/csvlod/create';
 import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Crear | CSVLOD',
-  description: 'Artefactos CSVLOD',
+  title: 'CSVLOD | Crear',
+  description: 'CSVLOD de la organización',
 };
 
-const PoliciesPage = () => {
-  return <CsvlodCreateView />;
+const CsvlodCreatePage = () => {
+  return <CreateCsvlodView />;
 };
 
-export default PoliciesPage;
+export default CsvlodCreatePage;

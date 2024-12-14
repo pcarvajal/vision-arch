@@ -33,35 +33,50 @@ export const schema = {
           },
           data: {
             type: 'object',
-            description: 'Additional data related to the node.',
+            description: 'Representation of a policy node.',
             properties: {
-              id: {
-                type: 'string',
-                description: 'Unique identifier for the data.',
-              },
               type: {
                 type: 'string',
-                description: 'The type of the node.',
+                description: 'The type of the policy node.',
               },
-              position: {
+              nodeData: {
                 type: 'object',
-                description: 'The position of the node in the graph.',
+                description: 'Data specific to the policy node.',
                 properties: {
-                  x: {
-                    type: 'number',
-                    description: 'The x-coordinate of the node.',
+                  title: {
+                    type: 'string',
+                    description: 'Title of the policy',
                   },
-                  y: {
-                    type: 'number',
-                    description: 'The y-coordinate of the node.',
+                  titlePlaceholder: {
+                    type: 'string',
+                    description:
+                      'Placeholder text for the title, used in title nodes.',
+                  },
+                  textBlock: {
+                    type: 'string',
+                    description: 'Text content for text block nodes.',
+                  },
+                  textBlockPlaceholder: {
+                    type: 'string',
+                    description: 'Placeholder text for the text block.',
                   },
                 },
-                required: ['x', 'y'],
+                required: [
+                  'title',
+                  'titlePlaceholder',
+                  'textBlock',
+                  'textBlockPlaceholder',
+                ],
                 additionalProperties: false,
+              },
+              nodeBaseType: {
+                type: 'string',
+                description:
+                  'The base type of the node, indicating structural category.',
               },
               label: {
                 type: 'string',
-                description: 'Label for the node.',
+                description: 'Label associated with the node.',
               },
               width: {
                 type: 'number',
@@ -80,30 +95,26 @@ export const schema = {
                 description: 'Border color of the node.',
               },
               zIndex: {
-                type: 'number',
-                description: 'Z-index for node stacking.',
+                anyOf: [
+                  {
+                    type: 'number',
+                    description: 'Z-index for stacking order.',
+                  },
+                  {
+                    type: 'null',
+                    description: 'Indicates no specific z-index.',
+                  },
+                ],
               },
               icon: {
                 type: 'string',
-                description: 'Icon associated with the node.',
-              },
-              customData: {
-                type: 'object',
-                description: 'Custom data for the node.',
-                properties: {
-                  textBlock: {
-                    type: 'string',
-                    description: 'Text block for custom content.',
-                  },
-                },
-                required: ['textBlock'],
-                additionalProperties: false,
+                description: 'Icon representation for the node.',
               },
             },
             required: [
-              'id',
               'type',
-              'position',
+              'nodeData',
+              'nodeBaseType',
               'label',
               'width',
               'height',
@@ -111,7 +122,6 @@ export const schema = {
               'borderColor',
               'zIndex',
               'icon',
-              'customData',
             ],
             additionalProperties: false,
           },

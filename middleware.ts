@@ -18,6 +18,10 @@ export async function middleware(request: NextRequest) {
     `/artifacts/blueprints/create`,
     `/artifacts/blueprints/visualize`,
     `/artifacts/blueprints/edit`,
+    '/artifacts/csvlod',
+    `/artifacts/csvlod/create`,
+    `/artifacts/csvlod/visualize`,
+    `/artifacts/csvlod/edit`,
   ];
   const publicRoutes = [`/login`, `/register`];
 
@@ -69,5 +73,9 @@ export const config = {
     `/artifacts/blueprints/create`,
     `/artifacts/blueprints/visualize`,
     `/artifacts/blueprints/edit`,
+    '/artifacts/csvlod',
+    `/artifacts/csvlod/create`,
+    `/artifacts/csvlod/visualize`,
+    `/artifacts/csvlod/edit`,
   ],
 };

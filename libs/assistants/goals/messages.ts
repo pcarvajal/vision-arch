@@ -1,13 +1,10 @@
 import { context } from '@/libs/assistants/context';
 import { task } from '@/libs/assistants/goals/prompt';
+import { ModelMessagesParams } from '@/types';
 import { ChatCompletionMessageParam } from 'openai/resources';
 
-export const getBusinessObjetiveModelMessages = (
-  companyName: string,
-  companyMission: string,
-  companyVision: string,
-  companyObjetives: string,
-  projectionYear: string,
+export const getGoalsMessages = (
+  props: ModelMessagesParams,
 ): ChatCompletionMessageParam[] => {
   return [
     {
@@ -16,11 +13,7 @@ export const getBusinessObjetiveModelMessages = (
     },
     {
       role: 'user',
-      content: `The company ${companyName} has the following mission: ${companyMission}. The vision is ${companyVision}. The strategic objectives are: ${companyObjetives}.`,
-    },
-    {
-      role: 'system',
-      content: `${task.replace('{year}', projectionYear)} title and description for node in spanish.`,
+      content: `${task.replace(/{{(.*?)}}/g, (_: any, key: string) => props[key.trim() as keyof ModelMessagesParams] || '')}. All texts of the edges and nodes must be in Spanish`,
     },
   ];
 };

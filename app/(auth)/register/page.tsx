@@ -1,14 +1,14 @@
-import React from 'react';
-import { Metadata } from 'next';
 import RegisterView from '@/components/views/(auth)/register';
+import { Metadata } from 'next';
+import React from 'react';
 
 export const metadata: Metadata = {
   title: 'Registro',
   description: 'Registro de usuario',
 };
 
-const register = () => {
+const RegisterPage = () => {
   return <RegisterView />;
 };
 
-export default register;
+export default RegisterPage;

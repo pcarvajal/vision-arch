@@ -14,6 +14,7 @@ import {
   RegisterParams,
   ResetPasswordParams,
 } from '@/types';
+import { Company, CompanyModel } from '@/types/types';
 import { redirect } from 'next/navigation';
 import { ID } from 'node-appwrite';
 
@@ -69,11 +70,17 @@ const loginAction = async ({ email, password }: LoginParams) => {
       return parseStringify({ account, company: null });
     }
 
-    const company = await databases.getDocument(
+    const result = await databases.getDocument<CompanyModel>(
       databaseId!,
       companiesId!,
       team.teams[0].$id,
     );
+
+    if (result === null) {
+      return { message: 'No se encontró la compañia', type: 'error' };
+    }
+
+    const company: Company = { id: result.$id, ...result };
 
     return parseStringify({ account, company });
   } catch (error: any) {

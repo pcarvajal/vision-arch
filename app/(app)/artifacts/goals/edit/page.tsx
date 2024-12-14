@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import React from 'react';
 
 export const metadata: Metadata = {
-  title: 'Editar | Objetivos',
+  title: 'Objetivos | Editar',
   description: 'Objetivos de la organización',
 };
 

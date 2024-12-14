@@ -39,103 +39,101 @@ For example, if a principle is "Customer-Centricity," its node might include:
 
 \`\`\`json
 {
-  "nodes": [
-    {
-      "id": "principleTitleAndItemsNode1",
-      "type": "principleTitleAndItemsNode",
-      "position": {
-        "x": 250,
-        "y": 25
+   "nodes":[
+      {
+         "id":"principleTitleAndItemsNode1",
+         "type":"principleTitleAndItemsNode",
+         "position":{
+            "x":250,
+            "y":25
+         },
+         "data":{
+            "type":"principleTitleAndItemsNode",
+            "nodeData":{
+               "title":"Titulo del principio",
+               "titlePlaceholder":"Ingresa un título ...",
+               "description":"Descripción del principio ...",
+               "descriptionPlaceholder":"Ingresa una descripción ...",
+               "items":[
+                  {
+                     "id":"1",
+                     "title":"Declaración",
+                     "type":"TextArea",
+                     "value":"Descripciones de la declaración ..."
+                  },
+                  {
+                     "id":"2",
+                     "title":"Razón",
+                     "type":"TextArea",
+                     "value":"Descripciones de la razón ..."
+                  },
+                  {
+                     "id":"3",
+                     "title":"Implicaciones",
+                     "type":"TextArea",
+                     "value":"Descripciones de las implicaciones ..."
+                  }
+               ]
+            },
+            "nodeBaseType":"BaseNodeTypeEnum.TITLE_AND_ITEMS",
+            "label":"Bloque de texto de principio",
+            "width":100,
+            "height":250,
+            "color":"#0ea5e9",
+            "borderColor":"#0c4a6e",
+            "zIndex":900,
+            "icon":"text"
+         }
       },
-      "data": {
-        "id": "principleTitleAndItemsNode1",
-        "type": "principleTitleAndItemsNode",
-        "position": {
-          "x": 250,
-          "y": 25
-        },
-        "label": "Principle Text Block",
-        "width": 200,
-        "height": 350,
-        "color": "#2563eb",
-        "borderColor": "#1e40af",
-        "zIndex": 1000,
-        "icon": "",
-        "customData": {
-          "title": "Innovation-Driven",
-          "description": "Guidelines to foster innovation across the organization.",
-          "items": [
-            {
-              "id": "1",
-              "title": "Declaration",
-              "type": "TextArea",
-              "value": "Encourage creativity and new ideas in all projects."
+      {
+         "id":"principleTitleAndItemsNode2",
+         "type":"principleTitleAndItemsNode",
+         "position":{
+            "x":250,
+            "y":400
+         },
+         "data":{
+            "type":"principleTitleAndItemsNode",
+            "nodeData":{
+               "title":"Titulo del principio",
+               "titlePlaceholder":"Ingresa un título ...",
+               "description":"Descripción del principio ...",
+               "descriptionPlaceholder":"Ingresa una descripción ...",
+               "items":[
+                  {
+                     "id":"1",
+                     "title":"Declaración",
+                     "type":"TextArea",
+                     "value":"Descripciones de la declaración ..."
+                  },
+                  {
+                     "id":"2",
+                     "title":"Razón",
+                     "type":"TextArea",
+                     "value":"Descripciones de la razón ..."
+                  },
+                  {
+                     "id":"3",
+                     "title":"Implicaciones",
+                     "type":"TextArea",
+                     "value":"Descripciones de las implicaciones ..."
+                  }
+               ]
             },
-            {
-              "id": "2",
-              "title": "Reason",
-              "type": "TextArea",
-              "value": "Innovation drives competitiveness and long-term growth."
-            },
-            {
-              "id": "3",
-              "title": "Implications",
-              "type": "TextArea",
-              "value": "Invest in R&D and maintain an adaptive organizational culture."
-            }
-          ]
-        }
+            "nodeBaseType":"BaseNodeTypeEnum.TITLE_AND_ITEMS",
+            "label":"Bloque de texto de principio",
+            "width":100,
+            "height":250,
+            "color":"#0ea5e9",
+            "borderColor":"#0c4a6e",
+            "zIndex":900,
+            "icon":"text"
+         }
       }
-    },
-    {
-      "id": "principleTitleAndItemsNode2",
-      "type": "principleTitleAndItemsNode",
-      "position": {
-        "x": 250,
-        "y": 400
-      },
-      "data": {
-        "id": "principleTitleAndItemsNode2",
-        "type": "principleTitleAndItemsNode",
-        "position": {
-          "x": 250,
-          "y": 400
-        },
-        "label": "Principle Text Block",
-        "width": 200,
-        "height": 350,
-        "color": "#facc15",
-        "borderColor": "#ca8a04",
-        "zIndex": 1000,
-        "icon": "",
-        "customData": {
-          "title": "Customer-Centricity",
-          "description": "Principles focused on prioritizing customer satisfaction.",
-          "items": [
-            {
-              "id": "1",
-              "title": "Declaration",
-              "type": "TextArea",
-              "value": "Place customer needs at the forefront of decisions."
-            },
-            {
-              "id": "2",
-              "title": "Reason",
-              "type": "TextArea",
-              "value": "Satisfied customers drive loyalty and positive brand reputation."
-            },
-            {
-              "id": "3",
-              "title": "Implications",
-              "type": "TextArea",
-              "value": "Ensure continuous improvement of customer experience."
-            }
-          ]
-        }
-      }
-    }
-  ],
-  "edges": []
+   ],
+   "edges":[
+      
+   ]
 }
  \`\`\`
 ### Notes

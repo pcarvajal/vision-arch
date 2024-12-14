@@ -1,15 +1,14 @@
 'use client';
 
 import { saveArtifactAction } from '@/actions/artifact.actions';
-import { routes } from '@/config/routes';
 import {
   ArtifactSchema,
   artifactSchema,
 } from '@/libs/validators/artifact.schema';
-import useUserStore from '@/store/userStore';
+import useArtifactFlowStore from '@/store/artifactFlowStore';
+import { CreateArtifactParams } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Textarea } from '@nextui-org/react';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -25,8 +24,11 @@ const defaultValues = {
 
 export const SaveArtifactForm = () => {
   const [loading, setLoading] = useState(false);
-  const artifact = useUserStore((state) => state.artifactObject);
-  const deleteArtifact = useUserStore((state) => state.deleteArtifactObject);
+
+  const artifactFlow = useArtifactFlowStore((state) => state.artifactFlow);
+  const deleteArtifactFlow = useArtifactFlowStore(
+    (state) => state.deleteArtifactFlow,
+  );
 
   const methods = useForm({
     defaultValues,
@@ -43,17 +45,18 @@ export const SaveArtifactForm = () => {
   const onSubmit = async (values: ArtifactSchema) => {
     setLoading(true);
 
-    if (artifact === null) {
+    if (artifactFlow === null) {
       setLoading(false);
       return toast.error('Error al recuperar el artefacto');
     }
 
-    const params = {
+    const params: CreateArtifactParams = {
       ...values,
-      data: JSON.stringify(artifact),
-      type: artifact?.type,
-      yearProjection: artifact?.year,
+      data: JSON.stringify(artifactFlow),
+      type: artifactFlow.type,
+      yearProjection: artifactFlow.year,
     };
+
     const result = await saveArtifactAction(params);
 
     if (result?.type === 'error') {
@@ -61,7 +64,7 @@ export const SaveArtifactForm = () => {
       return toast.error(result.message);
     }
 
-    deleteArtifact();
+    deleteArtifactFlow();
     setLoading(false);
     reset(defaultValues);
     return toast.success('Artefacto guardado correctamente');

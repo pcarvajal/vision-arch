@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   description: 'Conceptos de la organización',
 };
 
-const EditBlueprintsPage = () => {
+const VisualizeBlueprintsPage = () => {
   return <VisualizeBlueprintsView />;
 };
 
-export default EditBlueprintsPage;
+export default VisualizeBlueprintsPage;

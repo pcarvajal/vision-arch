@@ -5,8 +5,8 @@ import { accounts } from '@/libs/backend/accounts';
 import { databases } from '@/libs/backend/databases';
 import { teams } from '@/libs/backend/teams';
 import { parseStringify } from '@/libs/utils';
-import { CreateArtifactParams } from '@/types';
-import { Artifact, ArtifactTypes } from '@/types/types';
+import { ArtifactType, CreateArtifactParams } from '@/types';
+import { Artifact, ArtifactModel } from '@/types/types';
 import { redirect } from 'next/navigation';
 import { ID, Query } from 'node-appwrite';
 
@@ -22,7 +22,7 @@ const saveArtifactAction = async (params: CreateArtifactParams) => {
       return { message: 'No tiene asignado un team', type: 'error' };
     }
 
-    const artifacts = await databases.getDocuments<Artifact>(
+    const artifacts = await databases.getDocuments<ArtifactModel>(
       databaseId!,
       artifactsId!,
       [
@@ -39,18 +39,14 @@ const saveArtifactAction = async (params: CreateArtifactParams) => {
       );
     }
 
-    const newArtifact = {
-      name: params.name,
-      description: params.description,
-      yearProjection: params.yearProjection,
-      type: params.type as ArtifactTypes,
-      data: params.data,
+    const newArtifact: Artifact = {
+      ...params,
       userId: account.$id,
       companyId: team.teams[0].$id,
       createdBy: account.name,
     };
 
-    await databases.createDocument<Artifact>(
+    await databases.createDocument<ArtifactModel>(
       databaseId!,
       artifactsId!,
       ID.unique(),
@@ -63,9 +59,9 @@ const saveArtifactAction = async (params: CreateArtifactParams) => {
   redirect(routes.protected.index);
 };
 
-const getArtifactsAction = async (type: string) => {
+const getArtifactsAction = async (type: ArtifactType) => {
   try {
-    const artifacts = await databases.getDocuments<Artifact>(
+    const artifacts = await databases.getDocuments<ArtifactModel>(
       databaseId!,
       artifactsId!,
       [Query.equal('type', type), Query.orderAsc('yearProjection')],
@@ -84,12 +80,15 @@ const getArtifactsAction = async (type: string) => {
 
 const getArtifactAction = async (id: string) => {
   try {
-    const artifact = await databases.getDocument(databaseId!, artifactsId!, id);
+    const artifact = await databases.getDocument<ArtifactModel>(
+      databaseId!,
+      artifactsId!,
+      id,
+    );
 
     if (artifact === null) {
-      return { message: 'No se encuentran el artefacto', type: 'error' };
+      return { message: 'No se encuentra el artefacto', type: 'error' };
     }
-
     return parseStringify(artifact);
   } catch (error: any) {
     console.error('Error obteniendo artefacto:', error);
@@ -99,10 +98,10 @@ const getArtifactAction = async (id: string) => {
 
 const getArtifactByYearProjectionAndType = async (
   yearProjection: number,
-  type: ArtifactTypes,
+  type: ArtifactType,
 ) => {
   try {
-    const artifact = await databases.getDocuments<Artifact>(
+    const artifact = await databases.getDocuments<ArtifactModel>(
       databaseId!,
       artifactsId!,
       [
@@ -119,9 +118,14 @@ const getArtifactByYearProjectionAndType = async (
 
 const updateArtifactAction = async (id: string, data: string) => {
   try {
-    await databases.updateDocument<Artifact>(databaseId!, artifactsId!, id, {
-      data: data,
-    });
+    await databases.updateDocument<ArtifactModel>(
+      databaseId!,
+      artifactsId!,
+      id,
+      {
+        data: data,
+      },
+    );
   } catch (error: any) {
     console.error('Error actualizando artefacto:', error);
     return { message: error?.message, type: 'error' };
