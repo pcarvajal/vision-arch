@@ -6,10 +6,10 @@ import {
   artifactSchema,
 } from '@/libs/validators/artifact.schema';
 import useArtifactFlowStore from '@/store/artifactFlowStore';
-import { CreateArtifactParams } from '@/types';
+import useUserStore from '@/store/userStore';
+import { ICreateArtifactParams } from '@/types/forms';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Input, Textarea } from '@nextui-org/react';
-import { useState } from 'react';
+import { Button, Input, Textarea, useUser } from '@nextui-org/react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import Loader from '../layout/Loader';
@@ -23,12 +23,9 @@ const defaultValues = {
 };
 
 export const SaveArtifactForm = () => {
-  const [loading, setLoading] = useState(false);
-
-  const artifactFlow = useArtifactFlowStore((state) => state.artifactFlow);
-  const deleteArtifactFlow = useArtifactFlowStore(
-    (state) => state.deleteArtifactFlow,
-  );
+  const loading = useUserStore((state) => state.loading);
+  const setLoading = useUserStore((state) => state.setLoading);
+  const artifactFlow = useArtifactFlowStore((state) => state);
 
   const methods = useForm({
     defaultValues,
@@ -45,26 +42,32 @@ export const SaveArtifactForm = () => {
   const onSubmit = async (values: ArtifactSchema) => {
     setLoading(true);
 
-    if (artifactFlow === null) {
+    if (
+      artifactFlow === null ||
+      !artifactFlow ||
+      !artifactFlow.edges ||
+      !artifactFlow.nodes ||
+      !artifactFlow.params
+    ) {
       setLoading(false);
       return toast.error('Error al recuperar el artefacto');
     }
 
-    const params: CreateArtifactParams = {
+    const params: ICreateArtifactParams = {
       ...values,
-      data: JSON.stringify(artifactFlow),
-      type: artifactFlow.type,
-      yearProjection: artifactFlow.year,
+      data: JSON.stringify({ ...artifactFlow.edges, ...artifactFlow.nodes }),
+      type: artifactFlow.params?.type,
+      yearProjection: artifactFlow.params?.year,
     };
 
     const result = await saveArtifactAction(params);
 
-    if (result?.type === 'error') {
+    if (result?.response?.message === 'error') {
       setLoading(false);
-      return toast.error(result.message);
+      return toast.error(result.response.message || 'Ha ocurrido un error');
     }
 
-    deleteArtifactFlow();
+    artifactFlow.clearPersistedStore();
     setLoading(false);
     reset(defaultValues);
     return toast.success('Artefacto guardado correctamente');

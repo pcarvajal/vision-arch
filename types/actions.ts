@@ -1,31 +1,37 @@
-import { ICompany, IUser } from './appwrite';
+import { IArtifact, ICompany, IUser } from './appwrite';
 
+// Base response
 export interface IResponse {
   code: number;
   message: string;
   type: 'error' | 'warning' | 'info';
+  error?: any;
 }
 
-// Errors
-export const UNHANDLED_ERROR = {
-  code: -100,
-  message: 'Ha ocurrido un error inesperado',
-  type: 'error' as const,
-};
-
-export const DOCUMENT_NOT_FOUND = {
-  code: 100,
-  message: 'No se encontró el documento',
-  type: 'error' as const,
-};
-
-export interface IActionResponse<T> {
+export interface IActionResponse<T = unknown> {
   data: T | null;
   response?: IResponse;
 }
 
-// Auth
+// Specific responses
 export interface ILoginActionResponse {
   user: IUser;
   company: ICompany | null;
+}
+
+export interface IGetArtifactsResponse {
+  artifacts: IArtifact[];
+  total: number;
+}
+
+export interface IGetArtifactResponse {
+  artifact: IArtifact;
+}
+
+export interface IGetCompanyResponse {
+  company: ICompany;
+}
+
+export interface IGenerateModelResponse {
+  model: string;
 }

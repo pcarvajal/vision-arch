@@ -20,6 +20,7 @@ export interface UserStateStore {
 
 export interface UserActionsStore {
   setUser: (user: IUserStore) => void;
+  updateUser: (user: IUserStore) => void;
   setLoading: (loading: boolean) => void;
   clearPersistedStore: () => void;
 }
@@ -32,6 +33,7 @@ const useUserStore = create<UserStore>()(
       user: null,
       loading: false,
       setUser: (user) => set({ user }),
+      updateUser: (user) => set({ user: { ...get().user, ...user } }),
       setLoading: (loading) => set({ loading }),
       clearPersistedStore: () => set({ user: null, loading: false }),
     }),

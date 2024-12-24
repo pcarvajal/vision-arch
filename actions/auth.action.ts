@@ -1,5 +1,10 @@
 'use server';
 
+import {
+  RESOURCE_NOT_FOUND_ERROR,
+  UNHANDLED_ERROR,
+  USER_EXISTS_ERROR,
+} from '@/config/errors';
 import { routes } from '@/config/routes';
 import { accounts } from '@/libs/backend/accounts';
 import { cookies } from '@/libs/backend/cookies';
@@ -8,12 +13,7 @@ import { project } from '@/libs/backend/project';
 import { teams } from '@/libs/backend/teams';
 import { users } from '@/libs/backend/users';
 import { mapDocument } from '@/libs/mapper';
-import { parseStringify } from '@/libs/utils';
-import {
-  IActionResponse,
-  ILoginActionResponse,
-  UNHANDLED_ERROR,
-} from '@/types/actions';
+import { IActionResponse, ILoginActionResponse } from '@/types/actions';
 import { ICompany, ICompanyModel, IUser, IUserModel } from '@/types/appwrite';
 import {
   IForgotPasswordParams,
@@ -23,7 +23,6 @@ import {
 } from '@/types/forms';
 import { redirect } from 'next/navigation';
 import { ID } from 'node-appwrite';
-import { DOCUMENT_NOT_FOUND } from '../types/actions';
 
 const { BASE_URL: baseUrl } = process.env;
 const {
@@ -37,15 +36,12 @@ const registerAction = async ({
   password,
   name,
   companyName,
-}: IRegisterParams) => {
+}: IRegisterParams): Promise<IActionResponse> => {
   try {
     const search = await users.listUsers('email', email);
 
     if (search !== null && search?.total > 0) {
-      return {
-        type: 'error',
-        message: 'El usuario ya existe.',
-      };
+      return { data: null, ...USER_EXISTS_ERROR };
     }
 
     await project.createAccount(ID.unique(), email, password, name);
@@ -53,14 +49,13 @@ const registerAction = async ({
     cookies.setCookie(secret, expire);
 
     const url = `${baseUrl}/callbacks/auth/verify-user`;
+
     await accounts.createEmailVerification(url);
-
     await accounts.updatePrefs({ companyName });
-
     await accounts.signOut();
   } catch (error: any) {
     console.error(error);
-    return { message: error.message, type: 'error' };
+    return { data: null, ...UNHANDLED_ERROR };
   }
   redirect(`${routes.public.register}/?success=true`);
 };
@@ -83,7 +78,7 @@ const loginAction = async ({
       return {
         data: null,
         response: {
-          ...DOCUMENT_NOT_FOUND,
+          ...RESOURCE_NOT_FOUND_ERROR,
           message: 'No se encontró el usuario',
         },
       };
@@ -106,7 +101,7 @@ const loginAction = async ({
       return {
         data: null,
         response: {
-          ...DOCUMENT_NOT_FOUND,
+          ...RESOURCE_NOT_FOUND_ERROR,
           message: 'No se encontró la compañia.',
         },
       };
@@ -120,13 +115,15 @@ const loginAction = async ({
   }
 };
 
-const forgotPasswordAction = async ({ email }: IForgotPasswordParams) => {
+const forgotPasswordAction = async ({
+  email,
+}: IForgotPasswordParams): Promise<IActionResponse> => {
   try {
     const url = `${baseUrl}/reset-password`;
     await users.createPasswordRecovery(email, url);
   } catch (error: any) {
     console.error(error);
-    return { message: error.message, type: 'error' };
+    return { data: null, ...UNHANDLED_ERROR };
   }
   redirect(`${routes.public.forgotPassword}?success=true`);
 };
@@ -150,7 +147,7 @@ const resetPasswordAction = async ({
     await users.confirmPasswordRecovery(userId, secret, password);
   } catch (error: any) {
     console.error(error);
-    return { message: error?.message, type: 'error' };
+    return { data: null, ...UNHANDLED_ERROR };
   }
   redirect(routes.public.login);
 };

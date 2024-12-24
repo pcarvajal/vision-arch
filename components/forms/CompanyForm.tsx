@@ -10,7 +10,6 @@ import useUserStore from '@/store/userStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import Loader from '../layout/Loader';
@@ -30,10 +29,11 @@ interface CompanyFormProps {
 }
 
 const CompanyForm = ({ initialValues, companyName }: CompanyFormProps) => {
-  const [loading, setLoading] = useState(false);
-
-  const updateCompany = useUserStore((state) => state.updateCompany);
   const router = useRouter();
+  const user = useUserStore((state) => state.user);
+  const loading = useUserStore((state) => state.loading);
+  const setLoading = useUserStore((state) => state.setLoading);
+  const updateUser = useUserStore((state) => state.updateUser);
 
   const onSubmit = async (data: CompanySchema) => {
     setLoading(true);
@@ -45,12 +45,17 @@ const CompanyForm = ({ initialValues, companyName }: CompanyFormProps) => {
       result = await saveCompanyAction(data);
     }
 
-    if (result?.type === 'error') {
+    if (result?.response?.type === 'error' || !result?.data) {
       setLoading(false);
-      return toast.error(result.message);
+      return toast.error(result?.response?.message || 'Ha ocurrido un error');
     }
 
-    updateCompany({ ...result });
+    if (result.data.company.id && result.data.company.name && user) {
+      updateUser({
+        ...user,
+        company: { id: result.data.company.id, name: result.data.company.name },
+      });
+    }
 
     setLoading(false);
     router.push(routes.protected.index);
