@@ -1,23 +1,18 @@
-import { FlowType } from '@/types';
 import { DeleteEdge } from './components/edges/DeleteEdge';
-import { AreaNode } from './components/nodes/AreaNode';
-import { NoteNode } from './components/nodes/NoteNode';
-import { TextBlockNode } from './components/nodes/TextBlockNode';
-import { TitleAndItemsNode } from './components/nodes/TitleAndItemsNode';
-import { TitleDescriptionNode } from './components/nodes/TitleDescriptionNode';
-import { TitleIconNode } from './components/nodes/TitleIconNode';
-import { TitleNode } from './components/nodes/TitleNode';
-import { VerticalTitleNode } from './components/nodes/VerticalTitlelNode';
+import { Area } from './components/nodes/Area';
+import { Note } from './components/nodes/Note';
+import { TextBlock } from './components/nodes/TextBlock';
+import { Title } from './components/nodes/Title';
+import { TitleAndIcon } from './components/nodes/TitleAndIcon';
+import { TitleAndItems } from './components/nodes/TitleAndItems';
+import { TitleAndDescription } from './components/nodes/TitleDescription';
+import { TitleVertical } from './components/nodes/TitleVertical';
 
 // Objetives
 const goalsFlowTypes = {
   nodeTypes: {
-    objetiveNode: TitleDescriptionNode,
-    problemNode: TitleDescriptionNode,
-    conceptNode: TitleDescriptionNode,
-    featureNode: TitleDescriptionNode,
-    basicNode: TitleDescriptionNode,
-    noteNode: NoteNode,
+    titleAndDescription: TitleAndDescription,
+    note: Note,
   },
   edgeTypes: {
     deleteEdge: DeleteEdge,
@@ -27,12 +22,13 @@ const goalsFlowTypes = {
 // Togaf
 const blueprintsFlowTypes = {
   nodeTypes: {
-    actorNode: TitleIconNode,
-    systemNode: TitleNode,
-    processNode: TitleNode,
-    dataNode: TitleNode,
-    infrastructureNode: TitleNode,
-    noteNode: NoteNode,
+    actorNode: TitleAndIcon,
+    systemNode: Title,
+    processNode: Title,
+    dataNode: Title,
+    infrastructureNode: Title,
+    noteNode: Note,
+    basicNode: TitleAndDescription,
   },
   edgeTypes: {
     deleteEdge: DeleteEdge,
@@ -40,39 +36,39 @@ const blueprintsFlowTypes = {
 };
 
 // CSVLOD
-const policiesFlowTypes: FlowType = {
+const policiesFlowTypes = {
   nodeTypes: {
-    policyTypeAreaNode: AreaNode,
-    policyTypeLabelNode: VerticalTitleNode,
-    policyAreaNode: AreaNode,
-    policyTextBlockNode: TextBlockNode,
-    policyDescriptionAreaNode: AreaNode,
-    policyDescriptionTextBlockNode: TextBlockNode,
-    textBlockNode: TextBlockNode,
-    noteNode: NoteNode,
+    policyTypeAreaNode: Note,
+    policyTypeLabelNode: TitleVertical,
+    policyAreaNode: Area,
+    policyTextBlockNode: TextBlock,
+    policyDescriptionAreaNode: Area,
+    policyDescriptionTextBlockNode: TextBlock,
+    textBlockNode: TextBlock,
+    noteNode: Note,
   },
   edgeTypes: {
     deleteEdge: DeleteEdge,
   },
 };
 
-const principlesFlowTypes: FlowType = {
+const principlesFlowTypes = {
   nodeTypes: {
-    principleTitleAndItemsNode: TitleAndItemsNode,
-    noteNode: NoteNode,
+    principleTitleAndItemsNode: TitleAndItems,
+    noteNode: Note,
   },
   edgeTypes: {
     deleteEdge: DeleteEdge,
   },
 };
 
-const guidelinesFlowTypes: FlowType = {
+const guidelinesFlowTypes = {
   nodeTypes: {
-    standardAreaNode: AreaNode,
-    guidelineAreaNode: AreaNode,
-    standardTextBlockNode: TextBlockNode,
-    guidelineTextBlockNode: TextBlockNode,
-    noteNode: NoteNode,
+    standardAreaNode: Area,
+    guidelineAreaNode: Area,
+    standardTextBlockNode: TextBlock,
+    guidelineTextBlockNode: TextBlock,
+    noteNode: Note,
   },
   edgeTypes: {
     deleteEdge: DeleteEdge,

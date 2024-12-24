@@ -2,7 +2,7 @@ import CompanyForm from '@/components/forms/CompanyForm';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import PageTitle from '@/components/pages/PageTitle';
 import { routes } from '@/config/routes';
-import { Preferences } from '@/types/types';
+import { Preferences } from '@/types/appwrite';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
 import { Building2, HouseIcon } from 'lucide-react';
 

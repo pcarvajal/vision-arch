@@ -1,43 +1,52 @@
-import { ArtifactType } from '@/types';
-import { ReactFlowJsonObject } from '@xyflow/react';
+import { Edge, Node, ReactFlowInstance } from '@xyflow/react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { TArtifactType } from '..';
 
-type ArtifactFlowDataStore = {
-  id?: string;
-  data: ReactFlowJsonObject | null;
+export interface IFlowParams {
+  id?: string | null;
   year: number;
-  type: ArtifactType;
-};
+  type: TArtifactType;
+}
 
-export type ArtifactFlowState = {
-  artifactFlow: ArtifactFlowDataStore | null;
-};
+export interface IFlowState {
+  nodes: Node[];
+  edges: Edge[];
+  params: IFlowParams | null;
+  reactFlowInstance?: ReactFlowInstance | null;
+}
 
-export type ArtifactFlowActions = {
-  setArtifactFlow: (artifactFlow: ArtifactFlowDataStore) => void;
-  updateArtifactFlow: (artifactFlow: ArtifactFlowDataStore) => void;
-  deleteArtifactFlow: () => void;
-  clearPersistedArtifactFlowStore: () => void;
-};
+export interface IFlowActions {
+  setNodes: (nodes: Node[]) => void;
+  setEdges: (edges: Edge[]) => void;
+  setParams: (params: IFlowParams) => void;
+  setReactFlowInstance: (reactFlowInstance: ReactFlowInstance) => void;
+  clearPersistedStore: () => void;
+}
 
-export type ArtifactFlowStore = ArtifactFlowState & ArtifactFlowActions;
+export interface IFlowStore extends IFlowState, IFlowActions {}
 
-const useArtifactFlowStore = create(
-  persist<ArtifactFlowStore>(
+const useFlowStore = create(
+  persist<IFlowStore>(
     (set) => ({
-      artifactFlow: null,
-      setArtifactFlow: (artifactFlow) => set({ artifactFlow }),
-      updateArtifactFlow: (artifactFlow) =>
-        set((state) => ({ ...state, artifactFlow })),
-      deleteArtifactFlow: () => set({ artifactFlow: null }),
-      clearPersistedArtifactFlowStore: () => {
-        useArtifactFlowStore.persist.clearStorage();
-        set({ artifactFlow: null });
-      },
+      nodes: [],
+      edges: [],
+      params: null,
+      reactFlowInstance: null,
+      setNodes: (nodes) => set({ nodes }),
+      setEdges: (edges) => set({ edges }),
+      setParams: (params) => set({ params }),
+      setReactFlowInstance: (reactFlowInstance) => set({ reactFlowInstance }),
+      clearPersistedStore: () =>
+        set({
+          nodes: [],
+          edges: [],
+          params: null,
+          reactFlowInstance: null,
+        }),
     }),
-    { name: 'artifact-flow-store' },
+    { name: 'flow-store' },
   ),
 );
 
-export default useArtifactFlowStore;
+export default useFlowStore;

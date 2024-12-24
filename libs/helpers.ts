@@ -1,6 +1,7 @@
 import { ArtifacTypeEnum } from '@/config/enum';
-import { ArtifactType, ModelMessagesParams } from '@/types';
+import { IModelMessagesParams } from '@/types/forms';
 import { ChatCompletionMessageParam } from 'openai/resources';
+import { TArtifactType } from '..';
 import { schema as blueprintsSchema } from '../libs/assistants/blueprints/schema';
 import { schema as policiesSchema } from '../libs/assistants/csvlod/considerations/policies/schema';
 import { schema as principlesSchema } from '../libs/assistants/csvlod/considerations/principles/schema';
@@ -12,17 +13,17 @@ import { getCsvlodConsiderationsPrinciplesModel } from './assistants/csvlod/cons
 import { getCsvlodStandardsGuidelinesModelMessages } from './assistants/csvlod/standards/guidelines/messages';
 import { getGoalsMessages } from './assistants/goals/messages';
 
-const getSchemaHelper = (type: ArtifactType) => {
+const getSchemaHelper = (type: TArtifactType) => {
   switch (type) {
-    case ArtifacTypeEnum.PRINCIPLES:
+    case ArtifacTypeEnum.principles:
       return principlesSchema;
-    case ArtifacTypeEnum.POLICIES:
+    case ArtifacTypeEnum.policies:
       return policiesSchema;
-    case ArtifacTypeEnum.GUIDELINES:
+    case ArtifacTypeEnum.guidelines:
       return guidelinesSchema;
-    case ArtifacTypeEnum.GOALS:
+    case ArtifacTypeEnum.goals:
       return goalsSchema;
-    case ArtifacTypeEnum.BLUEPRINTS:
+    case ArtifacTypeEnum.blueprints:
       return blueprintsSchema;
     default:
       return {};
@@ -30,19 +31,19 @@ const getSchemaHelper = (type: ArtifactType) => {
 };
 
 const getMessagesHelper = (
-  type: ArtifactType,
-  params: ModelMessagesParams,
+  type: TArtifactType,
+  params: IModelMessagesParams,
 ): ChatCompletionMessageParam[] => {
   switch (type) {
-    case ArtifacTypeEnum.PRINCIPLES:
+    case ArtifacTypeEnum.principles:
       return getCsvlodConsiderationsPrinciplesModel(params);
-    case ArtifacTypeEnum.POLICIES:
+    case ArtifacTypeEnum.policies:
       return getCsvlodConsiderationsPoliciesModel(params);
-    case ArtifacTypeEnum.GUIDELINES:
+    case ArtifacTypeEnum.guidelines:
       return getCsvlodStandardsGuidelinesModelMessages(params);
-    case ArtifacTypeEnum.GOALS:
+    case ArtifacTypeEnum.goals:
       return getGoalsMessages(params);
-    case ArtifacTypeEnum.BLUEPRINTS:
+    case ArtifacTypeEnum.blueprints:
       return getBlueprintsModelMessages(params);
     default:
       return [];

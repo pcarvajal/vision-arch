@@ -1,8 +1,7 @@
 import { Models } from 'node-appwrite';
-import { ArtifactType } from '.';
+import { TArtifactType } from '..';
 
-// App
-export interface User {
+export interface IUser {
   id?: string | undefined;
   name: string;
   email: string;
@@ -13,7 +12,7 @@ export interface User {
   avatar: string | undefined;
 }
 
-export interface Company {
+export interface ICompany {
   id?: string | undefined;
   name: string;
   description: string;
@@ -22,21 +21,20 @@ export interface Company {
   objetives: string;
 }
 
-export interface Artifact {
+export interface IArtifact {
   id?: string | undefined;
   name: string;
   userId: string;
   companyId: string;
-  type: ArtifactType;
+  type: TArtifactType;
   description: string;
   data: string;
   yearProjection: number;
   createdBy: string;
 }
 
-// Appwrite
-export interface UserModel extends User, Models.Document {}
-export interface CompanyModel extends Company, Models.Document {}
-export interface ArtifactModel extends Artifact, Models.Document {}
-export interface Account extends Models.User<Models.Preferences> {}
-export interface Preferences extends Models.Preferences {}
+export interface IUserModel extends IUser, Models.Document {}
+export interface ICompanyModel extends ICompany, Models.Document {}
+export interface IArtifactModel extends IArtifact, Models.Document {}
+export interface IAccountModel extends Models.User<Models.Preferences> {}
+export interface IPreferences extends Models.Preferences {}

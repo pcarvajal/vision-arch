@@ -1,27 +1,21 @@
 'use client';
 
 import { useCustomNodeData } from '@/components/hooks/useCustomNode';
-import { NoteNodeProps } from '@/types';
+import { INoteNodeProps } from '@/types/reactflow';
 import { Textarea } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useState } from 'react';
 
-type NoteNodeData = Node<NoteNodeProps>;
+type NoteNodeData = Node<INoteNodeProps>;
 
-export const NoteNode = (props: NodeProps<NoteNodeData>) => {
-  const {
-    nodeData,
-    setNodeData,
-    removeNode,
-    height,
-    width,
-    setWidth,
-    setHeight,
-  } = useCustomNodeData<NoteNodeProps>(props);
+export const Note = (props: NodeProps<NoteNodeData>) => {
+  const { removeNode, height, width, data, updateNodeData, id } =
+    useCustomNodeData<INoteNodeProps>(props);
+  const { title } = data;
 
   const handleTextAreaChange = (value: string) => {
-    setNodeData({ ...nodeData, title: value });
+    updateNodeData(id, { title: value });
   };
 
   const [inputFocus, setInputFocus] = useState(true);
@@ -37,10 +31,10 @@ export const NoteNode = (props: NodeProps<NoteNodeData>) => {
         }}
         minWidth={100}
         minHeight={100}
-        onResize={(e, size) => {
+        /*         onResize={(e, size) => {
           setWidth(size.width);
           setHeight(size.height);
-        }}
+        }} */
       />
       <div
         className="flex h-full w-full items-center justify-center bg-white p-1"
@@ -55,16 +49,16 @@ export const NoteNode = (props: NodeProps<NoteNodeData>) => {
           <X onClick={removeNode} />
         </div>
         <div className="flex h-full w-full p-4">
-          {nodeData.title && nodeData.title?.length > 0 && !inputFocus ? (
+          {title && title?.length > 0 && !inputFocus ? (
             <p
               className="prose prose-sm h-full w-full rounded-lg p-3"
               onClick={() => setInputFocus(true)}
             >
-              {nodeData.title}
+              {title}
             </p>
           ) : (
             <Textarea
-              value={nodeData.title}
+              value={title}
               onChange={(e) => handleTextAreaChange(e.target.value)}
               onBlur={() => setInputFocus(false)}
             />

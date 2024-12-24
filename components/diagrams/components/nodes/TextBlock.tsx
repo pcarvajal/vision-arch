@@ -1,29 +1,22 @@
 'use client';
 
 import { useCustomNodeData } from '@/components/hooks/useCustomNode';
-import { TextBlockNodeProps } from '@/types';
+import { ITextBlockNodeProps } from '@/types/reactflow';
 import { Card, CardBody, Textarea } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useState } from 'react';
 
-type TextBlockNodeData = Node<TextBlockNodeProps>;
+type TextBlockNodeData = Node<ITextBlockNodeProps>;
 
-export const TextBlockNode = (props: NodeProps<TextBlockNodeData>) => {
-  const {
-    nodeData,
-    setNodeData,
-    removeNode,
-    height,
-    width,
-    setWidth,
-    setHeight,
-  } = useCustomNodeData<TextBlockNodeProps>(props);
-
+export const TextBlock = (props: NodeProps<TextBlockNodeData>) => {
+  const { updateNodeData, removeNode, height, width, data, id } =
+    useCustomNodeData<ITextBlockNodeProps>(props);
+  const { placeholder, textBlock } = data;
   const [isTextBlockFocused, setIsTextBlockFocused] = useState(false);
 
   const onChangeTitle = (value: string) => {
-    setNodeData({ ...nodeData, textBlock: value });
+    updateNodeData(id, { textBlock: value });
   };
 
   return (
@@ -37,10 +30,10 @@ export const TextBlockNode = (props: NodeProps<TextBlockNodeData>) => {
         }}
         minWidth={80}
         minHeight={80}
-        onResize={(e, size) => {
+        /*         onResize={(e, size) => {
           setWidth(size.width);
           setHeight(size.height);
-        }}
+        }} */
       />
       <Card
         className={`h-full w-full`}
@@ -56,20 +49,20 @@ export const TextBlockNode = (props: NodeProps<TextBlockNodeData>) => {
             <X className="cursor-pointer" size={15} onClick={removeNode} />
           </div>
           <div className="w-full">
-            {!isTextBlockFocused && nodeData.textBlock && (
+            {!isTextBlockFocused && textBlock && (
               <p
                 className="text-left text-xs"
                 onClick={() => {
                   setIsTextBlockFocused(true);
                 }}
               >
-                {nodeData.textBlock}
+                {textBlock}
               </p>
             )}
-            {(isTextBlockFocused || !nodeData.textBlock) && (
+            {(isTextBlockFocused || !textBlock) && (
               <Textarea
-                value={nodeData.textBlock}
-                placeholder={nodeData.placeholder}
+                value={textBlock}
+                placeholder={placeholder}
                 onFocus={() => setIsTextBlockFocused(true)}
                 onBlur={() => setIsTextBlockFocused(false)}
                 onChange={(e) => onChangeTitle(e.target.value)}

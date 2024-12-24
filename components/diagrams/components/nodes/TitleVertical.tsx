@@ -1,29 +1,23 @@
 'use client';
 
 import { useCustomNodeData } from '@/components/hooks/useCustomNode';
-import { VerticalTitleNodeProps } from '@/types';
+import { IVerticalTitleNodeProps } from '@/types/reactflow';
 import { Card, CardBody, Input } from '@nextui-org/react';
-import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
+import { Node, NodeProps, NodeResizer } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useState } from 'react';
 
-type VerticalNodeData = Node<VerticalTitleNodeProps>;
+type VerticalNodeData = Node<IVerticalTitleNodeProps>;
 
-export const VerticalTitleNode = (props: NodeProps<VerticalNodeData>) => {
+export const TitleVertical = (props: NodeProps<VerticalNodeData>) => {
   const [isTitleFocused, setIsTitleFocused] = useState(false);
 
-  const {
-    nodeData,
-    setNodeData,
-    removeNode,
-    height,
-    width,
-    setWidth,
-    setHeight,
-  } = useCustomNodeData<VerticalTitleNodeProps>(props);
+  const { removeNode, height, width, data, id, updateNodeData } =
+    useCustomNodeData<IVerticalTitleNodeProps>(props);
+  const { placeholder, title } = data;
 
   const onChangeTitle = (value: string) => {
-    setNodeData({ ...nodeData, title: value });
+    updateNodeData(id, { title: value });
   };
 
   return (
@@ -37,10 +31,10 @@ export const VerticalTitleNode = (props: NodeProps<VerticalNodeData>) => {
         }}
         minWidth={80}
         minHeight={80}
-        onResize={(e, size) => {
+        /*         onResize={(e, size) => {
           setWidth(size.width);
           setHeight(size.height);
-        }}
+        }} */
       />
       <Card
         className={`h-full w-full`}
@@ -56,20 +50,20 @@ export const VerticalTitleNode = (props: NodeProps<VerticalNodeData>) => {
             <X className="cursor-pointer" size={15} onClick={removeNode} />
           </div>
           <div className="flex h-full w-full items-center justify-center">
-            {!isTitleFocused && nodeData.title && (
+            {!isTitleFocused && title && (
               <h2
                 className="-rotate-90 whitespace-nowrap text-center"
                 onClick={() => {
                   setIsTitleFocused(true);
                 }}
               >
-                {nodeData.title}
+                {title}
               </h2>
             )}
-            {(isTitleFocused || !nodeData.title) && (
+            {(isTitleFocused || !title) && (
               <Input
-                value={nodeData.title}
-                placeholder={nodeData.placeholder}
+                value={title}
+                placeholder={placeholder}
                 onFocus={() => setIsTitleFocused(true)}
                 onBlur={() => setIsTitleFocused(false)}
                 onChange={(e) => onChangeTitle(e.target.value)}

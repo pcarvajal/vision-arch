@@ -22,10 +22,10 @@ import { Sidebar } from './sidebar.styles';
 export const SidebarWrapper = () => {
   const pathname = usePathname();
   const { collapsed, setCollapsed } = useSidebarContext();
-  const company = useUserStore((state) => state.company);
+  const company = useUserStore((state) => state.user?.company);
 
-  const companyPath = company?.$id
-    ? `${routes.protected.company}/${company.$id}`
+  const companyPath = company?.id
+    ? `${routes.protected.company}/${company.id}`
     : routes.protected.company;
 
   return (

@@ -4,8 +4,8 @@ import { databases } from '@/libs/backend/databases';
 import { getMessagesHelper, getSchemaHelper } from '@/libs/helpers';
 import openai from '@/libs/openAI';
 import { parseStringify } from '@/libs/utils';
-import { GenerateArtifactParams } from '@/types';
-import { CompanyModel } from '@/types/types';
+import { ICompanyModel } from '@/types/appwrite';
+import { IGenerateArtifactParams } from '@/types/forms';
 
 const {
   APPWRITE_DATABASE_ID: databaseId,
@@ -17,9 +17,10 @@ const generateModel = async ({
   companyId,
   year,
   type,
-}: GenerateArtifactParams) => {
+}: IGenerateArtifactParams) => {
+  console.log('target', { companyId, year, type });
   try {
-    const company = await databases.getDocument<CompanyModel>(
+    const company = await databases.getDocument<ICompanyModel>(
       databaseId!,
       companiesId!,
       companyId,

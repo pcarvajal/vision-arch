@@ -1,39 +1,39 @@
-import { Account, Company } from '@/types/types';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type UserState = {
-  account: Account | null;
-  company: Company | null;
-  loading: boolean;
-};
+export interface ICompanyStore {
+  id: string;
+  name: string;
+}
 
-export type UserActions = {
-  setAccount: (account: Account) => void;
-  updateAccount: (account: Account) => void;
-  setCompany: (account: Company) => void;
-  updateCompany: (account: Company) => void;
+export interface IUserStore {
+  id: string;
+  email: string;
+  name: string;
+  company: ICompanyStore | null;
+}
+
+export interface UserStateStore {
+  user: IUserStore | null;
+  loading: boolean;
+}
+
+export interface UserActionsStore {
+  setUser: (user: IUserStore) => void;
   setLoading: (loading: boolean) => void;
   clearPersistedStore: () => void;
-};
+}
 
-export type UserStore = UserState & UserActions;
+interface UserStore extends UserStateStore, UserActionsStore {}
 
 const useUserStore = create<UserStore>()(
   persist(
     (set, get) => ({
-      account: null,
-      setAccount: (account) => set({ account }),
-      updateAccount: (account) => set((state) => ({ ...state, account })),
-      company: null,
-      setCompany: (company) => set({ company }),
-      updateCompany: (company) => set((state) => ({ ...state, company })),
+      user: null,
       loading: false,
+      setUser: (user) => set({ user }),
       setLoading: (loading) => set({ loading }),
-      clearPersistedStore: () => {
-        useUserStore.persist.clearStorage();
-        set({ account: null, company: null });
-      },
+      clearPersistedStore: () => set({ user: null, loading: false }),
     }),
     {
       name: 'user-store',

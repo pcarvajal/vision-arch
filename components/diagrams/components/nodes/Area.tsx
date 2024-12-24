@@ -1,25 +1,17 @@
 'use client';
 
 import { useCustomNodeData } from '@/components/hooks/useCustomNode';
-import { AreaNodeProps } from '@/types';
+import { IAreaNodeProps } from '@/types/reactflow';
 import { Card, CardHeader } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer } from '@xyflow/react';
 import { X } from 'lucide-react';
 
-type AreaNodeData = Node<AreaNodeProps>;
+type AreaNodeData = Node<IAreaNodeProps>;
 
-export const AreaNode = (props: NodeProps<AreaNodeData>) => {
-  const {
-    nodeData,
-    removeNode,
-    color,
-    borderColor,
-    zIndex,
-    height,
-    setHeight,
-    width,
-    setWidth,
-  } = useCustomNodeData<AreaNodeProps>(props);
+export const Area = (props: NodeProps<AreaNodeData>) => {
+  const { width, height, data, removeNode, zIndex } =
+    useCustomNodeData<IAreaNodeProps>(props);
+  const { borderColor, backgroundColor, title } = data;
 
   return (
     <>
@@ -32,10 +24,10 @@ export const AreaNode = (props: NodeProps<AreaNodeData>) => {
         }}
         minWidth={80}
         minHeight={80}
-        onResize={(e, size) => {
+        /*         onResize={(e, size) => {
           setWidth(size.width);
           setHeight(size.height);
-        }}
+        }} */
       />
       <Card
         className={`h-full w-full border-2 border-indigo-900 bg-indigo-400 opacity-50`}
@@ -45,14 +37,12 @@ export const AreaNode = (props: NodeProps<AreaNodeData>) => {
           minWidth: 80,
           minHeight: 80,
           borderColor: borderColor,
-          backgroundColor: color,
+          backgroundColor: backgroundColor,
           zIndex,
         }}
       >
         <CardHeader className="flex flex-row items-center justify-between">
-          {nodeData.title && (
-            <p className="p-1 text-left text-sm">{nodeData.title}</p>
-          )}
+          {title && <p className="p-1 text-left text-sm">{title}</p>}
           <X className="cursor-pointer" size={15} onClick={removeNode} />
         </CardHeader>
       </Card>

@@ -2,7 +2,7 @@ import ArtifactFlow from '@/components/diagrams/ArtifactFlow';
 import { ArtifactToolbar } from '@/components/diagrams/components/ArtifactToolbar';
 import { blueprintsFlowTypes } from '@/components/diagrams/NodeFlowsTypes';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
-import { blueprintsArtifactProps } from '@/config/constants';
+import { blueprintsArtifactConfig } from '@/config/constants';
 import { routes } from '@/config/routes';
 import { Card, CardBody } from '@nextui-org/react';
 import { Atom, Focus, HouseIcon } from 'lucide-react';
@@ -36,14 +36,14 @@ export const CreateBlueprintsView = () => {
         <h3 className="text-xl font-semibold">Espacio de trabajo</h3>
         <ArtifactToolbar
           saveArtifactModal={true}
-          selectNodeItems={blueprintsArtifactProps.presetNodes}
+          selectNodeItems={blueprintsArtifactConfig.presets}
         />
       </div>
       <div className="h-[600px] w-full">
         <Card className="h-full w-full">
           <CardBody className="h-full w-full">
             <ArtifactFlow
-              artifact={blueprintsArtifactProps}
+              artifact={blueprintsArtifactConfig}
               edgeTypes={blueprintsFlowTypes.edgeTypes}
               nodeTypes={blueprintsFlowTypes.nodeTypes}
             />

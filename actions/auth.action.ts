@@ -7,16 +7,23 @@ import { databases } from '@/libs/backend/databases';
 import { project } from '@/libs/backend/project';
 import { teams } from '@/libs/backend/teams';
 import { users } from '@/libs/backend/users';
+import { mapDocument } from '@/libs/mapper';
 import { parseStringify } from '@/libs/utils';
 import {
-  ForgotPasswordParams,
-  LoginParams,
-  RegisterParams,
-  ResetPasswordParams,
-} from '@/types';
-import { Company, CompanyModel } from '@/types/types';
+  IActionResponse,
+  ILoginActionResponse,
+  UNHANDLED_ERROR,
+} from '@/types/actions';
+import { ICompany, ICompanyModel, IUser, IUserModel } from '@/types/appwrite';
+import {
+  IForgotPasswordParams,
+  ILoginParams,
+  IRegisterParams,
+  IResetPasswordParams,
+} from '@/types/forms';
 import { redirect } from 'next/navigation';
 import { ID } from 'node-appwrite';
+import { DOCUMENT_NOT_FOUND } from '../types/actions';
 
 const { BASE_URL: baseUrl } = process.env;
 const {
@@ -30,7 +37,7 @@ const registerAction = async ({
   password,
   name,
   companyName,
-}: RegisterParams) => {
+}: IRegisterParams) => {
   try {
     const search = await users.listUsers('email', email);
 
@@ -58,38 +65,62 @@ const registerAction = async ({
   redirect(`${routes.public.register}/?success=true`);
 };
 
-const loginAction = async ({ email, password }: LoginParams) => {
+const loginAction = async ({
+  email,
+  password,
+}: ILoginParams): Promise<IActionResponse<ILoginActionResponse>> => {
   try {
     const { secret, expire } = await users.createSession(email, password);
     await cookies.setCookie(secret, expire);
 
-    const account = await accounts.getAccount();
+    const accountModel = await accounts.getAccount();
+    const userModel = await databases.getDocument<IUserModel>(
+      databaseId!,
+      usersId!,
+      accountModel.$id,
+    );
+    if (!userModel) {
+      return {
+        data: null,
+        response: {
+          ...DOCUMENT_NOT_FOUND,
+          message: 'No se encontró el usuario',
+        },
+      };
+    }
+
+    const user = mapDocument<IUser>(userModel);
     const team = await teams.getCurrentAccountTeams();
 
     if (team?.total === 0 || !team?.teams || !team?.teams[0]) {
-      return parseStringify({ account, company: null });
+      return { data: { user, company: null } };
     }
 
-    const result = await databases.getDocument<CompanyModel>(
+    const companyModel = await databases.getDocument<ICompanyModel>(
       databaseId!,
       companiesId!,
       team.teams[0].$id,
     );
 
-    if (result === null) {
-      return { message: 'No se encontró la compañia', type: 'error' };
+    if (companyModel === null) {
+      return {
+        data: null,
+        response: {
+          ...DOCUMENT_NOT_FOUND,
+          message: 'No se encontró la compañia.',
+        },
+      };
     }
 
-    const company: Company = { id: result.$id, ...result };
-
-    return parseStringify({ account, company });
+    const company = mapDocument<ICompany>(companyModel);
+    return { data: { user, company } };
   } catch (error: any) {
     console.error(error);
-    return { message: error?.message, type: 'error' };
+    return { data: null, ...UNHANDLED_ERROR };
   }
 };
 
-const forgotPasswordAction = async ({ email }: ForgotPasswordParams) => {
+const forgotPasswordAction = async ({ email }: IForgotPasswordParams) => {
   try {
     const url = `${baseUrl}/reset-password`;
     await users.createPasswordRecovery(email, url);
@@ -113,7 +144,7 @@ const resetPasswordAction = async ({
   password,
   secret,
   userId,
-}: ResetPasswordParams) => {
+}: IResetPasswordParams) => {
   try {
     if (!userId || !secret) return { message: 'link inválido o expirado' };
     await users.confirmPasswordRecovery(userId, secret, password);

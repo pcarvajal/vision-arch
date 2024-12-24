@@ -14,6 +14,7 @@ export const schema = {
           type: {
             type: 'string',
             description: 'Type of the node.',
+            enum: ['area', 'textBlock'],
           },
           position: {
             type: 'object',
@@ -30,48 +31,47 @@ export const schema = {
             required: ['x', 'y'],
             additionalProperties: false,
           },
+          width: {
+            type: 'number',
+            description: 'The width of the node.',
+          },
+          height: {
+            type: 'number',
+            description: 'The height of the node.',
+          },
           data: {
             type: 'object',
             properties: {
-              type: {
+              name: {
                 type: 'string',
                 description: 'The specific type of the node.',
               },
-              nodeData: {
+              title: {
+                type: 'string',
+                description: 'The title of the node.',
+              },
+              textBlock: {
+                type: 'string',
+                description: 'Text content for text block nodes.',
+              },
+              textBlockPlaceholder: {
+                type: 'string',
+                description:
+                  'Placeholder text for input fields within text blocks.',
+              },
+              type: {
                 type: 'object',
+                description: 'The custom type of the node.',
                 properties: {
-                  title: {
+                  id: {
                     type: 'string',
-                    description: 'The title of the node.',
-                  },
-                  textBlock: {
-                    type: 'string',
-                    description: 'Text content for text block nodes.',
-                  },
-                  textBlockPlaceholder: {
-                    type: 'string',
-                    description:
-                      'Placeholder text for input fields within text blocks.',
+                    enum: ['area', 'textBlock'],
                   },
                 },
-                required: ['title', 'textBlock', 'textBlockPlaceholder'],
-                additionalProperties: false,
-              },
-              nodeBaseType: {
-                type: 'string',
-                description: 'Base type category for nodes.',
               },
               label: {
                 type: 'string',
                 description: 'A descriptive label for the node.',
-              },
-              width: {
-                type: 'number',
-                description: 'The width of the node.',
-              },
-              height: {
-                type: 'number',
-                description: 'The height of the node.',
               },
               color: {
                 type: 'string',
@@ -81,31 +81,25 @@ export const schema = {
                 type: 'string',
                 description: "Color of the node's border.",
               },
-              zIndex: {
-                type: 'number',
-                description: 'Layering order of the node.',
-              },
               icon: {
                 type: 'string',
                 description: 'Icon representing the node.',
               },
             },
             required: [
+              'name',
               'type',
-              'nodeData',
-              'nodeBaseType',
+              'textBlock',
+              'textBlockPlaceholder',
               'label',
-              'width',
-              'height',
               'color',
               'borderColor',
-              'zIndex',
               'icon',
             ],
             additionalProperties: false,
           },
         },
-        required: ['id', 'type', 'position', 'data'],
+        required: ['id', 'type', 'position', 'data', 'width', 'height'],
         additionalProperties: false,
       },
     },

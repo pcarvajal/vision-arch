@@ -5,15 +5,16 @@ import { accounts } from '@/libs/backend/accounts';
 import { databases } from '@/libs/backend/databases';
 import { teams } from '@/libs/backend/teams';
 import { parseStringify } from '@/libs/utils';
-import { ArtifactType, CreateArtifactParams } from '@/types';
-import { Artifact, ArtifactModel } from '@/types/types';
+import { IArtifact, IArtifactModel } from '@/types/appwrite';
+import { ICreateArtifactParams } from '@/types/forms';
 import { redirect } from 'next/navigation';
 import { ID, Query } from 'node-appwrite';
+import { TArtifactType } from '..';
 
 const { APPWRITE_DATABASE_ID: databaseId, APPWRITE_ARTIFACTS_ID: artifactsId } =
   process.env;
 
-const saveArtifactAction = async (params: CreateArtifactParams) => {
+const saveArtifactAction = async (params: ICreateArtifactParams) => {
   try {
     const account = await accounts.getAccount();
     const team = await teams.getCurrentAccountTeams();
@@ -22,7 +23,7 @@ const saveArtifactAction = async (params: CreateArtifactParams) => {
       return { message: 'No tiene asignado un team', type: 'error' };
     }
 
-    const artifacts = await databases.getDocuments<ArtifactModel>(
+    const artifacts = await databases.getDocuments<IArtifactModel>(
       databaseId!,
       artifactsId!,
       [
@@ -39,14 +40,14 @@ const saveArtifactAction = async (params: CreateArtifactParams) => {
       );
     }
 
-    const newArtifact: Artifact = {
+    const newArtifact: IArtifact = {
       ...params,
       userId: account.$id,
       companyId: team.teams[0].$id,
       createdBy: account.name,
     };
 
-    await databases.createDocument<ArtifactModel>(
+    await databases.createDocument<IArtifactModel>(
       databaseId!,
       artifactsId!,
       ID.unique(),
@@ -59,9 +60,9 @@ const saveArtifactAction = async (params: CreateArtifactParams) => {
   redirect(routes.protected.index);
 };
 
-const getArtifactsAction = async (type: ArtifactType) => {
+const getArtifactsAction = async (type: TArtifactType) => {
   try {
-    const artifacts = await databases.getDocuments<ArtifactModel>(
+    const artifacts = await databases.getDocuments<IArtifactModel>(
       databaseId!,
       artifactsId!,
       [Query.equal('type', type), Query.orderAsc('yearProjection')],
@@ -80,7 +81,7 @@ const getArtifactsAction = async (type: ArtifactType) => {
 
 const getArtifactAction = async (id: string) => {
   try {
-    const artifact = await databases.getDocument<ArtifactModel>(
+    const artifact = await databases.getDocument<IArtifactModel>(
       databaseId!,
       artifactsId!,
       id,
@@ -98,10 +99,10 @@ const getArtifactAction = async (id: string) => {
 
 const getArtifactByYearProjectionAndType = async (
   yearProjection: number,
-  type: ArtifactType,
+  type: TArtifactType,
 ) => {
   try {
-    const artifact = await databases.getDocuments<ArtifactModel>(
+    const artifact = await databases.getDocuments<IArtifactModel>(
       databaseId!,
       artifactsId!,
       [
@@ -118,7 +119,7 @@ const getArtifactByYearProjectionAndType = async (
 
 const updateArtifactAction = async (id: string, data: string) => {
   try {
-    await databases.updateDocument<ArtifactModel>(
+    await databases.updateDocument<IArtifactModel>(
       databaseId!,
       artifactsId!,
       id,

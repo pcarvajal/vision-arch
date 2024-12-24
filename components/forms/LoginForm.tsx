@@ -20,8 +20,7 @@ const defaultValues = {
 
 export const LoginForm = () => {
   const [loading, setLoading] = useState(false);
-  const setAccount = useUserStore((state) => state.setAccount);
-  const setCompany = useUserStore((state) => state.setCompany);
+  const setUser = useUserStore((state) => state.setUser);
   const router = useRouter();
 
   const methods = useForm({
@@ -39,14 +38,26 @@ export const LoginForm = () => {
   const onSubmit = async (values: LoginSchema) => {
     setLoading(true);
     const result = await loginAction(values);
+    const { data, response } = result;
 
-    if (result?.type === 'error') {
+    if (response?.type === 'error') {
       setLoading(false);
-      return toast.error(result.message);
+      return toast.error(response.message);
     }
 
-    setAccount(result.account);
-    setCompany(result.company);
+    if (data?.company === null || data?.user === null || data === null) {
+      setLoading(false);
+      return toast.error('No se encontró la compañia o el usuario');
+    }
+
+    setUser({
+      id: data?.user.id!,
+      email: data?.user.email!,
+      name: data?.user.name!,
+      company: data?.company
+        ? { id: data?.company.id!, name: data?.company.name }
+        : null,
+    });
 
     setLoading(false);
     reset(defaultValues);
@@ -96,7 +107,7 @@ export const LoginForm = () => {
       </form>
 
       <div className="mt-4 text-sm font-light text-slate-400">
-        No tienes una cuenta?{' '}
+        No tienes una cuenta?
         <Link href={routes.public.register} className="font-bold">
           Registrate
         </Link>

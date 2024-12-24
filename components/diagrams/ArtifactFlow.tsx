@@ -15,38 +15,29 @@ import { generateModel } from '@/actions/ai.actions';
 import { getArtifactByYearProjectionAndType } from '@/actions/artifact.actions';
 import YearsSlider from '@/components/diagrams/components/YearsSlider';
 import ThinkingLoader from '@/components/shared/ThinkingLoader';
+import { IArtifactConfig } from '@/index';
 import useArtifactFlowStore from '@/store/artifactFlowStore';
 import useUserStore from '@/store/userStore';
-import { ArtifactProps } from '@/types';
 import { useEffect, useMemo } from 'react';
 import { toast } from 'sonner';
 import { useFlow } from '../hooks/useFlow';
 
-interface ArtifactFlowProps<T> {
-  artifact: ArtifactProps;
-  nodeTypes?: NodeTypes;
-  edgeTypes?: EdgeTypes;
-  yearSlider?: boolean;
-  visualize?: boolean;
+export interface ArtifactFlowProps {
+  config: IArtifactConfig;
+  types: {
+    nodes?: NodeTypes;
+    edges?: EdgeTypes;
+  };
+  slider?: boolean;
+  vision?: boolean;
 }
 
-export default function ArtifactFlow<T>({
-  artifact,
-  nodeTypes,
-  edgeTypes,
-  yearSlider = true,
-  visualize = false,
-}: ArtifactFlowProps<T>) {
-  const loading = useUserStore((state) => state.loading);
-  const setLoading = useUserStore((state) => state.setLoading);
-  const company = useUserStore((state) => state.company);
-  const setArtifactFlow = useArtifactFlowStore(
-    (state) => state.setArtifactFlow,
-  );
-  const deleteArtifactFlow = useArtifactFlowStore(
-    (state) => state.deleteArtifactFlow,
-  );
-
+export default function ArtifactFlow({
+  config,
+  types,
+  slider = true,
+  vision = false,
+}: ArtifactFlowProps) {
   const {
     artifactSelected,
     setYear,
@@ -62,17 +53,19 @@ export default function ArtifactFlow<T>({
     onNodesChange,
     onEdgesChange,
     setReactFLowInstance,
-  } = useFlow(artifact);
+  } = useFlow(config);
+
+  const userStore = useUserStore((state) => state);
+  const flowStore = useArtifactFlowStore((state) => state);
+  const { loading, setLoading, user } = userStore;
+  const { setParams, clearPersistedStore } = flowStore;
 
   const handleVisualizeArtifact = async (year: number) => {
     if (year) {
-      console.log('request', { year, artifact: artifact.type });
       const result = await getArtifactByYearProjectionAndType(
         year,
-        artifact.type,
+        config.name,
       );
-
-      console.log('response', result);
 
       if (result?.type === 'error') {
         return toast.error(result?.message || 'Error obteniendo el artefacto');
@@ -90,7 +83,6 @@ export default function ArtifactFlow<T>({
 
       const artifactData = JSON.parse(result[0].data);
 
-      console.log('target', artifactData);
       setNodes(artifactData.data.nodes);
       setEdges(artifactData.data.edges);
       viewport.x = artifactData.data.viewport.x;
@@ -106,13 +98,13 @@ export default function ArtifactFlow<T>({
     setLoading(true);
     setYear(year);
 
-    if (visualize) {
+    if (vision) {
       handleVisualizeArtifact(year);
       setLoading(false);
       return;
     }
 
-    if (!company?.id) {
+    if (!user?.company?.id) {
       setLoading(false);
       return toast.error('No se ha encontrado la empresa');
     }
@@ -124,7 +116,7 @@ export default function ArtifactFlow<T>({
     setYear(year);
 
     const result = await generateModel({
-      companyId: company.id,
+      companyId: userStore?.user?.company?.id!,
       year,
       type: artifactSelected,
     });
@@ -143,15 +135,13 @@ export default function ArtifactFlow<T>({
   };
 
   useEffect(() => {
-    setArtifactFlow({
-      id: artifact.id,
+    setParams({
       year,
-      data: { nodes, edges, viewport },
       type: artifactSelected,
     });
 
     return () => {
-      deleteArtifactFlow();
+      clearPersistedStore();
     };
   }, [nodes, edges, viewport]);
 
@@ -160,15 +150,15 @@ export default function ArtifactFlow<T>({
     return () => {
       setNodes([]);
       setEdges([]);
-      deleteArtifactFlow();
+      clearPersistedStore();
     };
   }, [type]);
 
   const flowNodetypes = useMemo(
     () => ({
-      nodeTypes,
+      nodes: types.nodes,
     }),
-    [nodeTypes],
+    [types.nodes],
   );
 
   return (
@@ -182,10 +172,10 @@ export default function ArtifactFlow<T>({
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onInit={setReactFLowInstance}
-        nodeTypes={flowNodetypes.nodeTypes}
-        edgeTypes={edgeTypes}
+        nodeTypes={flowNodetypes.nodes}
+        edgeTypes={types.edges}
       >
-        {yearSlider && (
+        {slider && (
           <Panel position="top-left" className="min-w-[300px] gap-4">
             <YearsSlider
               label="Proyección"

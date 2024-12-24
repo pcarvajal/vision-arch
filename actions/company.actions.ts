@@ -6,7 +6,7 @@ import { databases } from '@/libs/backend/databases';
 import { teams } from '@/libs/backend/teams';
 import { parseStringify } from '@/libs/utils';
 import { CreateCompanyParams } from '@/types';
-import { Company, CompanyModel, User, UserModel } from '@/types/types';
+import { Company, CompanyModel, User, UserModel } from '@/types/appwrite';
 import { ID } from 'node-appwrite';
 
 const {

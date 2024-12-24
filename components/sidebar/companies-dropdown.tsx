@@ -15,7 +15,7 @@ import { AcmeIcon } from '../icons/acme-icon';
 import { BottomIcon } from '../icons/sidebar/bottom-icon';
 
 export const CompaniesDropdown = () => {
-  const companyCreated = useUserStore((state) => state.company);
+  const companyCreated = useUserStore((state) => state.user?.company);
   return (
     <>
       {!companyCreated ? (

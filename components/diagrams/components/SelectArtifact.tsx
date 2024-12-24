@@ -1,38 +1,43 @@
 'use client';
 
-import { Select, SelectItem } from '@nextui-org/react';
+import { getArtifactsAction } from '@/actions/artifact.actions';
+import { Select } from '@/components/shared/Select';
+import { TArtifactType } from '@/index';
+import { useEffect, useState } from 'react';
 
-interface SelectItem {
+export interface Item {
   key: string;
   label: string;
 }
 
-interface SelectArtifactProps {
-  items: SelectItem[];
-  onValueChange: (value: string) => void;
+export interface SelectArtifactProps {
+  artifactName: TArtifactType;
   className?: string;
 }
 
 export const SelectArtifact = ({
-  items,
-  onValueChange,
   className,
+  artifactName,
 }: SelectArtifactProps) => {
-  const handleChangeValue = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onValueChange(e.target.value);
-  };
+  const [items, setItems] = useState<Item[] | []>([]);
+
+  useEffect(() => {
+    async function getArtifacts() {
+      const goals = await getArtifactsAction(artifactName);
+      setItems(goals.map((goal: any) => ({ key: goal.$id, label: goal.name })));
+    }
+    getArtifacts();
+  }, []);
 
   return (
-    <div className={className}>
-      <Select
-        className=""
-        onChange={handleChangeValue}
-        label="Selecciona un artefacto"
-      >
-        {items.map((item) => (
-          <SelectItem key={item.key}>{item.label}</SelectItem>
-        ))}
-      </Select>
-    </div>
+    <Select
+      label="Seleccionar artefacto"
+      items={items.map((item, idx) => ({
+        key: item.key,
+        label: item.label,
+      }))}
+      onValueChange={() => {}}
+      className={className}
+    />
   );
 };

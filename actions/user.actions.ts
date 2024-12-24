@@ -1,6 +1,6 @@
 import { accounts } from '@/libs/backend/accounts';
 import { parseStringify } from '@/libs/utils';
-import { Preferences } from '@/types/types';
+import { Preferences } from '@/types/appwrite';
 
 const getUserPreferencesAction = async () => {
   try {

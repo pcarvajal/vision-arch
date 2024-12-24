@@ -1,5 +1,5 @@
 import { yearRange } from '@/config/constants';
-import { ArtifactProps, ArtifactType } from '@/types';
+import { IArtifactConfig, TArtifactType } from '@/index';
 import {
   addEdge,
   applyEdgeChanges,
@@ -16,12 +16,12 @@ import {
 } from '@xyflow/react';
 import { useCallback, useEffect, useState } from 'react';
 
-export const useFlow = (artifact: ArtifactProps) => {
-  const { initialFlow, type } = artifact;
+export const useFlow = (artifact: IArtifactConfig) => {
+  const { initialFlow, name: type } = artifact;
 
   const [reactFlowInstance, setReactFLowInstance] =
     useState<ReactFlowInstance | null>(null);
-  const [artifactSelected, setArtifactSelected] = useState<ArtifactType>(type);
+  const [artifactSelected, setArtifactSelected] = useState<TArtifactType>(type);
   const [year, setYear] = useState<number>(yearRange.default);
   const viewport = useViewport();
 

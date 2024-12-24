@@ -10,7 +10,6 @@ import {
   DropdownMenu,
   DropdownTrigger,
   NavbarItem,
-  useUser,
 } from '@nextui-org/react';
 import blankProfile from '../../../public/profile-default.svg';
 import { DarkModeSwitch } from './darkmodeswitch';
@@ -18,7 +17,7 @@ import { DarkModeSwitch } from './darkmodeswitch';
 export const UserDropdown = () => {
   const clearUserStore = useUserStore((state) => state.clearPersistedStore);
   const clearArtifactFlowStore = useArtifactFlowStore(
-    (state) => state.clearPersistedArtifactFlowStore,
+    (state) => state.clearPersistedStore,
   );
   const handleLogout = async () => {
     await logoutAction();
