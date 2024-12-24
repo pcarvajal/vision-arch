@@ -4,7 +4,7 @@ import {
   getArtifactByYearProjectionAndType,
   updateArtifactAction,
 } from '@/actions/artifact.actions';
-import useArtifactFlowStore from '@/store/artifactFlowStore';
+import useFlowStore from '@/store/artifactFlowStore';
 import {
   Button,
   Modal,
@@ -28,7 +28,7 @@ export default function SaveArtifactModal({
   className,
 }: SaveArtifactModalProps) {
   const { getNodes } = useReactFlow();
-  const { artifactFlow } = useArtifactFlowStore();
+  const artifactFlow = useFlowStore((state) => state);
   const [showReplaceModal, setShowReplaceModal] = useState(false);
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
   const [showUpdateConfirmation, setShowUpdateConfirmation] = useState(false);
@@ -36,18 +36,23 @@ export default function SaveArtifactModal({
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleIsArtifactExist = async () => {
-    if (artifactFlow?.year && artifactFlow?.type && !artifactFlow.id) {
+    if (
+      artifactFlow?.params?.year &&
+      artifactFlow?.params.type &&
+      !artifactFlow.params.id
+    ) {
       const artifactFinded = await getArtifactByYearProjectionAndType(
-        artifactFlow?.year,
-        artifactFlow?.type,
+        artifactFlow?.params.year,
+        artifactFlow?.params.type,
       );
-      if (artifactFinded.length > 0) {
+
+      if (artifactFinded.data?.artifact) {
         setShowReplaceModal(true);
       } else {
         onOpen();
       }
     }
-    if (artifactFlow?.id) {
+    if (artifactFlow?.params?.id) {
       setShowUpdateConfirmation(true);
     }
   };
@@ -58,17 +63,18 @@ export default function SaveArtifactModal({
   };
 
   const handleUpdateConfirmed = async () => {
-    if (artifactFlow && artifactFlow.id && artifactFlow.data) {
-      const { data, id } = artifactFlow;
-      const { nodes, edges } = data;
-
+    if (artifactFlow && artifactFlow.params?.id && artifactFlow.nodes) {
       const result = await updateArtifactAction(
-        id,
-        JSON.stringify({ data: { nodes, edges } }),
+        artifactFlow.params.id,
+        JSON.stringify({
+          data: artifactFlow.nodes,
+          edges: artifactFlow.edges,
+          viewport: artifactFlow.viewport,
+        }),
       );
 
-      if (result?.type === 'error') {
-        toast.error(result.message);
+      if (result?.response?.type === 'error') {
+        toast.error(result.response.message || 'Error actualizando el modelo');
       }
 
       setShowUpdateConfirmation(false);

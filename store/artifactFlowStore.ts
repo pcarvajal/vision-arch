@@ -1,4 +1,4 @@
-import { Edge, Node, ReactFlowInstance } from '@xyflow/react';
+import { Edge, Node, ReactFlowInstance, Viewport } from '@xyflow/react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { TArtifactType } from '..';
@@ -12,6 +12,7 @@ export interface IFlowParams {
 export interface IFlowState {
   nodes: Node[];
   edges: Edge[];
+  viewport: Viewport;
   params: IFlowParams | null;
   reactFlowInstance?: ReactFlowInstance | null;
 }
@@ -19,6 +20,7 @@ export interface IFlowState {
 export interface IFlowActions {
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
+  setViewport: (viewport: Viewport) => void;
   setParams: (params: IFlowParams) => void;
   setReactFlowInstance: (reactFlowInstance: ReactFlowInstance) => void;
   clearPersistedStore: () => void;
@@ -31,10 +33,16 @@ const useFlowStore = create(
     (set) => ({
       nodes: [],
       edges: [],
+      viewport: {
+        zoom: 1,
+        x: 0,
+        y: 0,
+      },
       params: null,
       reactFlowInstance: null,
       setNodes: (nodes) => set({ nodes }),
       setEdges: (edges) => set({ edges }),
+      setViewport: (viewport) => set({ viewport }),
       setParams: (params) => set({ params }),
       setReactFlowInstance: (reactFlowInstance) => set({ reactFlowInstance }),
       clearPersistedStore: () =>

@@ -67,21 +67,17 @@ export default function ArtifactFlow({
         config.name,
       );
 
-      if (result?.type === 'error') {
-        return toast.error(result?.message || 'Error obteniendo el artefacto');
-      }
-
-      if (result.length > 1) {
+      if (result?.response?.type === 'error') {
         return toast.error(
-          'Mas de un artefacto encontrado para este año, revisa tus datos',
+          result?.response.message || 'Error obteniendo el artefacto',
         );
       }
 
-      if (result.length === 0) {
-        return toast.error('No se ha encontrado el artefacto para este año');
-      }
+      const artifactData = JSON.parse(result?.data?.artifact.data || '{}');
 
-      const artifactData = JSON.parse(result[0].data);
+      if (artifactData.data.nodes.length === 0) {
+        return toast.error('No se ha encontrado datos para el artefacto');
+      }
 
       setNodes(artifactData.data.nodes);
       setEdges(artifactData.data.edges);
@@ -121,12 +117,14 @@ export default function ArtifactFlow({
       type: artifactSelected,
     });
 
-    if (result?.type === 'error') {
+    if (result?.response?.type === 'error' || !result.data) {
       setLoading(false);
-      return toast.error(result?.message || 'Error generando el modelo');
+      return toast.error(
+        result?.response?.message || 'Error generando el modelo',
+      );
     }
 
-    const jsonResponse = JSON.parse(result);
+    const jsonResponse = JSON.parse(result.data.model);
 
     setNodes(jsonResponse.nodes);
     setEdges(jsonResponse.edges);
@@ -135,11 +133,13 @@ export default function ArtifactFlow({
   };
 
   useEffect(() => {
-    setParams({
+    flowStore.setParams({
       year,
       type: artifactSelected,
     });
-
+    flowStore.setEdges(edges);
+    flowStore.setNodes(nodes);
+    flowStore.setViewport(viewport);
     return () => {
       clearPersistedStore();
     };
