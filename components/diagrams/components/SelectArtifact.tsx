@@ -3,6 +3,7 @@
 import { getArtifactsAction } from '@/actions/artifact.actions';
 import { Select } from '@/components/shared/Select';
 import { TArtifactType } from '@/index';
+import { IArtifact } from '@/types/appwrite';
 import { useEffect, useState } from 'react';
 
 export interface Item {
@@ -24,7 +25,15 @@ export const SelectArtifact = ({
   useEffect(() => {
     async function getArtifacts() {
       const goals = await getArtifactsAction(artifactName);
-      setItems(goals.map((goal: any) => ({ key: goal.$id, label: goal.name })));
+
+      if (goals.data?.artifacts && goals.data.artifacts.length > 0) {
+        setItems(
+          goals.data?.artifacts.map((goal: IArtifact) => ({
+            key: goal.id,
+            label: goal.name,
+          })),
+        );
+      }
     }
     getArtifacts();
   }, []);

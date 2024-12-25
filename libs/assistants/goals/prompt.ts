@@ -61,12 +61,13 @@ What I need:
    - Adjust the position of each node so that they do not overlap each other.
    - Adjust each edge does not cross each other and.
    - The layout of flow is tree-like and horizontal.
-   - The space between each node must be sufficient to show the direction of the edge.
+   - The space between each node must be broad to show the direction of the edge.
 3. **JSON Details**:
     - Nodes must have unique identifiers and descriptive labels.
     - Edges must clearly reflect the relationships between nodes.
     - The JSON must be structured to be directly usable in React Flow 12.
     - All texts of the edges and nodes must be in Spanish
+    - The nodes must have the correct dimension to display the nodes without overflow.
 
 Please respond with the complete JSON based on the provided data.
 `;

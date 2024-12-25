@@ -10,7 +10,6 @@ import { accounts } from '@/libs/backend/accounts';
 import { databases } from '@/libs/backend/databases';
 import { teams } from '@/libs/backend/teams';
 import { mapDocument } from '@/libs/mapper';
-import { parseStringify } from '@/libs/utils';
 import {
   IActionResponse,
   IGetArtifactResponse,
@@ -53,8 +52,10 @@ const saveArtifactAction = async (
       );
     }
 
+    const id = ID.unique();
     const newArtifact: IArtifact = {
       ...params,
+      id: id,
       userId: account.$id,
       companyId: team.teams[0].$id,
       createdBy: account.name,
@@ -63,7 +64,7 @@ const saveArtifactAction = async (
     await databases.createDocument<IArtifactModel>(
       databaseId!,
       artifactsId!,
-      ID.unique(),
+      id,
       { ...newArtifact },
     );
   } catch (error: any) {

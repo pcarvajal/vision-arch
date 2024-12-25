@@ -11,7 +11,6 @@ import { accounts } from '@/libs/backend/accounts';
 import { databases } from '@/libs/backend/databases';
 import { teams } from '@/libs/backend/teams';
 import { mapDocument } from '@/libs/mapper';
-import { parseStringify } from '@/libs/utils';
 import { IActionResponse, IGetCompanyResponse } from '@/types/actions';
 import { ICompany, ICompanyModel, IUserModel } from '@/types/appwrite';
 import { ICreateCompanyParams } from '@/types/forms';
@@ -33,7 +32,7 @@ const saveCompanyAction = async (
       RolesEnum.owner,
     ]);
 
-    const newCompany: ICompany = params;
+    const newCompany: ICompany = { id: team.$id, ...params };
 
     const company = await databases.createDocument<ICompanyModel>(
       databaseId!,
@@ -86,11 +85,12 @@ const updateCompanyAction = async (
       };
     }
 
-    const updatedCompany: ICompany = params;
+    const id = team.teams[0].$id;
+    const updatedCompany: ICompany = { id, ...params };
     const company = await databases.updateDocument<ICompanyModel>(
       databaseId!,
       companiesId!,
-      team.teams[0].$id,
+      id,
       { ...updatedCompany },
     );
 

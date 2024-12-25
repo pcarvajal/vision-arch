@@ -2,7 +2,7 @@ import { Models } from 'node-appwrite';
 import { TArtifactType } from '..';
 
 export interface IUser {
-  id?: string | undefined;
+  id: string;
   name: string;
   email: string;
   companyId: string;
@@ -13,7 +13,7 @@ export interface IUser {
 }
 
 export interface ICompany {
-  id?: string | undefined;
+  id: string;
   name: string;
   description: string;
   mission: string;
@@ -22,7 +22,7 @@ export interface ICompany {
 }
 
 export interface IArtifact {
-  id?: string | undefined;
+  id: string;
   name: string;
   userId: string;
   companyId: string;
