@@ -120,6 +120,7 @@ const getArtifactsAction = async (
 const getArtifactAction = async (
   id: string,
 ): Promise<IActionResponse<IGetArtifactResponse>> => {
+  console.log('ID', id);
   try {
     const artifact = await databases.getDocument<IArtifactModel>(
       databaseId!,
