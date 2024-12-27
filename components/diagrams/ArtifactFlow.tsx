@@ -92,7 +92,7 @@ export default function ArtifactFlow({
   const { fitView } = useReactFlow();
   const userStore = useUserStore((state) => state);
   const flowStore = useArtifactFlowStore((state) => state);
-  const { loading, setLoading, user } = userStore;
+  const { loading, setLoading, company } = userStore;
   const { setParams, clearPersistedStore } = flowStore;
 
   const handleVisualizeArtifact = async (year: number) => {
@@ -135,7 +135,7 @@ export default function ArtifactFlow({
       return;
     }
 
-    if (!user?.company?.id) {
+    if (!company?.id) {
       setLoading(false);
       return toast.error('No se ha encontrado la empresa');
     }
@@ -147,7 +147,7 @@ export default function ArtifactFlow({
     setYear(year);
 
     const result = await generateModel({
-      companyId: userStore?.user?.company?.id!,
+      companyId: company?.id!,
       year,
       type: artifactSelected,
     });

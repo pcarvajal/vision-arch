@@ -1,5 +1,6 @@
 'use client';
 
+import useUserStore from '@/store/userStore';
 import React from 'react';
 import { useLockedBody } from '../hooks/useBodyLock';
 import { NavbarWrapper } from '../navigation/navbar/navbar';
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export const Layout = ({ children }: Props) => {
+  const company = useUserStore((state) => state.company);
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const [_, setLocked] = useLockedBody(false);
   const handleToggleSidebar = () => {
@@ -26,7 +28,7 @@ export const Layout = ({ children }: Props) => {
       }}
     >
       <section className="flex">
-        <SidebarWrapper />
+        {company?.id ? <SidebarWrapper /> : null}
         <NavbarWrapper>{children}</NavbarWrapper>
       </section>
     </SidebarContext.Provider>

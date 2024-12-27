@@ -22,7 +22,7 @@ import { Sidebar } from './sidebar.styles';
 export const SidebarWrapper = () => {
   const pathname = usePathname();
   const { collapsed, setCollapsed } = useSidebarContext();
-  const company = useUserStore((state) => state.user?.company);
+  const company = useUserStore((state) => state?.company);
 
   const companyPath = company?.id
     ? `${routes.protected.company}/${company.id}`
@@ -43,29 +43,18 @@ export const SidebarWrapper = () => {
         </div>
         <div className="flex h-full flex-col justify-between">
           <div className={Sidebar.Body()}>
-            <SidebarItem
-              title="Visión general"
-              icon={<HomeIcon />}
-              isActive={pathname === routes.protected.index}
-              href={routes.protected.index}
-            />
-            <SidebarItem
-              title="Compañia"
-              icon={<BalanceIcon />}
-              isActive={pathname === companyPath}
-              href={companyPath}
-            />
-            <SidebarMenu title="Roadmap">
+            <SidebarMenu title="Inicio">
               <SidebarItem
-                isActive={pathname === '#'}
-                title="Negocio"
-                icon={<ViewIcon />}
-                href="#"
+                title="Visión general"
+                icon={<HomeIcon />}
+                isActive={pathname === routes.protected.index}
+                href={routes.protected.index}
               />
               <SidebarItem
-                isActive={pathname === '#'}
-                title="Financiero"
-                icon={<ReportsIcon />}
+                title="Compañia"
+                icon={<BalanceIcon />}
+                isActive={pathname === companyPath}
+                href={companyPath}
               />
             </SidebarMenu>
             <SidebarMenu title="Artefactos">

@@ -8,8 +8,13 @@ export const metadata: Metadata = {
 };
 
 const EditCompanyPage = async ({ params }: { params: { id: string } }) => {
-  const company = await getCompanyAction(params.id);
-  return <CompanyEditView company={company} />;
+  const result = await getCompanyAction(params.id);
+
+  if (!result.data?.company) {
+    return;
+  }
+
+  return <CompanyEditView company={result.data?.company} />;
 };
 
 export default EditCompanyPage;

@@ -40,3 +40,15 @@ export const CREATE_AI_MODEL_ERROR = {
   message: 'Error al crear el modelo de IA.',
   type: 'error' as const,
 };
+
+export const DELETE_RESOURCE_ERROR = {
+  code: 106,
+  message: 'Error al eliminar el recurso.',
+  type: 'error' as const,
+};
+
+export const TEAM_EXISTS_ERROR = {
+  code: 107,
+  message: 'El equipo ya existe.',
+  type: 'error' as const,
+};

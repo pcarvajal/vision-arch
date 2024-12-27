@@ -20,7 +20,7 @@ const defaultValues = {
 
 export const LoginForm = () => {
   const [loading, setLoading] = useState(false);
-  const setUser = useUserStore((state) => state.setUser);
+  const userStore = useUserStore((state) => state);
   const router = useRouter();
 
   const methods = useForm({
@@ -45,19 +45,53 @@ export const LoginForm = () => {
       return toast.error(response.message);
     }
 
-    if (data?.company === null || data?.user === null || data === null) {
-      setLoading(false);
-      return toast.error('No se encontró la compañia o el usuario');
+    if (data?.account) {
+      const account = data.account;
+      userStore.setAccount({
+        $id: account.$id,
+        name: account.name,
+        email: account.email,
+        labels: account.labels,
+        prefs: account.prefs,
+        emailVerification: account.emailVerification,
+        registration: account.registration,
+        mfa: account.mfa,
+        accessedAt: account.accessedAt,
+        passwordUpdate: account.passwordUpdate,
+        phone: account.phone,
+        status: account.status,
+        phoneVerification: account.phoneVerification,
+        targets: account.targets,
+        $createdAt: account.$createdAt,
+        $updatedAt: account.$updatedAt,
+      });
     }
 
-    setUser({
-      id: data?.user.id!,
-      email: data?.user.email!,
-      name: data?.user.name!,
-      company: data?.company
-        ? { id: data?.company.id!, name: data?.company.name }
-        : null,
-    });
+    if (data?.user) {
+      const user = data.user;
+      userStore.setUser({
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        companyId: user.companyId,
+        companyName: user.companyName,
+        teamId: user.teamId,
+        teamName: user.teamName,
+        avatar: user.avatar,
+      });
+    }
+
+    if (data?.company) {
+      const company = data.company;
+      userStore.setCompany({
+        id: company.id,
+        name: company.name,
+        description: company.description,
+        mission: company.mission,
+        vision: company.vision,
+        objetives: company.objetives,
+      });
+    }
 
     setLoading(false);
     reset(defaultValues);

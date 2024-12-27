@@ -25,7 +25,6 @@ export const SelectArtifact = ({
   useEffect(() => {
     async function getArtifacts() {
       const goals = await getArtifactsAction(artifactName);
-      console.log('GOALS', goals);
       if (goals.data?.artifacts && goals.data.artifacts.length > 0) {
         setItems(
           goals.data?.artifacts.map((goal: IArtifact) => ({

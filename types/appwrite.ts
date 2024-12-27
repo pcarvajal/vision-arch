@@ -37,4 +37,3 @@ export interface IUserModel extends IUser, Models.Document {}
 export interface ICompanyModel extends ICompany, Models.Document {}
 export interface IArtifactModel extends IArtifact, Models.Document {}
 export interface IAccountModel extends Models.User<Models.Preferences> {}
-export interface IPreferences extends Models.Preferences {}

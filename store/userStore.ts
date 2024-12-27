@@ -1,26 +1,23 @@
+import { IAccountModel, ICompany, IUserModel } from '@/types/appwrite';
+import { Models } from 'node-appwrite';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-
-export interface ICompanyStore {
-  id: string;
-  name: string;
-}
-
-export interface IUserStore {
-  id: string;
-  email: string;
-  name: string;
-  company: ICompanyStore | null;
-}
+import { IUser } from '../types/appwrite';
 
 export interface UserStateStore {
-  user: IUserStore | null;
+  user: IUser | null;
+  account: IAccountModel | null;
+  company: ICompany | null;
   loading: boolean;
 }
 
 export interface UserActionsStore {
-  setUser: (user: IUserStore) => void;
-  updateUser: (user: IUserStore) => void;
+  setUser: (user: IUser) => void;
+  updateUser: (user: IUser) => void;
+  setAccount: (account: IAccountModel) => void;
+  updateAccount: (account: IAccountModel) => void;
+  setCompany: (company: ICompany) => void;
+  updateCompany: (company: ICompany) => void;
   setLoading: (loading: boolean) => void;
   clearPersistedStore: () => void;
 }
@@ -31,9 +28,17 @@ const useUserStore = create<UserStore>()(
   persist(
     (set, get) => ({
       user: null,
+      account: null,
+      company: null,
       loading: false,
       setUser: (user) => set({ user }),
       updateUser: (user) => set({ user: { ...get().user, ...user } }),
+      setAccount: (account) => set({ account }),
+      updateAccount: (account) =>
+        set({ account: { ...get().account, ...account } }),
+      setCompany: (company) => set({ company }),
+      updateCompany: (company) =>
+        set({ company: { ...get().company, ...company } }),
       setLoading: (loading) => set({ loading }),
       clearPersistedStore: () => set({ user: null, loading: false }),
     }),

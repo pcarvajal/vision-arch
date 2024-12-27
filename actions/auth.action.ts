@@ -1,6 +1,7 @@
 'use server';
 
 import {
+  DELETE_RESOURCE_ERROR,
   RESOURCE_NOT_FOUND_ERROR,
   UNHANDLED_ERROR,
   USER_EXISTS_ERROR,
@@ -23,6 +24,7 @@ import {
 } from '@/types/forms';
 import { redirect } from 'next/navigation';
 import { ID } from 'node-appwrite';
+import { IAccountModel } from '../types/appwrite';
 
 const { BASE_URL: baseUrl } = process.env;
 const {
@@ -68,27 +70,28 @@ const loginAction = async ({
     const { secret, expire } = await users.createSession(email, password);
     await cookies.setCookie(secret, expire);
 
-    const accountModel = await accounts.getAccount();
+    const accountModel: IAccountModel = await accounts.getAccount();
+    const team = await teams.getCurrentAccountTeams();
+
+    if (team?.total === 0 || !team?.teams || !team?.teams[0]) {
+      try {
+        await databases.deleteDocument(databaseId!, usersId!, accountModel.$id);
+      } catch (error: any) {
+        console.error({ ...DELETE_RESOURCE_ERROR, error });
+      }
+
+      return { data: { account: accountModel, user: null, company: null } };
+    }
+
+    let user = null;
     const userModel = await databases.getDocument<IUserModel>(
       databaseId!,
       usersId!,
       accountModel.$id,
     );
-    if (!userModel) {
-      return {
-        data: null,
-        response: {
-          ...RESOURCE_NOT_FOUND_ERROR,
-          message: 'No se encontró el usuario',
-        },
-      };
-    }
 
-    const user = mapDocument<IUser>(userModel);
-    const team = await teams.getCurrentAccountTeams();
-
-    if (team?.total === 0 || !team?.teams || !team?.teams[0]) {
-      return { data: { user, company: null } };
+    if (userModel) {
+      user = mapDocument<IUser>(userModel);
     }
 
     const companyModel = await databases.getDocument<ICompanyModel>(
@@ -108,10 +111,16 @@ const loginAction = async ({
     }
 
     const company = mapDocument<ICompany>(companyModel);
-    return { data: { user, company } };
+    return { data: { user, company, account: accountModel } };
   } catch (error: any) {
-    console.error(error);
-    return { data: null, ...UNHANDLED_ERROR };
+    console.error({ ...UNHANDLED_ERROR, error });
+    return {
+      data: null,
+      response: {
+        ...UNHANDLED_ERROR,
+        message: 'Ocurrió un error al intentar ingresar',
+      },
+    };
   }
 };
 
@@ -146,8 +155,14 @@ const resetPasswordAction = async ({
     if (!userId || !secret) return { message: 'link inválido o expirado' };
     await users.confirmPasswordRecovery(userId, secret, password);
   } catch (error: any) {
-    console.error(error);
-    return { data: null, ...UNHANDLED_ERROR };
+    console.error({ ...UNHANDLED_ERROR, error });
+    return {
+      data: null,
+      response: {
+        ...UNHANDLED_ERROR,
+        message: 'Ocurrió un error al intentar cambiar la contraseña',
+      },
+    };
   }
   redirect(routes.public.login);
 };

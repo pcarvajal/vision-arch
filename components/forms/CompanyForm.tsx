@@ -7,11 +7,13 @@ import {
 import { routes } from '@/config/routes';
 import { CompanySchema, companySchema } from '@/libs/validators/company.schema';
 import useUserStore from '@/store/userStore';
+import { ICreateCompanyResponse, IGetCompanyResponse } from '@/types/actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { IActionResponse } from '../../types/actions';
 import Loader from '../layout/Loader';
 
 interface CompanyInitialValues {
@@ -30,31 +32,43 @@ interface CompanyFormProps {
 
 const CompanyForm = ({ initialValues, companyName }: CompanyFormProps) => {
   const router = useRouter();
-  const user = useUserStore((state) => state.user);
   const loading = useUserStore((state) => state.loading);
   const setLoading = useUserStore((state) => state.setLoading);
-  const updateUser = useUserStore((state) => state.updateUser);
+  const setCompany = useUserStore((state) => state.setCompany);
+  const setUser = useUserStore((state) => state.setUser);
 
   const onSubmit = async (data: CompanySchema) => {
     setLoading(true);
-    let result;
+    let result:
+      | IActionResponse<IGetCompanyResponse>
+      | IActionResponse<ICreateCompanyResponse>;
 
     if (initialValues) {
       result = await updateCompanyAction(data);
+
+      if (result?.response?.type === 'error' || !result?.data) {
+        setLoading(false);
+        return toast.error(result?.response?.message || 'Ha ocurrido un error');
+      }
     } else {
       result = await saveCompanyAction(data);
-    }
 
-    if (result?.response?.type === 'error' || !result?.data) {
-      setLoading(false);
-      return toast.error(result?.response?.message || 'Ha ocurrido un error');
-    }
+      if (result?.response?.type === 'error' || !result?.data) {
+        setLoading(false);
+        return toast.error(result?.response?.message || 'Ha ocurrido un error');
+      }
 
-    if (result.data.company.id && result.data.company.name && user) {
-      updateUser({
-        ...user,
-        company: { id: result.data.company.id, name: result.data.company.name },
-      });
+      if (result.data.company.id) {
+        setCompany({
+          ...result.data.company,
+        });
+      }
+
+      if ('user' in result.data && result.data.user.id) {
+        setUser({
+          ...result.data.user,
+        });
+      }
     }
 
     setLoading(false);

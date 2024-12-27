@@ -1,4 +1,11 @@
-import { IArtifact, ICompany, IUser } from './appwrite';
+import { accounts } from '../libs/backend/accounts';
+import {
+  IAccountModel,
+  IArtifact,
+  ICompany,
+  IUser,
+  IUserModel,
+} from './appwrite';
 
 // Base response
 export interface IResponse {
@@ -15,7 +22,8 @@ export interface IActionResponse<T = unknown> {
 
 // Specific responses
 export interface ILoginActionResponse {
-  user: IUser;
+  user: IUser | null;
+  account: IAccountModel;
   company: ICompany | null;
 }
 
@@ -32,6 +40,15 @@ export interface IGetCompanyResponse {
   company: ICompany;
 }
 
+export interface ICreateCompanyResponse {
+  company: ICompany;
+  user: IUser;
+}
+
 export interface IGenerateModelResponse {
   model: string;
+}
+
+export interface IGetUserResponse {
+  user: IUser;
 }
