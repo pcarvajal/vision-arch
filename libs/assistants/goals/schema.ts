@@ -11,13 +11,21 @@ export const schema = {
             type: 'string',
             description: 'Unique identifier for the node.',
           },
-          width: {
-            type: 'number',
-            description: 'Width of the node.',
-          },
-          height: {
-            type: 'number',
-            description: 'Height of the node.',
+          style: {
+            type: 'object',
+            description: 'Style of the node.',
+            properties: {
+              width: {
+                type: 'number',
+                description: 'Width of the node.',
+              },
+              height: {
+                type: 'number',
+                description: 'Height of the node.',
+              },
+            },
+            required: ['width', 'height'],
+            additionalProperties: false,
           },
           type: {
             type: 'string',
@@ -104,7 +112,7 @@ export const schema = {
             additionalProperties: false,
           },
         },
-        required: ['id', 'width', 'height', 'type', 'position', 'data'],
+        required: ['id', 'style', 'type', 'position', 'data'],
         additionalProperties: false,
       },
     },

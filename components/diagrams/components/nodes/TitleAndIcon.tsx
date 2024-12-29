@@ -1,10 +1,12 @@
 'use client';
 
+import Icon from '@/components/shared/Icon';
 import useFlowStore from '@/store/flow/flowStore';
 import { ITitleIconNodeProps } from '@/types/reactflow';
 import { Card, CardBody, Input } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer } from '@xyflow/react';
-import { CircleX, PersonStanding } from 'lucide-react';
+import { CircleX } from 'lucide-react';
+import dynamicIconImports from 'lucide-react/dynamicIconImports';
 import { useState } from 'react';
 import { LeftRightHandle } from '../handles/LeftRightHandle';
 
@@ -17,7 +19,7 @@ export const TitleAndIcon = (props: NodeProps<TitleAndIconNodeData>) => {
     height,
     width,
     id,
-    data: { title, titlePlaceholder, backgroundColor, color },
+    data: { title, titlePlaceholder, backgroundColor, color, figure },
   } = props;
   const [isTitleFocused, setIsTitleFocused] = useState(false);
 
@@ -76,7 +78,10 @@ export const TitleAndIcon = (props: NodeProps<TitleAndIconNodeData>) => {
             )}
           </div>
           <div className="flex items-center justify-center">
-            <PersonStanding size={60} style={{ color: color }} />
+            <Icon
+              name={figure as keyof typeof dynamicIconImports}
+              style={{ color: color }}
+            />
           </div>
           <div className="flex items-center justify-center">
             <CircleX

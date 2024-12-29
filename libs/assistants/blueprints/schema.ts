@@ -16,13 +16,21 @@ export const schema = {
             description: 'The type of the node.',
             enum: ['title'],
           },
-          width: {
-            type: 'number',
-            description: 'Width of the node.',
-          },
-          height: {
-            type: 'number',
-            description: 'Height of the node.',
+          style: {
+            type: 'object',
+            description: 'Style of the node.',
+            properties: {
+              width: {
+                type: 'number',
+                description: 'Width of the node.',
+              },
+              height: {
+                type: 'number',
+                description: 'Height of the node.',
+              },
+            },
+            required: ['width', 'height'],
+            additionalProperties: false,
           },
           position: {
             type: 'object',
@@ -87,6 +95,10 @@ export const schema = {
               icon: {
                 type: 'string',
               },
+              figure: {
+                type: 'string',
+                description: 'Icon name of Lucide Icons, in kebab case',
+              },
               iconColor: {
                 type: 'string',
               },
@@ -100,12 +112,13 @@ export const schema = {
               'color',
               'backgroundColor',
               'icon',
+              'figure',
               'iconColor',
             ],
             additionalProperties: false,
           },
         },
-        required: ['id', 'type', 'position', 'data', 'width', 'height'],
+        required: ['id', 'type', 'position', 'data', 'style'],
         additionalProperties: false,
       },
     },

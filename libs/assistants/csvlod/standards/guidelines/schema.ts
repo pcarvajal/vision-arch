@@ -31,13 +31,21 @@ export const schema = {
             required: ['x', 'y'],
             additionalProperties: false,
           },
-          width: {
-            type: 'number',
-            description: 'The width of the node.',
-          },
-          height: {
-            type: 'number',
-            description: 'The height of the node.',
+          style: {
+            type: 'object',
+            description: 'Style of the node.',
+            properties: {
+              width: {
+                type: 'number',
+                description: 'Width of the node.',
+              },
+              height: {
+                type: 'number',
+                description: 'Height of the node.',
+              },
+            },
+            required: ['width', 'height'],
+            additionalProperties: false,
           },
           data: {
             type: 'object',
@@ -102,7 +110,7 @@ export const schema = {
             additionalProperties: false,
           },
         },
-        required: ['id', 'type', 'position', 'data', 'width', 'height'],
+        required: ['id', 'type', 'position', 'data', 'style'],
         additionalProperties: false,
       },
     },

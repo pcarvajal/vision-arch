@@ -8,6 +8,7 @@ import {
   policiesFlowTypes,
   principlesFlowTypes,
 } from '@/components/diagrams/NodeFlowsTypes';
+import Loader from '@/components/layout/Loader';
 import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import {
@@ -18,6 +19,7 @@ import {
 import { routes } from '@/config/routes';
 import { IArtifactConfig, IFlowType } from '@/index';
 import useFlowStore from '@/store/flow/flowStore';
+import useUserStore from '@/store/user/userStore';
 import { Card, CardBody } from '@nextui-org/react';
 import { Atom, Goal, HouseIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -45,6 +47,7 @@ const breadcrumb = [
 
 export const CreateCsvlodView = () => {
   const { params } = useFlowStore();
+  const { loading, setLoading } = useUserStore();
 
   const [artifactSelected, setArtifactSelected] =
     useState<IArtifactConfig>(policiesConfig);
@@ -52,26 +55,37 @@ export const CreateCsvlodView = () => {
   const [flowTypes, setFLowtypes] = useState<IFlowType>(policiesFlowTypes);
 
   useEffect(() => {
-    switch (params?.type) {
-      case 'policies':
-        setArtifactSelected(policiesConfig);
-        setFLowtypes(policiesFlowTypes);
-        break;
-      case 'principles':
-        setArtifactSelected(principlesConfig);
-        setFLowtypes(principlesFlowTypes);
-        break;
-      case 'guidelines':
-        setArtifactSelected(guidelinesConfig);
-        setFLowtypes(guidelinesFlowTypes);
-        break;
-      default:
-        break;
-    }
+    const updateArtifactAndFlowTypes = async () => {
+      setLoading(true);
+      try {
+        switch (params?.type) {
+          case 'policies':
+            setArtifactSelected(policiesConfig);
+            setFLowtypes(policiesFlowTypes);
+            break;
+          case 'principles':
+            setArtifactSelected(principlesConfig);
+            setFLowtypes(principlesFlowTypes);
+            break;
+          case 'guidelines':
+            setArtifactSelected(guidelinesConfig);
+            setFLowtypes(guidelinesFlowTypes);
+            break;
+          default:
+            break;
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    updateArtifactAndFlowTypes();
   }, [params]);
 
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
+      <Loader show={loading} />
       <PageBreadcrumb items={breadcrumb} />
       <div className="flex flex-row justify-between space-x-2">
         <h3 className="text-xl font-semibold">Espacio de trabajo</h3>

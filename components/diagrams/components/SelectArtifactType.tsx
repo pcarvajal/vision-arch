@@ -1,9 +1,11 @@
 'use client';
 
+import Loader from '@/components/layout/Loader';
 import { Select } from '@/components/shared/Select';
 import { TArtifactType } from '@/index';
 import useFlowStore from '@/store/flow/flowStore';
-import { useState } from 'react';
+import useUserStore from '@/store/user/userStore';
+import { toast } from 'sonner';
 
 export interface Item {
   key: string;
@@ -25,8 +27,12 @@ export const SelectArtifactType = ({
   const setParams = useFlowStore((state) => state.setParams);
 
   const handleSelect = (item: string) => {
-    const artifactTypeItem = item as TArtifactType;
-    setParams({ ...params, type: artifactTypeItem });
+    try {
+      const artifactTypeItem = item as TArtifactType;
+      setParams({ ...params, type: artifactTypeItem });
+    } catch (e) {
+      toast.error('Error al seleccionar el tipo de artefacto');
+    }
   };
 
   return (

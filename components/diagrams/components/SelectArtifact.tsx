@@ -4,11 +4,14 @@ import {
   getArtifactAction,
   getArtifactsAction,
 } from '@/actions/artifact.actions';
+import Loader from '@/components/layout/Loader';
 import { Select } from '@/components/shared/Select';
 import { IFlow, TArtifactType } from '@/index';
 import useFlowStore from '@/store/flow/flowStore';
+import useUserStore from '@/store/user/userStore';
 import { IArtifact } from '@/types/appwrite';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 export interface Item {
   key: string;
@@ -24,59 +27,69 @@ export const SelectArtifact = ({
   className,
   artifactName,
 }: SelectArtifactProps) => {
+  const { loading, setLoading } = useUserStore();
   const [items, setItems] = useState<Item[] | []>([]);
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const flowStore = useFlowStore((state) => state);
 
   useEffect(() => {
     async function getArtifacts() {
-      console.log('CHANGE', artifactName);
-      const artifacts = await getArtifactsAction(artifactName);
-      if (artifacts.data?.artifacts && artifacts.data.artifacts.length > 0) {
-        setItems(
-          artifacts.data?.artifacts.map((artifact: IArtifact) => ({
-            key: artifact.id,
-            label: artifact.name,
-          })),
-        );
+      setLoading(true);
+      try {
+        const artifacts = await getArtifactsAction(artifactName);
+        if (artifacts.data?.artifacts && artifacts.data.artifacts.length > 0) {
+          setItems(
+            artifacts.data?.artifacts.map((artifact: IArtifact) => ({
+              key: artifact.id,
+              label: artifact.name,
+            })),
+          );
+        }
+      } catch (error) {
+        toast.error('Error al obtener los artefactos');
+      } finally {
+        setLoading(false);
       }
     }
     getArtifacts();
   }, [artifactName]);
 
-  const handleSelect = (item: string) => {
-    const foundItem = items.find((i) => i.key === item);
-    if (foundItem) setSelectedItem(foundItem.key);
+  const handleSelect = async (item: string) => {
+    setLoading(true);
+    try {
+      const foundItem = items.find((i) => i.key === item);
+      if (foundItem) {
+        const itemData = await getArtifactAction(foundItem?.key);
+        if (itemData.data) {
+          flowStore.clearPersistedStore();
+          const flow: IFlow = JSON.parse(itemData.data.artifact.data);
+          flowStore.setEdges(flow.edges);
+          flowStore.setNodes(flow.nodes);
+          flowStore.setParams({
+            type: itemData.data.artifact.type,
+            year: itemData.data.artifact.yearProjection,
+            id: itemData.data.artifact.id,
+          });
+        }
+      }
+    } catch (error) {
+      toast.error('Error al obtener el artefacto');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  useEffect(() => {
-    async function getArtifact() {
-      if (!selectedItem) return;
-      const itemData = await getArtifactAction(selectedItem);
-      if (itemData.data) {
-        flowStore.clearPersistedStore();
-        const flow: IFlow = JSON.parse(itemData.data.artifact.data);
-        flowStore.setEdges(flow.edges);
-        flowStore.setNodes(flow.nodes);
-        flowStore.setParams({
-          type: itemData.data.artifact.type,
-          year: itemData.data.artifact.yearProjection,
-          id: itemData.data.artifact.id,
-        });
-      }
-    }
-    getArtifact();
-  }, [selectedItem]);
-
   return (
-    <Select
-      label="Seleccionar artefacto"
-      items={items.map((item, idx) => ({
-        key: item.key,
-        label: item.label,
-      }))}
-      onValueChange={handleSelect}
-      className={className}
-    />
+    <>
+      <Loader show={loading} />
+      <Select
+        label="Seleccionar artefacto"
+        items={items.map((item, idx) => ({
+          key: item.key,
+          label: item.label,
+        }))}
+        onValueChange={handleSelect}
+        className={className}
+      />
+    </>
   );
 };

@@ -38,6 +38,7 @@ The artifact must be constructed **without edges**, using only nodes. The availa
     - Adjust the position of each node so that they do not overlap each other.
     - Adjust each edge does not cross each other and.
     - The space between each node must be sufficient to show the direction of the edge.
+    - The size of the nodes must be adjusted to the content. you can use the node's style properties: width and height
 3. **JSON Details**:
     - Nodes must have unique identifiers and descriptive labels.
     - Edges must clearly reflect the relationships between nodes.

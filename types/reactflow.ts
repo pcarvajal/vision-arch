@@ -50,7 +50,7 @@ export interface ITitleDescriptionNodeProps extends IBaseCustomData {
 export interface ITitleIconNodeProps extends IBaseCustomData {
   title: string;
   titlePlaceholder: string;
-  icon: string;
+  figure: string;
 }
 
 export interface ITitleNodeProps extends IBaseCustomData {

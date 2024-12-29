@@ -15,7 +15,6 @@ import '@xyflow/react/dist/style.css';
 import { generateModel } from '@/actions/ai.actions';
 import { getArtifactByYearProjectionAndType } from '@/actions/artifact.actions';
 import Slider from '@/components/diagrams/components/Slider';
-import ThinkingLoader from '@/components/shared/ThinkingLoader';
 import { yearRange } from '@/config/constants';
 import { IArtifactConfig, IFlow } from '@/index';
 import { flowSelector } from '@/store/flow/flowSelector';
@@ -24,6 +23,7 @@ import useUserStore from '@/store/user/userStore';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { useShallow } from 'zustand/react/shallow';
+import Loader from '../layout/Loader';
 
 export interface ArtifactFlowProps {
   config: IArtifactConfig;
@@ -64,6 +64,7 @@ export default function ArtifactFlow({
   }, []);
 
   const handleVisualizeArtifact = async (year: number) => {
+    setLoading(true);
     if (year) {
       const result = await getArtifactByYearProjectionAndType(
         year,
@@ -71,6 +72,8 @@ export default function ArtifactFlow({
       );
 
       if (result?.response?.type === 'error') {
+        clearPersistedStore();
+        setLoading(false);
         return toast.error(
           result?.response.message || 'Error obteniendo el artefacto',
         );
@@ -81,25 +84,29 @@ export default function ArtifactFlow({
       );
 
       if (artifactData.nodes.length === 0) {
+        setLoading(false);
+        clearPersistedStore();
         return toast.error('No se ha encontrado datos para el artefacto');
       }
 
       setNodes(artifactData.nodes);
       setEdges(artifactData.edges);
-
+      setLoading(false);
       return toast.success('Artefacto cargado correctamente');
     }
+    setLoading(false);
+    clearPersistedStore();
     return toast.error('No se ha encontrado el artefacto para este año');
   };
 
   const onSelectYear = async (year: number) => {
-    setLoading(true);
-
     if (vision) {
-      handleVisualizeArtifact(year);
+      await handleVisualizeArtifact(year);
       setLoading(false);
       return;
     }
+
+    setLoading(true);
 
     if (!company?.id) {
       setLoading(false);
@@ -134,7 +141,7 @@ export default function ArtifactFlow({
 
   return (
     <>
-      <ThinkingLoader show={loading} />
+      <Loader show={loading} />
       <ReactFlow
         className="h-full w-full"
         nodes={nodes}

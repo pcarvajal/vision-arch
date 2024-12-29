@@ -61,11 +61,16 @@ What I need:
          - Relationships: "deleteEdge".
             -   The data of the node must be:
                 -   name: 'deleteEdge',
-   - Adjust the position of each node so that they do not overlap each other.
-   - Adjust each edge does not cross each other and.
-   - The layout of flow is tree-like and horizontal.
-   - The space between each node must be sufficient to show the direction of the edge.
-3. **JSON Details**:
+3. **Layout and Styling**:
+    - The layout of flow is tree-like and vertical, from the top to the bottom.
+    - The flow should start with the actors on the top.
+    - The TitleAndIcon node must have a property within data called "figure", which must contain an icon representative of the node in kebab case from the Lucide Icons library.
+    - Adjust the position of each node so that they do not overlap each other.
+    - Adjust each edge does not cross each other and.
+    - The space between each node must be wide to show clearly the direction of the edge.
+    - The size of the nodes must be adjusted to the content. you can use the node's style properties: width and height.
+    The node must be tall and wide enough to clearly display icons and text.
+4. **Others conditions**:
     - Nodes must have unique identifiers and descriptive labels.
     - Edges must clearly reflect the relationships between nodes.
     - The JSON must be structured to be directly usable in React Flow 12.
