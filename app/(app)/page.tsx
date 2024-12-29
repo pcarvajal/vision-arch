@@ -1,5 +1,5 @@
 import { HomeView } from '@/components/views/(app)/index';
-import type { Metadata, NextPage } from 'next';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Dashboard',

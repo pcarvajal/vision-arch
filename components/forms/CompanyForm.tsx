@@ -49,18 +49,18 @@ const CompanyForm = ({ initialValues }: CompanyFormProps) => {
         setLoading(false);
         return toast.error(result?.response?.message || 'Ha ocurrido un error');
       }
+    }
 
-      if (result.data.company.id) {
-        setCompany({
-          ...result.data.company,
-        });
-      }
+    if (result.data.company.id) {
+      setCompany({
+        ...result.data.company,
+      });
+    }
 
-      if ('user' in result.data && result.data.user.id) {
-        setUser({
-          ...result.data.user,
-        });
-      }
+    if ('user' in result.data && result.data.user.id) {
+      setUser({
+        ...result.data.user,
+      });
     }
 
     setLoading(false);

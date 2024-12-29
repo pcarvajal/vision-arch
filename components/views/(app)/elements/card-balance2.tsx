@@ -1,6 +1,6 @@
+import { Community } from '@/components/icons/community';
 import { Card, CardBody } from '@nextui-org/react';
 import React from 'react';
-import { Community } from '../../../icons/community';
 
 export const CardBalance2 = () => {
   return (
@@ -9,23 +9,41 @@ export const CardBalance2 = () => {
         <div className="flex gap-2.5">
           <Community />
           <div className="flex flex-col">
-            <span className="text-default-900">Tasa de cumplimiento</span>
-            <span className="text-xs text-default-900">Copec</span>
+            <span className="text-default-900">Ganancias</span>
+            <span className="text-xs text-default-900">+2400 USD</span>
           </div>
+        </div>
+        <div className="flex items-center gap-2.5 py-2">
+          <span className="text-xl font-semibold text-default-900">
+            $12,138
+          </span>
+          <span className="text-xs text-danger">- 4.5%</span>
         </div>
         <div className="flex items-center gap-6">
           <div>
-            <div className="space-x-2">
-              <span className="text-xl font-semibold text-success">{'↑'}</span>
-              <span className="text-xl text-default-900">Hecho: 10.00%</span>
+            <div>
+              <span className="text-xs font-semibold text-success-600">
+                {'↓'}
+              </span>
+              <span className="text-xs">11,930</span>
             </div>
+            <span className="text-xs text-default-900">USD</span>
           </div>
 
           <div>
-            <div className="space-x-2">
-              <span className="text-xl font-semibold text-danger">{'↓'}</span>
-              <span className="text-xl text-default-900">Pendiente: 90.00%</span>
+            <div>
+              <span className="text-xs font-semibold text-danger">{'↑'}</span>
+              <span className="text-xs">54,120</span>
             </div>
+            <span className="text-xs text-default-900">USD</span>
+          </div>
+
+          <div>
+            <div>
+              <span className="text-xs font-semibold text-danger">{'⭐'}</span>
+              <span className="text-xs">150</span>
+            </div>
+            <span className="text-xs text-default-900">VIP</span>
           </div>
         </div>
       </CardBody>

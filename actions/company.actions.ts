@@ -115,7 +115,7 @@ const updateCompanyAction = async (
     }
 
     const id = team.teams[0].$id;
-    const updatedCompany: ICompany = { id, ...params };
+    const updatedCompany = { ...params };
 
     const company = await databases.updateDocument<ICompanyModel>(
       databaseId!,

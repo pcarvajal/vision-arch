@@ -3,7 +3,7 @@
 import { loginAction } from '@/actions/auth.action';
 import { routes } from '@/config/routes';
 import { LoginSchema, loginSchema } from '@/libs/validators/login.schema';
-import useUserStore from '@/store/userStore';
+import useUserStore from '@/store/user/userStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input } from '@nextui-org/react';
 import Link from 'next/link';
