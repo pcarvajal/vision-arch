@@ -1,10 +1,10 @@
+import { getCompanyAction } from '@/actions/company.actions';
 import CompanyForm from '@/components/forms/CompanyForm';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import PageTitle from '@/components/pages/PageTitle';
 import { routes } from '@/config/routes';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
 import { Building2, HouseIcon } from 'lucide-react';
-import { ICompany } from '@/types/appwrite';
 
 const companyBreadcrumb = [
   {
@@ -20,10 +20,14 @@ const companyBreadcrumb = [
 ];
 
 interface CompanyEditViewProps {
-  company: ICompany;
+  id?: string;
 }
 
-export const CompanyEditView = ({ company }: CompanyEditViewProps) => {
+export const CompanyEditView = async ({ id }: CompanyEditViewProps) => {
+  let result = null;
+  if (id !== undefined && id !== null) {
+    result = await getCompanyAction(id);
+  }
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <PageBreadcrumb items={companyBreadcrumb} />
@@ -37,7 +41,7 @@ export const CompanyEditView = ({ company }: CompanyEditViewProps) => {
             </small>
           </CardHeader>
           <CardBody>
-            <CompanyForm initialValues={company} />
+            <CompanyForm initialValues={result?.data?.company || undefined} />
           </CardBody>
         </Card>
       </div>

@@ -15,18 +15,9 @@ import { AcmeIcon } from '../icons/acme-icon';
 import { BottomIcon } from '../icons/sidebar/bottom-icon';
 
 export const CompaniesDropdown = () => {
-  const company = useUserStore((state) => state.company);
+  const company = useUserStore((state) => state?.company);
   return (
     <>
-      <Link
-        className="flex w-full flex-col items-center justify-center"
-        href={routes.protected.company}
-      >
-        <Button className="block" color="primary">
-          Crear Compañia
-        </Button>
-      </Link>
-      ) : (
       <Dropdown
         classNames={{
           base: 'w-full min-w-[260px]',
@@ -62,7 +53,6 @@ export const CompaniesDropdown = () => {
           </DropdownSection>
         </DropdownMenu>
       </Dropdown>
-      )
     </>
   );
 };

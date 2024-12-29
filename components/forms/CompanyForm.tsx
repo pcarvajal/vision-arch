@@ -8,6 +8,7 @@ import { routes } from '@/config/routes';
 import { CompanySchema, companySchema } from '@/libs/validators/company.schema';
 import useUserStore from '@/store/userStore';
 import { ICreateCompanyResponse, IGetCompanyResponse } from '@/types/actions';
+import { ICompany } from '@/types/appwrite';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
@@ -16,22 +17,13 @@ import { toast } from 'sonner';
 import { IActionResponse } from '../../types/actions';
 import Loader from '../layout/Loader';
 
-interface CompanyInitialValues {
-  id?: string;
-  name: string;
-  mission: string;
-  vision: string;
-  objetives: string;
-  description: string;
-}
-
 interface CompanyFormProps {
-  initialValues?: CompanyInitialValues;
-  companyName?: string;
+  initialValues?: ICompany;
 }
 
-const CompanyForm = ({ initialValues, companyName }: CompanyFormProps) => {
+const CompanyForm = ({ initialValues }: CompanyFormProps) => {
   const router = useRouter();
+  const companyName = useUserStore((state) => state?.company?.name);
   const loading = useUserStore((state) => state.loading);
   const setLoading = useUserStore((state) => state.setLoading);
   const setCompany = useUserStore((state) => state.setCompany);

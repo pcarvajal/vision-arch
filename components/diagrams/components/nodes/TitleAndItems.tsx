@@ -1,6 +1,7 @@
 'use client';
 
 import { useCustomNodeData } from '@/components/hooks/useCustomNode';
+import useFlowStore from '@/store/flowStore';
 import { ITitleAndItemsNodeProps } from '@/types/reactflow';
 import {
   Card,
@@ -17,13 +18,17 @@ import { useRef, useState } from 'react';
 type TitleAndItemsNodeData = Node<ITitleAndItemsNodeProps>;
 
 export const TitleAndItems = (props: NodeProps<TitleAndItemsNodeData>) => {
+  const { removeNode, updateNode } = useFlowStore((state) => state);
+
+  const {
+    height,
+    width,
+    id,
+    data: { description, items, title },
+  } = props;
   const [titleFocused, setTitleFocused] = useState(false);
   const [descriptionFocused, setDescriptionFocused] = useState(false);
   const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
-
-  const { removeNode, height, width, id, data, updateNodeData } =
-    useCustomNodeData<ITitleAndItemsNodeProps>(props);
-  const { description, items, title } = data;
 
   const itemRefs = useRef<{
     [key: string]: HTMLInputElement | HTMLTextAreaElement | null;
@@ -33,12 +38,12 @@ export const TitleAndItems = (props: NodeProps<TitleAndItemsNodeData>) => {
     const newItems = items.map((item) =>
       item.id === id ? { ...item, value } : item,
     );
-    updateNodeData(id, { items: newItems });
+    updateNode(id, { items: newItems });
   };
 
   const handleInputHeaderChange = (value: string, id: string) => {
     if (id === 'title') {
-      updateNodeData(id, { title: value });
+      updateNode(id, { title: value });
     }
   };
 
@@ -79,7 +84,7 @@ export const TitleAndItems = (props: NodeProps<TitleAndItemsNodeData>) => {
           <CardHeader className="flex-col items-start px-4 pb-0 pt-2">
             <X
               className="absolute right-2 top-2 cursor-pointer"
-              onClick={removeNode}
+              onClick={() => removeNode(id)}
             />
             {title && !titleFocused ? (
               <p className="font-bold" onClick={() => setTitleFocused(true)}>

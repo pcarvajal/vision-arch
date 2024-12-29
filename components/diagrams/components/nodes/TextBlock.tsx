@@ -1,6 +1,7 @@
 'use client';
 
 import { useCustomNodeData } from '@/components/hooks/useCustomNode';
+import useFlowStore from '@/store/flowStore';
 import { ITextBlockNodeProps } from '@/types/reactflow';
 import { Card, CardBody, Textarea } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer } from '@xyflow/react';
@@ -10,13 +11,18 @@ import { useState } from 'react';
 type TextBlockNodeData = Node<ITextBlockNodeProps>;
 
 export const TextBlock = (props: NodeProps<TextBlockNodeData>) => {
-  const { updateNodeData, removeNode, height, width, data, id } =
-    useCustomNodeData<ITextBlockNodeProps>(props);
-  const { placeholder, textBlock } = data;
+  const { removeNode, updateNode } = useFlowStore((state) => state);
+
+  const {
+    height,
+    width,
+    data: { placeholder, textBlock },
+    id,
+  } = props;
   const [isTextBlockFocused, setIsTextBlockFocused] = useState(false);
 
   const onChangeTitle = (value: string) => {
-    updateNodeData(id, { textBlock: value });
+    updateNode(id, { textBlock: value });
   };
 
   return (
@@ -46,7 +52,11 @@ export const TextBlock = (props: NodeProps<TextBlockNodeData>) => {
       >
         <CardBody className="flex flex-col items-center justify-center">
           <div className="absolute right-0 top-0 p-2">
-            <X className="cursor-pointer" size={15} onClick={removeNode} />
+            <X
+              className="cursor-pointer"
+              size={15}
+              onClick={() => removeNode(id)}
+            />
           </div>
           <div className="w-full">
             {!isTextBlockFocused && textBlock && (

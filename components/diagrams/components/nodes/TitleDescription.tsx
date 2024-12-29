@@ -1,6 +1,7 @@
 'use client';
 
 import { useCustomNodeData } from '@/components/hooks/useCustomNode';
+import useFlowStore from '@/store/flowStore';
 import { ITitleDescriptionNodeProps } from '@/types/reactflow';
 import { Card, CardBody, Input, Textarea } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer } from '@xyflow/react';
@@ -13,25 +14,29 @@ type TitleDescriptionNodeData = Node<ITitleDescriptionNodeProps>;
 export const TitleAndDescription = (
   props: NodeProps<TitleDescriptionNodeData>,
 ) => {
+  const { updateNode, removeNode } = useFlowStore((state) => state);
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [isDescriptionFocused, setIsDescriptionFocused] = useState(false);
 
-  const { removeNode, height, width, id, data, updateNodeData } =
-    useCustomNodeData<ITitleDescriptionNodeProps>(props);
   const {
-    description,
-    title,
-    borderColor,
-    titlePlaceholder,
-    descriptionPlaceholder,
-  } = data;
+    height,
+    width,
+    id,
+    data: {
+      description,
+      title,
+      borderColor,
+      titlePlaceholder,
+      descriptionPlaceholder,
+    },
+  } = props;
 
   const onChangeTitle = (value: string) => {
-    updateNodeData(id, { title: value });
+    updateNode(id, { title: value });
   };
 
   const onChangeDescription = (value: string) => {
-    updateNodeData(id, { description: value });
+    updateNode(id, { description: value });
   };
 
   return (
@@ -115,7 +120,7 @@ export const TitleAndDescription = (
           <div className="mt-auto flex justify-center">
             <CircleX
               className="mt-2 h-full cursor-pointer text-red-600"
-              onClick={removeNode}
+              onClick={() => removeNode(id)}
             />
           </div>
         </CardBody>

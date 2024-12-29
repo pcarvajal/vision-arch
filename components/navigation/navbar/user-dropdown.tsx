@@ -1,7 +1,7 @@
 'use client';
 
 import { logoutAction } from '@/actions/auth.action';
-import useArtifactFlowStore from '@/store/artifactFlowStore';
+import useFlowStore from '@/store/flowStore';
 import useUserStore from '@/store/userStore';
 import {
   Avatar,
@@ -16,13 +16,11 @@ import { DarkModeSwitch } from './darkmodeswitch';
 
 export const UserDropdown = () => {
   const clearUserStore = useUserStore((state) => state.clearPersistedStore);
-  const clearArtifactFlowStore = useArtifactFlowStore(
-    (state) => state.clearPersistedStore,
-  );
+  const clearFlowStore = useFlowStore((state) => state.clearPersistedStore);
   const handleLogout = async () => {
     await logoutAction();
     clearUserStore();
-    clearArtifactFlowStore();
+    clearFlowStore();
   };
 
   return (

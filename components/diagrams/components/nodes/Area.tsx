@@ -1,17 +1,28 @@
 'use client';
 
 import { useCustomNodeData } from '@/components/hooks/useCustomNode';
+import useFlowStore from '@/store/flowStore';
 import { IAreaNodeProps } from '@/types/reactflow';
-import { Card, CardHeader } from '@nextui-org/react';
+import { Card, CardHeader, Input } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer } from '@xyflow/react';
 import { X } from 'lucide-react';
+import { useState } from 'react';
 
 type AreaNodeData = Node<IAreaNodeProps>;
 
 export const Area = (props: NodeProps<AreaNodeData>) => {
-  const { width, height, data, removeNode, zIndex } =
-    useCustomNodeData<IAreaNodeProps>(props);
-  const { borderColor, backgroundColor, title } = data;
+  const { removeNode, updateNode } = useFlowStore((state) => state);
+  const {
+    width,
+    height,
+    data: { title, backgroundColor, borderColor },
+    zIndex,
+  } = props;
+  const [titleFocused, setTitleFocused] = useState(false);
+
+  const handleValueChange = (value: string) => {
+    updateNode(props.id, { title: value });
+  };
 
   return (
     <>
@@ -42,8 +53,28 @@ export const Area = (props: NodeProps<AreaNodeData>) => {
         }}
       >
         <CardHeader className="flex flex-row items-center justify-between">
-          {title && <p className="p-1 text-left text-sm">{title}</p>}
-          <X className="cursor-pointer" size={15} onClick={removeNode} />
+          {title && !titleFocused && (
+            <p
+              className="p-1 text-left text-sm"
+              onClick={() => setTitleFocused(true)}
+            >
+              {title}
+            </p>
+          )}
+          {!title && titleFocused && (
+            <Input
+              className="w-1/2"
+              placeholder="Título"
+              onFocus={() => setTitleFocused(true)}
+              onBlur={() => setTitleFocused(false)}
+              onValueChange={(value) => handleValueChange(value)}
+            />
+          )}
+          <X
+            className="cursor-pointer"
+            size={15}
+            onClick={() => removeNode(props.id)}
+          />
         </CardHeader>
       </Card>
     </>

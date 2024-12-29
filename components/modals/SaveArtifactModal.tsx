@@ -4,7 +4,7 @@ import {
   getArtifactByYearProjectionAndType,
   updateArtifactAction,
 } from '@/actions/artifact.actions';
-import useFlowStore from '@/store/artifactFlowStore';
+import useFlowStore from '@/store/flowStore';
 import {
   Button,
   Modal,
@@ -27,8 +27,8 @@ interface SaveArtifactModalProps {
 export default function SaveArtifactModal({
   className,
 }: SaveArtifactModalProps) {
-  const { getNodes } = useReactFlow();
-  const artifactFlow = useFlowStore((state) => state);
+  const { nodes, edges, params } = useFlowStore((state) => state);
+  const { getViewport } = useReactFlow();
   const [showReplaceModal, setShowReplaceModal] = useState(false);
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
   const [showUpdateConfirmation, setShowUpdateConfirmation] = useState(false);
@@ -36,14 +36,10 @@ export default function SaveArtifactModal({
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleIsArtifactExist = async () => {
-    if (
-      artifactFlow?.params?.year &&
-      artifactFlow?.params.type &&
-      !artifactFlow.params.id
-    ) {
+    if (params?.year && params.type && !params.id) {
       const artifactFinded = await getArtifactByYearProjectionAndType(
-        artifactFlow?.params.year,
-        artifactFlow?.params.type,
+        params.year,
+        params.type,
       );
 
       if (artifactFinded.data?.artifact) {
@@ -52,7 +48,7 @@ export default function SaveArtifactModal({
         onOpen();
       }
     }
-    if (artifactFlow?.params?.id) {
+    if (params?.id) {
       setShowUpdateConfirmation(true);
     }
   };
@@ -63,13 +59,13 @@ export default function SaveArtifactModal({
   };
 
   const handleUpdateConfirmed = async () => {
-    if (artifactFlow && artifactFlow.params?.id && artifactFlow.nodes) {
+    if (params?.id && nodes.length > 0) {
       const result = await updateArtifactAction(
-        artifactFlow.params.id,
+        params.id,
         JSON.stringify({
-          data: artifactFlow.nodes,
-          edges: artifactFlow.edges,
-          viewport: artifactFlow.viewport,
+          data: nodes,
+          edges: edges,
+          viewport: getViewport(),
         }),
       );
 
@@ -84,12 +80,12 @@ export default function SaveArtifactModal({
   };
 
   useEffect(() => {
-    if (getNodes().length === 0) {
+    if (nodes.length === 0) {
       setSaveButtonDisabled(true);
     } else {
       setSaveButtonDisabled(false);
     }
-  }, [artifactFlow]);
+  }, [nodes]);
 
   return (
     <div className={className}>

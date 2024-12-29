@@ -5,7 +5,7 @@ import {
   ArtifactSchema,
   artifactSchema,
 } from '@/libs/validators/artifact.schema';
-import useArtifactFlowStore from '@/store/artifactFlowStore';
+import useFlowStore from '@/store/flowStore';
 import useUserStore from '@/store/userStore';
 import { ICreateArtifactParams } from '@/types/forms';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -25,7 +25,7 @@ const defaultValues = {
 export const SaveArtifactForm = () => {
   const loading = useUserStore((state) => state.loading);
   const setLoading = useUserStore((state) => state.setLoading);
-  const artifactFlow = useArtifactFlowStore((state) => state);
+  const artifactFlow = useFlowStore((state) => state);
 
   const methods = useForm({
     defaultValues,
@@ -55,7 +55,11 @@ export const SaveArtifactForm = () => {
 
     const params: ICreateArtifactParams = {
       ...values,
-      data: JSON.stringify({ ...artifactFlow.edges, ...artifactFlow.nodes }),
+      data: JSON.stringify({
+        nodes: artifactFlow.nodes,
+        edges: artifactFlow.edges,
+        viewport: artifactFlow.viewport,
+      }),
       type: artifactFlow.params?.type,
       yearProjection: artifactFlow.params?.year,
     };

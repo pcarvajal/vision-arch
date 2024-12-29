@@ -53,9 +53,8 @@ const saveArtifactAction = async (
     }
 
     const id = ID.unique();
-    const newArtifact: IArtifact = {
+    const newArtifact = {
       ...params,
-      id: id,
       userId: account.$id,
       companyId: team.teams[0].$id,
       createdBy: account.name,

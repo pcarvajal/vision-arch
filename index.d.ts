@@ -10,6 +10,12 @@ declare type TArtifactType =
   | 'guidelines';
 declare type TArtifactDimension = 'considerations' | 'standards';
 
+declare interface IFlow {
+  nodes: Node[];
+  edges: Edge[];
+  viewport: Viewport;
+}
+
 declare interface IArtifactConfig {
   id?: string;
   name: TArtifactType;

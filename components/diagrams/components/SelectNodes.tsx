@@ -1,8 +1,8 @@
 'use client';
 
 import { Select } from '@/components/shared/Select';
+import useFlowStore, { AppNode } from '@/store/flowStore';
 import { IBaseCustomData } from '@/types/reactflow';
-import { useReactFlow } from '@xyflow/react';
 
 export interface SelectNodeProps {
   presets: IBaseCustomData[];
@@ -10,7 +10,7 @@ export interface SelectNodeProps {
 }
 
 export const SelectNodes = ({ className, presets }: SelectNodeProps) => {
-  const { setNodes } = useReactFlow();
+  const { setNodes, nodes } = useFlowStore((state) => state);
 
   const handleNodeSelect = (value: string) => {
     const nodeData = presets.find(
@@ -18,17 +18,15 @@ export const SelectNodes = ({ className, presets }: SelectNodeProps) => {
     );
     const location = Math.random() * 200;
 
-    setNodes((nodes) => {
-      return [
-        ...nodes,
-        {
-          id: `${nodes.length + 1}`,
-          type: nodeData?.type.id,
-          position: { x: location, y: location },
-          data: { ...nodeData },
-        },
-      ];
-    });
+    if (nodeData) {
+      const newNode: AppNode = {
+        id: `${nodes.length + 1}`,
+        type: nodeData.type.id,
+        position: { x: location, y: location },
+        data: { ...nodeData },
+      };
+      setNodes([...nodes, newNode as AppNode]);
+    }
   };
 
   return (

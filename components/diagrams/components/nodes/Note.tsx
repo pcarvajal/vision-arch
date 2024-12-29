@@ -1,6 +1,7 @@
 'use client';
 
 import { useCustomNodeData } from '@/components/hooks/useCustomNode';
+import useFlowStore from '@/store/flowStore';
 import { INoteNodeProps } from '@/types/reactflow';
 import { Textarea } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer } from '@xyflow/react';
@@ -10,15 +11,18 @@ import { useState } from 'react';
 type NoteNodeData = Node<INoteNodeProps>;
 
 export const Note = (props: NodeProps<NoteNodeData>) => {
-  const { removeNode, height, width, data, updateNodeData, id } =
-    useCustomNodeData<INoteNodeProps>(props);
-  const { title } = data;
+  const { nodes, removeNode, updateNode } = useFlowStore((state) => state);
+  const [inputFocus, setInputFocus] = useState(true);
+  const {
+    height,
+    width,
+    data: { title },
+    id,
+  } = props;
 
   const handleTextAreaChange = (value: string) => {
-    updateNodeData(id, { title: value });
+    updateNode(id, { title: value });
   };
-
-  const [inputFocus, setInputFocus] = useState(true);
 
   return (
     <>
@@ -46,7 +50,7 @@ export const Note = (props: NodeProps<NoteNodeData>) => {
         }}
       >
         <div className="absolute -right-6 -top-6 cursor-pointer">
-          <X onClick={removeNode} />
+          <X onClick={() => removeNode(id)} />
         </div>
         <div className="flex h-full w-full p-4">
           {title && title?.length > 0 && !inputFocus ? (

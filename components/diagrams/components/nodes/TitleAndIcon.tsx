@@ -1,6 +1,7 @@
 'use client';
 
 import { useCustomNodeData } from '@/components/hooks/useCustomNode';
+import useFlowStore from '@/store/flowStore';
 import { ITitleIconNodeProps } from '@/types/reactflow';
 import { Card, CardBody, Input } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer } from '@xyflow/react';
@@ -11,14 +12,18 @@ import { LeftRightHandle } from '../handles/LeftRightHandle';
 type TitleAndIconNodeData = Node<ITitleIconNodeProps>;
 
 export const TitleAndIcon = (props: NodeProps<TitleAndIconNodeData>) => {
+  const { removeNode, updateNode } = useFlowStore((state) => state);
+
+  const {
+    height,
+    width,
+    id,
+    data: { title, titlePlaceholder, backgroundColor, color },
+  } = props;
   const [isTitleFocused, setIsTitleFocused] = useState(false);
 
-  const { removeNode, height, width, id, data, updateNodeData } =
-    useCustomNodeData<ITitleIconNodeProps>(props);
-  const { title, titlePlaceholder, backgroundColor, color } = data;
-
   const onChangeLabel = (value: string) => {
-    updateNodeData(id, { title: value });
+    updateNode(id, { title: value });
   };
 
   return (
@@ -78,7 +83,7 @@ export const TitleAndIcon = (props: NodeProps<TitleAndIconNodeData>) => {
             <CircleX
               className={`h-full cursor-pointer`}
               style={{ color: color }}
-              onClick={removeNode}
+              onClick={() => removeNode(id)}
             />
           </div>
         </CardBody>

@@ -1,6 +1,6 @@
 import { IBaseCustomData } from '@/types/reactflow';
 import { Node, NodeProps, useReactFlow } from '@xyflow/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export const useCustomNodeData = <T extends IBaseCustomData>(
   props: NodeProps<Node<T>>,

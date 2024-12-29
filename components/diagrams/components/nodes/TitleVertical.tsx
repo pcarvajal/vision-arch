@@ -1,6 +1,7 @@
 'use client';
 
 import { useCustomNodeData } from '@/components/hooks/useCustomNode';
+import useFlowStore from '@/store/flowStore';
 import { IVerticalTitleNodeProps } from '@/types/reactflow';
 import { Card, CardBody, Input } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer } from '@xyflow/react';
@@ -10,14 +11,18 @@ import { useState } from 'react';
 type VerticalNodeData = Node<IVerticalTitleNodeProps>;
 
 export const TitleVertical = (props: NodeProps<VerticalNodeData>) => {
+  const { removeNode, updateNode } = useFlowStore((state) => state);
+  const {
+    height,
+    width,
+    data: { placeholder, title },
+    id,
+  } = props;
+
   const [isTitleFocused, setIsTitleFocused] = useState(false);
 
-  const { removeNode, height, width, data, id, updateNodeData } =
-    useCustomNodeData<IVerticalTitleNodeProps>(props);
-  const { placeholder, title } = data;
-
   const onChangeTitle = (value: string) => {
-    updateNodeData(id, { title: value });
+    updateNode(id, { title: value });
   };
 
   return (
@@ -47,7 +52,11 @@ export const TitleVertical = (props: NodeProps<VerticalNodeData>) => {
       >
         <CardBody>
           <div className="absolute right-0 top-0 p-2">
-            <X className="cursor-pointer" size={15} onClick={removeNode} />
+            <X
+              className="cursor-pointer"
+              size={15}
+              onClick={() => removeNode(id)}
+            />
           </div>
           <div className="flex h-full w-full items-center justify-center">
             {!isTitleFocused && title && (
