@@ -5,14 +5,17 @@ import {
   ArtifactSchema,
   artifactSchema,
 } from '@/libs/validators/artifact.schema';
-import useFlowStore from '@/store/flowStore';
-import useUserStore from '@/store/userStore';
+import useFlowStore from '@/store/flow/flowStore';
+import useUserStore from '@/store/user/userStore';
 import { ICreateArtifactParams } from '@/types/forms';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Input, Textarea, useUser } from '@nextui-org/react';
+import { Button, Input, Textarea } from '@nextui-org/react';
+import { useReactFlow } from '@xyflow/react';
+import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import Loader from '../layout/Loader';
+import SaveArtifactModal from '../modals/SaveArtifactModal';
 
 const defaultValues = {
   name: '',
@@ -22,10 +25,20 @@ const defaultValues = {
   data: '',
 };
 
-export const SaveArtifactForm = () => {
+interface SaveArtifactFormProps {
+  onSave: () => void;
+}
+
+export const SaveArtifactForm = ({ onSave }: SaveArtifactFormProps) => {
+  const { getViewport } = useReactFlow();
+  const router = useRouter();
   const loading = useUserStore((state) => state.loading);
   const setLoading = useUserStore((state) => state.setLoading);
-  const artifactFlow = useFlowStore((state) => state);
+  const flowStore = useFlowStore((state) => state);
+
+  const handleOnSave = () => {
+    onSave();
+  };
 
   const methods = useForm({
     defaultValues,
@@ -43,11 +56,11 @@ export const SaveArtifactForm = () => {
     setLoading(true);
 
     if (
-      artifactFlow === null ||
-      !artifactFlow ||
-      !artifactFlow.edges ||
-      !artifactFlow.nodes ||
-      !artifactFlow.params
+      flowStore === null ||
+      !flowStore ||
+      !flowStore.edges ||
+      !flowStore.nodes ||
+      !flowStore.params
     ) {
       setLoading(false);
       return toast.error('Error al recuperar el artefacto');
@@ -56,12 +69,12 @@ export const SaveArtifactForm = () => {
     const params: ICreateArtifactParams = {
       ...values,
       data: JSON.stringify({
-        nodes: artifactFlow.nodes,
-        edges: artifactFlow.edges,
-        viewport: artifactFlow.viewport,
+        nodes: flowStore.nodes,
+        edges: flowStore.edges,
+        viewport: getViewport(),
       }),
-      type: artifactFlow.params?.type,
-      yearProjection: artifactFlow.params?.year,
+      type: flowStore.params?.type,
+      yearProjection: flowStore.params?.year!,
     };
 
     const result = await saveArtifactAction(params);
@@ -71,10 +84,12 @@ export const SaveArtifactForm = () => {
       return toast.error(result.response.message || 'Ha ocurrido un error');
     }
 
-    artifactFlow.clearPersistedStore();
+    flowStore.clearPersistedStore();
     setLoading(false);
     reset(defaultValues);
-    return toast.success('Artefacto guardado correctamente');
+    toast.success('Artefacto guardado correctamente');
+    handleOnSave();
+    router.refresh();
   };
 
   return (

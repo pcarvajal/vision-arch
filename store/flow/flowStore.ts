@@ -1,11 +1,10 @@
+import { TArtifactType } from '@/index';
 import {
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
   type Edge,
-  type EdgeTypes,
   type Node,
-  type NodeTypes,
   type OnConnect,
   type OnEdgesChange,
   type OnNodesChange,
@@ -13,7 +12,6 @@ import {
 } from '@xyflow/react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { TArtifactType } from '..';
 
 export type AppNode = Node;
 
@@ -26,8 +24,6 @@ export interface IFlowParams {
 export interface IFlowState {
   nodes: AppNode[];
   edges: Edge[];
-  nodeTypes: NodeTypes;
-  edgeTypes: EdgeTypes;
   reactFlowInstance: ReactFlowInstance | null;
   params: IFlowParams | null;
 }
@@ -35,8 +31,6 @@ export interface IFlowState {
 export interface IFlowActions {
   setNodes: (nodes: AppNode[]) => void;
   setEdges: (edges: Edge[]) => void;
-  setNodeTypes: (nodeTypes: NodeTypes) => void;
-  setEdgeTypes: (edgeTypes: EdgeTypes) => void;
   updateNode: (id: string, data: Record<string, any>) => void;
   removeNode: (id: string) => void;
   setReactFLowInstance: (instance: ReactFlowInstance) => void;
@@ -60,8 +54,6 @@ const useFlowStore = create(
       reactFlowInstance: null,
       setNodes: (nodes) => set({ nodes }),
       setEdges: (edges) => set({ edges }),
-      setNodeTypes: (nodeTypes) => set({ nodeTypes }),
-      setEdgeTypes: (edgeTypes) => set({ edgeTypes }),
       setReactFLowInstance: (instance) => set({ reactFlowInstance: instance }),
       setParams: (params) => set({ params }),
       updateNode(id, data) {
@@ -90,8 +82,6 @@ const useFlowStore = create(
           nodes: [],
           edges: [],
           params: null,
-          nodeTypes: {},
-          edgeTypes: {},
           reactFlowInstance: null,
         }),
     }),

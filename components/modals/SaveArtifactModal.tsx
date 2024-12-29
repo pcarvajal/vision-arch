@@ -4,7 +4,7 @@ import {
   getArtifactByYearProjectionAndType,
   updateArtifactAction,
 } from '@/actions/artifact.actions';
-import useFlowStore from '@/store/flowStore';
+import useFlowStore from '@/store/flow/flowStore';
 import {
   Button,
   Modal,
@@ -27,7 +27,10 @@ interface SaveArtifactModalProps {
 export default function SaveArtifactModal({
   className,
 }: SaveArtifactModalProps) {
-  const { nodes, edges, params } = useFlowStore((state) => state);
+  const { nodes, edges, params, clearPersistedStore } = useFlowStore(
+    (state) => state,
+  );
+
   const { getViewport } = useReactFlow();
   const [showReplaceModal, setShowReplaceModal] = useState(false);
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
@@ -58,12 +61,16 @@ export default function SaveArtifactModal({
     setShowReplaceModal(false);
   };
 
+  const handleOnSave = () => {
+    onOpenChange();
+  };
+
   const handleUpdateConfirmed = async () => {
     if (params?.id && nodes.length > 0) {
       const result = await updateArtifactAction(
         params.id,
         JSON.stringify({
-          data: nodes,
+          nodes: nodes,
           edges: edges,
           viewport: getViewport(),
         }),
@@ -72,7 +79,7 @@ export default function SaveArtifactModal({
       if (result?.response?.type === 'error') {
         toast.error(result.response.message || 'Error actualizando el modelo');
       }
-
+      clearPersistedStore();
       setShowUpdateConfirmation(false);
 
       return toast.success('Modelo actualizado correctamente');
@@ -121,7 +128,7 @@ export default function SaveArtifactModal({
             <>
               <ModalHeader className="flex flex-col gap-1">Guardar</ModalHeader>
               <ModalBody>
-                <SaveArtifactForm />
+                <SaveArtifactForm onSave={handleOnSave} />
               </ModalBody>
               <ModalFooter></ModalFooter>
             </>

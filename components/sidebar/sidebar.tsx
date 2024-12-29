@@ -1,7 +1,7 @@
 'use client';
 
 import { routes } from '@/config/routes';
-import useUserStore from '@/store/userStore';
+import useUserStore from '@/store/user/userStore';
 import { Avatar, Tooltip } from '@nextui-org/react';
 import { usePathname } from 'next/navigation';
 import { BalanceIcon } from '../icons/sidebar/balance-icon';
@@ -9,7 +9,6 @@ import { FilterIcon } from '../icons/sidebar/filter-icon';
 import { HomeIcon } from '../icons/sidebar/home-icon';
 import { PaymentsIcon } from '../icons/sidebar/payments-icon';
 import { ProductsIcon } from '../icons/sidebar/products-icon';
-import { ReportsIcon } from '../icons/sidebar/reports-icon';
 import { SettingsIcon } from '../icons/sidebar/settings-icon';
 import { ViewIcon } from '../icons/sidebar/view-icon';
 import { useSidebarContext } from '../layout/layout-context';

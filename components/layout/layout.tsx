@@ -1,6 +1,6 @@
 'use client';
 
-import useUserStore from '@/store/userStore';
+import useUserStore from '@/store/user/userStore';
 import React from 'react';
 import { useLockedBody } from '../hooks/useBodyLock';
 import { NavbarWrapper } from '../navigation/navbar/navbar';

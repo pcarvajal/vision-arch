@@ -1,7 +1,6 @@
 'use client';
 
-import { routes } from '@/config/routes';
-import useUserStore from '@/store/userStore';
+import useUserStore from '@/store/user/userStore';
 import {
   Button,
   Dropdown,

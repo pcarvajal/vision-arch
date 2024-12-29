@@ -1,8 +1,9 @@
 import ArtifactFlow from '@/components/diagrams/ArtifactFlow';
-import { ArtifactToolbar } from '@/components/diagrams/components/ArtifactToolbar';
+import { SelectNodes } from '@/components/diagrams/components/SelectNodes';
 import { blueprintsFlowTypes } from '@/components/diagrams/NodeFlowsTypes';
+import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
-import { blueprintsArtifactConfig } from '@/config/constants';
+import { blueprintsArtifactConfig as config } from '@/config/constants';
 import { routes } from '@/config/routes';
 import { Card, CardBody } from '@nextui-org/react';
 import { Atom, Focus, HouseIcon } from 'lucide-react';
@@ -32,20 +33,24 @@ export const CreateBlueprintsView = () => {
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <PageBreadcrumb items={breadcrumb} />
-      <div className="flex flex-row justify-between space-x-2">
-        <h3 className="text-xl font-semibold">Espacio de trabajo</h3>
-        <ArtifactToolbar
-          saveArtifactModal={true}
-          selectNodeItems={blueprintsArtifactConfig.presets}
-        />
+      <div className="flex flex-row items-center justify-between">
+        <div>
+          <h3 className="text-xl font-semibold">Espacio de trabajo</h3>
+        </div>
+        <div className="flex flex-row items-center gap-4">
+          <SelectNodes presets={config.presets} />
+          <SaveArtifactModal />
+        </div>
       </div>
       <div className="h-[600px] w-full">
         <Card className="h-full w-full">
           <CardBody className="h-full w-full">
             <ArtifactFlow
-              artifact={blueprintsArtifactConfig}
-              edgeTypes={blueprintsFlowTypes.edgeTypes}
-              nodeTypes={blueprintsFlowTypes.nodeTypes}
+              config={config}
+              types={{
+                nodes: blueprintsFlowTypes.nodeTypes,
+                edges: blueprintsFlowTypes.edgeTypes,
+              }}
             />
           </CardBody>
         </Card>

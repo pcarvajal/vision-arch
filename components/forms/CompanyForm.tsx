@@ -6,7 +6,7 @@ import {
 } from '@/actions/company.actions';
 import { routes } from '@/config/routes';
 import { CompanySchema, companySchema } from '@/libs/validators/company.schema';
-import useUserStore from '@/store/userStore';
+import useUserStore from '@/store/user/userStore';
 import { ICreateCompanyResponse, IGetCompanyResponse } from '@/types/actions';
 import { ICompany } from '@/types/appwrite';
 import { zodResolver } from '@hookform/resolvers/zod';

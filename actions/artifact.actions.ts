@@ -17,6 +17,8 @@ import {
 } from '@/types/actions';
 import { IArtifact, IArtifactModel } from '@/types/appwrite';
 import { ICreateArtifactParams } from '@/types/forms';
+import { m } from 'framer-motion';
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { ID, Query } from 'node-appwrite';
 import { TArtifactType } from '..';
@@ -60,12 +62,13 @@ const saveArtifactAction = async (
       createdBy: account.name,
     };
 
-    await databases.createDocument<IArtifactModel>(
+    const savedItem = await databases.createDocument<IArtifactModel>(
       databaseId!,
       artifactsId!,
       id,
       { ...newArtifact },
     );
+    return { data: mapDocument<IArtifact>(savedItem) };
   } catch (error: any) {
     console.error({ ...UNHANDLED_ERROR, error });
     return {
@@ -73,7 +76,6 @@ const saveArtifactAction = async (
       response: { ...UNHANDLED_ERROR, message: 'Error guardando el artefacto' },
     };
   }
-  redirect(routes.protected.index);
 };
 
 const getArtifactsAction = async (
@@ -193,6 +195,8 @@ const updateArtifactAction = async (
   data: string,
 ): Promise<IActionResponse<IGetArtifactResponse>> => {
   try {
+    console.log('DATA', data);
+
     const artifact = await databases.updateDocument<IArtifactModel>(
       databaseId!,
       artifactsId!,

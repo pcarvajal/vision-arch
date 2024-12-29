@@ -16,9 +16,11 @@ import { generateModel } from '@/actions/ai.actions';
 import { getArtifactByYearProjectionAndType } from '@/actions/artifact.actions';
 import Slider from '@/components/diagrams/components/Slider';
 import ThinkingLoader from '@/components/shared/ThinkingLoader';
-import { IArtifactConfig } from '@/index';
-import useFlowStore, { IFlowStore } from '@/store/flowStore';
-import useUserStore from '@/store/userStore';
+import { yearRange } from '@/config/constants';
+import { IArtifactConfig, IFlow } from '@/index';
+import { flowSelector } from '@/store/flow/flowSelector';
+import useFlowStore from '@/store/flow/flowStore';
+import useUserStore from '@/store/user/userStore';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { useShallow } from 'zustand/react/shallow';
@@ -32,25 +34,6 @@ export interface ArtifactFlowProps {
   slider?: boolean;
   vision?: boolean;
 }
-
-const selector = (state: IFlowStore) => ({
-  nodes: state.nodes,
-  edges: state.edges,
-  setNodes: state.setNodes,
-  setEdges: state.setEdges,
-  setReactFLowInstance: state.setReactFLowInstance,
-  onNodesChange: state.onNodesChange,
-  onEdgesChange: state.onEdgesChange,
-  onConnect: state.onConnect,
-  edgeTypes: state.edgeTypes,
-  nodeTypes: state.nodeTypes,
-  params: state.params,
-  clearPersistedStore: state.clearPersistedStore,
-  reactFlowInstance: state.reactFlowInstance,
-  setEdgeTypes: state.setEdgeTypes,
-  setNodeTypes: state.setNodeTypes,
-  setParams: state.setParams,
-});
 
 export default function ArtifactFlow({
   config,
@@ -69,21 +52,14 @@ export default function ArtifactFlow({
     onNodesChange,
     onEdgesChange,
     onConnect,
-    edgeTypes,
-    nodeTypes,
     params,
     clearPersistedStore,
-    reactFlowInstance,
-    setEdgeTypes,
-    setNodeTypes,
     setParams,
-  } = useFlowStore(useShallow(selector));
+  } = useFlowStore(useShallow(flowSelector));
 
   useEffect(() => {
     clearPersistedStore();
-    if (types.nodes) setNodeTypes(types.nodes);
-    if (types.edges) setEdgeTypes(types.edges);
-    if (config.name) setParams({ type: config.name });
+    if (config.name) setParams({ type: config.name, year: yearRange.default });
     if (instance) setReactFLowInstance(instance);
   }, []);
 
@@ -100,14 +76,16 @@ export default function ArtifactFlow({
         );
       }
 
-      const artifactData = JSON.parse(result?.data?.artifact.data || '{}');
+      const artifactData: IFlow = JSON.parse(
+        result?.data?.artifact.data || '{}',
+      );
 
-      if (artifactData.data.nodes.length === 0) {
+      if (artifactData.nodes.length === 0) {
         return toast.error('No se ha encontrado datos para el artefacto');
       }
 
-      setNodes(artifactData.data.nodes);
-      setEdges(artifactData.data.edges);
+      setNodes(artifactData.nodes);
+      setEdges(artifactData.edges);
 
       return toast.success('Artefacto cargado correctamente');
     }
@@ -165,8 +143,8 @@ export default function ArtifactFlow({
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onInit={setReactFLowInstance}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
+        nodeTypes={types.nodes}
+        edgeTypes={types.edges}
         fitView
       >
         {slider && (

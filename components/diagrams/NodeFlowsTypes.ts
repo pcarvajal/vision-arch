@@ -22,13 +22,10 @@ const goalsFlowTypes = {
 // Togaf
 const blueprintsFlowTypes = {
   nodeTypes: {
-    actorNode: TitleAndIcon,
-    systemNode: Title,
-    processNode: Title,
-    dataNode: Title,
-    infrastructureNode: Title,
-    noteNode: Note,
-    basicNode: TitleAndDescription,
+    titleAndIcon: TitleAndIcon,
+    title: Title,
+    note: Note,
+    titleAndDescription: TitleAndDescription,
   },
   edgeTypes: {
     deleteEdge: DeleteEdge,
@@ -38,14 +35,10 @@ const blueprintsFlowTypes = {
 // CSVLOD
 const policiesFlowTypes = {
   nodeTypes: {
-    policyTypeAreaNode: Note,
-    policyTypeLabelNode: TitleVertical,
-    policyAreaNode: Area,
-    policyTextBlockNode: TextBlock,
-    policyDescriptionAreaNode: Area,
-    policyDescriptionTextBlockNode: TextBlock,
-    textBlockNode: TextBlock,
-    noteNode: Note,
+    note: Note,
+    titleVertical: TitleVertical,
+    area: Area,
+    textBlock: TextBlock,
   },
   edgeTypes: {
     deleteEdge: DeleteEdge,
@@ -54,8 +47,8 @@ const policiesFlowTypes = {
 
 const principlesFlowTypes = {
   nodeTypes: {
-    principleTitleAndItemsNode: TitleAndItems,
-    noteNode: Note,
+    TitleAndItems: TitleAndItems,
+    note: Note,
   },
   edgeTypes: {
     deleteEdge: DeleteEdge,
@@ -64,11 +57,9 @@ const principlesFlowTypes = {
 
 const guidelinesFlowTypes = {
   nodeTypes: {
-    standardAreaNode: Area,
-    guidelineAreaNode: Area,
-    standardTextBlockNode: TextBlock,
-    guidelineTextBlockNode: TextBlock,
-    noteNode: Note,
+    area: Area,
+    textBlock: TextBlock,
+    note: Note,
   },
   edgeTypes: {
     deleteEdge: DeleteEdge,

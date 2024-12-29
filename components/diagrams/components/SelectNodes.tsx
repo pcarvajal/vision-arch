@@ -1,7 +1,7 @@
 'use client';
 
 import { Select } from '@/components/shared/Select';
-import useFlowStore, { AppNode } from '@/store/flowStore';
+import useFlowStore, { AppNode } from '@/store/flow/flowStore';
 import { IBaseCustomData } from '@/types/reactflow';
 
 export interface SelectNodeProps {

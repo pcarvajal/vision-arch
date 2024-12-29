@@ -68,6 +68,8 @@ export const schema = {
                     enum: ['area', 'textBlock'],
                   },
                 },
+                required: ['id'],
+                additionalProperties: false,
               },
               label: {
                 type: 'string',
@@ -95,6 +97,7 @@ export const schema = {
               'color',
               'borderColor',
               'icon',
+              'title',
             ],
             additionalProperties: false,
           },

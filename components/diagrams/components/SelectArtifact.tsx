@@ -6,7 +6,7 @@ import {
 } from '@/actions/artifact.actions';
 import { Select } from '@/components/shared/Select';
 import { IFlow, TArtifactType } from '@/index';
-import useFlowStore from '@/store/flowStore';
+import useFlowStore from '@/store/flow/flowStore';
 import { IArtifact } from '@/types/appwrite';
 import { useEffect, useState } from 'react';
 
@@ -30,18 +30,19 @@ export const SelectArtifact = ({
 
   useEffect(() => {
     async function getArtifacts() {
-      const goals = await getArtifactsAction(artifactName);
-      if (goals.data?.artifacts && goals.data.artifacts.length > 0) {
+      console.log('CHANGE', artifactName);
+      const artifacts = await getArtifactsAction(artifactName);
+      if (artifacts.data?.artifacts && artifacts.data.artifacts.length > 0) {
         setItems(
-          goals.data?.artifacts.map((goal: IArtifact) => ({
-            key: goal.id,
-            label: goal.name,
+          artifacts.data?.artifacts.map((artifact: IArtifact) => ({
+            key: artifact.id,
+            label: artifact.name,
           })),
         );
       }
     }
     getArtifacts();
-  }, []);
+  }, [artifactName]);
 
   const handleSelect = (item: string) => {
     const foundItem = items.find((i) => i.key === item);

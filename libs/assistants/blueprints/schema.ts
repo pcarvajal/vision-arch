@@ -72,6 +72,8 @@ export const schema = {
                     enum: ['title'],
                   },
                 },
+                required: ['id'],
+                additionalProperties: false,
               },
               label: {
                 type: 'string',
@@ -149,7 +151,7 @@ export const schema = {
                 enum: [true],
               },
             },
-            required: ['deleteEdge'],
+            required: ['editLabel'],
             additionalProperties: false,
           },
         },

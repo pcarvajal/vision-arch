@@ -103,6 +103,8 @@ export const schema = {
                     enum: ['titleAndItems'],
                   },
                 },
+                required: ['id'],
+                additionalProperties: false,
               },
               label: {
                 type: 'string',

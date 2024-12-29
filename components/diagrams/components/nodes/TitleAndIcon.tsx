@@ -1,7 +1,6 @@
 'use client';
 
-import { useCustomNodeData } from '@/components/hooks/useCustomNode';
-import useFlowStore from '@/store/flowStore';
+import useFlowStore from '@/store/flow/flowStore';
 import { ITitleIconNodeProps } from '@/types/reactflow';
 import { Card, CardBody, Input } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer } from '@xyflow/react';

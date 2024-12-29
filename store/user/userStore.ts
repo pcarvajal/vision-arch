@@ -1,8 +1,6 @@
-import { IAccountModel, ICompany, IUserModel } from '@/types/appwrite';
-import { Models } from 'node-appwrite';
+import { IAccountModel, ICompany, IUser } from '@/types/appwrite';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { IUser } from '../types/appwrite';
 
 export interface UserStateStore {
   user: IUser | null;

@@ -74,6 +74,8 @@ export const schema = {
                     enum: ['area', 'textBlock', 'title'],
                   },
                 },
+                required: ['id'],
+                additionalProperties: false,
               },
               label: {
                 type: 'string',

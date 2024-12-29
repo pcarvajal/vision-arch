@@ -1,6 +1,6 @@
 'use client';
 
-import useFlowStore from '@/store/flowStore';
+import useFlowStore from '@/store/flow/flowStore';
 import { ITitleNodeProps } from '@/types/reactflow';
 import { Card, CardBody, Input } from '@nextui-org/react';
 import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';

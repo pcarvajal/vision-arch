@@ -1,8 +1,8 @@
 'use client';
 
 import { logoutAction } from '@/actions/auth.action';
-import useFlowStore from '@/store/flowStore';
-import useUserStore from '@/store/userStore';
+import useFlowStore from '@/store/flow/flowStore';
+import useUserStore from '@/store/user/userStore';
 import {
   Avatar,
   Dropdown,
