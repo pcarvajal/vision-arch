@@ -36,6 +36,7 @@ const blueprintsFlowTypes = {
 const policiesFlowTypes = {
   nodeTypes: {
     note: Note,
+    title: Title,
     titleVertical: TitleVertical,
     area: Area,
     textBlock: TextBlock,
@@ -47,7 +48,7 @@ const policiesFlowTypes = {
 
 const principlesFlowTypes = {
   nodeTypes: {
-    TitleAndItems: TitleAndItems,
+    titleAndItems: TitleAndItems,
     note: Note,
   },
   edgeTypes: {

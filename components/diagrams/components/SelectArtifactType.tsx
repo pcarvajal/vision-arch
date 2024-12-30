@@ -25,11 +25,15 @@ export const SelectArtifactType = ({
 }: SelectArtifactProps) => {
   const params = useFlowStore((state) => state.params);
   const setParams = useFlowStore((state) => state.setParams);
+  const setNodes = useFlowStore((state) => state.setNodes);
+  const setEdges = useFlowStore((state) => state.setEdges);
 
   const handleSelect = (item: string) => {
     try {
       const artifactTypeItem = item as TArtifactType;
       setParams({ ...params, type: artifactTypeItem });
+      setNodes([]);
+      setEdges([]);
     } catch (e) {
       toast.error('Error al seleccionar el tipo de artefacto');
     }

@@ -27,8 +27,8 @@ The artifact must be constructed **without edges**, using only nodes. The follow
 
 ### Layout Rules
 1. **Area Nodes**:
-   - \`standardAreaNode\` must appear on the right.
-   - \`guidelineAreaNode\` must appear on the left.
+   - \`standardAreaNode\` must appear on the left.
+   - \`guidelineAreaNode\` must appear on the right.
 2. **Text Block Nodes**:
    - Each \`standardTextBlockNode\` must align horizontally with a corresponding \`guidelineTextBlockNode\`.
 3. **Order of Nodes in JSON**:

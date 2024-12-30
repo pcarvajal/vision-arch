@@ -4,7 +4,6 @@ import { IBaseCustomData } from '@/types/reactflow';
 import { IArtifactConfig } from '..';
 import {
   ArtifactCategoryEnum,
-  ArtifactDimensionEnum,
   ArtifacTypeEnum,
   CustomNodeTypeEnum,
 } from './enum';
@@ -175,14 +174,13 @@ export const policiesNodeData: IBaseCustomData[] = [
   },
   {
     name: 'policyTypeLabelNode',
-    type: { id: CustomNodeTypeEnum.title },
+    type: { id: CustomNodeTypeEnum.titleVertical },
     label: 'Bloque tipo de política',
     icon: 'text',
   },
   {
     name: 'policyTextBlockNode',
     type: { id: CustomNodeTypeEnum.textBlock },
-    customNode: CustomNodeTypeEnum.textBlock,
     label: 'Bloque titulo de política',
     icon: 'text',
   },

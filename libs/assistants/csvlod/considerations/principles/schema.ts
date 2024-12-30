@@ -61,7 +61,7 @@ export const schema = {
               },
               title: {
                 type: 'string',
-                description: 'The title of the principle.',
+                description: 'The title of the node.',
               },
               titlePlaceholder: {
                 type: 'string',
@@ -69,7 +69,7 @@ export const schema = {
               },
               description: {
                 type: 'string',
-                description: 'Description of the principle.',
+                description: 'Description of the node.',
               },
               descriptionPlaceholder: {
                 type: 'string',
@@ -77,7 +77,7 @@ export const schema = {
               },
               items: {
                 type: 'array',
-                description: 'List of items related to the principle.',
+                description: 'List of items related to the node.',
                 items: {
                   type: 'object',
                   properties: {

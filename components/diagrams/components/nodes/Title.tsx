@@ -3,7 +3,7 @@
 import useFlowStore from '@/store/flow/flowStore';
 import { ITitleNodeProps } from '@/types/reactflow';
 import { Card, CardBody, Input } from '@nextui-org/react';
-import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
+import { Node, NodeProps, NodeResizer } from '@xyflow/react';
 import { CircleX } from 'lucide-react';
 import { useState } from 'react';
 import { LeftRightHandle } from '../handles/LeftRightHandle';

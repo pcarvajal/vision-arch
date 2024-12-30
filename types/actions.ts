@@ -1,4 +1,3 @@
-import { accounts } from '../libs/backend/accounts';
 import {
   IAccountModel,
   IArtifact,

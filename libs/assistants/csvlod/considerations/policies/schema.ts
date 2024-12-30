@@ -14,7 +14,7 @@ export const schema = {
           type: {
             type: 'string',
             description: 'The type of the node.',
-            enum: ['area', 'title', 'textBlock'],
+            enum: ['area', 'textBlock', 'titleVertical'],
           },
           position: {
             type: 'object',
@@ -54,24 +54,31 @@ export const schema = {
             properties: {
               name: {
                 type: 'string',
-                description: 'The type of the policy node.',
+                description: 'The type of node.',
+                enum: [
+                  'policyTypeAreaNode',
+                  'policyAreaNode',
+                  'policyDescriptionAreaNode',
+                  'policyTypeLabelNode',
+                  'policyTextBlockNode',
+                  'policyDescriptionTextBlockNode',
+                ],
               },
               title: {
                 type: 'string',
-                description: 'Title of the policy',
+                description: 'Title of the node.',
               },
               titlePlaceholder: {
                 type: 'string',
-                description:
-                  'Placeholder text for the title, used in title nodes.',
+                description: 'Placeholder text for the title of the node.',
               },
               textBlock: {
                 type: 'string',
-                description: 'Text content for text block nodes.',
+                description: 'Text content for node.',
               },
               textBlockPlaceholder: {
                 type: 'string',
-                description: 'Placeholder text for the text block.',
+                description: 'Placeholder text for node.',
               },
               type: {
                 type: 'object',
@@ -79,7 +86,7 @@ export const schema = {
                 properties: {
                   id: {
                     type: 'string',
-                    enum: ['area', 'textBlock', 'title'],
+                    enum: ['area', 'textBlock', 'titleVertical'],
                   },
                 },
                 required: ['id'],
@@ -123,20 +130,47 @@ export const schema = {
     },
     edges: {
       type: 'array',
-      description: 'A collection of edges connecting the nodes.',
+      description: 'An array of edges connecting nodes in the graph.',
       items: {
         type: 'object',
         properties: {
+          id: {
+            type: 'string',
+            description: 'Unique identifier for the edge.',
+          },
           source: {
             type: 'string',
-            description: 'Unique identifier for the source node.',
+            description: 'The ID of the source node.',
           },
           target: {
             type: 'string',
-            description: 'Unique identifier for the target node.',
+            description: 'The ID of the target node.',
+          },
+          animated: {
+            type: 'boolean',
+            description: 'Indicates whether the edge is animated.',
+            enum: [true],
+          },
+          type: {
+            type: 'string',
+            description: 'The type of the edge.',
+            enum: ['deleteEdge'],
+          },
+          data: {
+            type: 'object',
+            description: 'Additional data associated with the edge.',
+            properties: {
+              editLabel: {
+                type: 'boolean',
+                description: 'If label is editable.',
+                enum: [false],
+              },
+            },
+            required: ['editLabel'],
+            additionalProperties: false,
           },
         },
-        required: ['source', 'target'],
+        required: ['id', 'source', 'target', 'animated', 'type', 'data'],
         additionalProperties: false,
       },
     },

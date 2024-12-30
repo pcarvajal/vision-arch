@@ -11,7 +11,7 @@ Your goal is to create a clear and accurate layout for an Enterprise Architectur
 # Output Format
 Provide the output as a structured JSON with the following keys:
 - \`nodes\`: An array of node objects detailing each flow component.
-  - Each node should contain properties like \`id\`, \`type\`, \`data\` and \`position\` (including key information).
+  - Each node should contain properties like \`id\`, \`type\`, \`style\`, \`data\` and \`position\` (including key information).
 - \`edges\`: An array of edge objects that specify connections between nodes.
   - Each edge should include \`id\`, \`source\`, \`target\`, and \`type\` to describe the relationship.
 

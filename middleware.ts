@@ -55,7 +55,7 @@ export async function middleware(request: NextRequest) {
       }
     }
 
-    return NextResponse.next(); // Permite el acceso si está logueado
+    return NextResponse.next();
   }
 
   if (isPublicRoute) {

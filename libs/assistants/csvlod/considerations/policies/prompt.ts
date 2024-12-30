@@ -10,27 +10,28 @@ Here is the initial data:
 What I need:
 1. **Key Solution Components**:
   - Area Nodes:
-    - policyTypeAreaNode: A container node representing the type of policies (e.g., "HR Policies," "IT Policies").
+    - policyTypeAreaNode: A container node representing the type of policies, "Internal" or "External".
       - Contains: policyTypeLabelNode.
     - policyAreaNode: A container node representing individual policies.
       - Contains: policyTextBlockNode.
     - policyDescriptionAreaNode: A container node providing detailed descriptions.
       - Contains: policyDescriptionTextBlockNode.
   - Text Block Nodes:
-    - policyTypeLabelNode: Represents the label or category of a policy type (e.g., "Compliance," "Security").
+    - policyTypeLabelNode: Represents the label or category of a policy type, "Internal" or "External" exclusively in the "title" inside the node "data" object.
     - policyTextBlockNode: Represents the main text or content of a policy.
     - policyDescriptionTextBlockNode: Represents a detailed description of a specific policy.
 2. **Hierarchy and Modularity**:
   - Use area nodes to group related policy components.
   - Define text block nodes for granular policy details.
   - Maintain a clear parent-child relationship among nodes.
+  - A policy type can have several policies, each with its description.
+  - Each policy should have a detailed description.
 3. **Generate a JSON for React Flow 12**:
     - Include nodes for the identified key components.
     - This is the relationship of component type to node type of react flow 12:
          - Policy Type Area: "area".
             - The data of the node must be:
               - name: 'policyTypeAreaNode'
-              - customNode: 'area'
               - label: 'Área tipo de política'
               - color: '#0ea5e9'
               - borderColor: '#0c4a6e'
@@ -38,7 +39,6 @@ What I need:
          - Policy Area: "area".
             - The data of the node must be:
               - name: 'policyAreaNode'
-              - customNode: 'area'
               - label: 'Área política'
               - color: '#eab308'
               - borderColor: '#713f12'
@@ -46,36 +46,35 @@ What I need:
          - Policy Description Area: "area".
             - The data of the node must be:
               - name: 'policyDescriptionAreaNode'
-              - customNode: 'area'
               - label: 'Área descripción de la política'
               - color: '#a855f7'
               - borderColor: '#581c87'
               - icon: 'scan'
-         - Policy Type Label: "title".
+         - Policy Type Label: "titleVertical".
             - The data of the node must be:
               - name: 'policyTypeLabelNode',
-              - customNode: 'title'
               - label: 'Bloque tipo de política'
               - icon: 'text'
         - Policy Text Block: "textBlock".
             - The data of the node must be:
               - type: 'policyTextBlockNode'
-              - customNode: 'textBlock'
               - label: 'Bloque titulo de política'
               - icon: 'text'
         - Policy Description Text Block: "textBlock".
             - The data of the node must be:
               - name: 'policyDescriptionTextBlockNode'
-              - customNode: 'textBlock'
               - label: 'Bloque descripción de política'
               - icon: 'text'
          - Relationships: "deleteEdge".
             -   The data of the node must be:
                 -   name: 'deleteEdge',
 4. **Layout and Styling**:
-    - The "area" nodes act as **parents** for "textBlock" and "title" nodes.
-    - The "area" nodes must be tall and wide enough to contain their children
-    - The "area" nodes must contain multiple childrens.
+    - Nodes of type "area" must be of the same height.
+    - The "area" type nodes should be aligned from left to right, starting with the policy type area, then policy, and finally policy description like horizontal.
+    - The child nodes must be aligned in each area with each other, so that the link between them can be inferred.
+    - The "area" type nodes act as **parents** for "textBlock" and "title" nodes.
+    - The "area" type nodes must be tall and wide enough to contain their children
+    - The "area" type nodes must contain multiple childrens.
     - The nodes must appear in the JSON schema in the following order:
       - Area nodes first.
       - Text block nodes second.
