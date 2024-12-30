@@ -7,173 +7,141 @@ import {
   MiniMap,
   Panel,
   ReactFlow,
+  useReactFlow,
   type EdgeTypes,
   type NodeTypes,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { generateModel } from '@/actions/ai.actions';
 import { getArtifactByYearProjectionAndType } from '@/actions/artifact.actions';
-import YearsSlider from '@/components/diagrams/components/YearsSlider';
-import ThinkingLoader from '@/components/shared/ThinkingLoader';
-import useArtifactFlowStore from '@/store/artifactFlowStore';
-import useUserStore from '@/store/userStore';
-import { ArtifactProps } from '@/types';
-import { useEffect, useMemo } from 'react';
+import Slider from '@/components/diagrams/components/Slider';
+import { yearRange } from '@/config/constants';
+import { IArtifactConfig, IFlow } from '@/index';
+import { flowSelector } from '@/store/flow/flowSelector';
+import useFlowStore from '@/store/flow/flowStore';
+import useUserStore from '@/store/user/userStore';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
-import { useFlow } from '../hooks/useFlow';
+import { useShallow } from 'zustand/react/shallow';
+import Loader from '../layout/Loader';
 
-interface ArtifactFlowProps<T> {
-  artifact: ArtifactProps;
-  nodeTypes?: NodeTypes;
-  edgeTypes?: EdgeTypes;
-  yearSlider?: boolean;
-  visualize?: boolean;
+export interface ArtifactFlowProps {
+  config: IArtifactConfig;
+  types: {
+    nodes?: NodeTypes;
+    edges?: EdgeTypes;
+  };
+  slider?: boolean;
+  vision?: boolean;
 }
 
-export default function ArtifactFlow<T>({
-  artifact,
-  nodeTypes,
-  edgeTypes,
-  yearSlider = true,
-  visualize = false,
-}: ArtifactFlowProps<T>) {
-  const loading = useUserStore((state) => state.loading);
-  const setLoading = useUserStore((state) => state.setLoading);
-  const company = useUserStore((state) => state.company);
-  const setArtifactFlow = useArtifactFlowStore(
-    (state) => state.setArtifactFlow,
-  );
-  const deleteArtifactFlow = useArtifactFlowStore(
-    (state) => state.deleteArtifactFlow,
-  );
-
+export default function ArtifactFlow({
+  config,
+  types,
+  slider = true,
+  vision = false,
+}: ArtifactFlowProps) {
+  const instance = useReactFlow();
+  const { company, loading, setLoading } = useUserStore();
   const {
-    artifactSelected,
-    setYear,
-    year,
     nodes,
     edges,
-    viewport,
     setNodes,
     setEdges,
-    setArtifactSelected,
-    type,
-    onConnect,
+    setReactFLowInstance,
     onNodesChange,
     onEdgesChange,
-    setReactFLowInstance,
-  } = useFlow(artifact);
+    onConnect,
+    params,
+    clearPersistedStore,
+    setParams,
+  } = useFlowStore(useShallow(flowSelector));
+
+  useEffect(() => {
+    clearPersistedStore();
+    if (config.name) setParams({ type: config.name, year: yearRange.default });
+    if (instance) setReactFLowInstance(instance);
+  }, []);
 
   const handleVisualizeArtifact = async (year: number) => {
+    setLoading(true);
     if (year) {
-      console.log('request', { year, artifact: artifact.type });
       const result = await getArtifactByYearProjectionAndType(
         year,
-        artifact.type,
+        config.name,
       );
 
-      console.log('response', result);
-
-      if (result?.type === 'error') {
-        return toast.error(result?.message || 'Error obteniendo el artefacto');
-      }
-
-      if (result.length > 1) {
+      if (result?.response?.type === 'error') {
+        clearPersistedStore();
+        setLoading(false);
         return toast.error(
-          'Mas de un artefacto encontrado para este año, revisa tus datos',
+          result?.response.message || 'Error obteniendo el artefacto',
         );
       }
 
-      if (result.length === 0) {
-        return toast.error('No se ha encontrado el artefacto para este año');
+      const artifactData: IFlow = JSON.parse(
+        result?.data?.artifact.data || '{}',
+      );
+
+      if (artifactData.nodes.length === 0) {
+        setLoading(false);
+        clearPersistedStore();
+        return toast.error('No se ha encontrado datos para el artefacto');
       }
 
-      const artifactData = JSON.parse(result[0].data);
-
-      console.log('target', artifactData);
-      setNodes(artifactData.data.nodes);
-      setEdges(artifactData.data.edges);
-      viewport.x = artifactData.data.viewport.x;
-      viewport.y = artifactData.data.viewport.y;
-      viewport.zoom = artifactData.data.viewport.zoom;
-
+      setNodes(artifactData.nodes);
+      setEdges(artifactData.edges);
+      setLoading(false);
       return toast.success('Artefacto cargado correctamente');
     }
+    setLoading(false);
+    clearPersistedStore();
     return toast.error('No se ha encontrado el artefacto para este año');
   };
 
   const onSelectYear = async (year: number) => {
-    setLoading(true);
-    setYear(year);
-
-    if (visualize) {
-      handleVisualizeArtifact(year);
+    if (vision) {
+      await handleVisualizeArtifact(year);
       setLoading(false);
       return;
     }
+
+    setLoading(true);
 
     if (!company?.id) {
       setLoading(false);
       return toast.error('No se ha encontrado la empresa');
     }
 
-    if (!artifactSelected) {
+    if (!params?.type) {
       setLoading(false);
       return toast.error('No se ha seleccionado un tipo de artefacto');
     }
-    setYear(year);
 
     const result = await generateModel({
-      companyId: company.id,
+      companyId: company?.id!,
       year,
-      type: artifactSelected,
+      type: params.type,
     });
 
-    if (result?.type === 'error') {
+    if (result?.response?.type === 'error' || !result.data) {
       setLoading(false);
-      return toast.error(result?.message || 'Error generando el modelo');
+      return toast.error(
+        result?.response?.message || 'Error generando el modelo',
+      );
     }
 
-    const jsonResponse = JSON.parse(result);
+    const jsonResponse = JSON.parse(result.data.model);
 
     setNodes(jsonResponse.nodes);
     setEdges(jsonResponse.edges);
-
+    setParams({ ...params, year });
     setLoading(false);
   };
 
-  useEffect(() => {
-    setArtifactFlow({
-      id: artifact.id,
-      year,
-      data: { nodes, edges, viewport },
-      type: artifactSelected,
-    });
-
-    return () => {
-      deleteArtifactFlow();
-    };
-  }, [nodes, edges, viewport]);
-
-  useEffect(() => {
-    setArtifactSelected(type);
-    return () => {
-      setNodes([]);
-      setEdges([]);
-      deleteArtifactFlow();
-    };
-  }, [type]);
-
-  const flowNodetypes = useMemo(
-    () => ({
-      nodeTypes,
-    }),
-    [nodeTypes],
-  );
-
   return (
     <>
-      <ThinkingLoader show={loading} />
+      <Loader show={loading} />
       <ReactFlow
         className="h-full w-full"
         nodes={nodes}
@@ -182,16 +150,13 @@ export default function ArtifactFlow<T>({
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onInit={setReactFLowInstance}
-        nodeTypes={flowNodetypes.nodeTypes}
-        edgeTypes={edgeTypes}
+        nodeTypes={types.nodes}
+        edgeTypes={types.edges}
+        fitView
       >
-        {yearSlider && (
+        {slider && (
           <Panel position="top-left" className="min-w-[300px] gap-4">
-            <YearsSlider
-              label="Proyección"
-              step={1}
-              onChangeEnd={onSelectYear}
-            />
+            <Slider label="Proyección" step={1} onChangeEnd={onSelectYear} />
           </Panel>
         )}
         <Controls />

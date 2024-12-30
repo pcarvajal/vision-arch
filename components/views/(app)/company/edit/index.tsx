@@ -1,8 +1,8 @@
+import { getCompanyAction } from '@/actions/company.actions';
 import CompanyForm from '@/components/forms/CompanyForm';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import PageTitle from '@/components/pages/PageTitle';
 import { routes } from '@/config/routes';
-import { Company } from '@/types/types';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
 import { Building2, HouseIcon } from 'lucide-react';
 
@@ -20,16 +20,20 @@ const companyBreadcrumb = [
 ];
 
 interface CompanyEditViewProps {
-  company: Company;
+  id?: string;
 }
 
-export const CompanyEditView = ({ company }: CompanyEditViewProps) => {
+export const CompanyEditView = async ({ id }: CompanyEditViewProps) => {
+  let result = null;
+  if (id !== undefined && id !== null) {
+    result = await getCompanyAction(id);
+  }
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <PageBreadcrumb items={companyBreadcrumb} />
       <PageTitle title="Editar | Compañia" />
       <div className="mx-auto">
-        <Card className="flex max-w-[1024px]">
+        <Card className="flex max-w-screen-lg">
           <CardHeader className="flex flex-col items-start px-8 pt-10">
             <h4 className="text-large font-bold">Formulario de compañia</h4>
             <small className="text-default-500">
@@ -37,7 +41,7 @@ export const CompanyEditView = ({ company }: CompanyEditViewProps) => {
             </small>
           </CardHeader>
           <CardBody>
-            <CompanyForm initialValues={company} />
+            <CompanyForm initialValues={result?.data?.company || undefined} />
           </CardBody>
         </Card>
       </div>

@@ -1,44 +1,41 @@
 'use client';
 
-import { useCustomNodeData } from '@/components/hooks/useCustomNode';
-import { TitleDescriptionNodeProps } from '@/types';
+import useFlowStore from '@/store/flow/flowStore';
+import { ITitleDescriptionNodeProps } from '@/types/reactflow';
 import { Card, CardBody, Input, Textarea } from '@nextui-org/react';
-import {
-  Handle,
-  Node,
-  NodeProps,
-  NodeResizer,
-  Position,
-  useReactFlow,
-} from '@xyflow/react';
+import { Node, NodeProps, NodeResizer } from '@xyflow/react';
 import { CircleX } from 'lucide-react';
 import { useState } from 'react';
+import { LeftRightHandle } from '../handles/LeftRightHandle';
 
-type TitleDescriptionNodeData = Node<TitleDescriptionNodeProps>;
+type TitleDescriptionNodeData = Node<ITitleDescriptionNodeProps>;
 
-export const TitleDescriptionNode = (
+export const TitleAndDescription = (
   props: NodeProps<TitleDescriptionNodeData>,
 ) => {
+  const { updateNode, removeNode } = useFlowStore((state) => state);
   const [isTitleFocused, setIsTitleFocused] = useState(false);
   const [isDescriptionFocused, setIsDescriptionFocused] = useState(false);
 
   const {
-    nodeData,
-    setNodeData,
-    removeNode,
-    borderColor,
     height,
     width,
-    setWidth,
-    setHeight,
-  } = useCustomNodeData<TitleDescriptionNodeProps>(props);
+    id,
+    data: {
+      description,
+      title,
+      borderColor,
+      titlePlaceholder,
+      descriptionPlaceholder,
+    },
+  } = props;
 
   const onChangeTitle = (value: string) => {
-    setNodeData({ ...nodeData, title: value });
+    updateNode(id, { title: value });
   };
 
   const onChangeDescription = (value: string) => {
-    setNodeData({ ...nodeData, description: value });
+    updateNode(id, { description: value });
   };
 
   return (
@@ -58,10 +55,10 @@ export const TitleDescriptionNode = (
         }}
         minWidth={210}
         minHeight={180}
-        onResize={(e, size) => {
+        /*         onResize={(e, size) => {
           setWidth(size.width);
           setHeight(size.height);
-        }}
+        }} */
       />
       <Card
         isHoverable={true}
@@ -75,7 +72,7 @@ export const TitleDescriptionNode = (
         <CardBody className="flex w-full flex-col">
           <div className="flex flex-col gap-2">
             <div className="flex w-full text-center">
-              {!isTitleFocused && nodeData.title && (
+              {!isTitleFocused && title && (
                 <h4
                   className="w-full cursor-text scroll-m-20 break-words text-xl font-semibold tracking-tight"
                   onClick={() => {
@@ -83,13 +80,13 @@ export const TitleDescriptionNode = (
                     setIsDescriptionFocused(false);
                   }}
                 >
-                  {nodeData.title}
+                  {title}
                 </h4>
               )}
-              {(isTitleFocused || !nodeData.title) && (
+              {(isTitleFocused || !title) && (
                 <Input
-                  value={nodeData.title}
-                  placeholder="Nueva característica"
+                  value={title}
+                  placeholder={titlePlaceholder}
                   onFocus={() => setIsTitleFocused(true)}
                   onBlur={() => setIsTitleFocused(false)}
                   onChange={(e) => onChangeTitle(e.target.value)}
@@ -97,7 +94,7 @@ export const TitleDescriptionNode = (
               )}
             </div>
             <div className="flex w-full text-center">
-              {!isDescriptionFocused && nodeData.description && (
+              {!isDescriptionFocused && description && (
                 <p
                   className="text-muted-foreground w-full cursor-text break-words text-sm text-zinc-500"
                   onClick={() => {
@@ -105,13 +102,13 @@ export const TitleDescriptionNode = (
                     setIsTitleFocused(false);
                   }}
                 >
-                  {nodeData.description}
+                  {description}
                 </p>
               )}
-              {(isDescriptionFocused || !nodeData.description) && (
+              {(isDescriptionFocused || !description) && (
                 <Textarea
-                  value={nodeData.description}
-                  placeholder="Descripción ..."
+                  value={description}
+                  placeholder={descriptionPlaceholder}
                   onFocus={() => setIsDescriptionFocused(true)}
                   onBlur={() => setIsDescriptionFocused(false)}
                   onChange={(e) => onChangeDescription(e.target.value)}
@@ -122,13 +119,12 @@ export const TitleDescriptionNode = (
           <div className="mt-auto flex justify-center">
             <CircleX
               className="mt-2 h-full cursor-pointer text-red-600"
-              onClick={removeNode}
+              onClick={() => removeNode(id)}
             />
           </div>
         </CardBody>
       </Card>
-      <Handle type="source" position={Position.Right} />
-      <Handle type="target" position={Position.Left} />
+      <LeftRightHandle />
     </div>
   );
 };

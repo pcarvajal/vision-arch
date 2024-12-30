@@ -6,51 +6,62 @@ import {
 } from '@/actions/company.actions';
 import { routes } from '@/config/routes';
 import { CompanySchema, companySchema } from '@/libs/validators/company.schema';
-import useUserStore from '@/store/userStore';
+import useUserStore from '@/store/user/userStore';
+import { ICreateCompanyResponse, IGetCompanyResponse } from '@/types/actions';
+import { ICompany } from '@/types/appwrite';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
+import { IActionResponse } from '../../types/actions';
 import Loader from '../layout/Loader';
 
-interface CompanyInitialValues {
-  id?: string;
-  name: string;
-  mission: string;
-  vision: string;
-  objetives: string;
-  description: string;
-}
-
 interface CompanyFormProps {
-  initialValues?: CompanyInitialValues;
-  companyName?: string;
+  initialValues?: ICompany;
 }
 
-const CompanyForm = ({ initialValues, companyName }: CompanyFormProps) => {
-  const [loading, setLoading] = useState(false);
-
-  const updateCompany = useUserStore((state) => state.updateCompany);
+const CompanyForm = ({ initialValues }: CompanyFormProps) => {
   const router = useRouter();
+  const companyName = useUserStore((state) => state?.company?.name);
+  const loading = useUserStore((state) => state.loading);
+  const setLoading = useUserStore((state) => state.setLoading);
+  const setCompany = useUserStore((state) => state.setCompany);
+  const setUser = useUserStore((state) => state.setUser);
 
   const onSubmit = async (data: CompanySchema) => {
     setLoading(true);
-    let result;
+    let result:
+      | IActionResponse<IGetCompanyResponse>
+      | IActionResponse<ICreateCompanyResponse>;
 
     if (initialValues) {
       result = await updateCompanyAction(data);
+
+      if (result?.response?.type === 'error' || !result?.data) {
+        setLoading(false);
+        return toast.error(result?.response?.message || 'Ha ocurrido un error');
+      }
     } else {
       result = await saveCompanyAction(data);
+
+      if (result?.response?.type === 'error' || !result?.data) {
+        setLoading(false);
+        return toast.error(result?.response?.message || 'Ha ocurrido un error');
+      }
     }
 
-    if (result?.type === 'error') {
-      setLoading(false);
-      return toast.error(result.message);
+    if (result.data.company.id) {
+      setCompany({
+        ...result.data.company,
+      });
     }
 
-    updateCompany({ ...result });
+    if ('user' in result.data && result.data.user.id) {
+      setUser({
+        ...result.data.user,
+      });
+    }
 
     setLoading(false);
     router.push(routes.protected.index);

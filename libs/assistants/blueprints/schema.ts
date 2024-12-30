@@ -14,13 +14,23 @@ export const schema = {
           type: {
             type: 'string',
             description: 'The type of the node.',
-            enum: [
-              'actorNode',
-              'systemNode',
-              'processNode',
-              'dataNode',
-              'infrastructureNode',
-            ],
+            enum: ['title'],
+          },
+          style: {
+            type: 'object',
+            description: 'Style of the node.',
+            properties: {
+              width: {
+                type: 'number',
+                description: 'Width of the node.',
+              },
+              height: {
+                type: 'number',
+                description: 'Height of the node.',
+              },
+            },
+            required: ['width', 'height'],
+            additionalProperties: false,
           },
           position: {
             type: 'object',
@@ -41,7 +51,7 @@ export const schema = {
           data: {
             type: 'object',
             properties: {
-              type: {
+              name: {
                 type: 'string',
                 enum: [
                   'actorNode',
@@ -49,26 +59,29 @@ export const schema = {
                   'processNode',
                   'dataNode',
                   'infrastructureNode',
+                  'noteNode',
+                  'basicNode',
                 ],
               },
-              nodeData: {
+              title: {
+                type: 'string',
+                description: 'Title of the node.',
+              },
+              titlePlaceholder: {
+                type: 'string',
+                description: 'Placeholder for the title.',
+              },
+              type: {
                 type: 'object',
+                description: 'The custom type of the node.',
                 properties: {
-                  title: {
+                  id: {
                     type: 'string',
-                    description: 'Title of the node.',
-                  },
-                  titlePlaceholder: {
-                    type: 'string',
-                    description: 'Placeholder for the title.',
+                    enum: ['title'],
                   },
                 },
-                required: ['titlePlaceholder', 'title'],
+                required: ['id'],
                 additionalProperties: false,
-              },
-              nodeBaseType: {
-                type: 'string',
-                enum: ['BaseNodeTypeEnum.TITLE_ICON', 'BaseNodeTypeEnum.TITLE'],
               },
               label: {
                 type: 'string',
@@ -82,32 +95,30 @@ export const schema = {
               icon: {
                 type: 'string',
               },
+              figure: {
+                type: 'string',
+                description: 'Icon name of Lucide Icons, in kebab case',
+              },
               iconColor: {
                 type: 'string',
               },
-              width: {
-                type: 'number',
-              },
-              height: {
-                type: 'number',
-              },
             },
             required: [
+              'name',
+              'title',
+              'titlePlaceholder',
               'type',
-              'nodeData',
-              'nodeBaseType',
               'label',
               'color',
               'backgroundColor',
               'icon',
+              'figure',
               'iconColor',
-              'width',
-              'height',
             ],
             additionalProperties: false,
           },
         },
-        required: ['id', 'type', 'position', 'data'],
+        required: ['id', 'type', 'position', 'data', 'style'],
         additionalProperties: false,
       },
     },

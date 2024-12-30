@@ -14,6 +14,7 @@ export const schema = {
           type: {
             type: 'string',
             description: 'The type of the node.',
+            enum: ['area', 'textBlock', 'titleVertical'],
           },
           position: {
             type: 'object',
@@ -31,53 +32,10 @@ export const schema = {
             required: ['x', 'y'],
             additionalProperties: false,
           },
-          data: {
+          style: {
             type: 'object',
-            description: 'Representation of a policy node.',
+            description: 'Style of the node.',
             properties: {
-              type: {
-                type: 'string',
-                description: 'The type of the policy node.',
-              },
-              nodeData: {
-                type: 'object',
-                description: 'Data specific to the policy node.',
-                properties: {
-                  title: {
-                    type: 'string',
-                    description: 'Title of the policy',
-                  },
-                  titlePlaceholder: {
-                    type: 'string',
-                    description:
-                      'Placeholder text for the title, used in title nodes.',
-                  },
-                  textBlock: {
-                    type: 'string',
-                    description: 'Text content for text block nodes.',
-                  },
-                  textBlockPlaceholder: {
-                    type: 'string',
-                    description: 'Placeholder text for the text block.',
-                  },
-                },
-                required: [
-                  'title',
-                  'titlePlaceholder',
-                  'textBlock',
-                  'textBlockPlaceholder',
-                ],
-                additionalProperties: false,
-              },
-              nodeBaseType: {
-                type: 'string',
-                description:
-                  'The base type of the node, indicating structural category.',
-              },
-              label: {
-                type: 'string',
-                description: 'Label associated with the node.',
-              },
               width: {
                 type: 'number',
                 description: 'Width of the node.',
@@ -85,6 +43,58 @@ export const schema = {
               height: {
                 type: 'number',
                 description: 'Height of the node.',
+              },
+            },
+            required: ['width', 'height'],
+            additionalProperties: false,
+          },
+          data: {
+            type: 'object',
+            description: 'Representation of a policy node.',
+            properties: {
+              name: {
+                type: 'string',
+                description: 'The type of node.',
+                enum: [
+                  'policyTypeAreaNode',
+                  'policyAreaNode',
+                  'policyDescriptionAreaNode',
+                  'policyTypeLabelNode',
+                  'policyTextBlockNode',
+                  'policyDescriptionTextBlockNode',
+                ],
+              },
+              title: {
+                type: 'string',
+                description: 'Title of the node.',
+              },
+              titlePlaceholder: {
+                type: 'string',
+                description: 'Placeholder text for the title of the node.',
+              },
+              textBlock: {
+                type: 'string',
+                description: 'Text content for node.',
+              },
+              textBlockPlaceholder: {
+                type: 'string',
+                description: 'Placeholder text for node.',
+              },
+              type: {
+                type: 'object',
+                description: 'The custom type of the node.',
+                properties: {
+                  id: {
+                    type: 'string',
+                    enum: ['area', 'textBlock', 'titleVertical'],
+                  },
+                },
+                required: ['id'],
+                additionalProperties: false,
+              },
+              label: {
+                type: 'string',
+                description: 'Label associated with the node.',
               },
               color: {
                 type: 'string',
@@ -94,58 +104,73 @@ export const schema = {
                 type: 'string',
                 description: 'Border color of the node.',
               },
-              zIndex: {
-                anyOf: [
-                  {
-                    type: 'number',
-                    description: 'Z-index for stacking order.',
-                  },
-                  {
-                    type: 'null',
-                    description: 'Indicates no specific z-index.',
-                  },
-                ],
-              },
               icon: {
                 type: 'string',
                 description: 'Icon representation for the node.',
               },
             },
             required: [
+              'name',
+              'title',
+              'titlePlaceholder',
+              'textBlock',
+              'textBlockPlaceholder',
               'type',
-              'nodeData',
-              'nodeBaseType',
               'label',
-              'width',
-              'height',
               'color',
               'borderColor',
-              'zIndex',
               'icon',
             ],
             additionalProperties: false,
           },
         },
-        required: ['id', 'type', 'position', 'data'],
+        required: ['id', 'type', 'position', 'data', 'style'],
         additionalProperties: false,
       },
     },
     edges: {
       type: 'array',
-      description: 'A collection of edges connecting the nodes.',
+      description: 'An array of edges connecting nodes in the graph.',
       items: {
         type: 'object',
         properties: {
+          id: {
+            type: 'string',
+            description: 'Unique identifier for the edge.',
+          },
           source: {
             type: 'string',
-            description: 'Unique identifier for the source node.',
+            description: 'The ID of the source node.',
           },
           target: {
             type: 'string',
-            description: 'Unique identifier for the target node.',
+            description: 'The ID of the target node.',
+          },
+          animated: {
+            type: 'boolean',
+            description: 'Indicates whether the edge is animated.',
+            enum: [true],
+          },
+          type: {
+            type: 'string',
+            description: 'The type of the edge.',
+            enum: ['deleteEdge'],
+          },
+          data: {
+            type: 'object',
+            description: 'Additional data associated with the edge.',
+            properties: {
+              editLabel: {
+                type: 'boolean',
+                description: 'If label is editable.',
+                enum: [false],
+              },
+            },
+            required: ['editLabel'],
+            additionalProperties: false,
           },
         },
-        required: ['source', 'target'],
+        required: ['id', 'source', 'target', 'animated', 'type', 'data'],
         additionalProperties: false,
       },
     },

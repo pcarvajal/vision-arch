@@ -1,8 +1,9 @@
 'use client';
 
+import useUserStore from '@/store/userStore';
 import { Accordion, AccordionItem } from '@nextui-org/react';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React from 'react';
 import { ChevronDownIcon } from '../icons/sidebar/chevron-down-icon';
 
 interface item {
@@ -17,8 +18,6 @@ interface Props {
 }
 
 export const CollapseItems = ({ icon, items, title }: Props) => {
-  const [open, setOpen] = useState(false);
-
   return (
     <div className="flex h-full cursor-pointer items-center gap-4">
       <Accordion className="px-0">

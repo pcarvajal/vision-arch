@@ -1,14 +1,13 @@
-'use client';
-
+import React from 'react';
 import Chart, { Props } from 'react-apexcharts';
 
 const state: Props['series'] = [
   {
-    name: '2023',
+    name: 'Series1',
     data: [31, 40, 28, 51, 42, 109, 100],
   },
   {
-    name: '2024',
+    name: 'Series2',
     data: [11, 32, 45, 32, 34, 52, 41],
   },
 ];
@@ -33,21 +32,9 @@ const options: Props['options'] = {
       show: false,
     },
   },
+
   xaxis: {
-    categories: [
-      'Enero',
-      'Febrero',
-      'Marzo',
-      'Abril',
-      'Mayo',
-      'Junio',
-      'Julio',
-      'Agosto',
-      'Septiembre',
-      'Octubre',
-      'Noviembre',
-      'Diciembre',
-    ],
+    categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
     labels: {
       // show: false,
       style: {
@@ -88,7 +75,7 @@ const options: Props['options'] = {
   markers: false,
 };
 
-const Steam = () => {
+export const Steam = () => {
   return (
     <>
       <div className="z-20 w-full">
@@ -99,5 +86,3 @@ const Steam = () => {
     </>
   );
 };
-
-export default Steam;

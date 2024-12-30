@@ -14,6 +14,7 @@ export const schema = {
           type: {
             type: 'string',
             description: 'The type of the node.',
+            enum: ['titleAndItems'],
           },
           position: {
             type: 'object',
@@ -31,77 +32,10 @@ export const schema = {
             required: ['x', 'y'],
             additionalProperties: false,
           },
-          data: {
+          style: {
             type: 'object',
+            description: 'Style of the node.',
             properties: {
-              type: {
-                type: 'string',
-                enum: ['principleTitleAndItemsNode'],
-              },
-              nodeData: {
-                type: 'object',
-                properties: {
-                  title: {
-                    type: 'string',
-                    description: 'The title of the principle.',
-                  },
-                  titlePlaceholder: {
-                    type: 'string',
-                    description: 'Placeholder text for the title input.',
-                  },
-                  description: {
-                    type: 'string',
-                    description: 'Description of the principle.',
-                  },
-                  descriptionPlaceholder: {
-                    type: 'string',
-                    description: 'Placeholder text for the description input.',
-                  },
-                  items: {
-                    type: 'array',
-                    description: 'List of items related to the principle.',
-                    items: {
-                      type: 'object',
-                      properties: {
-                        id: {
-                          type: 'string',
-                          description: 'Unique identifier for the item.',
-                        },
-                        title: {
-                          type: 'string',
-                          description: 'Title of the item.',
-                        },
-                        type: {
-                          type: 'string',
-                          enum: ['TextArea'],
-                        },
-                        value: {
-                          type: 'string',
-                          description: 'Descriptive text of the item.',
-                        },
-                      },
-                      required: ['id', 'title', 'type', 'value'],
-                      additionalProperties: false,
-                    },
-                  },
-                },
-                required: [
-                  'title',
-                  'titlePlaceholder',
-                  'description',
-                  'descriptionPlaceholder',
-                  'items',
-                ],
-                additionalProperties: false,
-              },
-              nodeBaseType: {
-                type: 'string',
-                enum: ['BaseNodeTypeEnum.TITLE_AND_ITEMS'],
-              },
-              label: {
-                type: 'string',
-                description: 'Label for the node.',
-              },
               width: {
                 type: 'number',
                 description: 'Width of the node.',
@@ -109,6 +43,80 @@ export const schema = {
               height: {
                 type: 'number',
                 description: 'Height of the node.',
+              },
+            },
+            required: ['width', 'height'],
+            additionalProperties: false,
+          },
+          zIndex: {
+            type: 'number',
+            description: 'Z-index position of the node.',
+          },
+          data: {
+            type: 'object',
+            properties: {
+              name: {
+                type: 'string',
+                enum: ['principleTitleAndItemsNode'],
+              },
+              title: {
+                type: 'string',
+                description: 'The title of the node.',
+              },
+              titlePlaceholder: {
+                type: 'string',
+                description: 'Placeholder text for the title input.',
+              },
+              description: {
+                type: 'string',
+                description: 'Description of the node.',
+              },
+              descriptionPlaceholder: {
+                type: 'string',
+                description: 'Placeholder text for the description input.',
+              },
+              items: {
+                type: 'array',
+                description: 'List of items related to the node.',
+                items: {
+                  type: 'object',
+                  properties: {
+                    id: {
+                      type: 'string',
+                      description: 'Unique identifier for the item.',
+                    },
+                    title: {
+                      type: 'string',
+                      description: 'Title of the item.',
+                    },
+                    type: {
+                      type: 'string',
+                      enum: ['TextArea'],
+                    },
+                    value: {
+                      type: 'string',
+                      description: 'Descriptive text of the item.',
+                    },
+                  },
+                  required: ['id', 'title', 'type', 'value'],
+                  additionalProperties: false,
+                },
+              },
+              type: {
+                type: 'object',
+                description: 'The custom type of the node.',
+                properties: {
+                  id: {
+                    type: 'string',
+                    enum: ['titleAndItems'],
+                  },
+                },
+                required: ['id'],
+                additionalProperties: false,
+              },
+              label: {
+                type: 'string',
+                description: 'Label for the node.',
               },
               color: {
                 type: 'string',
@@ -118,31 +126,28 @@ export const schema = {
                 type: 'string',
                 description: 'Border color of the node in hex format.',
               },
-              zIndex: {
-                type: 'number',
-                description: 'Z-index position of the node.',
-              },
               icon: {
                 type: 'string',
                 description: 'Icon associated with the node.',
               },
             },
             required: [
+              'name',
+              'title',
+              'titlePlaceholder',
+              'description',
+              'descriptionPlaceholder',
+              'items',
               'type',
-              'nodeData',
-              'nodeBaseType',
               'label',
-              'width',
-              'height',
               'color',
               'borderColor',
-              'zIndex',
               'icon',
             ],
             additionalProperties: false,
           },
         },
-        required: ['id', 'type', 'position', 'data'],
+        required: ['id', 'type', 'position', 'data', 'style', 'zIndex'],
         additionalProperties: false,
       },
     },

@@ -1,7 +1,7 @@
 'use client';
 
-import { useCustomNodeData } from '@/components/hooks/useCustomNode';
-import { TitleAndItemsNodeProps } from '@/types';
+import useFlowStore from '@/store/flow/flowStore';
+import { ITitleAndItemsNodeProps } from '@/types/reactflow';
 import {
   Card,
   CardBody,
@@ -14,37 +14,35 @@ import { Node, NodeProps, NodeResizer } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useRef, useState } from 'react';
 
-type TitleAndItemsNodeData = Node<TitleAndItemsNodeProps>;
+type TitleAndItemsNodeData = Node<ITitleAndItemsNodeProps>;
 
-export const TitleAndItemsNode = (props: NodeProps<TitleAndItemsNodeData>) => {
+export const TitleAndItems = (props: NodeProps<TitleAndItemsNodeData>) => {
+  const { removeNode, updateNode } = useFlowStore((state) => state);
+
+  const {
+    height,
+    width,
+    id,
+    data: { description, items, title },
+  } = props;
   const [titleFocused, setTitleFocused] = useState(false);
   const [descriptionFocused, setDescriptionFocused] = useState(false);
   const [focusedItemId, setFocusedItemId] = useState<string | null>(null);
-
-  const {
-    nodeData,
-    setNodeData,
-    removeNode,
-    height,
-    width,
-    setWidth,
-    setHeight,
-  } = useCustomNodeData<TitleAndItemsNodeProps>(props);
 
   const itemRefs = useRef<{
     [key: string]: HTMLInputElement | HTMLTextAreaElement | null;
   }>({});
 
   const handleInputChange = (value: string, id: string) => {
-    const newItems = nodeData.items.map((item) =>
+    const newItems = items.map((item) =>
       item.id === id ? { ...item, value } : item,
     );
-    setNodeData({ ...nodeData, items: newItems });
+    updateNode(id, { items: newItems });
   };
 
   const handleInputHeaderChange = (value: string, id: string) => {
     if (id === 'title') {
-      setNodeData({ ...nodeData, title: value });
+      updateNode(id, { title: value });
     }
   };
 
@@ -67,10 +65,10 @@ export const TitleAndItemsNode = (props: NodeProps<TitleAndItemsNodeData>) => {
         }}
         minWidth={242}
         minHeight={111}
-        onResize={(e, size) => {
+        /*         onResize={(e, size) => {
           setWidth(size.width);
           setHeight(size.height);
-        }}
+        }} */
       />
       <Card
         className={`h-full w-full`}
@@ -85,18 +83,18 @@ export const TitleAndItemsNode = (props: NodeProps<TitleAndItemsNodeData>) => {
           <CardHeader className="flex-col items-start px-4 pb-0 pt-2">
             <X
               className="absolute right-2 top-2 cursor-pointer"
-              onClick={removeNode}
+              onClick={() => removeNode(id)}
             />
-            {nodeData.title && !titleFocused ? (
+            {title && !titleFocused ? (
               <p className="font-bold" onClick={() => setTitleFocused(true)}>
-                {nodeData.title}
+                {title}
               </p>
             ) : (
               <Input
                 id="title"
                 label="Titulo"
                 className="w-full"
-                value={nodeData.title}
+                value={title}
                 onFocus={() => setTitleFocused(true)}
                 onBlur={() => setTitleFocused(false)}
                 onChange={(e) =>
@@ -104,19 +102,19 @@ export const TitleAndItemsNode = (props: NodeProps<TitleAndItemsNodeData>) => {
                 }
               />
             )}
-            {nodeData.description && !descriptionFocused ? (
+            {description && !descriptionFocused ? (
               <small
                 className="text-default-500"
                 onClick={() => setDescriptionFocused(true)}
               >
-                {nodeData.description}
+                {description}
               </small>
             ) : (
               <Input
                 id="description"
                 label="Descripción"
                 className="w-full"
-                value={nodeData.description}
+                value={description}
                 onFocus={() => setDescriptionFocused(true)}
                 onBlur={() => setDescriptionFocused(false)}
                 onChange={(e) =>
@@ -127,8 +125,8 @@ export const TitleAndItemsNode = (props: NodeProps<TitleAndItemsNodeData>) => {
           </CardHeader>
           <CardBody className="w-full px-4 py-2">
             <div className="list-inside list-disc space-y-1">
-              {nodeData.items &&
-                nodeData.items.map((item) =>
+              {items &&
+                items.map((item) =>
                   focusedItemId === item.id ? (
                     item.type === 'Input' ? (
                       <Input
@@ -169,8 +167,7 @@ export const TitleAndItemsNode = (props: NodeProps<TitleAndItemsNodeData>) => {
                         <p className="font-bold">{item.title}</p>
                         <p>{item.value}</p>
                       </li>
-                      {item.id !==
-                        nodeData.items[nodeData.items.length - 1].id && (
+                      {item.id !== items[items.length - 1].id && (
                         <Divider className="my-4" key={`${item.id}-divider`} />
                       )}
                     </ul>

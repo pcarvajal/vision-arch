@@ -3,7 +3,7 @@
 import { loginAction } from '@/actions/auth.action';
 import { routes } from '@/config/routes';
 import { LoginSchema, loginSchema } from '@/libs/validators/login.schema';
-import useUserStore from '@/store/userStore';
+import useUserStore from '@/store/user/userStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input } from '@nextui-org/react';
 import Link from 'next/link';
@@ -20,8 +20,7 @@ const defaultValues = {
 
 export const LoginForm = () => {
   const [loading, setLoading] = useState(false);
-  const setAccount = useUserStore((state) => state.setAccount);
-  const setCompany = useUserStore((state) => state.setCompany);
+  const userStore = useUserStore((state) => state);
   const router = useRouter();
 
   const methods = useForm({
@@ -39,14 +38,60 @@ export const LoginForm = () => {
   const onSubmit = async (values: LoginSchema) => {
     setLoading(true);
     const result = await loginAction(values);
+    const { data, response } = result;
 
-    if (result?.type === 'error') {
+    if (response?.type === 'error') {
       setLoading(false);
-      return toast.error(result.message);
+      return toast.error(response.message);
     }
 
-    setAccount(result.account);
-    setCompany(result.company);
+    if (data?.account) {
+      const account = data.account;
+      userStore.setAccount({
+        $id: account.$id,
+        name: account.name,
+        email: account.email,
+        labels: account.labels,
+        prefs: account.prefs,
+        emailVerification: account.emailVerification,
+        registration: account.registration,
+        mfa: account.mfa,
+        accessedAt: account.accessedAt,
+        passwordUpdate: account.passwordUpdate,
+        phone: account.phone,
+        status: account.status,
+        phoneVerification: account.phoneVerification,
+        targets: account.targets,
+        $createdAt: account.$createdAt,
+        $updatedAt: account.$updatedAt,
+      });
+    }
+
+    if (data?.user) {
+      const user = data.user;
+      userStore.setUser({
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        companyId: user.companyId,
+        companyName: user.companyName,
+        teamId: user.teamId,
+        teamName: user.teamName,
+        avatar: user.avatar,
+      });
+    }
+
+    if (data?.company) {
+      const company = data.company;
+      userStore.setCompany({
+        id: company.id,
+        name: company.name,
+        description: company.description,
+        mission: company.mission,
+        vision: company.vision,
+        objetives: company.objetives,
+      });
+    }
 
     setLoading(false);
     reset(defaultValues);
@@ -96,7 +141,7 @@ export const LoginForm = () => {
       </form>
 
       <div className="mt-4 text-sm font-light text-slate-400">
-        No tienes una cuenta?{' '}
+        No tienes una cuenta?
         <Link href={routes.public.register} className="font-bold">
           Registrate
         </Link>

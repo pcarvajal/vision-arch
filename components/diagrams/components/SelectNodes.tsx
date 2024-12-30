@@ -1,66 +1,43 @@
 'use client';
 
-import Icon from '@/components/shared/Icon';
-import { GenericNodeProps } from '@/types';
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from '@nextui-org/react';
-import { useReactFlow } from '@xyflow/react';
-import dynamicIconImports from 'lucide-react/dynamicIconImports';
+import { Select } from '@/components/shared/Select';
+import useFlowStore, { AppNode } from '@/store/flow/flowStore';
+import { IBaseCustomData } from '@/types/reactflow';
 
-interface SelectNodesProps {
-  nodes: GenericNodeProps[];
+export interface SelectNodeProps {
+  presets: IBaseCustomData[];
   className?: string;
 }
 
-export const SelectNodes = ({ nodes, className }: SelectNodesProps) => {
-  const { setNodes } = useReactFlow();
-  const presetNodes = nodes.map((node) => node.node);
+export const SelectNodes = ({ className, presets }: SelectNodeProps) => {
+  const { setNodes, nodes } = useFlowStore((state) => state);
 
-  const handleNodeSelect = (nodeType: string) => {
-    const nodeData = presetNodes.find((node) => node.type === nodeType);
+  const handleNodeSelect = (value: string) => {
+    const nodeData = presets.find(
+      (preset) => preset.name === value.split('-')[0],
+    );
     const location = Math.random() * 200;
 
-    setNodes((nodes) => [
-      ...nodes,
-      {
+    if (nodeData) {
+      const newNode: AppNode = {
         id: `${nodes.length + 1}`,
-        type: nodeType,
+        type: nodeData.type.id,
         position: { x: location, y: location },
-        data: {
-          ...nodeData,
-        },
-      },
-    ]);
+        data: { ...nodeData },
+      };
+      setNodes([...nodes, newNode as AppNode]);
+    }
   };
 
   return (
-    <Dropdown className={className}>
-      <DropdownTrigger>
-        <Button variant="ghost" color="danger">
-          Seleccionar Nodo
-        </Button>
-      </DropdownTrigger>
-      <DropdownMenu aria-label="Menu de Nodos" variant="faded">
-        {presetNodes &&
-          presetNodes.map((node) => (
-            <DropdownItem
-              onPress={() => handleNodeSelect(node.type)}
-              key={node.type}
-            >
-              <div className="flex flex-row items-center space-x-2">
-                {node.icon && (
-                  <Icon name={node.icon as keyof typeof dynamicIconImports} />
-                )}
-                <span className="text-sm">{node.label}</span>
-              </div>
-            </DropdownItem>
-          ))}
-      </DropdownMenu>
-    </Dropdown>
+    <Select
+      label="Seleccionar nodo"
+      items={presets.map((preset, idx) => ({
+        key: `${preset.name}-${idx}`,
+        label: preset.label,
+      }))}
+      onValueChange={handleNodeSelect}
+      className={className}
+    />
   );
 };

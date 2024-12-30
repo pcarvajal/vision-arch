@@ -1,31 +1,29 @@
-import { Avatar, AvatarGroup, Card, CardBody } from "@nextui-org/react";
-import React from "react";
+import { Avatar, AvatarGroup, Card, CardBody } from '@nextui-org/react';
+import React from 'react';
 
 const pictureUsers = [
-  "https://i.pravatar.cc/150?u=a042581f4e29026024d",
-  "https://i.pravatar.cc/150?u=a042581f4e29026704d",
-  "https://i.pravatar.cc/150?u=a04258114e29026702d",
-  "https://i.pravatar.cc/150?u=a048581f4e29026701d",
-  "https://i.pravatar.cc/150?u=a092581d4ef9026700d",
+  'https://i.pravatar.cc/150?u=a042581f4e29026024d',
+  'https://i.pravatar.cc/150?u=a042581f4e29026704d',
+  'https://i.pravatar.cc/150?u=a04258114e29026702d',
+  'https://i.pravatar.cc/150?u=a048581f4e29026701d',
+  'https://i.pravatar.cc/150?u=a092581d4ef9026700d',
 ];
 
 export const CardAgents = () => {
   return (
-    <Card className=" bg-default-50 rounded-xl shadow-md px-4 py-6 w-full">
-      <CardBody className="py-5 gap-6">
-        <div className="flex gap-2.5 justify-center">
-          <div className="flex flex-col border-dashed border-2 border-divider py-2 px-6 rounded-xl">
-            <span className="text-default-900 text-xl font-semibold">
-              {" "}
-              {"⭐"}Agents
+    <Card className="w-full rounded-xl bg-default-50 px-4 py-6 shadow-md">
+      <CardBody className="gap-6 py-5">
+        <div className="flex justify-center gap-2.5">
+          <div className="flex flex-col rounded-xl border-2 border-dashed border-divider px-6 py-2">
+            <span className="text-xl font-semibold text-default-900">
+              {' '}
+              {'⭐'} Miembros
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-6 flex-col">
-          <span className="text-xs">
-            Meet your agenda and see their ranks to get the best results
-          </span>
+        <div className="flex flex-col items-center gap-6">
+          <span className="text-xs">Conoce a los miembros de tu equipo</span>
           <AvatarGroup isBordered>
             <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
             <Avatar src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />

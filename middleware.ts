@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { routes } from './config/routes';
 import { accounts } from './libs/backend/accounts';
+import { teams } from './libs/backend/teams';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -43,7 +44,18 @@ export async function middleware(request: NextRequest) {
         new URL(routes.public.login, request.nextUrl.origin),
       );
     }
-    return NextResponse.next(); // Permite el acceso si está logueado
+
+    // User is logged in but no have a team, redirect to create company
+    if (pathname !== routes.protected.company && isLoggedIn) {
+      const team = await teams.getCurrentAccountTeams();
+      if (team === null || team?.total === 0) {
+        return NextResponse.redirect(
+          new URL(routes.protected.company, request.nextUrl.origin),
+        );
+      }
+    }
+
+    return NextResponse.next();
   }
 
   if (isPublicRoute) {

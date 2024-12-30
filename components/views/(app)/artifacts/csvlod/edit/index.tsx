@@ -1,25 +1,24 @@
 'use client';
 
-import {
-  getArtifactAction,
-  getArtifactsAction,
-} from '@/actions/artifact.actions';
 import ArtifactFlow from '@/components/diagrams/ArtifactFlow';
-import { ArtifactToolbar } from '@/components/diagrams/components/ArtifactToolbar';
+import { SelectArtifact } from '@/components/diagrams/components/SelectArtifact';
+import { SelectArtifactType } from '@/components/diagrams/components/SelectArtifactType';
+import { SelectNodes } from '@/components/diagrams/components/SelectNodes';
 import {
   guidelinesFlowTypes,
   policiesFlowTypes,
   principlesFlowTypes,
 } from '@/components/diagrams/NodeFlowsTypes';
+import SaveArtifactModal from '@/components/modals/SaveArtifactModal';
 import PageBreadcrumb from '@/components/navigation/PageBreadcrum';
 import {
-  csvlodArtifactsSelector,
-  guidelinesArtifactProps,
-  policiesArtifactProps,
-  principlesArtifactProps,
+  guidelinesArtifactConfig as guidelinesConfig,
+  policiesArtifactConfig as policiesConfig,
+  principlesArtifactConfig as principlesConfig,
 } from '@/config/constants';
 import { routes } from '@/config/routes';
-import { FlowType } from '@/types';
+import { IArtifactConfig, IFlowType } from '@/index';
+import useFlowStore from '@/store/flow/flowStore';
 import { Card, CardBody } from '@nextui-org/react';
 import { Atom, Goal, HouseIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -35,7 +34,7 @@ const breadcrumb = [
     icon: <Atom className="text-sm text-foreground-500" />,
   },
   {
-    name: 'Crear',
+    name: 'Editar',
     icon: <Atom className="text-sm text-foreground-500" />,
   },
   {
@@ -46,92 +45,62 @@ const breadcrumb = [
 ];
 
 export const EditCsvlodView = () => {
-  const [items, setItems] = useState([]);
-  const [artifactSelected, setArtifactSelected] = useState(
-    policiesArtifactProps,
-  );
+  const { params } = useFlowStore();
+  const [artifactSelected, setArtifactSelected] =
+    useState<IArtifactConfig>(policiesConfig);
 
-  const [flowTypes, setFLowtypes] = useState<FlowType>(policiesFlowTypes);
+  const [flowTypes, setFLowtypes] = useState<IFlowType>(policiesFlowTypes);
 
-  const handleArtifactSelect = (artifact: string) => {
-    switch (artifact) {
+  useEffect(() => {
+    switch (params?.type) {
       case 'policies':
-        setArtifactSelected(policiesArtifactProps);
+        setArtifactSelected(policiesConfig);
         setFLowtypes(policiesFlowTypes);
         break;
       case 'principles':
-        setArtifactSelected(principlesArtifactProps);
+        setArtifactSelected(principlesConfig);
         setFLowtypes(principlesFlowTypes);
         break;
       case 'guidelines':
-        setArtifactSelected(guidelinesArtifactProps);
+        setArtifactSelected(guidelinesConfig);
         setFLowtypes(guidelinesFlowTypes);
         break;
       default:
         break;
     }
-  };
-
-  const handleArtifactSelectUpdate = async (item: string) => {
-    const csvlodArtifact = await getArtifactAction(item);
-    const artifact = JSON.parse(csvlodArtifact.data);
-
-    setArtifactSelected({
-      ...artifactSelected,
-      id: csvlodArtifact.$id,
-      initialFlow: {
-        nodes: artifact.data.nodes,
-        edges: artifact.data.edges,
-        viewport: artifact.data.viewport,
-      },
-    });
-  };
-
-  useEffect(() => {
-    async function getArtifacts() {
-      const artifacts = await getArtifactsAction(artifactSelected.type);
-      setItems(
-        artifacts.map((artifact: any) => ({
-          key: artifact.$id,
-          label: artifact.name,
-        })),
-      );
-    }
-    getArtifacts();
-  }, [artifactSelected]);
+  }, [params]);
 
   return (
     <div className="mx-auto my-10 flex w-full max-w-[95rem] flex-col gap-4 px-4 lg:px-6">
       <PageBreadcrumb items={breadcrumb} />
       <div className="flex flex-row justify-between space-x-2">
-        <h3 className="flex w-full text-xl font-semibold">
-          Espacio de trabajo
-        </h3>
-        <ArtifactToolbar
-          className="flex w-full flex-row items-center justify-end gap-2"
-          companyArtifacts={{
-            items: items,
-            onValueChange: handleArtifactSelectUpdate,
-          }}
-          saveArtifactModal={true}
-          selectNodeItems={artifactSelected.presetNodes}
-          artifactSelect={
-            csvlodArtifactsSelector && {
-              defaultItem: artifactSelected.type,
-              items: csvlodArtifactsSelector,
-              onArtifactSelect: handleArtifactSelect,
-            }
-          }
-        />
+        <div>
+          <h3 className="text-xl font-semibold">Espacio de trabajo</h3>
+        </div>
+        <div className="flex flex-row items-center gap-4">
+          <SelectArtifactType
+            artifactTypes={[
+              { key: 'policies', label: 'Políticas' },
+              { key: 'principles', label: 'Principios' },
+              { key: 'guidelines', label: 'Pautas' },
+            ]}
+            defaultSelected="policies"
+          />
+          <SelectNodes presets={artifactSelected.presets} />
+          <SelectArtifact artifactName={artifactSelected.name} />
+          <SaveArtifactModal />
+        </div>
       </div>
       <div className="h-[600px] w-full">
         <Card className="h-full w-full">
           <CardBody className="h-full w-full">
             <ArtifactFlow
-              yearSlider={false}
-              artifact={artifactSelected}
-              edgeTypes={flowTypes.edgeTypes}
-              nodeTypes={flowTypes.nodeTypes}
+              config={artifactSelected}
+              types={{
+                nodes: flowTypes.nodeTypes,
+                edges: flowTypes.edgeTypes,
+              }}
+              slider={false}
             />
           </CardBody>
         </Card>

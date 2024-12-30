@@ -1,7 +1,7 @@
 'use client';
 
 import { routes } from '@/config/routes';
-import useUserStore from '@/store/userStore';
+import useUserStore from '@/store/user/userStore';
 import { Avatar, Tooltip } from '@nextui-org/react';
 import { usePathname } from 'next/navigation';
 import { BalanceIcon } from '../icons/sidebar/balance-icon';
@@ -9,7 +9,6 @@ import { FilterIcon } from '../icons/sidebar/filter-icon';
 import { HomeIcon } from '../icons/sidebar/home-icon';
 import { PaymentsIcon } from '../icons/sidebar/payments-icon';
 import { ProductsIcon } from '../icons/sidebar/products-icon';
-import { ReportsIcon } from '../icons/sidebar/reports-icon';
 import { SettingsIcon } from '../icons/sidebar/settings-icon';
 import { ViewIcon } from '../icons/sidebar/view-icon';
 import { useSidebarContext } from '../layout/layout-context';
@@ -22,10 +21,10 @@ import { Sidebar } from './sidebar.styles';
 export const SidebarWrapper = () => {
   const pathname = usePathname();
   const { collapsed, setCollapsed } = useSidebarContext();
-  const company = useUserStore((state) => state.company);
+  const company = useUserStore((state) => state?.company);
 
-  const companyPath = company?.$id
-    ? `${routes.protected.company}/${company.$id}`
+  const companyPath = company?.id
+    ? `${routes.protected.company}/${company.id}`
     : routes.protected.company;
 
   return (
@@ -43,29 +42,18 @@ export const SidebarWrapper = () => {
         </div>
         <div className="flex h-full flex-col justify-between">
           <div className={Sidebar.Body()}>
-            <SidebarItem
-              title="Visión general"
-              icon={<HomeIcon />}
-              isActive={pathname === routes.protected.index}
-              href={routes.protected.index}
-            />
-            <SidebarItem
-              title="Compañia"
-              icon={<BalanceIcon />}
-              isActive={pathname === companyPath}
-              href={companyPath}
-            />
-            <SidebarMenu title="Roadmap">
+            <SidebarMenu title="Inicio">
               <SidebarItem
-                isActive={pathname === '#'}
-                title="Negocio"
-                icon={<ViewIcon />}
-                href="#"
+                title="Visión general"
+                icon={<HomeIcon />}
+                isActive={pathname === routes.protected.index}
+                href={routes.protected.index}
               />
               <SidebarItem
-                isActive={pathname === '#'}
-                title="Financiero"
-                icon={<ReportsIcon />}
+                title="Compañia"
+                icon={<BalanceIcon />}
+                isActive={pathname === companyPath}
+                href={companyPath}
               />
             </SidebarMenu>
             <SidebarMenu title="Artefactos">

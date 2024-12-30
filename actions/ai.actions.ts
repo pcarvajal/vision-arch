@@ -1,11 +1,16 @@
 'use server';
 
+import {
+  CREATE_AI_MODEL_ERROR,
+  RESOURCE_NOT_FOUND_ERROR,
+  UNHANDLED_ERROR,
+} from '@/config/errors';
 import { databases } from '@/libs/backend/databases';
 import { getMessagesHelper, getSchemaHelper } from '@/libs/helpers';
 import openai from '@/libs/openAI';
-import { parseStringify } from '@/libs/utils';
-import { GenerateArtifactParams } from '@/types';
-import { CompanyModel } from '@/types/types';
+import { IActionResponse, IGenerateModelResponse } from '@/types/actions';
+import { ICompanyModel } from '@/types/appwrite';
+import { IGenerateArtifactParams } from '@/types/forms';
 
 const {
   APPWRITE_DATABASE_ID: databaseId,
@@ -17,16 +22,24 @@ const generateModel = async ({
   companyId,
   year,
   type,
-}: GenerateArtifactParams) => {
+}: IGenerateArtifactParams): Promise<
+  IActionResponse<IGenerateModelResponse>
+> => {
   try {
-    const company = await databases.getDocument<CompanyModel>(
+    const company = await databases.getDocument<ICompanyModel>(
       databaseId!,
       companiesId!,
       companyId,
     );
 
     if (!company) {
-      return { message: 'Compañia no encontrada', type: 'error' };
+      return {
+        data: null,
+        response: {
+          ...RESOURCE_NOT_FOUND_ERROR,
+          message: 'Compañia no encontrada',
+        },
+      };
     }
 
     const { name, mission, vision, description, objetives } = company;
@@ -50,10 +63,27 @@ const generateModel = async ({
         },
       },
     });
-    return parseStringify(response.choices[0].message.content);
+
+    if (!response.choices[0].message.content) {
+      return {
+        data: null,
+        response: {
+          ...CREATE_AI_MODEL_ERROR,
+          message: 'No se pudo crear el modelo',
+        },
+      };
+    }
+
+    return { data: { model: response.choices[0].message.content } };
   } catch (error: any) {
-    console.error('Error generando el modelo:', error);
-    return { message: error?.message, type: 'error' };
+    console.error({ ...UNHANDLED_ERROR, error });
+    return {
+      data: null,
+      response: {
+        ...UNHANDLED_ERROR,
+        message: 'No se pudo crear el modelo',
+      },
+    };
   }
 };
 

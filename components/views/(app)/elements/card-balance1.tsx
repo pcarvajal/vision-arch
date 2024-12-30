@@ -1,6 +1,6 @@
+import { Community } from '@/components/icons/community';
 import { Card, CardBody } from '@nextui-org/react';
 import React from 'react';
-import { Community } from '../../../icons/community';
 
 export const CardBalance1 = () => {
   return (
@@ -9,27 +9,37 @@ export const CardBalance1 = () => {
         <div className="flex gap-2.5">
           <Community />
           <div className="flex flex-col">
-            <span className="text-white">Productividad</span>
-            <span className="text-xs text-white">Copec</span>
+            <span className="text-white">Impacto</span>
+            <span className="text-xs text-white">1311 Regiones</span>
           </div>
         </div>
-        {/*         <div className="flex gap-2.5 py-2 items-center">
-          <span className="text-white text-xl font-semibold">Hecho</span>
-          <span className="text-success text-xs">+ 4.5%</span>
-        </div> */}
+        <div className="flex items-center gap-2.5 py-2">
+          <span className="text-xl font-semibold text-white">$45,910</span>
+          <span className="text-xs text-success">+ 4.5%</span>
+        </div>
         <div className="flex items-center gap-6">
           <div>
-            <div className="space-x-2">
-              <span className="text-xl font-semibold text-success">{'↑'}</span>
-              <span className="text-xl text-white">Hecho: 41.67%</span>
+            <div>
+              <span className="text-xs font-semibold text-success">{'↓'}</span>
+              <span className="text-xs text-white">100,930</span>
             </div>
+            <span className="text-xs text-white">USD</span>
           </div>
 
           <div>
-            <div className="space-x-2">
-              <span className="text-xl font-semibold text-danger">{'↓'}</span>
-              <span className="text-xl text-white">Pendiente: 58.33%</span>
+            <div>
+              <span className="text-xs font-semibold text-danger">{'↑'}</span>
+              <span className="text-xs text-white">54,120</span>
             </div>
+            <span className="text-xs text-white">USD</span>
+          </div>
+
+          <div>
+            <div>
+              <span className="text-xs font-semibold text-danger">{'⭐'}</span>
+              <span className="text-xs text-white">125</span>
+            </div>
+            <span className="text-xs text-white">VIP</span>
           </div>
         </div>
       </CardBody>

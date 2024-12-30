@@ -11,16 +11,26 @@ export const schema = {
             type: 'string',
             description: 'Unique identifier for the node.',
           },
+          style: {
+            type: 'object',
+            description: 'Style of the node.',
+            properties: {
+              width: {
+                type: 'number',
+                description: 'Width of the node.',
+              },
+              height: {
+                type: 'number',
+                description: 'Height of the node.',
+              },
+            },
+            required: ['width', 'height'],
+            additionalProperties: false,
+          },
           type: {
             type: 'string',
             description: 'The type of the node.',
-            enum: [
-              'objetiveNode',
-              'problemNode',
-              'conceptNode',
-              'featureNode',
-              'basicNode',
-            ],
+            enum: ['titleAndDescription'],
           },
           position: {
             type: 'object',
@@ -41,33 +51,36 @@ export const schema = {
           data: {
             type: 'object',
             properties: {
-              type: {
+              name: {
                 type: 'string',
                 enum: [
                   'objetiveNode',
                   'problemNode',
                   'conceptNode',
                   'featureNode',
+                  'noteNode',
+                  'basicNode',
                 ],
               },
-              nodeData: {
+              title: {
+                type: 'string',
+                description: 'Title of the node.',
+              },
+              description: {
+                type: 'string',
+                description: 'Description of the node.',
+              },
+              type: {
                 type: 'object',
+                description: 'The custom type of the node.',
                 properties: {
-                  title: {
+                  id: {
                     type: 'string',
-                    description: 'Title of the node.',
-                  },
-                  description: {
-                    type: 'string',
-                    description: 'Description of the node.',
+                    enum: ['titleAndDescription'],
                   },
                 },
-                required: ['title', 'description'],
+                required: ['id'],
                 additionalProperties: false,
-              },
-              nodeBaseType: {
-                type: 'string',
-                enum: ['BaseNodeTypeEnum.TITLE_DESCRIPTION'],
               },
               label: {
                 type: 'string',
@@ -87,18 +100,19 @@ export const schema = {
               },
             },
             required: [
+              'name',
               'type',
-              'nodeData',
-              'nodeBaseType',
               'label',
               'icon',
               'iconColor',
               'borderColor',
+              'title',
+              'description',
             ],
             additionalProperties: false,
           },
         },
-        required: ['id', 'type', 'position', 'data'],
+        required: ['id', 'style', 'type', 'position', 'data'],
         additionalProperties: false,
       },
     },

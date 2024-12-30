@@ -4,7 +4,7 @@ import {
   getArtifactByYearProjectionAndType,
   updateArtifactAction,
 } from '@/actions/artifact.actions';
-import useArtifactFlowStore from '@/store/artifactFlowStore';
+import useFlowStore from '@/store/flow/flowStore';
 import {
   Button,
   Modal,
@@ -27,8 +27,11 @@ interface SaveArtifactModalProps {
 export default function SaveArtifactModal({
   className,
 }: SaveArtifactModalProps) {
-  const { getNodes } = useReactFlow();
-  const { artifactFlow } = useArtifactFlowStore();
+  const { nodes, edges, params, clearPersistedStore } = useFlowStore(
+    (state) => state,
+  );
+
+  const { getViewport } = useReactFlow();
   const [showReplaceModal, setShowReplaceModal] = useState(false);
   const [saveButtonDisabled, setSaveButtonDisabled] = useState(false);
   const [showUpdateConfirmation, setShowUpdateConfirmation] = useState(false);
@@ -36,18 +39,19 @@ export default function SaveArtifactModal({
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const handleIsArtifactExist = async () => {
-    if (artifactFlow?.year && artifactFlow?.type && !artifactFlow.id) {
+    if (params?.year && params.type && !params.id) {
       const artifactFinded = await getArtifactByYearProjectionAndType(
-        artifactFlow?.year,
-        artifactFlow?.type,
+        params.year,
+        params.type,
       );
-      if (artifactFinded.length > 0) {
+
+      if (artifactFinded.data?.artifact) {
         setShowReplaceModal(true);
       } else {
         onOpen();
       }
     }
-    if (artifactFlow?.id) {
+    if (params?.id) {
       setShowUpdateConfirmation(true);
     }
   };
@@ -57,20 +61,25 @@ export default function SaveArtifactModal({
     setShowReplaceModal(false);
   };
 
-  const handleUpdateConfirmed = async () => {
-    if (artifactFlow && artifactFlow.id && artifactFlow.data) {
-      const { data, id } = artifactFlow;
-      const { nodes, edges } = data;
+  const handleOnSave = () => {
+    onOpenChange();
+  };
 
+  const handleUpdateConfirmed = async () => {
+    if (params?.id && nodes.length > 0) {
       const result = await updateArtifactAction(
-        id,
-        JSON.stringify({ data: { nodes, edges } }),
+        params.id,
+        JSON.stringify({
+          nodes: nodes,
+          edges: edges,
+          viewport: getViewport(),
+        }),
       );
 
-      if (result?.type === 'error') {
-        toast.error(result.message);
+      if (result?.response?.type === 'error') {
+        toast.error(result.response.message || 'Error actualizando el modelo');
       }
-
+      clearPersistedStore();
       setShowUpdateConfirmation(false);
 
       return toast.success('Modelo actualizado correctamente');
@@ -78,12 +87,12 @@ export default function SaveArtifactModal({
   };
 
   useEffect(() => {
-    if (getNodes().length === 0) {
+    if (nodes.length === 0) {
       setSaveButtonDisabled(true);
     } else {
       setSaveButtonDisabled(false);
     }
-  }, [artifactFlow]);
+  }, [nodes]);
 
   return (
     <div className={className}>
@@ -119,7 +128,7 @@ export default function SaveArtifactModal({
             <>
               <ModalHeader className="flex flex-col gap-1">Guardar</ModalHeader>
               <ModalBody>
-                <SaveArtifactForm />
+                <SaveArtifactForm onSave={handleOnSave} />
               </ModalBody>
               <ModalFooter></ModalFooter>
             </>

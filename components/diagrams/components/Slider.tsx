@@ -1,9 +1,9 @@
 'use client';
 
 import { yearRange } from '@/config/constants';
-import { Slider } from '@nextui-org/react';
+import { Slider as SliderUI } from '@nextui-org/react';
 
-interface YearsSliderProps {
+interface YearsProps {
   step: number;
   label: string;
   isDisabled?: boolean;
@@ -11,19 +11,19 @@ interface YearsSliderProps {
   onChangeEnd: (value: number) => void;
 }
 
-const YearsSlider = ({
+const Slider = ({
   className,
   label,
   isDisabled = false,
   onChangeEnd,
-}: YearsSliderProps) => {
+}: YearsProps) => {
   const handleOnChangeEnd = (value: number | number[]) => {
     if (typeof value === 'number') onChangeEnd(value);
   };
 
   return (
     <div className={className}>
-      <Slider
+      <SliderUI
         size="sm"
         step={1}
         color={'primary'}
@@ -41,4 +41,4 @@ const YearsSlider = ({
   );
 };
 
-export default YearsSlider;
+export default Slider;

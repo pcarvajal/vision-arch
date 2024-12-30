@@ -1,52 +1,52 @@
 // App
 export enum UserStatusEnum {
-  VERIFIED = 'verified',
-  UNVERIFIED = 'unverified',
+  verified = 'verified',
+  unverified = 'unverified',
 }
 
 export enum RolesEnum {
-  ADMIN = 'admin',
-  OWNER = 'owner',
-  USER = 'user',
+  admin = 'admin',
+  owner = 'owner',
+  user = 'user',
 }
 
 // Artifacts
 export enum ArtifactCategoryEnum {
-  CSVLOD = 'csvlod',
-  TOGAF = 'togaf',
-  OBJETIVES = 'objetives',
+  csvlod = 'csvlod',
+  togaf = 'togaf',
+  objetives = 'objetives',
 }
 
 export enum ArtifacTypeEnum {
-  PRINCIPLES = 'principles',
-  POLICIES = 'policies',
-  GUIDELINES = 'guidelines',
-  GOALS = 'goals',
-  BLUEPRINTS = 'blueprints',
+  principles = 'principles',
+  policies = 'policies',
+  guidelines = 'guidelines',
+  goals = 'goals',
+  blueprints = 'blueprints',
 }
 
 export enum ArtifactDimensionEnum {
-  CONSIDERATIONS = 'considerations',
-  STANDARDS = 'standards',
+  considerations = 'considerations',
+  standards = 'standards',
 }
 
 // Nodes
-export enum BaseNodeTypeEnum {
-  AREA = 'areaNode',
-  TEXT_BLOCK = 'textBlockNode',
-  TITLE_AND_ITEMS = 'titleAndItemsNode',
-  TITLE_DESCRIPTION = 'titleDescriptionNode',
-  TITLE_ICON = 'titleIconNode',
-  TITLE = 'titleNode',
-  VERTICAL_TITLE = 'verticalTitleNode',
-  NOTE = 'noteNode',
-  BASIC = 'basicNode',
+export enum CustomNodeTypeEnum {
+  area = 'area',
+  textBlock = 'textBlock',
+  titleAndItems = 'titleAndItems',
+  titleAndDescription = 'titleAndDescription',
+  titleAndIcon = 'titleAndIcon',
+  title = 'title',
+  titleVertical = 'titleVertical',
+  note = 'note',
+  basic = 'basic',
 }
 
 export enum GoalsTypeNodesEnum {
-  PROBLEM = 'problemNode',
-  OBJECTIVE = 'objectiveNode',
-  SUCCESS_METRIC = 'default',
-  FEATURE = 'featureNode',
-  CONCEPT = 'conceptNode',
+  problem = 'problemNode',
+  objetive = 'objectiveNode',
+  successMetric = 'default',
+  feature = 'featureNode',
+  concept = 'conceptNode',
 }

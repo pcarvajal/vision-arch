@@ -1,29 +1,27 @@
 'use client';
 
-import { useCustomNodeData } from '@/components/hooks/useCustomNode';
-import { VerticalTitleNodeProps } from '@/types';
+import useFlowStore from '@/store/flow/flowStore';
+import { IVerticalTitleNodeProps } from '@/types/reactflow';
 import { Card, CardBody, Input } from '@nextui-org/react';
-import { Node, NodeProps, NodeResizer, useReactFlow } from '@xyflow/react';
+import { Node, NodeProps, NodeResizer } from '@xyflow/react';
 import { X } from 'lucide-react';
 import { useState } from 'react';
 
-type VerticalNodeData = Node<VerticalTitleNodeProps>;
+type VerticalNodeData = Node<IVerticalTitleNodeProps>;
 
-export const VerticalTitleNode = (props: NodeProps<VerticalNodeData>) => {
-  const [isTitleFocused, setIsTitleFocused] = useState(false);
-
+export const TitleVertical = (props: NodeProps<VerticalNodeData>) => {
+  const { removeNode, updateNode } = useFlowStore((state) => state);
   const {
-    nodeData,
-    setNodeData,
-    removeNode,
     height,
     width,
-    setWidth,
-    setHeight,
-  } = useCustomNodeData<VerticalTitleNodeProps>(props);
+    data: { placeholder, title },
+    id,
+  } = props;
+
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
 
   const onChangeTitle = (value: string) => {
-    setNodeData({ ...nodeData, title: value });
+    updateNode(id, { title: value });
   };
 
   return (
@@ -37,10 +35,10 @@ export const VerticalTitleNode = (props: NodeProps<VerticalNodeData>) => {
         }}
         minWidth={80}
         minHeight={80}
-        onResize={(e, size) => {
+        /*         onResize={(e, size) => {
           setWidth(size.width);
           setHeight(size.height);
-        }}
+        }} */
       />
       <Card
         className={`h-full w-full`}
@@ -53,23 +51,27 @@ export const VerticalTitleNode = (props: NodeProps<VerticalNodeData>) => {
       >
         <CardBody>
           <div className="absolute right-0 top-0 p-2">
-            <X className="cursor-pointer" size={15} onClick={removeNode} />
+            <X
+              className="cursor-pointer"
+              size={15}
+              onClick={() => removeNode(id)}
+            />
           </div>
           <div className="flex h-full w-full items-center justify-center">
-            {!isTitleFocused && nodeData.title && (
+            {!isTitleFocused && title && (
               <h2
                 className="-rotate-90 whitespace-nowrap text-center"
                 onClick={() => {
                   setIsTitleFocused(true);
                 }}
               >
-                {nodeData.title}
+                {title}
               </h2>
             )}
-            {(isTitleFocused || !nodeData.title) && (
+            {(isTitleFocused || !title) && (
               <Input
-                value={nodeData.title}
-                placeholder={nodeData.placeholder}
+                value={title}
+                placeholder={placeholder}
                 onFocus={() => setIsTitleFocused(true)}
                 onBlur={() => setIsTitleFocused(false)}
                 onChange={(e) => onChangeTitle(e.target.value)}

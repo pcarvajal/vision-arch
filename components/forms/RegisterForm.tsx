@@ -1,14 +1,17 @@
 'use client';
 
 import { registerAction } from '@/actions/auth.action';
-import { RegisterSchema, registerSchema } from '@/libs/validators/register.schema';
+import {
+  RegisterSchema,
+  registerSchema,
+} from '@/libs/validators/register.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Input } from '@nextui-org/react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import Loader from '../layout/Loader';
-import { useState } from 'react';
 
 const defaultValues = {
   email: '',
@@ -36,12 +39,14 @@ export const RegisterForm = () => {
     setLoading(true);
     const result = await registerAction(values);
 
-    if (result?.type === 'error') {
+    if (result?.response?.message === 'error') {
       setLoading(false);
-      return toast.error(result.message);
+      return toast.error(result.response.message || 'Ha ocurrido un error');
     }
     setLoading(false);
-    toast.success('Usuario registrado correctamente, revisa tu email para continuar');
+    toast.success(
+      'Usuario registrado correctamente, revisa tu email para continuar',
+    );
 
     reset(defaultValues);
   };
@@ -50,7 +55,10 @@ export const RegisterForm = () => {
     <>
       <Loader show={loading} />
       <div className="mb-6 text-center text-[25px] font-bold">Registrate</div>
-      <form onSubmit={handleSubmit(onSubmit)} className="mb-4 flex w-1/2 flex-col gap-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mb-4 flex w-1/2 flex-col gap-4"
+      >
         <Controller
           name="companyName"
           control={control}
